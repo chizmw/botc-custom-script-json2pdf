@@ -295,3 +295,5 @@ tags
 # End of https://www.toptal.com/developers/gitignore/api/git,vim,node,ruby,go,terraform
 *.pdf
 __pycache__
+.DS_Store
+*.html

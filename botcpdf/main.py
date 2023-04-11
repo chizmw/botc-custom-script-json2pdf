@@ -15,7 +15,9 @@ def main():
         filename = sys.argv[1]
 
     script_data = load_data(filename)
-    script = Script("Test Script", script_data)
+    # this is kinda rudimentary, but it works as a first pass
+    script_name = filename.split(".")[0]
+    script = Script(script_name, script_data)
     script.render()
 
 

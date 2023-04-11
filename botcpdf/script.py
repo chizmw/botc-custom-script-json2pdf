@@ -1,5 +1,6 @@
 """This module contains the Script class, which represents a script."""
 
+import os
 from botcpdf.util import load_role_data
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML # type: ignore
@@ -67,6 +68,8 @@ class Script:
         for char in script_data:
             self.add_char(char)
 
+        
+    def __repr__(self):
         # for each character type, print the type and the characters
         for char_type in self.char_types:
             print(char_type)
@@ -120,10 +123,25 @@ class Script:
     def render(self):
         env = Environment(loader=FileSystemLoader("templates"))
         template = env.get_template("script.jinja")
+        
+        # so we can actually use images in the PDF
+        this_folder = os.path.dirname(os.path.abspath(__file__))
+        # use this_folder to get the path to the icons and templates folders
+        icon_folder = os.path.abspath(os.path.join(this_folder, "..", "icons"))
+        template_folder = os.path.abspath(os.path.join(this_folder, "..", "templates"))
+
+
         template_vars = {
-            "title": "Test Script",
-            "author": "Test Author",
-            "description": "Test Description",
+            "title": self.title,
+            "characters": self.char_types,
+            "first_night": self.sorted_first_night(),
+            "other_nights": self.sorted_other_nights(),
+            "icon_folder": icon_folder,
+            "template_folder": template_folder,
         }
         html_out = template.render(template_vars)
-        HTML(string=html_out).write_pdf("test.pdf")
+        # write the rendered HTML to a file
+        with open(f"{self.title}.html", "w") as f:
+            f.write(html_out)
+        # convert the HTML to PDF
+        HTML(string=html_out).write_pdf(f"{self.title}.pdf",stylesheets=["templates/style.css"])

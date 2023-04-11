@@ -3,9 +3,29 @@
   <head lang="en">
     <meta charset="UTF-8" />
     <title>{{ title }}</title>
+    <link rel="stylesheet" href="file://{{template_folder}}/style.css">
   </head>
   <body>
-    <h2>Sales Funnel Report - National</h2>
-    {{ national_pivot_table }}
+    <h1 class="script-title">{{ title }}</h1>
+    {%- for type in characters %}
+      {%- set type_plural = type + 's' if type != 'townsfolk' else type %}
+
+      <h2 class="character-type character-type-{{type}}">{{ type_plural | capitalize }}</h2>
+      <div class="cols-2">
+        {%- for character in characters[type] %}
+          <div class="character-block">
+            <img src="file://{{icon_folder}}/{{character.id}}.png" alt="{{ character.name }}" class="character-icon"/>
+            <div class="character-name character-name-{{type}}">{{ character.name }}</div>
+            <div class="character-ability">{{ character.ability }}</div>
+          </div>
+        {%- endfor %}
+      </div>
+      
+      {%- if not loop.last %}
+        <div class="line"></div>
+      {%- endif %}
+    {%- endfor %}
+    
+    <div class="not-first-night">* Not on the first night</div>
   </body>
 </html>
