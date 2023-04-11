@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "botc-json2pdf"
+version = "0.0.1"
+description = ""
+authors = ["Chisel <chisel@malik-wright.uk>"]
+readme = "README.md"
+packages = [{include = "botc_json2pdf"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+mypy = "^1.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
