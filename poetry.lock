@@ -777,6 +777,25 @@ spelling = ["pyenchant (>=3.2,<4.0)"]
 testutils = ["gitpython (>3)"]
 
 [[package]]
+name = "pypdf"
+version = "3.7.1"
+description = "A pure-python PDF library capable of splitting, merging, cropping, and transforming PDF files"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "pypdf-3.7.1-py3-none-any.whl", hash = "sha256:fa780c9464ec3b49fd16dabd110a40a291439bc6edd0f21f302add63c1f5ade5"},
+    {file = "pypdf-3.7.1.tar.gz", hash = "sha256:dfb61fcccd4bc6d321aae612c01924b3c953aa5857e6e39d31e24dbb9b49da13"},
+]
+
+[package.extras]
+crypto = ["PyCryptodome"]
+dev = ["black", "flit", "pip-tools", "pre-commit (<2.18.0)", "pytest-cov", "wheel"]
+docs = ["myst_parser", "sphinx", "sphinx_rtd_theme"]
+full = ["Pillow", "PyCryptodome"]
+image = ["Pillow"]
+
+[[package]]
 name = "pyphen"
 version = "0.14.0"
 description = "Pure Python module to hyphenate text"
@@ -1048,4 +1067,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "1ca02fa89c38d1de0dd6079343e4b1a97df29b5daa7aa6ca830d4ba01fc3d668"
+content-hash = "43e42bb4392347fdc89539c370d25d9b184207539d4a91fdbb3412c0b269b5c8"

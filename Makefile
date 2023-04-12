@@ -8,9 +8,8 @@ all: examples
 
 process:
 	@basename="$(shell basename "$(INPUT_FILE)" .json)" && \
-	poetry run python3 -m botcpdf.main "$(INPUT_FILE)" && \
-	code "pdfs/$$basename.pdf"
-	
+	poetry run python3 -m botcpdf.main "$(INPUT_FILE)"
+
 clean:
 	@find . -type f \( -iname "*.pdf" -o -iname "*.html" \) -exec rm -vf {} \;
 
@@ -38,3 +37,6 @@ run: poetry
 
 examples: install-dev
 	@find scripts -type f -exec $(MAKE) process INPUT_FILE="{}" \;
+
+optimise-pdf: install-dev
+	@find pdfs -type f -not -name "*.opt.pdf" -exec $(POETRY) run python3 -m botcpdf.optimise_pdf "{}" \;
