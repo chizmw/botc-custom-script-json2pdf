@@ -244,10 +244,21 @@ class Script:
             "template_folder": template_folder,
         }
         html_out = template.render(template_vars)
-        # write the rendered HTML to a file
-        with open(f"{self.title}.html", "w", encoding="utf-8") as fhandle:
-            fhandle.write(html_out)
+
+        # if we have BOTC_DEUG set...
+        if os.environ.get("BOTC_DEBUG"):
+            # write the rendered HTML to a file
+            with open(f"{self.title}.html", "w", encoding="utf-8") as fhandle:
+                fhandle.write(html_out)
+
         # convert the HTML to PDF
+        pdf_folder = os.path.abspath(os.path.join(this_folder, "..", "pdfs"))
+        # if pdf_folder doesn't exist, create it
+        if not os.path.exists(pdf_folder):
+            os.makedirs(pdf_folder)
+        # save the PDF in the pdfs folder
         HTML(string=html_out).write_pdf(
-            f"{self.title}.pdf", stylesheets=["templates/style.css"]
+            os.path.join(pdf_folder, f"{self.title}.pdf"),
+            stylesheets=["templates/style.css"],
+            optimize_size=(),
         )
