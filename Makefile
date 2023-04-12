@@ -32,8 +32,9 @@ fmt: install-dev
 lint: install-dev
 	$(POETRY) run pylint $(PYSRC)
 
-run: poetry 
+run: poetry
 	@$(MAKE) process INPUT_FILE="scripts/Trouble Brewing.json"
+	@open "pdfs/Trouble Brewing.pdf"
 
 examples: install-dev
 	@find scripts -type f -exec $(MAKE) process INPUT_FILE="{}" \;
