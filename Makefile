@@ -1,6 +1,18 @@
-.PHONY: run
+INPUT_FILE=
+	
+.PHONY: all process
 
-all: poetry install-dev fmt lint run
+#all: poetry install-dev fmt lint run
+
+all: examples
+
+process:
+	@basename="$(shell basename "$(INPUT_FILE)" .json)" && \
+	poetry run python3 -m botcpdf.main "$(INPUT_FILE)" && \
+	code "pdfs/$$basename.pdf"
+	
+clean:
+	@find . -type f \( -iname "*.pdf" -o -iname "*.html" \) -exec rm -vf {} \;
 
 POETRY=poetry
 POETRY_OK:=$(shell command -v $(POETRY) 2> /dev/null)
@@ -21,7 +33,8 @@ fmt: install-dev
 lint: install-dev
 	$(POETRY) run pylint $(PYSRC)
 
-run: poetry
-	@echo $(src)
-	@poetry run python -m botcpdf.main "scripts/No Roles Barred.json"
-	@code "No Roles Barred.pdf"
+run: poetry 
+	@$(MAKE) process INPUT_FILE="scripts/Trouble Brewing.json"
+
+examples: install-dev
+	@find scripts -type f -exec $(MAKE) process INPUT_FILE="{}" \;
