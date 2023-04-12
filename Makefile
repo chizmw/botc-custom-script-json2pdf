@@ -1,5 +1,7 @@
 .PHONY: run
 
+all: poetry install-dev fmt lint run
+
 POETRY=poetry
 POETRY_OK:=$(shell command -v $(POETRY) 2> /dev/null)
 PYSRC=botcpdf
@@ -20,4 +22,6 @@ lint: install-dev
 	$(POETRY) run pylint $(PYSRC)
 
 run: poetry
-	poetry run python -m botcpdf.main
+	@echo $(src)
+	@poetry run python -m botcpdf.main "scripts/No Roles Barred.json"
+	@code "No Roles Barred.pdf"

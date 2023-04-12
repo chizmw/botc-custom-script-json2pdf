@@ -1,17 +1,21 @@
 """This module contains the Script class, which represents a script."""
 
 import os
-from botcpdf.util import load_role_data
 from jinja2 import Environment, FileSystemLoader
-from weasyprint import HTML # type: ignore
+from weasyprint import HTML  # type: ignore
+from botcpdf.util import load_role_data
+
 
 class Role:
     """Holds information about a BOTC role"""
-    id: str
+
+    # pylint: disable=too-many-instance-attributes
+    # Eight is reasonable in this case
+    id_slug: str
     name: str
     edition: str
     team: str
-    first_night: int
+    first_night: float
     first_night_reminder: str
     other_night: int
     other_night_reminder: str
@@ -21,41 +25,128 @@ class Role:
 
     def __init__(self, role_data: dict):
         """Initialize a role."""
-        self.id = role_data['id']
-        self.name = role_data['name']
-        self.edition = role_data['edition']
-        self.team = role_data['team']
-        self.first_night = role_data['firstNight']
-        self.first_night_reminder = role_data['firstNightReminder']
-        self.other_night = role_data['otherNight']
-        self.other_night_reminder = role_data['otherNightReminder']
-        self.reminders = role_data['reminders']
-        self.setup = role_data['setup']
-        self.ability = role_data['ability']
+        self.id_slug = role_data["id"]
+        self.name = role_data["name"]
+        self.edition = role_data["edition"]
+        self.team = role_data["team"]
+        self.first_night = role_data["firstNight"]
+        self.first_night_reminder = role_data["firstNightReminder"]
+        self.other_night = role_data["otherNight"]
+        self.other_night_reminder = role_data["otherNightReminder"]
+        self.reminders = role_data["reminders"]
+        self.setup = role_data["setup"]
+        self.ability = role_data["ability"]
 
     def __repr__(self):
-        return f"""["{self.name}": ("{self.id}", "{self.team}", "{self.edition}")"""
+        return (
+            f"""["{self.name}": ("{self.id_slug}", "{self.team}", "{self.edition}")"""
+        )
+
+    def get_edition_name(self) -> str:
+        """Get the name of the edition."""
+        lookup: dict[str, str] = {
+            "tb": "Trouble Brewing",
+            "snv": "Sects and Violets",
+            "bmr": "Bad Moon Rising",
+        }
+        return lookup.get(self.edition, "Unknown Edition")
+
 
 class RoleData:
+    # pylint: disable=too-few-public-methods
     """Holds information for all the roles in the game"""
-    roles: dict[str,Role]
+
+    roles: dict[str, Role]
 
     def __init__(self):
         """Initialize role data."""
         role_data = load_role_data()
         self.roles = {}
         for role in role_data:
-            self.roles[role['id']] = Role(role)
+            self.roles[role["id"]] = Role(role)
 
-    def get_role(self, id: str) -> Role:
+        self.add_meta_roles()
+
+    def get_role(self, id_slug: str) -> Role:
         """Get a role by ID."""
-        return self.roles[id]
+        return self.roles[id_slug]
+
+    def add_meta_roles(self) -> None:
+        """Add meta roles to the role data.
+
+        i.e. Minion/Demon info, Dawn"""
+        self.roles["_minion"] = Role(
+            {
+                "id": "_minion-info",
+                "name": "Minion Info",
+                "edition": "",
+                "team": "",
+                "firstNight": 5,
+                # pylint: disable=line-too-long
+                "firstNightReminder": "If 7 or more players: wake up all of the Minions. They make eye contact with each other. Show the 'This is the Demon' card. Point to the Demon.",
+                "otherNight": 0,
+                "otherNightReminder": "",
+                "reminders": [],
+                "setup": False,
+                "ability": "",
+            }
+        )
+
+        self.roles["_demon"] = Role(
+            {
+                "id": "_demon-info",
+                "name": "Demon Info",
+                "edition": "",
+                "team": "",
+                "firstNight": 7.5,
+                # pylint: disable=line-too-long
+                "firstNightReminder": "If 7 or more players: wake up the Demon. Show the 'These are your minions' card. Point to each Minion. Show the 'These characters are not in play' card. Show 3 character tokens of Good characters that are not in play",
+                "otherNight": 0,
+                "otherNightReminder": "",
+                "reminders": [],
+                "setup": False,
+                "ability": "",
+            }
+        )
+
+        # pylint: disable=line-too-long
+        dawn_reminder = "Wait approximately 10 seconds. Call for eyes open, then immediately announce which players (if any) died."
+        self.roles["_dawn"] = Role(
+            {
+                "id": "_dawn",
+                "name": "Dawn",
+                "edition": "",
+                "team": "",
+                "firstNight": 9999,
+                "firstNightReminder": dawn_reminder,
+                "otherNight": 9999,
+                "otherNightReminder": dawn_reminder,
+                "reminders": [],
+                "setup": False,
+                "ability": "",
+            }
+        )
+
+    def get_first_night_meta_roles(self) -> list[Role]:
+        """Get a list of meta roles."""
+        return [self.roles["_minion"], self.roles["_demon"], self.roles["_dawn"]]
+
+    def get_other_night_meta_roles(self) -> list[Role]:
+        """Get a list of meta roles."""
+        return [self.roles["_dawn"]]
+
 
 class Script:
     """Represents a script."""
-    char_types: dict[str,list[Role]] = {'townsfolk': [], 'outsider': [], 'minion': [], 'demon': []}
-    first_night: dict[int, Role] = {}
-    other_nights: dict[int,Role] = {}
+
+    char_types: dict[str, list[Role]] = {
+        "townsfolk": [],
+        "outsider": [],
+        "minion": [],
+        "demon": [],
+    }
+    first_night: dict[float, Role] = {}
+    other_nights: dict[float, Role] = {}
 
     role_data: RoleData = RoleData()
 
@@ -68,24 +159,37 @@ class Script:
         for char in script_data:
             self.add_char(char)
 
-        
-    def __repr__(self):
-        # for each character type, print the type and the characters
-        for char_type in self.char_types:
-            print(char_type)
-            for char in self.char_types[char_type]:
-                print(f"\t{char}")
+        # add meta roles to night instructions
+        self.add_meta_roles()
 
-        print(f"first night: {self.sorted_first_night()}")
-        print(f"other nights: {self.sorted_other_nights()}")
+    def add_meta_roles(self) -> None:
+        """Add meta roles to the night instructions."""
+        for role in self.role_data.get_first_night_meta_roles():
+            self.first_night[role.first_night] = role
+
+        for role in self.role_data.get_other_night_meta_roles():
+            self.other_nights[role.other_night] = role
+
+    def __repr__(self):
+        repr_str = ""
+        for char_type in self.char_types.items():
+            repr_str += char_type
+            for char in self.char_types[char_type]:
+                repr_str += f"\t{char}"
+
+        repr_str += f"first night: {self.sorted_first_night()}"
+        repr_str += f"other nights: {self.sorted_other_nights()}"
+
+        return repr_str
 
     def cleanup_id(self, char: dict) -> dict:
         """Cleanup the character ID."""
 
-        # looking at other projects it seems that the ID in the script data is _close_ to the ID in the role data
+        # looking at other projects it seems that the ID in the script data is
+        # _close_ to the ID in the role data
         # so we'll just do some cleanup to make it match
-        char['id'] = char['id'].replace('_','')
-        char['id'] = char['id'].replace('-','') # just the pit-hag... why
+        char["id"] = char["id"].replace("_", "")
+        char["id"] = char["id"].replace("-", "")  # just the pit-hag... why
 
         return char
 
@@ -100,7 +204,7 @@ class Script:
     def add_char(self, char: dict):
         """Add a character to the script."""
         char = self.cleanup_id(char)
-        role = self.role_data.get_role(char['id'])
+        role = self.role_data.get_role(char["id"])
 
         # add to the appropriate list
         self.char_types[role.team].append(role)
@@ -121,15 +225,15 @@ class Script:
             self.other_nights[role.other_night] = role
 
     def render(self):
+        """Render the script to PDF"""
         env = Environment(loader=FileSystemLoader("templates"))
         template = env.get_template("script.jinja")
-        
+
         # so we can actually use images in the PDF
         this_folder = os.path.dirname(os.path.abspath(__file__))
         # use this_folder to get the path to the icons and templates folders
         icon_folder = os.path.abspath(os.path.join(this_folder, "..", "icons"))
         template_folder = os.path.abspath(os.path.join(this_folder, "..", "templates"))
-
 
         template_vars = {
             "title": self.title,
@@ -141,7 +245,9 @@ class Script:
         }
         html_out = template.render(template_vars)
         # write the rendered HTML to a file
-        with open(f"{self.title}.html", "w") as f:
-            f.write(html_out)
+        with open(f"{self.title}.html", "w", encoding="utf-8") as fhandle:
+            fhandle.write(html_out)
         # convert the HTML to PDF
-        HTML(string=html_out).write_pdf(f"{self.title}.pdf",stylesheets=["templates/style.css"])
+        HTML(string=html_out).write_pdf(
+            f"{self.title}.pdf", stylesheets=["templates/style.css"]
+        )

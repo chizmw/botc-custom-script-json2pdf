@@ -24,6 +24,11 @@
 }
 
 @font-face {
+  font-family: botc-book;
+  src: url('../fonts/FiraSans/FiraSans-Book.ttf');
+}
+
+@font-face {
   font-family: botc-semibold;
   src: url('../fonts/FiraSans/FiraSans-SemiBold.ttf');
 }
@@ -87,23 +92,56 @@ h2.character-type {
 }
 
 .character-ability {
-  font-family: botc-lightitalic, sans-serif;
+  font-family: botc-light, sans-serif;
   font-size: 9pt;
   color: black;
 }
 
+.character-ability-reminder {
+  font-family: botc-lightitalic, sans-serif;
+  font-size: 6pt;
+  color: darkgray;
+}
+
+.character-reminder {
+  font-family: botc-book, sans-serif;
+  font-size: 8pt;
+  color: black;
+  margin-top: 5px;
+}
+
 .character-icon {
   width: 50px;
-  height: 50px;
+  max-height: 50px;
   float: left;
   border: none;
+  margin-right: 2px;
+}
+
+.character-icon-nightinfo {
+  width: 40px;
+  max-height: 40px;
+  float: left;
+  border: none;
+  margin-right: 2px;
+  display: inline-flex;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .character-block {
   border: none;
-  margin-top: 5px;
-  min-height: 50px;
+  margin-top: 2px;
+  margin-bottom: 2px;
   break-inside: avoid-column;
+}
+
+.character-block-player {
+  min-height: 55px;
+}
+
+.character-block-nightinfo {
+  min-height: 40px;
 }
 
 .cols-2 {
@@ -121,10 +159,42 @@ h2.character-type {
   margin-bottom: 3px;
 }
 
+.line-nightinfo {
+  flex: 1;
+  border-bottom: 0.5px solid lightgray;
+  margin-bottom: 2px;
+}
+
 div.not-first-night {
   position: absolute;
   left: 50%;
   bottom: 5%;
   transform: translateX(-50%);
-  /* Add any additional styling for the div here */
+}
+div.not-affiliated {
+  position: absolute;
+  right: 0%;
+  bottom: 1%;
+  font-family: botc-light, sans-serif;
+  font-size: 7px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: darkslategrey;
+  color: white;
+}
+
+.top-left-header {
+  padding-left: 10px;
+  font-family: botc-semibold, sans-serif;
+  font-size: 8px;
+}
+
+.top-right-header {
+  font-size: 8px;
+  padding-right: 10px;
+  font-family: botc-ultra, sans-serif;
 }

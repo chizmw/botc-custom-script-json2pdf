@@ -8,6 +8,7 @@ from botcpdf.util import load_data
 
 
 def main():
+    """Main entry point for the botcpdf package."""
     # default scriptname - change if just running
     # if using a commandline, specify the name as the first arg
     filename = "Trouble Brewing.json"
@@ -15,8 +16,12 @@ def main():
         filename = sys.argv[1]
 
     script_data = load_data(filename)
+
     # this is kinda rudimentary, but it works as a first pass
-    script_name = filename.split(".")[0]
+    # strip the path and extension from the filename
+    script_name = filename.split("/")[-1].split(".", maxsplit=1)[0]
+    print(f"Script name: {script_name}")
+
     script = Script(script_name, script_data)
     script.render()
 
