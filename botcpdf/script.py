@@ -22,8 +22,9 @@ class Role:
     reminders: list[str]
     setup: bool
     ability: str
+    stylized: bool
 
-    def __init__(self, role_data: dict):
+    def __init__(self, role_data: dict, stylize: bool = True):
         """Initialize a role."""
         self.id_slug = role_data["id"]
         self.name = role_data["name"]
@@ -35,7 +36,26 @@ class Role:
         self.other_night_reminder = role_data["otherNightReminder"]
         self.reminders = role_data["reminders"]
         self.setup = role_data["setup"]
-        self.ability = role_data["ability"]
+        self.stylized = stylize
+        self.ability = self.stylize(role_data["ability"])
+
+    # it's a bit clunkier than we'd like, but progress is progress
+    def stylize(self, text: str) -> str:
+        """Stylize a string of text for HTML/PDF rendering"""
+        if not self.stylized:
+            return text
+
+        # replace '[+N Outsider]' with '<strong>[+N Outsider]</strong>'
+        text = text.replace("[+", "&nbsp; <strong>[+")
+        # the next two likes look visually similar, but are different
+        # the json appears to have a unicode minus sign
+        text = text.replace("[-", "&nbsp; <strong>[-")
+        text = text.replace("[\u2212", "&nbsp; <strong>[-")
+
+        # and close
+        text = text.replace("]", "]</strong>")
+
+        return text
 
     def __repr__(self):
         return (
