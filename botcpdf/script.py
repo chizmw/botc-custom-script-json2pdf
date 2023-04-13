@@ -4,6 +4,7 @@ import os
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML  # type: ignore
 from botcpdf.util import load_role_data
+from pkg_resources import get_distribution # type: ignore
 
 
 class Role:
@@ -256,6 +257,7 @@ class Script:
         template_folder = os.path.abspath(os.path.join(this_folder, "..", "templates"))
 
         template_vars = {
+            "_project": get_distribution("botc-json2pdf").__dict__,
             "title": self.title,
             "characters": self.char_types,
             "first_night": self.sorted_first_night(),
