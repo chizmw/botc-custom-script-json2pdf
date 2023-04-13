@@ -23,14 +23,14 @@ ifndef POETRY_OK
 endif
 
 install-dev: poetry
-	$(POETRY) config virtualenvs.in-project true
-	$(POETRY) install
+	@$(POETRY) config virtualenvs.in-project true
+	@$(POETRY) install
 
 fmt: install-dev
-	$(POETRY) run black -t py311 $(PYSRC)
+	@$(POETRY) run black -t py311 $(PYSRC)
 
 lint: install-dev
-	$(POETRY) run pylint $(PYSRC)
+	@$(POETRY) run pylint $(PYSRC)
 
 tb: poetry
 	@$(MAKE) process INPUT_FILE="scripts/Trouble Brewing.json"
