@@ -21,11 +21,14 @@ kinds:
   - label: Security
     auto: patch
 newlines:
-  afterChangelogHeader: 1
+  afterChange: 0
+  afterChangelogHeader: 0
+  afterChangelogVersion: 0
   afterKind: 1
-  afterChangelogVersion: 1
+  afterVersion: 1
   beforeChangelogVersion: 1
-  beforeKind: 1
+  beforeFooterFile: 0
+  beforeKind: 0
   endOfVersion: 0
 envPrefix: CHANGIE_
 
