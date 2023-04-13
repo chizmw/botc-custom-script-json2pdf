@@ -1,10 +1,43 @@
 """This module contains the Script class, which represents a script."""
 
 import os
+from typing import Optional
 from pkg_resources import get_distribution  # type: ignore
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML  # type: ignore
 from botcpdf.role import Role, RoleData  # type: ignore
+
+
+class ScriptMeta:
+    """Represents script metadata."""
+
+    # pylint: disable=too-few-public-methods
+
+    # some scripts have an entry with id: _meta
+    # this is where we'll store that data
+    # I don't know what all the fields are, but from what I've seen
+    # it seems to be at least: name - author - logo
+    name: Optional[str]
+    author: Optional[str]
+    logo: Optional[str]
+
+    def __init__(self, data: dict):
+        """Initialize script metadata."""
+
+        # ignore the id field if it's _meta
+        if data.get("id") == "_meta":
+            data.pop("id")
+
+        # make sure we only use known fields; not all required
+        if not set(data.keys()).issubset({"name", "author", "logo"}):
+            raise ValueError("Unexpected fields in script metadata")
+
+        self.name = data.get("name", None)
+        self.author = data.get("author", None)
+        self.logo = data.get("logo", None)
+
+    def __repr__(self):
+        return f"ScriptMeta(name='{self.name}', author='{self.author}', logo='{self.logo}')"  # pylint: disable=line-too-long
 
 
 class Script:
@@ -21,6 +54,8 @@ class Script:
 
     role_data: RoleData = RoleData()
 
+    meta: Optional[ScriptMeta] = None
+
     def __init__(self, title: str, script_data: dict):
         """Initialize a script."""
         self.title = title
@@ -28,12 +63,12 @@ class Script:
         # we want to preserve the order of the characters
         # so we'll use a list instead of a set
         for char in script_data:
-            self.add_char(char)
+            self._add_char(char)
 
         # add meta roles to night instructions
-        self.add_meta_roles()
+        self._add_meta_roles()
 
-    def add_meta_roles(self) -> None:
+    def _add_meta_roles(self) -> None:
         """Add meta roles to the night instructions."""
         for role in self.role_data.get_first_night_meta_roles():
             self.first_night[role.first_night] = role
@@ -53,7 +88,7 @@ class Script:
 
         return repr_str
 
-    def cleanup_id(self, char: dict) -> dict:
+    def _cleanup_id(self, char: dict) -> dict:
         """Cleanup the character ID."""
 
         # looking at other projects it seems that the ID in the script data is
@@ -72,9 +107,20 @@ class Script:
         """Return the other night characters in order."""
         return [self.other_nights[i] for i in sorted(self.other_nights.keys())]
 
-    def add_char(self, char: dict):
+    def _add_char(self, char: dict):
         """Add a character to the script."""
-        char = self.cleanup_id(char)
+        # before we do anything at all we need to check for _meta in the data
+        if char.get("id") == "_meta":
+            # store the metadata
+            self.meta = ScriptMeta(char)
+            # if we have 'name' then update the title
+            if self.meta.name:
+                self.title = self.meta.name
+
+            return
+
+        # manage all the normal character data
+        char = self._cleanup_id(char)
         role = self.role_data.get_role(char["id"])
 
         # add to the appropriate list
