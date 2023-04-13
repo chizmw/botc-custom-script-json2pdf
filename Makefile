@@ -24,7 +24,7 @@ endif
 
 install-dev: poetry
 	@$(POETRY) config virtualenvs.in-project true
-	@$(POETRY) install
+	@$(POETRY) install --quiet
 
 fmt: install-dev
 	@$(POETRY) run black -t py311 $(PYSRC)
