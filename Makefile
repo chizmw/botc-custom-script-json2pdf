@@ -55,3 +55,9 @@ refresh-json:
 	@curl -so roles.json https://raw.githubusercontent.com/bra1n/townsquare/develop/src/roles.json
 	@git add roles.json
 	@git commit --no-verify -m "Update roles.json from bra1n/townsquare"
+
+# another helper for my own use - Chisel
+changelog:
+	@changie batch $$(poetry version --short)
+	@changie merge
+	@git commit --no-verify -m "changie updates for $$(poetry version --short)" CHANGELOG.md

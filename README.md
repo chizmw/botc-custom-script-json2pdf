@@ -1,6 +1,16 @@
 # json2pdf for Blood on The Clocktower
 
+<!-- markdownlint-disable MD013 -->
+
+![version](https://img.shields.io/badge/version-v0.0.2-blue) ![GitHub issues](https://img.shields.io/github/issues-raw/chizmw/botc-custom-script-json2pdf) ![GitHub last commit](https://img.shields.io/github/last-commit/chizmw/botc-custom-script-json2pdf) ![GitHub pull requests](https://img.shields.io/github/issues-pr/chizmw/botc-custom-script-json2pdf)
+
+<!-- markdownlint-enable MD013 -->
+
 Yet Another Custom Script Generator for [Blood on the Clocktower][botc]
+
+With apologies to those in Weird Paper Size Land&trade;, this project currently
+creates A4 size PDFs. I haven't tried viewing, printing or scaling to _Letter_.
+If there's huge demand I may look into this later.
 
 ## Requirements
 
@@ -55,6 +65,13 @@ could tweak this, and be done". I soon realised that life is too short to learn
 together and sprinkle some Chisel-magic into the mix.
 
 For better or worse, this project is the result of that desire.
+
+## Desires
+
+- be able to generate something closely resembling the
+  [No Roles Barred][script-nrb] style
+- be reasonably simple to edit/restyle
+- use existing resources for information (`*.json` from other tools)
 
 ## Attribution
 
