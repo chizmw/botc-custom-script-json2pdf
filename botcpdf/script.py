@@ -1,159 +1,43 @@
 """This module contains the Script class, which represents a script."""
 
 import os
+from typing import Optional
+from pkg_resources import get_distribution  # type: ignore
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML  # type: ignore
-from botcpdf.util import load_role_data
+from botcpdf.role import Role, RoleData  # type: ignore
 
 
-class Role:
-    """Holds information about a BOTC role"""
+class ScriptMeta:
+    """Represents script metadata."""
 
-    # pylint: disable=too-many-instance-attributes
-    # Eight is reasonable in this case
-    id_slug: str
-    name: str
-    edition: str
-    team: str
-    first_night: float
-    first_night_reminder: str
-    other_night: int
-    other_night_reminder: str
-    reminders: list[str]
-    setup: bool
-    ability: str
-    stylized: bool
+    # pylint: disable=too-few-public-methods
 
-    def __init__(self, role_data: dict, stylize: bool = True):
-        """Initialize a role."""
-        self.id_slug = role_data["id"]
-        self.name = role_data["name"]
-        self.edition = role_data["edition"]
-        self.team = role_data["team"]
-        self.first_night = role_data["firstNight"]
-        self.first_night_reminder = role_data["firstNightReminder"]
-        self.other_night = role_data["otherNight"]
-        self.other_night_reminder = role_data["otherNightReminder"]
-        self.reminders = role_data["reminders"]
-        self.setup = role_data["setup"]
-        self.stylized = stylize
-        self.ability = self.stylize(role_data["ability"])
+    # some scripts have an entry with id: _meta
+    # this is where we'll store that data
+    # I don't know what all the fields are, but from what I've seen
+    # it seems to be at least: name - author - logo
+    name: Optional[str]
+    author: Optional[str]
+    logo: Optional[str]
 
-    # it's a bit clunkier than we'd like, but progress is progress
-    def stylize(self, text: str) -> str:
-        """Stylize a string of text for HTML/PDF rendering"""
-        if not self.stylized:
-            return text
+    def __init__(self, data: dict):
+        """Initialize script metadata."""
 
-        # replace '[+N Outsider]' with '<strong>[+N Outsider]</strong>'
-        text = text.replace("[+", "&nbsp; <strong>[+")
-        # the next two likes look visually similar, but are different
-        # the json appears to have a unicode minus sign
-        text = text.replace("[-", "&nbsp; <strong>[-")
-        text = text.replace("[\u2212", "&nbsp; <strong>[-")
+        # ignore the id field if it's _meta
+        if data.get("id") == "_meta":
+            data.pop("id")
 
-        # and close
-        text = text.replace("]", "]</strong>")
+        # make sure we only use known fields; not all required
+        if not set(data.keys()).issubset({"name", "author", "logo"}):
+            raise ValueError("Unexpected fields in script metadata")
 
-        return text
+        self.name = data.get("name", None)
+        self.author = data.get("author", None)
+        self.logo = data.get("logo", None)
 
     def __repr__(self):
-        return (
-            f"""["{self.name}": ("{self.id_slug}", "{self.team}", "{self.edition}")"""
-        )
-
-    def get_edition_name(self) -> str:
-        """Get the name of the edition."""
-        lookup: dict[str, str] = {
-            "tb": "Trouble Brewing",
-            "snv": "Sects and Violets",
-            "bmr": "Bad Moon Rising",
-        }
-        return lookup.get(self.edition, "Unknown Edition")
-
-
-class RoleData:
-    # pylint: disable=too-few-public-methods
-    """Holds information for all the roles in the game"""
-
-    roles: dict[str, Role]
-
-    def __init__(self):
-        """Initialize role data."""
-        role_data = load_role_data()
-        self.roles = {}
-        for role in role_data:
-            self.roles[role["id"]] = Role(role)
-
-        self.add_meta_roles()
-
-    def get_role(self, id_slug: str) -> Role:
-        """Get a role by ID."""
-        return self.roles[id_slug]
-
-    def add_meta_roles(self) -> None:
-        """Add meta roles to the role data.
-
-        i.e. Minion/Demon info, Dawn"""
-        self.roles["_minion"] = Role(
-            {
-                "id": "_minion-info",
-                "name": "Minion Info",
-                "edition": "",
-                "team": "",
-                "firstNight": 5,
-                # pylint: disable=line-too-long
-                "firstNightReminder": "If 7 or more players: wake up all of the Minions. They make eye contact with each other. Show the 'This is the Demon' card. Point to the Demon.",
-                "otherNight": 0,
-                "otherNightReminder": "",
-                "reminders": [],
-                "setup": False,
-                "ability": "",
-            }
-        )
-
-        self.roles["_demon"] = Role(
-            {
-                "id": "_demon-info",
-                "name": "Demon Info",
-                "edition": "",
-                "team": "",
-                "firstNight": 7.5,
-                # pylint: disable=line-too-long
-                "firstNightReminder": "If 7 or more players: wake up the Demon. Show the 'These are your minions' card. Point to each Minion. Show the 'These characters are not in play' card. Show 3 character tokens of Good characters that are not in play",
-                "otherNight": 0,
-                "otherNightReminder": "",
-                "reminders": [],
-                "setup": False,
-                "ability": "",
-            }
-        )
-
-        # pylint: disable=line-too-long
-        dawn_reminder = "Wait approximately 10 seconds. Call for eyes open, then immediately announce which players (if any) died."
-        self.roles["_dawn"] = Role(
-            {
-                "id": "_dawn",
-                "name": "Dawn",
-                "edition": "",
-                "team": "",
-                "firstNight": 9999,
-                "firstNightReminder": dawn_reminder,
-                "otherNight": 9999,
-                "otherNightReminder": dawn_reminder,
-                "reminders": [],
-                "setup": False,
-                "ability": "",
-            }
-        )
-
-    def get_first_night_meta_roles(self) -> list[Role]:
-        """Get a list of meta roles."""
-        return [self.roles["_minion"], self.roles["_demon"], self.roles["_dawn"]]
-
-    def get_other_night_meta_roles(self) -> list[Role]:
-        """Get a list of meta roles."""
-        return [self.roles["_dawn"]]
+        return f"ScriptMeta(name='{self.name}', author='{self.author}', logo='{self.logo}')"  # pylint: disable=line-too-long
 
 
 class Script:
@@ -170,6 +54,8 @@ class Script:
 
     role_data: RoleData = RoleData()
 
+    meta: Optional[ScriptMeta] = None
+
     def __init__(self, title: str, script_data: dict):
         """Initialize a script."""
         self.title = title
@@ -177,12 +63,12 @@ class Script:
         # we want to preserve the order of the characters
         # so we'll use a list instead of a set
         for char in script_data:
-            self.add_char(char)
+            self._add_char(char)
 
         # add meta roles to night instructions
-        self.add_meta_roles()
+        self._add_meta_roles()
 
-    def add_meta_roles(self) -> None:
+    def _add_meta_roles(self) -> None:
         """Add meta roles to the night instructions."""
         for role in self.role_data.get_first_night_meta_roles():
             self.first_night[role.first_night] = role
@@ -202,7 +88,7 @@ class Script:
 
         return repr_str
 
-    def cleanup_id(self, char: dict) -> dict:
+    def _cleanup_id(self, char: dict) -> dict:
         """Cleanup the character ID."""
 
         # looking at other projects it seems that the ID in the script data is
@@ -221,9 +107,20 @@ class Script:
         """Return the other night characters in order."""
         return [self.other_nights[i] for i in sorted(self.other_nights.keys())]
 
-    def add_char(self, char: dict):
+    def _add_char(self, char: dict):
         """Add a character to the script."""
-        char = self.cleanup_id(char)
+        # before we do anything at all we need to check for _meta in the data
+        if char.get("id") == "_meta":
+            # store the metadata
+            self.meta = ScriptMeta(char)
+            # if we have 'name' then update the title
+            if self.meta.name:
+                self.title = self.meta.name
+
+            return
+
+        # manage all the normal character data
+        char = self._cleanup_id(char)
         role = self.role_data.get_role(char["id"])
 
         # add to the appropriate list
@@ -256,6 +153,7 @@ class Script:
         template_folder = os.path.abspath(os.path.join(this_folder, "..", "templates"))
 
         template_vars = {
+            "_project": get_distribution("botc-json2pdf").__dict__,
             "title": self.title,
             "characters": self.char_types,
             "first_night": self.sorted_first_night(),

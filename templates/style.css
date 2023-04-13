@@ -203,3 +203,20 @@ header {
   padding-right: 10px;
   font-family: botc-ultra, sans-serif;
 }
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: none;
+  color: black;
+  font-family: botc-light, sans-serif;
+}
+
+footer .footer-left {
+  font-size: 8px;
+}
+
+footer .footer-right {
+  font-size: 8px;
+}

@@ -44,6 +44,12 @@ ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/No Roles Barred.pdf"
 endif
 
+test-meta: poetry
+	@$(MAKE) process INPUT_FILE='scripts/my-test-script.json'
+ifeq ($(shell uname),Darwin)
+	@open -a Preview 'pdfs/I am a list name.pdf'
+endif
+
 all-scripts: install-dev
 	@find scripts -type f -exec $(MAKE) process INPUT_FILE="{}" \;
 
@@ -64,7 +70,7 @@ next-version:
 changelog: next-version
 	@changie batch $$(poetry version --short)
 	@changie merge
-	@git commit --no-verify -m "changie updates for $$(poetry version --short)" CHANGELOG.md README.md .changes/$$(poetry version --short).md
+	@git commit --no-verify -m "changie updates for $$(poetry version --short)" CHANGELOG.md README.md .changes/
 
 release: fmt lint changelog
 	@git tag v$$(poetry version --no-ansi --short)

@@ -6,7 +6,6 @@ changelogPath: CHANGELOG.md
 versionExt: md
 versionFormat: '## {{.Version}} - {{.Time.Format "2006-01-02"}}'
 kindFormat: '### {{.Kind}}'
-changeFormat: '* {{.Body}}'
 kinds:
   - label: Added
     auto: minor
@@ -42,3 +41,9 @@ custom:
     label: Github Issue (optional)
     type: int
     optional: true
+
+changeFormat: >-
+  * {{.Body}}
+  {{- if not (eq .Custom.GithubIssue "")}}
+  [#{{.Custom.GithubIssue}}]
+  {{- end}}
