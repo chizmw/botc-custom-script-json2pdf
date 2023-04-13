@@ -44,7 +44,7 @@ ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/No Roles Barred.pdf"
 endif
 
-examples: install-dev
+all-scripts: install-dev
 	@find scripts -type f -exec $(MAKE) process INPUT_FILE="{}" \;
 
 optimise-pdf: install-dev
