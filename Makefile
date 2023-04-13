@@ -49,3 +49,9 @@ all-scripts: install-dev
 
 optimise-pdf: install-dev
 	@find pdfs -type f -not -name "*.opt.pdf" -exec $(POETRY) run python3 -m botcpdf.optimise_pdf "{}" \;
+
+# this is just a quick helper for my own use - Chisel
+refresh-json:
+	@curl -so roles.json https://raw.githubusercontent.com/bra1n/townsquare/develop/src/roles.json
+	@git add roles.json
+	@git commit --no-verify -m "Update roles.json from bra1n/townsquare"
