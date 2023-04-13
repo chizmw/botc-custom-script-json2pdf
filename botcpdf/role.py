@@ -86,6 +86,13 @@ class RoleData:
 
     def get_role(self, id_slug: str) -> Role:
         """Get a role by ID."""
+
+        # if there's no role with the given id, raise an error
+        if id_slug not in self.roles:
+            # print the sorted list of role ids for debugging
+            print(sorted(self.roles.keys()))
+            raise ValueError(f"Role with ID '{id_slug}' not found")
+
         return self.roles[id_slug]
 
     def add_meta_roles(self) -> None:
