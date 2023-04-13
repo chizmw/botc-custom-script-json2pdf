@@ -44,6 +44,12 @@ ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/No Roles Barred.pdf"
 endif
 
+reptiles: poetry
+	@$(MAKE) process INPUT_FILE='scripts/Reptiles!.json'
+ifeq ($(shell uname),Darwin)
+	@open -a Preview 'pdfs/Reptiles!.pdf'
+endif
+
 all-scripts: install-dev
 	@find scripts -type f -exec $(MAKE) process INPUT_FILE="{}" \;
 
