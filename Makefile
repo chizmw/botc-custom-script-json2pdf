@@ -56,8 +56,16 @@ refresh-json:
 	@git add roles.json
 	@git commit --no-verify -m "Update roles.json from bra1n/townsquare"
 
+next-version:
+	@poetry version patch
+	@git commit --no-verify -m "bump pyproject version to $$(poetry version --short)" pyproject.toml
+
 # another helper for my own use - Chisel
-changelog:
+changelog: next-version
 	@changie batch $$(poetry version --short)
 	@changie merge
-	@git commit --no-verify -m "changie updates for $$(poetry version --short)" CHANGELOG.md
+	@git commit --no-verify -m "changie updates for $$(poetry version --short)" CHANGELOG.md README.md
+
+release: fmt lint changelog
+	@git tag v$(poetry version --no-ansi --short)
+	@git push --tags
