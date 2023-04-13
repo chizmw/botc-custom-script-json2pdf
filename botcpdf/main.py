@@ -20,9 +20,9 @@ def main():
     # this is kinda rudimentary, but it works as a first pass
     # strip the path and extension from the filename
     script_name = filename.rsplit("/", maxsplit=1)[-1].split(".", maxsplit=1)[0]
-    print(f"Script name: {script_name}")
 
     script = Script(script_name, script_data)
+    print(f"""Rendering "{script.title}"…""")
     script.render()
 
 
