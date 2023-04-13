@@ -90,8 +90,10 @@ class RoleData:
         # if there's no role with the given id, raise an error
         if id_slug not in self.roles:
             # print the sorted list of role ids for debugging
-            print(sorted(self.roles.keys()))
-            raise ValueError(f"Role with ID '{id_slug}' not found")
+            raise ValueError(
+                f"Role with ID '{id_slug}' not found; "
+                f"""known role ids: {", ".join(sorted(self.roles.keys()))}"""
+            )
 
         return self.roles[id_slug]
 
