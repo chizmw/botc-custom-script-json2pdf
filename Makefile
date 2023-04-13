@@ -1,5 +1,5 @@
 INPUT_FILE=
-	
+
 .PHONY: all process
 
 #all: poetry install-dev fmt lint run
@@ -34,11 +34,15 @@ lint: install-dev
 
 tb: poetry
 	@$(MAKE) process INPUT_FILE="scripts/Trouble Brewing.json"
+ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/Trouble Brewing.pdf"
+endif
 
 nrb: poetry
 	@$(MAKE) process INPUT_FILE="scripts/No Roles Barred.json"
+ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/No Roles Barred.pdf"
+endif
 
 examples: install-dev
 	@find scripts -type f -exec $(MAKE) process INPUT_FILE="{}" \;
