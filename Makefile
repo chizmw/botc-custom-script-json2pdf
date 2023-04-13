@@ -44,10 +44,10 @@ ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/No Roles Barred.pdf"
 endif
 
-reptiles: poetry
-	@$(MAKE) process INPUT_FILE='scripts/Reptiles!.json'
+test-meta: poetry
+	@$(MAKE) process INPUT_FILE='scripts/my-test-script.json'
 ifeq ($(shell uname),Darwin)
-	@open -a Preview 'pdfs/Reptiles!.pdf'
+	@open -a Preview 'pdfs/I am a list name.pdf'
 endif
 
 all-scripts: install-dev
