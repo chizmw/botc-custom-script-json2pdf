@@ -64,8 +64,8 @@ next-version:
 changelog: next-version
 	@changie batch $$(poetry version --short)
 	@changie merge
-	@git commit --no-verify -m "changie updates for $$(poetry version --short)" CHANGELOG.md README.md
+	@git commit --no-verify -m "changie updates for $$(poetry version --short)" CHANGELOG.md README.md .changes/$$(poetry version --short).md
 
 release: fmt lint changelog
-	@git tag v$(poetry version --no-ansi --short)
+	@git tag v$$(poetry version --no-ansi --short)
 	@git push --tags
