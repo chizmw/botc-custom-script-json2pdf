@@ -1,0 +1,5 @@
+kind: Added
+body: handle _meta data found in script data json
+time: 2023-04-13T23:41:59.759412+01:00
+custom:
+  GithubIssue: "1"

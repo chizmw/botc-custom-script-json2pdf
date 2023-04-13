@@ -1,0 +1,5 @@
+kind: Added
+body: fail with error when trying to add a role where we don't recognise the id slug
+time: 2023-04-13T23:41:48.142318+01:00
+custom:
+  GithubIssue: "5"

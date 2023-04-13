@@ -1,0 +1,5 @@
+kind: Fixed
+body: fix git commit in 'make changelog' action
+time: 2023-04-13T23:41:10.409605+01:00
+custom:
+  GithubIssue: ""

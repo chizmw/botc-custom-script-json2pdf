@@ -1,0 +1,5 @@
+kind: Changed
+body: extract Role and RoleData to role.py
+time: 2023-04-13T23:42:31.732284+01:00
+custom:
+  GithubIssue: ""
