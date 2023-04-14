@@ -79,6 +79,7 @@ For better or worse, this project is the result of that desire.
   - [LectronPusher/botc-custom-script-generator][botc-generator]
   - … which were originally from [bra1n's townsquare](https://github.com/bra1n/townsquare)
 - other icons
+  - [Night](https://uxwing.com/night-icon/)
   - [Sunrise](https://uxwing.com/sunrise-icon/)
   - [[D]emon](https://uxwing.com/d-alphabet-icon/)
   - [[M]inion](https://uxwing.com/m-alphabet-icon/)

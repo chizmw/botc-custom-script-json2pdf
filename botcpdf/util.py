@@ -13,3 +13,7 @@ def load_data(filename: str):
 def load_role_data():
     """Load role data from a JSON file."""
     return load_data("gameinfo/roles-bra1n.json")
+
+def load_nightdata():
+    """Load role data from a JSON file."""
+    return load_data("gameinfo/nightsheet.json")

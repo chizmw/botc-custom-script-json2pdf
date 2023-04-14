@@ -5,7 +5,7 @@ from typing import Optional
 from pkg_resources import get_distribution  # type: ignore
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML  # type: ignore
-from botcpdf.role import Role, RoleData  # type: ignore
+from botcpdf.role import Role, RoleData, cleanup_role_id  # type: ignore
 
 
 class ScriptMeta:
@@ -88,17 +88,6 @@ class Script:
 
         return repr_str
 
-    def _cleanup_id(self, char: dict) -> dict:
-        """Cleanup the character ID."""
-
-        # looking at other projects it seems that the ID in the script data is
-        # _close_ to the ID in the role data
-        # so we'll just do some cleanup to make it match
-        char["id"] = char["id"].replace("_", "")
-        char["id"] = char["id"].replace("-", "")  # just the pit-hag... why
-
-        return char
-
     def sorted_first_night(self) -> list[Role]:
         """Return the first night characters in order."""
         return [self.first_night[i] for i in sorted(self.first_night.keys())]
@@ -120,7 +109,8 @@ class Script:
             return
 
         # manage all the normal character data
-        char = self._cleanup_id(char)
+        # clean up the role id
+        char["id"] = cleanup_role_id(char["id"])
         role = self.role_data.get_role(char["id"])
 
         # add to the appropriate list

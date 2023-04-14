@@ -1,6 +1,6 @@
 """ Holds information about a BOTC role """
 
-from botcpdf.util import load_role_data
+from botcpdf.util import load_nightdata, load_role_data
 
 
 class Role:
@@ -12,9 +12,9 @@ class Role:
     name: str
     edition: str
     team: str
-    first_night: float
+    first_night: int = 0
     first_night_reminder: str
-    other_night: int
+    other_night: int = 0
     other_night_reminder: str
     reminders: list[str]
     setup: bool
@@ -27,9 +27,7 @@ class Role:
         self.name = role_data["name"]
         self.edition = role_data["edition"]
         self.team = role_data["team"]
-        self.first_night = role_data["firstNight"]
         self.first_night_reminder = role_data["firstNightReminder"]
-        self.other_night = role_data["otherNight"]
         self.other_night_reminder = role_data["otherNightReminder"]
         self.reminders = role_data["reminders"]
         self.setup = role_data["setup"]
@@ -82,7 +80,29 @@ class RoleData:
         for role in role_data:
             self.roles[role["id"]] = Role(role)
 
+        # Demon and Minion info, Dawn
         self.add_meta_roles()
+
+        # work out values for first_night and other_night
+        self.derive_night_values()
+
+    def derive_night_values(self):
+        night_data = load_nightdata()
+        #print(night_data)
+
+        # loop through firstNight list in night_data; we need the index as well
+        for index, role_id in enumerate(night_data["firstNight"]):
+            # get the role object for the given id
+            role = self.get_role(cleanup_role_id(role_id))
+            # set the first_night attribute
+            role.first_night = index + 1
+
+        # loop through otherNight list in night_data; we need the index as well
+        for index, role_id in enumerate(night_data["otherNight"]):
+            # get the role object for the given id
+            role = self.get_role(cleanup_role_id(role_id))
+            # set the other_night attribute
+            role.other_night = index + 1
 
     def get_role(self, id_slug: str) -> Role:
         """Get a role by ID."""
@@ -107,10 +127,8 @@ class RoleData:
                 "name": "Minion Info",
                 "edition": "",
                 "team": "",
-                "firstNight": 5,
                 # pylint: disable=line-too-long
                 "firstNightReminder": "If 7 or more players: wake up all of the Minions. They make eye contact with each other. Show the 'This is the Demon' card. Point to the Demon.",
-                "otherNight": 0,
                 "otherNightReminder": "",
                 "reminders": [],
                 "setup": False,
@@ -124,11 +142,23 @@ class RoleData:
                 "name": "Demon Info",
                 "edition": "",
                 "team": "",
-                "firstNight": 7.5,
                 # pylint: disable=line-too-long
                 "firstNightReminder": "If 7 or more players: wake up the Demon. Show the 'These are your minions' card. Point to each Minion. Show the 'These characters are not in play' card. Show 3 character tokens of Good characters that are not in play",
-                "otherNight": 0,
                 "otherNightReminder": "",
+                "reminders": [],
+                "setup": False,
+                "ability": "",
+            }
+        )
+
+        self.roles["_dusk"] = Role(
+            {
+                "id": "_dusk",
+                "name": "Dusk",
+                "edition": "",
+                "team": "",
+                "firstNightReminder": "",
+                "otherNightReminder": "Check that all eyes are closed. Some travellers act.",
                 "reminders": [],
                 "setup": False,
                 "ability": "",
@@ -143,9 +173,7 @@ class RoleData:
                 "name": "Dawn",
                 "edition": "",
                 "team": "",
-                "firstNight": 9999,
                 "firstNightReminder": dawn_reminder,
-                "otherNight": 9999,
                 "otherNightReminder": dawn_reminder,
                 "reminders": [],
                 "setup": False,
@@ -159,4 +187,33 @@ class RoleData:
 
     def get_other_night_meta_roles(self) -> list[Role]:
         """Get a list of meta roles."""
-        return [self.roles["_dawn"]]
+        return [self.roles["_dawn"], self.roles["_dusk"]]
+
+# we're outside the class now, and this is just helper functions
+def cleanup_role_id(id_slug) -> str:
+    """Cleanup the character ID."""
+
+    # looking at other projects it seems that the ID in the (bra1n) script data is
+    # _close_ to the ID in the role data
+    # so we'll just do some cleanup to make it match
+    # we do bra1n first, then clocktower.com because of the underscore removal
+    id_slug = id_slug.replace("_", "")
+    id_slug = id_slug.replace("-", "")  # just the pit-hag... why
+
+    # data from clocktower.com doesn't match what we have in bra1n's data
+    # so we'll just do some cleanup to make it match
+
+    # remove all whitespace
+    id_slug = id_slug.replace(" ", "")
+
+    # remove all apostrophes
+    id_slug = id_slug.replace("'", "")
+
+    # prepend _ to DEMON, MINION, DUSK, and DAWN
+    if id_slug in ["DEMON", "MINION", "DUSK", "DAWN"]:
+        id_slug = f"_{id_slug}"
+
+    # lowercase
+    id_slug = id_slug.lower()
+
+    return id_slug
