@@ -73,7 +73,9 @@ next-version:
 changelog: next-version
 	@changie batch $$(poetry version --short)
 	@changie merge
+	@git add CHANGELOG.md README.md .changes/
 	@git commit --no-verify -m "changie updates for $$(poetry version --short)" CHANGELOG.md README.md .changes/
+	@git push
 
 release: fmt lint changelog
 	@git tag v$$(poetry version --no-ansi --short)
