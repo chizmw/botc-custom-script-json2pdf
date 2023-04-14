@@ -18,3 +18,8 @@ def load_role_data():
 def load_nightdata():
     """Load role data from a JSON file."""
     return load_data("gameinfo/nightsheet.json")
+
+
+def load_nightmeta():
+    """Load role data from a JSON file."""
+    return load_data("gameinfo/roles-nightmeta.json")

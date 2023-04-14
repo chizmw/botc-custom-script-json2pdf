@@ -1,6 +1,6 @@
 """ Holds information about a BOTC role """
 
-from botcpdf.util import load_nightdata, load_role_data
+from botcpdf.util import load_nightdata, load_nightmeta, load_role_data
 
 
 class Role:
@@ -120,66 +120,12 @@ class RoleData:
     def add_meta_roles(self) -> None:
         """Add meta roles to the role data.
 
-        i.e. Minion/Demon info, Dawn"""
-        self.roles["_minion"] = Role(
-            {
-                "id": "_minion-info",
-                "name": "Minion Info",
-                "edition": "",
-                "team": "",
-                # pylint: disable=line-too-long
-                "firstNightReminder": "If 7 or more players: wake up all of the Minions. They make eye contact with each other. Show the 'This is the Demon' card. Point to the Demon.",
-                "otherNightReminder": "",
-                "reminders": [],
-                "setup": False,
-                "ability": "",
-            }
-        )
+        i.e. Minion/Demon info, Dawn, Dusk"""
 
-        self.roles["_demon"] = Role(
-            {
-                "id": "_demon-info",
-                "name": "Demon Info",
-                "edition": "",
-                "team": "",
-                # pylint: disable=line-too-long
-                "firstNightReminder": "If 7 or more players: wake up the Demon. Show the 'These are your minions' card. Point to each Minion. Show the 'These characters are not in play' card. Show 3 character tokens of Good characters that are not in play",
-                "otherNightReminder": "",
-                "reminders": [],
-                "setup": False,
-                "ability": "",
-            }
-        )
+        nightmeta = load_nightmeta()
 
-        self.roles["_dusk"] = Role(
-            {
-                "id": "_dusk",
-                "name": "Dusk",
-                "edition": "",
-                "team": "",
-                "firstNightReminder": "",
-                "otherNightReminder": "Check that all eyes are closed. Some travellers act.",
-                "reminders": [],
-                "setup": False,
-                "ability": "",
-            }
-        )
-
-        # pylint: disable=line-too-long
-        dawn_reminder = "Wait approximately 10 seconds. Call for eyes open, then immediately announce which players (if any) died."
-        self.roles["_dawn"] = Role(
-            {
-                "id": "_dawn",
-                "name": "Dawn",
-                "edition": "",
-                "team": "",
-                "firstNightReminder": dawn_reminder,
-                "otherNightReminder": dawn_reminder,
-                "reminders": [],
-                "setup": False,
-                "ability": "",
-            }
-        )
+        for role in nightmeta:
+            self.roles[role["id"]] = Role(role)
 
     def get_first_night_meta_roles(self) -> list[Role]:
         """Get a list of meta roles."""
