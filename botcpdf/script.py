@@ -48,6 +48,7 @@ class Script:
         "outsider": [],
         "minion": [],
         "demon": [],
+        "fabled": [],
     }
     first_night: dict[float, Role] = {}
     other_nights: dict[float, Role] = {}
@@ -133,7 +134,9 @@ class Script:
 
     def render(self):
         """Render the script to PDF"""
-        env = Environment(loader=FileSystemLoader("templates"))
+        env = Environment(
+            loader=FileSystemLoader("templates"), extensions=["jinja2.ext.loopcontrols"]
+        )
         template = env.get_template("script.jinja")
 
         # so we can actually use images in the PDF
