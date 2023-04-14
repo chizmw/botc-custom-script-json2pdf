@@ -1,6 +1,0 @@
-kind: Fixed
-body: '[pre-commit] ignore anything in gameinfo and fonts as we don''t author these
-  ourself'
-time: 2023-04-14T10:55:28.518855+01:00
-custom:
-  GithubIssue: ""

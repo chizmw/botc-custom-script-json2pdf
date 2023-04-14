@@ -6,7 +6,7 @@ INPUT_FILE=
 
 all: examples
 
-process:
+process: install-dev
 	@basename="$(shell basename "$(INPUT_FILE)" .json)" && \
 	poetry run python3 -m botcpdf.main "$(INPUT_FILE)"
 

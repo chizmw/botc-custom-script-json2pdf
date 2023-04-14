@@ -60,6 +60,7 @@ repos:
     hooks:
       - id: yamllint
         args: [--format, parsable, --strict]
+        exclude: ^.changes/unreleased
 
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.9.0.2

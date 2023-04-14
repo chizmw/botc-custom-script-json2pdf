@@ -87,8 +87,8 @@ class RoleData:
         self.derive_night_values()
 
     def derive_night_values(self):
+        """Derive values for first_night and other_night"""
         night_data = load_nightdata()
-        #print(night_data)
 
         # loop through firstNight list in night_data; we need the index as well
         for index, role_id in enumerate(night_data["firstNight"]):
@@ -188,6 +188,7 @@ class RoleData:
     def get_other_night_meta_roles(self) -> list[Role]:
         """Get a list of meta roles."""
         return [self.roles["_dawn"], self.roles["_dusk"]]
+
 
 # we're outside the class now, and this is just helper functions
 def cleanup_role_id(id_slug) -> str:

@@ -176,13 +176,6 @@ div.not-first-night {
   bottom: 5%;
   transform: translateX(-50%);
 }
-div.not-affiliated {
-  position: absolute;
-  right: 0%;
-  bottom: 1%;
-  font-family: botc-light, sans-serif;
-  font-size: 7px;
-}
 
 header {
   display: flex;
@@ -208,15 +201,23 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  background-color: none;
   color: black;
   font-family: botc-light, sans-serif;
+  background-color: none;
+
+  position: fixed; /* Add this line */
+  bottom: 15px; /* Add this line */
+  left: 0;
+  right: 0;
+  padding: 0 10px; /* Add this line for some padding */
 }
 
 footer .footer-left {
+  left: 0%;
   font-size: 8px;
 }
 
 footer .footer-right {
+  right: 0%;
   font-size: 8px;
 }

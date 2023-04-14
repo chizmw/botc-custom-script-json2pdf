@@ -1,5 +1,0 @@
-kind: Changed
-body: pre-commit autoupdate, and format change for 'exclude'
-time: 2023-04-14T11:51:03.876999+01:00
-custom:
-  GithubIssue: ""
