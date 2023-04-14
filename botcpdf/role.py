@@ -75,10 +75,9 @@ class RoleData:
 
     def __init__(self):
         """Initialize role data."""
-        role_data = load_role_data()
-        self.roles = {}
-        for role in role_data:
-            self.roles[role["id"]] = Role(role)
+
+        # 'regular' role info from roles-bra1n.json
+        self.add_character_roles()
 
         # Demon and Minion info, Dawn
         self.add_meta_roles()
@@ -116,6 +115,13 @@ class RoleData:
             )
 
         return self.roles[id_slug]
+
+    def add_character_roles(self) -> None:
+        """Add character roles to the role data."""
+        role_data = load_role_data()
+        self.roles = {}
+        for role in role_data:
+            self.roles[role["id"]] = Role(role)
 
     def add_meta_roles(self) -> None:
         """Add meta roles to the role data.
