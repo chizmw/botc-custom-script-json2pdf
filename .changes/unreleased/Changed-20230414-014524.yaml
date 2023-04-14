@@ -1,0 +1,5 @@
+kind: Changed
+body: add more json assets to 'make refresh-json'
+time: 2023-04-14T01:45:24.847542+01:00
+custom:
+  GithubIssue: "2"

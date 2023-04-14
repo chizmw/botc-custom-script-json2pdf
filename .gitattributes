@@ -1,0 +1,2 @@
+gameinfo/*.json -text whitespace=-trailing-space
+scripts/*.json  -text whitespace=-trailing-space
