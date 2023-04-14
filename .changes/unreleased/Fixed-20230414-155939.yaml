@@ -1,5 +1,0 @@
-kind: Fixed
-body: update pre-commit to also exclude .changes/ and scripts/
-time: 2023-04-14T15:59:39.679536+01:00
-custom:
-  GithubIssue: ""
