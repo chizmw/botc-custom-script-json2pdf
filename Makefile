@@ -59,6 +59,7 @@ optimise-pdf: install-dev
 # this is just a quick helper for my own use - Chisel
 refresh-json:
 	@curl -so gameinfo/roles-bra1n.json https://raw.githubusercontent.com/bra1n/townsquare/develop/src/roles.json
+	@curl -so gameinfo/roles-bra1n-fabled.json https://raw.githubusercontent.com/bra1n/townsquare/develop/src/fabled.json
 	@curl -so gameinfo/nightsheet.json https://script.bloodontheclocktower.com/data/nightsheet.json
 	@curl -so gameinfo/jinx.json https://script.bloodontheclocktower.com/data/jinx.json
 	@changie new -k "Changed" -b "Update gameinfo/*.json from assets"
