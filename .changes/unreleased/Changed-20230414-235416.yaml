@@ -1,5 +1,0 @@
-kind: Changed
-body: update role.add_meta_roles() to use json file data
-time: 2023-04-14T23:54:16.209156+01:00
-custom:
-  GithubIssue: ""

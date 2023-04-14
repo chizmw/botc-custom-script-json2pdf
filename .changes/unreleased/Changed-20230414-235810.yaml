@@ -1,5 +1,0 @@
-kind: Changed
-body: refactor some role init into add_character_roles()
-time: 2023-04-14T23:58:10.311649+01:00
-custom:
-  GithubIssue: ""
