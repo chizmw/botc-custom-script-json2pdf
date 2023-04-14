@@ -1,0 +1,5 @@
+kind: Added
+body: add workflow to run pre-commit checks
+time: 2023-04-14T16:00:33.720896+01:00
+custom:
+  GithubIssue: ""
