@@ -1,0 +1,5 @@
+kind: Added
+body: add workflow action to auto-assign PR owner
+time: 2023-04-14T23:38:21.644286+01:00
+custom:
+  GithubIssue: ""
