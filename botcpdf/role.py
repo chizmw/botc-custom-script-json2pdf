@@ -1,6 +1,12 @@
 """ Holds information about a BOTC role """
 
-from botcpdf.util import load_nightdata, load_role_data
+from typing import Optional
+from botcpdf.util import (
+    load_fabled_data,
+    load_nightdata,
+    load_nightmeta,
+    load_role_data,
+)
 
 
 class Role:
@@ -10,7 +16,7 @@ class Role:
     # Eight is reasonable in this case
     id_slug: str
     name: str
-    edition: str
+    edition: Optional[str] = None
     team: str
     first_night: int = 0
     first_night_reminder: str
@@ -23,16 +29,23 @@ class Role:
 
     def __init__(self, role_data: dict, stylize: bool = True):
         """Initialize a role."""
+
+        # we expect these to always exist, so we don't need .get()
         self.id_slug = role_data["id"]
         self.name = role_data["name"]
-        self.edition = role_data["edition"]
         self.team = role_data["team"]
         self.first_night_reminder = role_data["firstNightReminder"]
         self.other_night_reminder = role_data["otherNightReminder"]
         self.reminders = role_data["reminders"]
         self.setup = role_data["setup"]
+
+        # we need to knoiw if we're stylizing or not before we can store the
+        # ability
         self.stylized = stylize
         self.ability = self.stylize(role_data["ability"])
+
+        # optional (e.g. fabled roles don't have an edition)
+        self.edition = role_data.get("edition", None)
 
     # it's a bit clunkier than we'd like, but progress is progress
     def stylize(self, text: str) -> str:
@@ -59,7 +72,7 @@ class Role:
 
     def get_edition_name(self) -> str:
         """Get the name of the edition."""
-        lookup: dict[str, str] = {
+        lookup: dict = {
             "tb": "Trouble Brewing",
             "snv": "Sects and Violets",
             "bmr": "Bad Moon Rising",
@@ -71,14 +84,16 @@ class RoleData:
     # pylint: disable=too-few-public-methods
     """Holds information for all the roles in the game"""
 
-    roles: dict[str, Role]
+    roles: dict[str, Role] = {}
 
     def __init__(self):
         """Initialize role data."""
-        role_data = load_role_data()
-        self.roles = {}
-        for role in role_data:
-            self.roles[role["id"]] = Role(role)
+
+        # 'regular' role info from roles-bra1n.json
+        self.add_character_roles()
+
+        # we'll add fabled roles to the same dict
+        self.add_fabled_roles()
 
         # Demon and Minion info, Dawn
         self.add_meta_roles()
@@ -117,69 +132,27 @@ class RoleData:
 
         return self.roles[id_slug]
 
+    def add_character_roles(self) -> None:
+        """Add character roles to the role data."""
+        role_data = load_role_data()
+        for role in role_data:
+            self.roles[role["id"]] = Role(role)
+
+    def add_fabled_roles(self) -> None:
+        """Add character roles to the role data."""
+        role_data = load_fabled_data()
+        for role in role_data:
+            self.roles[role["id"]] = Role(role)
+
     def add_meta_roles(self) -> None:
         """Add meta roles to the role data.
 
-        i.e. Minion/Demon info, Dawn"""
-        self.roles["_minion"] = Role(
-            {
-                "id": "_minion-info",
-                "name": "Minion Info",
-                "edition": "",
-                "team": "",
-                # pylint: disable=line-too-long
-                "firstNightReminder": "If 7 or more players: wake up all of the Minions. They make eye contact with each other. Show the 'This is the Demon' card. Point to the Demon.",
-                "otherNightReminder": "",
-                "reminders": [],
-                "setup": False,
-                "ability": "",
-            }
-        )
+        i.e. Minion/Demon info, Dawn, Dusk"""
 
-        self.roles["_demon"] = Role(
-            {
-                "id": "_demon-info",
-                "name": "Demon Info",
-                "edition": "",
-                "team": "",
-                # pylint: disable=line-too-long
-                "firstNightReminder": "If 7 or more players: wake up the Demon. Show the 'These are your minions' card. Point to each Minion. Show the 'These characters are not in play' card. Show 3 character tokens of Good characters that are not in play",
-                "otherNightReminder": "",
-                "reminders": [],
-                "setup": False,
-                "ability": "",
-            }
-        )
+        nightmeta = load_nightmeta()
 
-        self.roles["_dusk"] = Role(
-            {
-                "id": "_dusk",
-                "name": "Dusk",
-                "edition": "",
-                "team": "",
-                "firstNightReminder": "",
-                "otherNightReminder": "Check that all eyes are closed. Some travellers act.",
-                "reminders": [],
-                "setup": False,
-                "ability": "",
-            }
-        )
-
-        # pylint: disable=line-too-long
-        dawn_reminder = "Wait approximately 10 seconds. Call for eyes open, then immediately announce which players (if any) died."
-        self.roles["_dawn"] = Role(
-            {
-                "id": "_dawn",
-                "name": "Dawn",
-                "edition": "",
-                "team": "",
-                "firstNightReminder": dawn_reminder,
-                "otherNightReminder": dawn_reminder,
-                "reminders": [],
-                "setup": False,
-                "ability": "",
-            }
-        )
+        for role in nightmeta:
+            self.roles[role["id"]] = Role(role)
 
     def get_first_night_meta_roles(self) -> list[Role]:
         """Get a list of meta roles."""
