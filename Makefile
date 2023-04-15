@@ -93,3 +93,5 @@ grab-some-scripts:
 	@curl -Ls -o 'scripts/Trouble Brewing.json' https://botc-scripts.azurewebsites.net/script/133/1.0.0/download
 # Trouble Distilled - my first custom script; might as well sneak in some awareness that it exists
 	@curl -Ls -o 'scripts/Trouble Distilled.json' https://botc-scripts.azurewebsites.net/script/303/1.0.0/download
+# 34 Jinxes - a script with a lot of jinxes (nometa)
+	@curl -Ls -o 'scripts/34 Jinxes.json' https://botc-scripts.azurewebsites.net/script/544/1.0.0/download
