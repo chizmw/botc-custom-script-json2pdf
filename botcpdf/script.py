@@ -4,7 +4,8 @@ import os
 from typing import Optional
 from pkg_resources import get_distribution  # type: ignore
 from jinja2 import Environment, FileSystemLoader
-from weasyprint import HTML  # type: ignore
+from weasyprint import HTML # type: ignore
+from botcpdf.benchmark import timeit  # type: ignore
 from botcpdf.jinx import Jinxes  # type: ignore
 from botcpdf.role import Role, RoleData
 from botcpdf.util import cleanup_role_id, pdf2images  # type: ignore
@@ -78,6 +79,7 @@ class Script:
         # and see if there are any jinxes
         self._process_jinxes()
 
+    @timeit
     def _add_meta_roles(self) -> None:
         """Add meta roles to the night instructions."""
         for role in self.role_data.get_first_night_meta_roles():
@@ -86,6 +88,7 @@ class Script:
         for role in self.role_data.get_other_night_meta_roles():
             self.other_nights[role.other_night] = role
 
+    @timeit
     def _process_jinxes(self) -> None:
         """Load the jinxes from the script data."""
         jinxes = Jinxes()
@@ -138,6 +141,7 @@ class Script:
         """Return the other night characters in order."""
         return [self.other_nights[i] for i in sorted(self.other_nights.keys())]
 
+    @timeit
     def _add_char(self, char: dict):
         """Add a character to the script."""
         # before we do anything at all we need to check for _meta in the data
@@ -173,6 +177,7 @@ class Script:
 
             self.other_nights[role.other_night] = role
 
+    @timeit
     def render(self):
         """Render the script to PDF"""
         env = Environment(
