@@ -173,7 +173,7 @@ h2.character-type {
 div.not-first-night {
   position: absolute;
   left: 50%;
-  bottom: 5%;
+  bottom: 1%;
   transform: translateX(-50%);
 }
 

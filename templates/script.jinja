@@ -7,10 +7,9 @@
   </head>
   <body>
     <h1 class="script-title">{{ title }}</h1>
+    {%- set _dummy = characters.pop('fabled') %}
+
     {%- for type in characters %}
-      {%- if type == 'fabled' %}
-        {%- continue %}
-      {%- endif %}
       {%- set type_plural = type + 's' if type != 'townsfolk' else type %}
 
       <h2 class="character-type character-type-{{type}}">{{ type_plural | upper }}</h2>
