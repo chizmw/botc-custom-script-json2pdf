@@ -51,7 +51,7 @@ ifeq ($(shell uname),Darwin)
 endif
 
 all-scripts: install-dev
-	@find scripts -type f -exec $(MAKE) process INPUT_FILE="{}" \;
+	@find scripts -type f -name '*.json' -exec $(MAKE) process INPUT_FILE="{}" \;
 
 optimise-pdf: install-dev
 	@find pdfs -type f -not -name "*.opt.pdf" -exec $(POETRY) run python3 -m botcpdf.optimise_pdf "{}" \;
@@ -81,3 +81,15 @@ changelog: next-version
 release: fmt lint changelog
 	@git tag v$$(poetry version --no-ansi --short)
 	@git push --tags
+
+grab-some-scripts:
+# Reptiles! Played it. It's fun. It's also a good test of the pdf generation
+	@curl -Ls -o scripts/Reptiles.json https://botc-scripts.azurewebsites.net/script/140/1.4.1/download
+# No Roles Barred - the first "pretty custom script" I saw, that started me on this journey (nometa)
+	@curl -Ls -o 'scripts/No Roles Barred.json' https://botc-scripts.azurewebsites.net/script/258/1.0.1/download
+# No Greater Joy - an official teensyville script (nometa)
+	@curl -Ls -o 'scripts/No Greater Joy.json' https://botc-scripts.azurewebsites.net/script/77/1.0.0/download
+# Trouble Brewing - the intro script, so we can see how a generated version of it looks (nometa)
+	@curl -Ls -o 'scripts/Trouble Brewing.json' https://botc-scripts.azurewebsites.net/script/133/1.0.0/download
+# Trouble Distilled - my first custom script; might as well sneak in some awareness that it exists
+	@curl -Ls -o 'scripts/Trouble Distilled.json' https://botc-scripts.azurewebsites.net/script/303/1.0.0/download

@@ -20,6 +20,20 @@ If there's huge demand I may look into this later.
 
 ## Usage
 
+No Scripts Are Stored In This Project Overnight
+
+To get some scripts to test/work with:
+
+```sh
+make grab-some-scripts
+```
+
+If you're feeling bold, you can grab and render in one:
+
+```sh
+make grab-some-scripts all-scripts
+```
+
 ### Sanity Check
 
 The easiest way to get started is to generate a copy of the Trouble Brewing script:
@@ -47,6 +61,63 @@ can use:
 ```sh
 make all-scripts
 ```
+
+### Sample Output
+
+<!-- markdownlint-disable MD013 MD026 MD033-->
+
+These have been rendered with this project, and then the PDF was exported to the image files here.
+These are just meant to be samples for easy viewing. For best results _generate a PDF_.
+
+#### Trouble Brewing
+
+This shows how the official "starter" script looks.
+
+<details open><summary>Trouble Brewing - Player Sheet</summary>
+<a href="generated/Trouble Brewing/Trouble Brewing-p1.png"><img src="generated/Trouble Brewing/Trouble Brewing-p1.png" width="100%"></a>
+</details>
+
+<details><summary>Trouble Brewing - First Night</summary>
+<a href="generated/Trouble Brewing/Trouble Brewing-p2.png"><img src="generated/Trouble Brewing/Trouble Brewing-p2.png" width="100%"></a>
+</details>
+
+<details><summary>Trouble Brewing - Other Nights</summary>
+<a href="generated/Trouble Brewing/Trouble Brewing-p3.png"><img src="generated/Trouble Brewing/Trouble Brewing-p3.png" width="100%"></a>
+</details>
+
+#### No Roles Barred
+
+This was the script that made me aspire to better custom generated scripts.
+
+<details open><summary>No Roles Barred - Player Sheet</summary>
+<a href="generated/No Roles Barred/No Roles Barred-p1.png"><img src="generated/No Roles Barred/No Roles Barred-p1.png" width="100%"></a>
+</details>
+
+<details><summary>No Roles Barred - First Night</summary>
+<a href="generated/No Roles Barred/No Roles Barred-p2.png"><img src="generated/No Roles Barred/No Roles Barred-p2.png" width="100%"></a>
+</details>
+
+<details><summary>No Roles Barred - Other Nights</summary>
+<a href="generated/No Roles Barred/No Roles Barred-p3.png"><img src="generated/No Roles Barred/No Roles Barred-p3.png" width="100%"></a>
+</details>
+
+#### Reptiles!
+
+This is a custom script that I've played, and it turns out this is a good test of "cramming things into one page" and using Top Sekrit data from the generated script.
+
+<details><summary>Reptiles! - Player Sheet</summary>
+<a href="generated/Reptiles!/Reptiles!-p1.png"><img src="generated/Reptiles!/Reptiles!-p1.png" width="100%"></a>
+</details>
+
+<details><summary>Reptiles! - First Night</summary>
+<a href="generated/Reptiles!/Reptiles!-p2.png"><img src="generated/Reptiles!/Reptiles!-p2.png" width="100%"></a>
+</details>
+
+<details><summary>Reptiles! - Other Nights</summary>
+<a href="generated/Reptiles!/Reptiles!-p3.png"><img src="generated/Reptiles!/Reptiles!-p3.png" width="100%"></a>
+</details>
+
+<!-- markdownlint-enable MD013 MD033-->
 
 ## Acknowledgements
 
