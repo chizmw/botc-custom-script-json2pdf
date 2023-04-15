@@ -1,7 +1,9 @@
 """ Holds information about a BOTC role """
 
 from typing import Optional
+from botcpdf.jinx import Jinx
 from botcpdf.util import (
+    cleanup_role_id,
     load_fabled_data,
     load_nightdata,
     load_nightmeta,
@@ -26,6 +28,7 @@ class Role:
     setup: bool
     ability: str
     stylized: bool
+    jinxes: list[Jinx] = []
 
     def __init__(self, role_data: dict, stylize: bool = True):
         """Initialize a role."""
@@ -69,6 +72,10 @@ class Role:
         return (
             f"""["{self.name}": ("{self.id_slug}", "{self.team}", "{self.edition}")"""
         )
+
+    def __str__(self):
+        # pylint: disable=line-too-long
+        return f"name: {self.name}, id: {self.id_slug}, team: {self.team}, edition: {self.edition}, jinxes: {self.jinxes}"
 
     def get_edition_name(self) -> str:
         """Get the name of the edition."""
@@ -161,33 +168,3 @@ class RoleData:
     def get_other_night_meta_roles(self) -> list[Role]:
         """Get a list of meta roles."""
         return [self.roles["_dawn"], self.roles["_dusk"]]
-
-
-# we're outside the class now, and this is just helper functions
-def cleanup_role_id(id_slug) -> str:
-    """Cleanup the character ID."""
-
-    # looking at other projects it seems that the ID in the (bra1n) script data is
-    # _close_ to the ID in the role data
-    # so we'll just do some cleanup to make it match
-    # we do bra1n first, then clocktower.com because of the underscore removal
-    id_slug = id_slug.replace("_", "")
-    id_slug = id_slug.replace("-", "")  # just the pit-hag... why
-
-    # data from clocktower.com doesn't match what we have in bra1n's data
-    # so we'll just do some cleanup to make it match
-
-    # remove all whitespace
-    id_slug = id_slug.replace(" ", "")
-
-    # remove all apostrophes
-    id_slug = id_slug.replace("'", "")
-
-    # prepend _ to DEMON, MINION, DUSK, and DAWN
-    if id_slug in ["DEMON", "MINION", "DUSK", "DAWN"]:
-        id_slug = f"_{id_slug}"
-
-    # lowercase
-    id_slug = id_slug.lower()
-
-    return id_slug

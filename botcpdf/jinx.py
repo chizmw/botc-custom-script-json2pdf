@@ -4,8 +4,7 @@
 # as we're experimenting with this we'll keep it simple and just
 # use {slug-jinxer}-{slug-jinxee} as the key
 
-from botcpdf.role import cleanup_role_id
-from botcpdf.util import load_jinxdata
+from botcpdf.util import cleanup_role_id, load_jinxdata
 
 
 class Jinx:
@@ -22,22 +21,16 @@ class Jinx:
         self.jinxee_id = jinxee_id
         self.reason = reason
 
-    def __repr__(self) -> str:
-        # grab the first 20 characters of the reason
-        reason = self.reason[:20]
-        # if reason is shorter than the original, add an ellipsis
-        if len(self.reason) > 20:
-            reason += "…"
-        # remove any newlines
-        reason = reason.replace("\r", "").replace("\n", "")
+    def __str__(self) -> str:
+        return f"{self.jinxer_id}-{self.jinxee_id}"
 
-        return f"""'{self.jinxer_id} -> {self.jinxee_id}: {reason}'"""
+    def __repr__(self) -> str:
+        return self.__str__()
 
 
 class Jinxes:
     """A representation of jinxes in a game"""
 
-    # jinx_pair: dict[str, Jinx] = {}
     hatred: dict[str, dict] = {}
 
     def __init__(self):
@@ -84,3 +77,13 @@ class Jinxes:
         # but we don't want to modify the original data
         # so we'll make a copy of the data and return that
         return self.hatred[jinxer_id].copy()
+
+    def hated_by(self, jinxed_id: str):
+        """Get a list of jinxers that have jinxed a player"""
+        jinxers = []
+
+        for jinxer_id, info in self.hatred.items():
+            if jinxed_id in info:
+                jinxers.append(jinxer_id)
+
+        return jinxers
