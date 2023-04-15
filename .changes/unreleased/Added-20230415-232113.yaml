@@ -1,0 +1,5 @@
+kind: Added
+body: add '@timeit' decorator
+time: 2023-04-15T23:21:13.014465+01:00
+custom:
+  GithubIssue: ""

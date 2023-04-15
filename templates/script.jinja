@@ -17,7 +17,17 @@
         {%- for character in characters[type] %}
           <div class="character-block character-block-player">
             <img src="file://{{icon_folder}}/{{character.id_slug}}.png" alt="{{ character.name }}" class="character-icon"/>
-            <div class="character-name character-name-{{type}}">{{ character.name }}</div>
+            <div class="character-name character-name-{{type}}">
+              {{ character.name }}
+            {%- if hatred[character.id_slug] %}
+              <div class="jinxes">
+                <span class="jinxes-label-text">JINXES</span>
+                {%- for hater in hatred[character.id_slug] %}
+                  <img src="file://{{icon_folder}}/{{hater}}.png" alt="{{ hater }}" class="hatred-icon"/>
+                {%- endfor %}
+              </div>
+            {%- endif %}
+            </div>
             <div class="character-ability">{{ character.ability }}</div>
           </div>
         {%- endfor %}

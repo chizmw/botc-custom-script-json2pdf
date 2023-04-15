@@ -1,0 +1,5 @@
+kind: Added
+body: add @timeit to script class methods
+time: 2023-04-15T23:23:11.634325+01:00
+custom:
+  GithubIssue: ""

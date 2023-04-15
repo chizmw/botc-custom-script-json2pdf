@@ -106,8 +106,8 @@ h2.character-type {
 
 .character-ability-reminder {
   font-family: botc-lightitalic, sans-serif;
-  font-size: 7pt;
-  color: darkgray;
+  font-size: 8pt;
+  color: slategrey;
 }
 
 .character-reminder {
@@ -123,6 +123,32 @@ h2.character-type {
   float: left;
   border: none;
   margin-right: 2px;
+}
+
+.jinxes {
+  float: right;
+  flex-direction: row;
+  align-items: right;
+  vertical-align: middle;
+  justify-content: flex-end;
+  padding: 2px;
+  border-top: 1.5px solid brown;
+}
+
+.hatred-icon {
+  max-width: 30px;
+  height: 30px;
+  border: none;
+  margin-left: 0px;
+  margin-right: -8px;
+  vertical-align: bottom;
+}
+
+.jinxes-label-text {
+  font-family: botc-semibold, sans-serif;
+  font-size: 8pt;
+  color: brown;
+  margin-right: -3px;
 }
 
 .character-icon-nightinfo {

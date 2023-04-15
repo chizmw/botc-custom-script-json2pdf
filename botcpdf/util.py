@@ -74,3 +74,33 @@ def pdf2images(pdf_file: str, output_dir: str):
 
     # finally copy the PDF to the output directory
     shutil.copy(pdf_file, output_dir)
+
+
+# we're outside the class now, and this is just helper functions
+def cleanup_role_id(id_slug) -> str:
+    """Cleanup the character ID."""
+
+    # looking at other projects it seems that the ID in the (bra1n) script data is
+    # _close_ to the ID in the role data
+    # so we'll just do some cleanup to make it match
+    # we do bra1n first, then clocktower.com because of the underscore removal
+    id_slug = id_slug.replace("_", "")
+    id_slug = id_slug.replace("-", "")  # just the pit-hag... why
+
+    # data from clocktower.com doesn't match what we have in bra1n's data
+    # so we'll just do some cleanup to make it match
+
+    # remove all whitespace
+    id_slug = id_slug.replace(" ", "")
+
+    # remove all apostrophes
+    id_slug = id_slug.replace("'", "")
+
+    # prepend _ to DEMON, MINION, DUSK, and DAWN
+    if id_slug in ["DEMON", "MINION", "DUSK", "DAWN"]:
+        id_slug = f"_{id_slug}"
+
+    # lowercase
+    id_slug = id_slug.lower()
+
+    return id_slug

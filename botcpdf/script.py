@@ -5,8 +5,10 @@ from typing import Optional
 from pkg_resources import get_distribution  # type: ignore
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML  # type: ignore
-from botcpdf.role import Role, RoleData, cleanup_role_id
-from botcpdf.util import pdf2images  # type: ignore
+from botcpdf.benchmark import timeit  # type: ignore
+from botcpdf.jinx import Jinxes  # type: ignore
+from botcpdf.role import Role, RoleData
+from botcpdf.util import cleanup_role_id, pdf2images  # type: ignore
 
 
 class ScriptMeta:
@@ -58,6 +60,9 @@ class Script:
 
     meta: Optional[ScriptMeta] = None
 
+    hatred: dict[str, list[str]] = {}
+    hate_pair: dict[str, str] = {}
+
     def __init__(self, title: str, script_data: dict):
         """Initialize a script."""
         self.title = title
@@ -70,6 +75,11 @@ class Script:
         # add meta roles to night instructions
         self._add_meta_roles()
 
+        # now we've loaded all the core information we can examine what we have
+        # and see if there are any jinxes
+        self._process_jinxes()
+
+    @timeit
     def _add_meta_roles(self) -> None:
         """Add meta roles to the night instructions."""
         for role in self.role_data.get_first_night_meta_roles():
@@ -77,6 +87,30 @@ class Script:
 
         for role in self.role_data.get_other_night_meta_roles():
             self.other_nights[role.other_night] = role
+
+    @timeit
+    def _process_jinxes(self) -> None:
+        """Load the jinxes from the script data."""
+        jinxes = Jinxes()
+
+        # loop through each character in the script
+        for char_type in self.char_types.values():
+            for role in char_type:
+                # if something 'hates us' then add jinx information to the hater
+                # if the hater is in the script
+                # e.g. chambermaid hates mathemtician
+                # so we add the jinx information to the chambermaid when we see
+                # the mathematician
+                hates_us: list[str] = jinxes.hated_by(role.id_slug)
+
+                # if the hater is in the script, add the jinx information
+                for slug in hates_us:
+                    if self.role_in_script(slug):
+                        if slug not in self.hatred:
+                            self.hatred[slug] = []
+                        self.hatred[slug].append(role.id_slug)
+                        jinx_info = jinxes.get_jinx(slug, role.id_slug)
+                        self.hate_pair[f"{slug}-{role.id_slug}"] = jinx_info.reason
 
     def __repr__(self):
         repr_str = ""
@@ -90,6 +124,15 @@ class Script:
 
         return repr_str
 
+    def role_in_script(self, role_id: str) -> bool:
+        """Return True if the role is in the script."""
+        for char_type in self.char_types.values():
+            for role in char_type:
+                if role.id_slug == role_id:
+                    return True
+
+        return False
+
     def sorted_first_night(self) -> list[Role]:
         """Return the first night characters in order."""
         return [self.first_night[i] for i in sorted(self.first_night.keys())]
@@ -98,6 +141,7 @@ class Script:
         """Return the other night characters in order."""
         return [self.other_nights[i] for i in sorted(self.other_nights.keys())]
 
+    @timeit
     def _add_char(self, char: dict):
         """Add a character to the script."""
         # before we do anything at all we need to check for _meta in the data
@@ -133,6 +177,7 @@ class Script:
 
             self.other_nights[role.other_night] = role
 
+    @timeit
     def render(self):
         """Render the script to PDF"""
         env = Environment(
@@ -154,6 +199,8 @@ class Script:
             "other_nights": self.sorted_other_nights(),
             "icon_folder": icon_folder,
             "template_folder": template_folder,
+            "hatred": self.hatred,
+            "hate_pair": self.hate_pair,
         }
         html_out = template.render(template_vars)
 
