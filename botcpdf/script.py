@@ -5,7 +5,8 @@ from typing import Optional
 from pkg_resources import get_distribution  # type: ignore
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML  # type: ignore
-from botcpdf.role import Role, RoleData, cleanup_role_id  # type: ignore
+from botcpdf.role import Role, RoleData, cleanup_role_id
+from botcpdf.util import pdf2images  # type: ignore
 
 
 class ScriptMeta:
@@ -156,7 +157,7 @@ class Script:
         }
         html_out = template.render(template_vars)
 
-        # if we have BOTC_DEUG set...
+        # if we have BOTC_DEBUG set...
         if os.environ.get("BOTC_DEBUG"):
             # write the rendered HTML to a file
             with open(f"{self.title}.html", "w", encoding="utf-8") as fhandle:
@@ -173,3 +174,10 @@ class Script:
             stylesheets=["templates/style.css"],
             optimize_size=(),
         )
+
+        # if we have BOTC_PDF2IMAGE set...
+        if os.environ.get("BOTC_PDF2IMAGE"):
+            pdf2images(
+                os.path.join(pdf_folder, f"{self.title}.pdf"),
+                f"generated/{self.title}",
+            )
