@@ -55,11 +55,11 @@ h1.script-title {
 h2.character-type {
   position: absolute;
   left: 0;
-  transform: translateY(250%) rotate(-90deg);
+  transform: rotate(90deg) translateX(-20%);
   transform-origin: left;
-  padding: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 1px;
+  padding-left: 8px;
+  padding-right: 8px;
   font-size: 18px;
   white-space: nowrap;
   font-family: botc-semibold, sans-serif;
@@ -68,11 +68,13 @@ h2.character-type {
 .character-type-townsfolk,
 .character-type-outsider {
   color: blue;
+  border-top: 2px solid blue;
 }
 
 .character-type-minion,
 .character-type-demon {
   color: red;
+  border-top: 2px solid red;
 }
 
 .character-name-townsfolk,
@@ -104,7 +106,7 @@ h2.character-type {
 
 .character-ability-reminder {
   font-family: botc-lightitalic, sans-serif;
-  font-size: 6pt;
+  font-size: 7pt;
   color: darkgray;
 }
 
@@ -160,8 +162,8 @@ h2.character-type {
 
 .line {
   flex: 1;
-  border-bottom: 0.5px solid black;
-  margin-bottom: 3px;
+  border-bottom: 0.5px solid darkgrey;
+  margin-bottom: 2px;
 }
 
 .line-nightinfo {
@@ -215,6 +217,7 @@ footer {
 footer .footer-left {
   left: 0%;
   font-size: 8px;
+  margin-left: 10px;
 }
 
 footer .footer-right {
