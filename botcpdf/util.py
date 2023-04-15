@@ -20,6 +20,11 @@ def load_fabled_data():
     return load_data("gameinfo/roles-bra1n-fabled.json")
 
 
+def load_jinxdata():
+    """Load role data from a JSON file."""
+    return load_data("gameinfo/jinx.json")
+
+
 def load_nightdata():
     """Load role data from a JSON file."""
     return load_data("gameinfo/nightsheet.json")
