@@ -125,6 +125,31 @@ h2.character-type {
   margin-right: 2px;
 }
 
+.jinxes {
+  float: right;
+  flex-direction: row;
+  align-items: right;
+  vertical-align: middle;
+  justify-content: flex-end;
+  padding: 2px;
+}
+
+.hatred-icon {
+  max-width: 25px;
+  height: 25px;
+  border: none;
+  margin-left: 0px;
+  margin-right: -8px;
+  vertical-align: bottom;
+}
+
+.jinxes-label-text {
+  font-family: botc-semibold, sans-serif;
+  font-size: 8pt;
+  color: brown;
+  margin-right: -3px;
+}
+
 .character-icon-nightinfo {
   width: 40px;
   max-height: 40px;

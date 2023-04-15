@@ -4,7 +4,7 @@ import os
 from typing import Optional
 from pkg_resources import get_distribution  # type: ignore
 from jinja2 import Environment, FileSystemLoader
-from weasyprint import HTML # type: ignore
+from weasyprint import HTML  # type: ignore
 from botcpdf.benchmark import timeit  # type: ignore
 from botcpdf.jinx import Jinxes  # type: ignore
 from botcpdf.role import Role, RoleData
