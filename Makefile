@@ -51,7 +51,7 @@ ifeq ($(shell uname),Darwin)
 endif
 
 all-scripts: install-dev
-	@find scripts -type f -exec $(MAKE) process INPUT_FILE="{}" \;
+	@find scripts -type f -name '*.json' -exec $(MAKE) process INPUT_FILE="{}" \;
 
 optimise-pdf: install-dev
 	@find pdfs -type f -not -name "*.opt.pdf" -exec $(POETRY) run python3 -m botcpdf.optimise_pdf "{}" \;
