@@ -132,11 +132,12 @@ h2.character-type {
   vertical-align: middle;
   justify-content: flex-end;
   padding: 2px;
+  border-top: 1.5px solid brown;
 }
 
 .hatred-icon {
-  max-width: 25px;
-  height: 25px;
+  max-width: 30px;
+  height: 30px;
   border: none;
   margin-left: 0px;
   margin-right: -8px;
