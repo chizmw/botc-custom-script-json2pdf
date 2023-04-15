@@ -298,3 +298,4 @@ __pycache__
 .DS_Store
 *.html
 scripts/
+generated
