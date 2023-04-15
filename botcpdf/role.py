@@ -56,6 +56,17 @@ class Role:
         if not self.stylized:
             return text
 
+        # this looks weird to me, and as we fetch this data from the json
+        # we modify it here to suit our desired
+        text = text.replace(
+            "(Travellers don’t count)",
+            "&nbsp;<strong>[Travellers don’t count]</strong>&nbsp;",
+        )
+        text = text.replace(
+            "(not yourself)",
+            "&nbsp;<strong>[not yourself]</strong>&nbsp;",
+        )
+
         # replace '[+N Outsider]' with '<strong>[+N Outsider]</strong>'
         text = text.replace("[+", "&nbsp; <strong>[+")
         # the next two likes look visually similar, but are different
