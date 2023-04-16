@@ -1,0 +1,5 @@
+kind: Added
+body: add config for yamllint (comment min spaces behaviour)
+time: 2023-04-16T16:28:56.84963+01:00
+custom:
+  GithubIssue: ""
