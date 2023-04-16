@@ -132,6 +132,7 @@ h2.character-type {
   height: 100vh;
   border: none;
   margin-top: 15px;
+  width: 100%;
 }
 
 .jinx-reminder-block {
@@ -144,13 +145,14 @@ h2.character-type {
   width: 40px;
   max-height: 40px;
   border: none;
-  margin-right: 10px;
 }
 
 .jinx-night-reason {
-  margin-left: 10px;
-  white-space: nowrap;
+  display: inline-block;
   font-family: botc-lightitalic, sans-serif;
+  white-space: normal;
+  max-width: 90%;
+  padding-left: 10px;
 }
 
 .jinxes {
