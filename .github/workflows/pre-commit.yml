@@ -11,7 +11,7 @@ env:
 
 jobs:
   linting:
-    name: Run Checks
+    name: run pre-commit checks
     runs-on: ubuntu-latest
 
     steps:
