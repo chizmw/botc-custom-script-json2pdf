@@ -63,6 +63,7 @@
       </div>
     </header>
 
+    <!-- First Night Info -->
     {%- for character in first_night %}
       <div class="character-block character-block-nightinfo">
         <img src="file://{{icon_folder}}/{{character.id_slug}}.png" alt="{{ character.name }}" class="character-icon-nightinfo"/>
@@ -75,6 +76,8 @@
         <div class="line-nightinfo"></div>
       {%- endif %}
     {%- endfor %}
+
+    {% include 'night-jinx.jinja' %}
 
 
     <!-- Other Night Info -->
@@ -91,6 +94,7 @@
       </div>
     </header>
 
+    <!-- Other Night Info -->
     {%- for character in other_nights %}
       <div class="character-block character-block-nightinfo">
         <img src="file://{{icon_folder}}/{{character.id_slug}}.png" alt="{{ character.name }}" class="character-icon-nightinfo"/>
@@ -103,6 +107,8 @@
         <div class="line-nightinfo"></div>
       {%- endif %}
     {%- endfor %}
+
+    {% include 'night-jinx.jinja' %}
 
   </body>
 </html>

@@ -125,6 +125,34 @@ h2.character-type {
   margin-right: 2px;
 }
 
+.jinx-reminder-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  border: none;
+  margin-top: 15px;
+}
+
+.jinx-reminder-block {
+  display: flex;
+  align-items: center;
+  margin-bottom: -20px;
+}
+
+.jinx-night-icon {
+  width: 40px;
+  max-height: 40px;
+  border: none;
+  margin-right: 10px;
+}
+
+.jinx-night-reason {
+  margin-left: 10px;
+  white-space: nowrap;
+  font-family: botc-lightitalic, sans-serif;
+}
+
 .jinxes {
   float: right;
   flex-direction: row;
