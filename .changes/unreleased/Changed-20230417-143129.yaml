@@ -1,0 +1,5 @@
+kind: Changed
+body: don't trigger workflows because of generated/ files
+time: 2023-04-17T14:31:29.607635+01:00
+custom:
+  GithubIssue: ""
