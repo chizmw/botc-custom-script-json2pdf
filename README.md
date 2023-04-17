@@ -71,7 +71,8 @@ These are just meant to be samples for easy viewing. For best results _generate 
 
 #### Trouble Brewing
 
-This shows how the official "starter" script looks.
+[This script](https://botc-scripts.azurewebsites.net/script/133/1.0.0)
+shows how the official "starter" script looks.
 
 <details><summary>Trouble Brewing - Player Sheet</summary>
 <a href="generated/Trouble Brewing/Trouble Brewing-p1.png"><img src="generated/Trouble Brewing/Trouble Brewing-p1.png" width="100%"></a>
@@ -87,7 +88,8 @@ This shows how the official "starter" script looks.
 
 #### No Roles Barred
 
-This was the script that made me aspire to better custom generated scripts.
+[This script](https://botc-scripts.azurewebsites.net/script/258/1.0.1)
+was the script that made me aspire to better custom generated scripts.
 
 <details><summary>No Roles Barred - Player Sheet</summary>
 <a href="generated/No Roles Barred/No Roles Barred-p1.png"><img src="generated/No Roles Barred/No Roles Barred-p1.png" width="100%"></a>
@@ -103,7 +105,8 @@ This was the script that made me aspire to better custom generated scripts.
 
 #### Let's Test Some Jinxes
 
-This script was generated purely to have something to test our output with
+[This script](scripts/Let's Test Some Jinxes.json)
+script was generated purely to have something to test our output with
 jinxes in a script. There are probably more than you'd really want, or have, in
 a legit custom script so don't panic if it's slightly weird in places...
 
@@ -121,7 +124,10 @@ a legit custom script so don't panic if it's slightly weird in places...
 
 #### Reptiles!
 
-This is a custom script that I've played, and it turns out this is a good test of "cramming things into one page" and using Top Sekrit data from the generated script.
+[This script](https://botc-scripts.azurewebsites.net/script/140/1.4.1)
+is a custom script that I've played, and it turns out this is a good test
+of "cramming things into one page" and using Top Sekrit data from the generated
+script.
 
 <details><summary>Reptiles! - Player Sheet</summary>
 <a href="generated/Reptiles!/Reptiles!-p1.png"><img src="generated/Reptiles!/Reptiles!-p1.png" width="100%"></a>
