@@ -1,0 +1,5 @@
+kind: Fixed
+body: exit(…) -> sys.exit(…)
+time: 2023-04-18T00:30:58.196572+01:00
+custom:
+  GithubIssue: ""

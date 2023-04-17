@@ -14,7 +14,7 @@ def main():
     # if we don't have any args, exit with an error
     if len(sys.argv) == 1:
         print("Usage: botcpdf <scriptname>|<scriptjsonurl>")
-        exit(1)
+        sys.exit(1)
 
     # if our first arg starts with http, assume it's a URL
     if sys.argv[1].startswith("http"):
