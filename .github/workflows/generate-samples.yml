@@ -29,6 +29,7 @@ jobs:
         shell: bash
         run: |
           make grab-some-scripts
+          ls -larth scripts
 
       - name: Generate samples
         shell: bash
@@ -37,6 +38,7 @@ jobs:
         run: |
           sudo apt-get install -y poppler-utils
           make all-scripts
+          ls -larth generated/*
 
       # and eventually we'll create a PR for this
       # but we need to make sure we don't end up in a loop
