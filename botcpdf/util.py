@@ -4,13 +4,14 @@ import json
 import shutil
 import sys
 import os
-import requests # type: ignore
+import requests  # type: ignore
 from pdf2image import convert_from_path
+
 
 def fetch_remote_data(url: str):
     """Fetch data from a remote URL."""
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=10, allow_redirects=True)
     response.raise_for_status()
     return response.json()
 

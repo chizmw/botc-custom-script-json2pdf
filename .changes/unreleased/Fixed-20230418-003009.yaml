@@ -1,0 +1,5 @@
+kind: Fixed
+body: add timeout to requests.get()
+time: 2023-04-18T00:30:09.690116+01:00
+custom:
+  GithubIssue: ""
