@@ -83,6 +83,9 @@ release: fmt lint changelog
 	@git push --tags
 
 grab-some-scripts:
+# make certain we have a scripts directory
+	@mkdir -p scripts
+
 # Reptiles! Played it. It's fun. It's also a good test of the pdf generation
 	@curl -Ls -o scripts/Reptiles.json https://botc-scripts.azurewebsites.net/script/140/1.4.1/download
 # No Roles Barred - the first "pretty custom script" I saw, that started me on this journey (nometa)
