@@ -73,7 +73,7 @@ These are just meant to be samples for easy viewing. For best results _generate 
 
 This shows how the official "starter" script looks.
 
-<details open><summary>Trouble Brewing - Player Sheet</summary>
+<details><summary>Trouble Brewing - Player Sheet</summary>
 <a href="generated/Trouble Brewing/Trouble Brewing-p1.png"><img src="generated/Trouble Brewing/Trouble Brewing-p1.png" width="100%"></a>
 </details>
 
@@ -89,7 +89,7 @@ This shows how the official "starter" script looks.
 
 This was the script that made me aspire to better custom generated scripts.
 
-<details open><summary>No Roles Barred - Player Sheet</summary>
+<details><summary>No Roles Barred - Player Sheet</summary>
 <a href="generated/No Roles Barred/No Roles Barred-p1.png"><img src="generated/No Roles Barred/No Roles Barred-p1.png" width="100%"></a>
 </details>
 
@@ -99,6 +99,24 @@ This was the script that made me aspire to better custom generated scripts.
 
 <details><summary>No Roles Barred - Other Nights</summary>
 <a href="generated/No Roles Barred/No Roles Barred-p3.png"><img src="generated/No Roles Barred/No Roles Barred-p3.png" width="100%"></a>
+</details>
+
+#### Let's Test Some Jinxes
+
+This script was generated purely to have something to test our output with
+jinxes in a script. There are probably more than you'd really want, or have, in
+a legit custom script so don't panic if it's slightly weird in places...
+
+<details><summary>Let's Test Some Jinxes - Player Sheet</summary>
+<a href="generated/Let's Test Some Jinxes/Let's Test Some Jinxes-p1.png"><img src="generated/Let's Test Some Jinxes/Let's Test Some Jinxes-p1.png" width="100%"></a>
+</details>
+
+<details><summary>Let's Test Some Jinxes - First Night</summary>
+<a href="generated/Let's Test Some Jinxes/Let's Test Some Jinxes-p2.png"><img src="generated/Let's Test Some Jinxes/Let's Test Some Jinxes-p2.png" width="100%"></a>
+</details>
+
+<details><summary>Let's Test Some Jinxes - Other Nights</summary>
+<a href="generated/Let's Test Some Jinxes/Let's Test Some Jinxes-p3.png"><img src="generated/Let's Test Some Jinxes/Let's Test Some Jinxes-p3.png" width="100%"></a>
 </details>
 
 #### Reptiles!
