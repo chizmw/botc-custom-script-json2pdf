@@ -73,7 +73,7 @@ These are just meant to be samples for easy viewing. For best results _generate 
 
 This shows how the official "starter" script looks.
 
-<details open><summary>Trouble Brewing - Player Sheet</summary>
+<details><summary>Trouble Brewing - Player Sheet</summary>
 <a href="generated/Trouble Brewing/Trouble Brewing-p1.png"><img src="generated/Trouble Brewing/Trouble Brewing-p1.png" width="100%"></a>
 </details>
 
@@ -89,7 +89,7 @@ This shows how the official "starter" script looks.
 
 This was the script that made me aspire to better custom generated scripts.
 
-<details open><summary>No Roles Barred - Player Sheet</summary>
+<details><summary>No Roles Barred - Player Sheet</summary>
 <a href="generated/No Roles Barred/No Roles Barred-p1.png"><img src="generated/No Roles Barred/No Roles Barred-p1.png" width="100%"></a>
 </details>
 
