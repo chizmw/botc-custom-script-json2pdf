@@ -1,0 +1,5 @@
+kind: Fixed
+body: try using CHISEL_GITHUB_TOKEN for the git work
+time: 2023-04-17T19:20:24.619448+01:00
+custom:
+  GithubIssue: ""
