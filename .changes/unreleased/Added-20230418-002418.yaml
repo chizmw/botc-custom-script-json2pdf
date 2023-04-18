@@ -1,5 +1,0 @@
-kind: Added
-body: add Dockerfile; maybe for AWS Lambda later
-time: 2023-04-18T00:24:18.693135+01:00
-custom:
-  GithubIssue: ""
