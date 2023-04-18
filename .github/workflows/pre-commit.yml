@@ -4,6 +4,9 @@ on:
   pull_request:
     paths-ignore:
       - '**/generated/**'
+      - '**/.changes/**'
+      - '**/README.md'
+      - '**/CHANGELOG.md'
 
 name: pre-commit
 

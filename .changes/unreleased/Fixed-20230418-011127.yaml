@@ -1,0 +1,5 @@
+kind: Fixed
+body: add exclusions to workflow triggers
+time: 2023-04-18T01:11:27.772613+01:00
+custom:
+  GithubIssue: ""
