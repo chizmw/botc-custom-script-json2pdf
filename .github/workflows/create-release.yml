@@ -19,7 +19,7 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  create-release:
     runs-on: ubuntu-latest
     steps:
       - name: Setup Python
