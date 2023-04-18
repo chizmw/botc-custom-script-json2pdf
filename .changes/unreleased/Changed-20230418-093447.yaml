@@ -1,0 +1,5 @@
+kind: Changed
+body: add ignore-tags to the Create Release workflow
+time: 2023-04-18T09:34:47.060794+01:00
+custom:
+  GithubIssue: ""

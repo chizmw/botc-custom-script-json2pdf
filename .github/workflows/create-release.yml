@@ -8,9 +8,12 @@ on:
       - main
     paths-ignore:
       - '**/generated/**'
-      - '**/.changes/**'
+      - '**/.changes/unreleased/**'
+      - '**/.changes/*md'
       - '**/README.md'
       - '**/CHANGELOG.md'
+    tags-ignore:
+      - '**'
 
 permissions:
   contents: write
