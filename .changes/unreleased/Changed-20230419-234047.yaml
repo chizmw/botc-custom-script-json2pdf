@@ -1,0 +1,5 @@
+kind: Changed
+body: rewrite Dockerfile to function in a lamdba world with recent pango
+time: 2023-04-19T23:40:47.2225+01:00
+custom:
+  GithubIssue: ""
