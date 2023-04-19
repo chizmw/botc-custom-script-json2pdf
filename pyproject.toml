@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "botcpdf"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 jinja2 = "^3.1.2"
 weasyprint = "^58.1"
 pypdf = "^3.8.0"
