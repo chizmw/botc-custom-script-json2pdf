@@ -221,6 +221,7 @@ class Script:
             stylesheets=["templates/style.css"],
             optimize_size=(),
         )
+        print("PDF saved to " + os.path.join(pdf_folder, f"{self.title}.pdf"))
 
         # if we have BOTC_PDF2IMAGE set...
         if os.environ.get("BOTC_PDF2IMAGE"):
