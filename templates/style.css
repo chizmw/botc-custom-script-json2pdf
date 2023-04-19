@@ -138,7 +138,7 @@ h2.character-type {
 .jinx-reminder-block {
   display: flex;
   align-items: center;
-  margin-bottom: -20px;
+  margin-bottom: -2px;
 }
 
 .jinx-night-icon {
@@ -151,7 +151,7 @@ h2.character-type {
   display: inline-block;
   font-family: botc-lightitalic, sans-serif;
   white-space: normal;
-  max-width: 90%;
+  max-width: 50%;
   padding-left: 10px;
 }
 
@@ -219,6 +219,12 @@ h2.character-type {
 .line {
   flex: 1;
   border-bottom: 0.5px solid darkgrey;
+  margin-bottom: 2px;
+}
+
+.line-prejinx-nightinfo {
+  flex: 1;
+  border-bottom: 3px double darkgrey;
   margin-bottom: 2px;
 }
 

@@ -1,7 +1,8 @@
 <!-- Maybe Jinxes On The Night Info Sheet-->
 {%- if hate_pair %}
+  <div class="line-prejinx-nightinfo"></div>
+  <div class="cols-2">
   {%- for tag, reason in hate_pair.items() %}
-    <div class="jinx-reminder-wrapper">
       <div class="jinx-reminder-block">
         {%- set slugs = tag.split("-") %}
         {%- for slug in slugs %}
@@ -9,6 +10,6 @@
         {%- endfor %}
         <span class="jinx-night-reason">{{ reason }}</span>
       </div>
-    </div>
   {%- endfor %}
+  </div>
 {%- endif %}
