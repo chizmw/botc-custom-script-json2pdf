@@ -1,0 +1,95 @@
+---
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+name: Deploy Serverless
+
+jobs:
+  linting:
+    name: Deploy Lambda
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - aws-account-name: chizography
+            aws-account-id: 436158765452
+            aws-deployment-role: deploy_json2pdf
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # do this early so it can fail fast
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          # yamllint disable rule:line-length
+          aws-access-key-id: ${{ secrets.CHIZOGRAPHY_GITHUB_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.CHIZOGRAPHY_GITHUB_AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
+          role-to-assume: arn:aws:iam::${{ matrix.aws-account-id }}:role/${{ matrix.aws-deployment-role }}
+          role-skip-session-tagging: true
+          role-duration-seconds: 1800 # 30 minute session
+          mask-aws-account-id: false
+          # yamllint enable rule:line-length
+
+      - name: Show AWS Credentials
+        shell: bash
+        run: |
+          env |sort |grep AWS
+          aws sts get-caller-identity
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: SLS Prep
+        shell: bash
+        run: |
+          npm --version
+          npm install -g serverless@3
+          serverless plugin install -n serverless-docker
+
+      - name: Debug Matrix
+        shell: bash
+        run: |
+          echo "aws-account-name: ${{ matrix.aws-account-name }}"
+          echo "aws-account-id: ${{ matrix.aws-account-id }}"
+          echo "aws-deployment-role: ${{ matrix.aws-deployment-role }}"
+
+      - name: SLS List Deploy
+        shell: bash
+        run: |
+          sls deploy list
+
+      - name: Install AWS RIE
+        shell: bash
+        # yamllint disable rule:line-length
+        run: |
+          mkdir -p ~/.aws-lambda-rie \
+          && curl -Lo ~/.aws-lambda-rie/aws-lambda-rie https://github.com/aws/aws-lambda-runtime-interface-emulator/releases/latest/download/aws-lambda-rie \
+          && chmod +x ~/.aws-lambda-rie/aws-lambda-rie
+        # yamllint enable rule:line-length
+
+      - name: Test Docker Image
+        shell: bash
+        # only test if we're on a pull request
+        if: github.event_name == 'pull_request'
+        run: |
+          make -k docker-test
+
+      - name: SLS Deploy (dev)
+        shell: bash
+        if: github.event_name == 'pull_request'
+        run: |
+          sls deploy --stage dev
+
+      - name: SLS Deploy (prod)
+        shell: bash
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          sls deploy --stage prod
