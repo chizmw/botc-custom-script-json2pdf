@@ -129,7 +129,7 @@ h2.character-type {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  /*height: 100vh;*/
   border: none;
   margin-top: 15px;
   width: 100%;
@@ -158,7 +158,7 @@ h2.character-type {
 .jinxes {
   float: right;
   flex-direction: row;
-  align-items: right;
+  /*align-items: right;*/
   vertical-align: middle;
   justify-content: flex-end;
   padding: 2px;
@@ -261,7 +261,7 @@ footer {
   align-items: flex-start;
   color: black;
   font-family: botc-light, sans-serif;
-  background-color: none;
+  /*background-color: none;*/
 
   position: fixed; /* Add this line */
   bottom: 15px; /* Add this line */
