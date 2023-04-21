@@ -2,56 +2,19 @@
   size: A4;
   margin: 5mm;
 }
-
-@font-face {
-  font-family: botc-regular;
-  src: url('../fonts/FiraSans/FiraSans-Regular.ttf');
-}
-
-@font-face {
-  font-family: botc-light;
-  src: url('../fonts/FiraSans/FiraSans-Light.ttf');
-}
-
-@font-face {
-  font-family: botc-lightitalic;
-  src: url('../fonts/FiraSans/FiraSans-LightItalic.ttf');
-}
-
-@font-face {
-  font-family: botc-bold;
-  src: url('../fonts/FiraSans/FiraSans-Bold.ttf');
-}
-
-@font-face {
-  font-family: botc-book;
-  src: url('../fonts/FiraSans/FiraSans-Book.ttf');
-}
-
-@font-face {
-  font-family: botc-semibold;
-  src: url('../fonts/FiraSans/FiraSans-SemiBold.ttf');
-}
-
-@font-face {
-  font-family: botc-ultra;
-  src: url('../fonts/FiraSans/FiraSans-Ultra.ttf');
-}
-
 body {
-  font-family: botc-regular, sans-serif;
+  font-family: 'Fira Sans', sans-serif;
   font-size: 8pt;
-  color: black;
+  color: #ff0;
   margin-left: 20px;
 }
-
 h1.script-title {
-  font-family: botc-ultra, sans-serif;
+  font-family: 'Alegreya Sans SC', 'Courier New', sans-serif;
   font-size: 18pt;
-  color: black;
+  font-weight: 900;
+  color: #000;
   text-align: right;
 }
-
 h2.character-type {
   position: absolute;
   left: 0;
@@ -62,61 +25,53 @@ h2.character-type {
   padding-right: 8px;
   font-size: 18px;
   white-space: nowrap;
-  font-family: botc-semibold, sans-serif;
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-weight: 900;
 }
-
-.character-type-townsfolk,
-.character-type-outsider {
-  color: blue;
-  border-top: 2px solid blue;
+.character-type-outsider,
+.character-type-townsfolk {
+  color: #00f;
+  border-top: 2px solid #00f;
 }
-
-.character-type-minion,
-.character-type-demon {
+.character-type-demon,
+.character-type-minion {
   color: red;
   border-top: 2px solid red;
 }
-
-.character-name-townsfolk,
-.character-name-outsider {
-  color: blue;
+.character-name-outsider,
+.character-name-townsfolk {
+  color: #00f;
 }
-
-.character-name-minion,
-.character-name-demon {
+.character-name-demon,
+.character-name-minion {
   color: red;
 }
-
 .character-name {
-  font-family: botc-semibold, sans-serif;
+  font-family: 'Fira Sans', 'Courier New', sans-serif;
   font-size: 10pt;
+  font-weight: 800;
 }
-
+.character-name- {
+  color: #000;
+}
 .character-ability {
-  font-family: botc-light, sans-serif;
+  font-family: 'Fira Sans', 'Courier New', sans-serif;
   font-size: 9pt;
-  color: black;
+  font-weight: 300;
+  color: #000;
 }
-
-.character-ability strong {
-  font-family: botc-semibold, sans-serif;
-  font-size: 9pt;
-  color: black;
-}
-
 .character-ability-reminder {
-  font-family: botc-lightitalic, sans-serif;
+  font-family: 'Fira Sans', sans-serif;
   font-size: 8pt;
-  color: slategrey;
+  font-weight: 200;
+  color: #708090;
 }
-
 .character-reminder {
-  font-family: botc-book, sans-serif;
+  font-family: 'Fira Sans', sans-serif;
   font-size: 8pt;
-  color: black;
+  color: #000;
   margin-top: 5px;
 }
-
 .character-icon {
   width: 50px;
   max-height: 50px;
@@ -124,63 +79,55 @@ h2.character-type {
   border: none;
   margin-right: 2px;
 }
-
 .jinx-reminder-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  /*height: 100vh;*/
   border: none;
   margin-top: 15px;
   width: 100%;
 }
-
 .jinx-reminder-block {
   display: flex;
   align-items: center;
   margin-bottom: -2px;
 }
-
 .jinx-night-icon {
   width: 40px;
   max-height: 40px;
   border: none;
 }
-
 .jinx-night-reason {
   display: inline-block;
-  font-family: botc-lightitalic, sans-serif;
+  font-family: 'Fira Sans', sans-serif;
   white-space: normal;
   max-width: 50%;
   padding-left: 10px;
+  color: brown;
 }
-
 .jinxes {
   float: right;
   flex-direction: row;
-  /*align-items: right;*/
   vertical-align: middle;
   justify-content: flex-end;
   padding: 2px;
   border-top: 1.5px solid brown;
+  font-family: 'Alegreya Sans SC', sans-serif;
 }
-
 .hatred-icon {
   max-width: 30px;
   height: 30px;
   border: none;
-  margin-left: 0px;
+  margin-left: 0;
   margin-right: -8px;
   vertical-align: bottom;
 }
-
 .jinxes-label-text {
-  font-family: botc-semibold, sans-serif;
+  font-family: 'Alegreya Sans SC', sans-serif;
   font-size: 8pt;
   color: brown;
   margin-right: -3px;
 }
-
 .character-icon-nightinfo {
   width: 40px;
   max-height: 40px;
@@ -191,22 +138,18 @@ h2.character-type {
   margin-top: auto;
   margin-bottom: auto;
 }
-
 .character-block {
   border: none;
   margin-top: 2px;
   margin-bottom: 2px;
   break-inside: avoid-column;
 }
-
 .character-block-player {
   min-height: 55px;
 }
-
 .character-block-nightinfo {
   min-height: 40px;
 }
-
 .cols-2 {
   -moz-column-count: 2;
   -moz-column-gap: 20px;
@@ -215,74 +158,65 @@ h2.character-type {
   column-count: 2;
   column-gap: 20px;
 }
-
 .line {
   flex: 1;
-  border-bottom: 0.5px solid darkgrey;
+  border-bottom: 0.5px solid #a9a9a9;
   margin-bottom: 2px;
 }
-
 .line-prejinx-nightinfo {
   flex: 1;
-  border-bottom: 3px double darkgrey;
+  border-bottom: 3px double #a9a9a9;
   margin-bottom: 2px;
 }
-
 .line-nightinfo {
   flex: 1;
-  border-bottom: 0.5px solid lightgray;
+  border-bottom: 0.5px solid #d3d3d3;
   margin-bottom: 2px;
 }
-
 div.not-first-night {
   position: absolute;
   left: 50%;
   bottom: 1%;
   transform: translateX(-50%);
+  color: #000;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 8pt;
 }
-
 header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  background-color: darkslategrey;
-  color: white;
+  background-color: #2f4f4f;
+  color: #fff;
 }
-
 .top-left-header {
   padding-left: 10px;
-  font-family: botc-semibold, sans-serif;
+  font-family: 'Alegreya Sans SC', sans-serif;
   font-size: 8px;
 }
-
 .top-right-header {
   font-size: 8px;
   padding-right: 10px;
-  font-family: botc-ultra, sans-serif;
+  font-family: 'Alegreya Sans SC', sans-serif;
 }
-
 footer {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  color: black;
-  font-family: botc-light, sans-serif;
-  /*background-color: none;*/
-
-  position: fixed; /* Add this line */
-  bottom: 15px; /* Add this line */
+  color: #000;
+  font-family: 'Fira Sans', sans-serif;
+  position: fixed;
+  bottom: 15px;
   left: 0;
   right: 0;
-  padding: 0 10px; /* Add this line for some padding */
+  padding: 0 10px;
 }
-
 footer .footer-left {
-  left: 0%;
+  left: 0;
   font-size: 8px;
   margin-left: 10px;
 }
-
 footer .footer-right {
-  right: 0%;
+  right: 0;
   font-size: 8px;
 }

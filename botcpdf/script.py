@@ -179,8 +179,9 @@ class Script:
 
             self.other_nights[role.other_night] = role
 
+
     @timeit
-    def render(self):
+    def render(self) -> None:
         """Render the script to PDF"""
         env = Environment(
             loader=FileSystemLoader("templates"), extensions=["jinja2.ext.loopcontrols"]
@@ -204,6 +205,7 @@ class Script:
             "hatred": self.hatred,
             "hate_pair": self.hate_pair,
         }
+
         html_out = template.render(template_vars)
 
         if self.logger is not None:

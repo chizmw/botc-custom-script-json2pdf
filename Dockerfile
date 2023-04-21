@@ -63,6 +63,5 @@ CMD [ "botcpdf.lambda.render" ]
 COPY gameinfo ./gameinfo/
 COPY templates ./templates/
 COPY icons ./icons/
-COPY fonts ./fonts/
 
 RUN touch /opt/disable-extensions-jwigqn8j
