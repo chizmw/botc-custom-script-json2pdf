@@ -124,3 +124,6 @@ def cleanup_role_id(id_slug) -> str:
     id_slug = id_slug.lower()
 
     return id_slug
+
+def is_aws_env():
+    return os.environ.get('AWS_LAMBDA_FUNCTION_NAME') or os.environ.get('AWS_EXECUTION_ENV')
