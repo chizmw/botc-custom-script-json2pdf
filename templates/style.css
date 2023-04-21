@@ -102,7 +102,7 @@ h2.character-type {
   font-family: 'Fira Sans', sans-serif;
   white-space: normal;
   max-width: 50%;
-  padding-left: 10px;
+  padding-left: 15px;
   color: brown;
 }
 .jinxes {
@@ -133,7 +133,7 @@ h2.character-type {
   max-height: 40px;
   float: left;
   border: none;
-  margin-right: 2px;
+  padding-right: 5px;
   display: inline-flex;
   margin-top: auto;
   margin-bottom: auto;
