@@ -16,8 +16,9 @@ def render(event: Dict[str, Any], context: LambdaContext):
     logger.debug(f"event: {event}")
 
     script = Script(
-        "docker test",
-        event,
+        title="docker test",
+        script_data=event,
+        logger=logger,
     )
     logger.info(f"""Rendering "{script.title}"…""")
     return script.render()

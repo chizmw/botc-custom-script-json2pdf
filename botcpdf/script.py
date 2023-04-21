@@ -8,8 +8,9 @@ from weasyprint import HTML  # type: ignore
 from botcpdf.benchmark import timeit  # type: ignore
 from botcpdf.jinx import Jinxes  # type: ignore
 from botcpdf.role import Role, RoleData
-from botcpdf.util import cleanup_role_id, pdf2images  # type: ignore
+from botcpdf.util import cleanup_role_id, is_aws_env, pdf2images  # type: ignore
 
+from aws_lambda_powertools.logging.logger import Logger
 
 class ScriptMeta:
     """Represents script metadata."""
@@ -63,9 +64,10 @@ class Script:
     hatred: dict[str, list[str]] = {}
     hate_pair: dict[str, str] = {}
 
-    def __init__(self, title: str, script_data: dict):
+    def __init__(self, title: str, script_data: dict, logger: Optional[Logger] = None):
         """Initialize a script."""
         self.title = title
+        self.logger = logger
 
         # we want to preserve the order of the characters
         # so we'll use a list instead of a set
@@ -204,6 +206,9 @@ class Script:
         }
         html_out = template.render(template_vars)
 
+        if self.logger is not None:
+            self.logger.info(template_vars)
+
         # if we have BOTC_DEBUG set...
         if os.environ.get("BOTC_DEBUG"):
             # write the rendered HTML to a file
@@ -211,10 +216,13 @@ class Script:
                 fhandle.write(html_out)
 
         # convert the HTML to PDF
-        pdf_folder = os.path.abspath(os.path.join(this_folder, "..", "pdfs"))
-        # if pdf_folder doesn't exist, create it
-        if not os.path.exists(pdf_folder):
-            os.makedirs(pdf_folder)
+        if is_aws_env():
+            pdf_folder = "/tmp"
+        else:
+            pdf_folder = os.path.abspath(os.path.join(this_folder, "..", "pdfs"))
+            # if non-tmp pdf_folder doesn't exist, create it
+            if not os.path.exists(pdf_folder):
+                os.makedirs(pdf_folder)
         # save the PDF in the pdfs folder
         HTML(string=html_out).write_pdf(
             os.path.join(pdf_folder, f"{self.title}.pdf"),
