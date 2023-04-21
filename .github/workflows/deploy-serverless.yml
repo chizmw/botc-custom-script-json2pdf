@@ -18,7 +18,7 @@ jobs:
         include:
           - aws-account-name: chizography
             aws-account-id: 436158765452
-            aws-deployment-role: deploy_json2pdf
+            aws-deployment-role: botc/deploy_json2pdf
 
     steps:
       - uses: actions/checkout@v3

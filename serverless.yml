@@ -5,7 +5,7 @@ provider:
   name: aws
   region: eu-west-2
   iam:
-    role: arn:aws:iam::436158765452:role/deploy_json2pdf
+    role: arn:aws:iam::436158765452:role/botc/deploy_json2pdf
   ecr:
     scanOnPush: true
     images:

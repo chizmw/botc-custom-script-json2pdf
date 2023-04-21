@@ -299,3 +299,4 @@ __pycache__
 *.html
 scripts/
 generated
+.terraform.lock.hcl
