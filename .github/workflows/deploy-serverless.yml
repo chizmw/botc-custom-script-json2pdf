@@ -93,3 +93,13 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           sls deploy --stage prod
+
+      - name: Notify Discord
+        uses: th0th/notify-discord@v0.4.1
+        if: ${{ always() }}
+        env:
+          # yamllint disable rule:line-length
+          DISCORD_WEBHOOK_URL: https://discord.com/api/webhooks/1099136707108020305/r86TwsFW_T3BDX0VOvdcCNVFaGTLTSeVkwS8NikvynVrU-4jZLqq--FlyPVGAmQWJWu9
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_JOB_NAME: Deploy Serverless
+          GITHUB_JOB_STATUS: ${{ job.status }}
