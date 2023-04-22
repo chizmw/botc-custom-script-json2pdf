@@ -83,3 +83,52 @@ resource "aws_iam_user_group_membership" "BOTC_json2pdf" {
   user   = aws_iam_user.botc_json2pdf.name
   groups = [aws_iam_group.BOTC_json2pdf.name]
 }
+
+# API GATEWAY ACCESS
+
+resource "aws_iam_role" "apig_json2pdf" {
+  name        = "apig_json2pdf"
+  description = "Allows API Gateway to call AWS services on your behalf."
+  path        = "/botc/"
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+  ]
+  assume_role_policy = data.aws_iam_policy_document.trust_relationships_apig_json2pdf.json
+}
+
+
+data "aws_iam_policy_document" "trust_relationships_apig_json2pdf" {
+  statement {
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["apigateway.amazonaws.com"]
+    }
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+# LAMBDA ACCESS
+
+resource "aws_iam_role" "lambda_json2pdf" {
+  name        = "lambda_json2pdf"
+  description = "Allows Lambda to call AWS services on your behalf."
+  path        = "/botc/"
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess",
+    "arn:aws:iam::aws:policy/AWSLambdaExecute",
+  ]
+  assume_role_policy = data.aws_iam_policy_document.trust_relationships_lambda_json2pdf.json
+}
+
+
+data "aws_iam_policy_document" "trust_relationships_lambda_json2pdf" {
+  statement {
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+    actions = ["sts:AssumeRole"]
+  }
+}
