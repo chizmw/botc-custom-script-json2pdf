@@ -1,0 +1,5 @@
+kind: Changed
+body: add environment, timeout, logRetentionInDays to serverless.yml
+time: 2023-04-23T00:16:19.782525+01:00
+custom:
+  GithubIssue: ""

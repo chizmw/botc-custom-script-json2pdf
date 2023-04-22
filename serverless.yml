@@ -17,6 +17,10 @@ provider:
     Owner: chisel
     Product: botc-custom-script-json2pdf
     InfoURL: https://github.com/chizmw/botc-custom-script-json2pdf
+  environment:
+    BUCKET_NAME: 436158765452-botc-pdf-bucket
+  timeout: 15
+  logRetentionInDays: 7
 
 plugins:
   - serverless-docker
