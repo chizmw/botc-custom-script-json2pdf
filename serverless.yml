@@ -23,5 +23,6 @@ plugins:
 
 functions:
   botc-json2pdf:
+    timeout: 15
     image:
       name: json2pdf
