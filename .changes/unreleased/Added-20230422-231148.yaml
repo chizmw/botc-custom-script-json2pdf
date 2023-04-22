@@ -1,0 +1,5 @@
+kind: Added
+body: add code support for individual characters in game_info/characters
+time: 2023-04-22T23:11:48.480575+01:00
+custom:
+  GithubIssue: ""

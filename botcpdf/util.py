@@ -47,6 +47,17 @@ def load_nightmeta():
     """Load role data from a JSON file."""
     return load_data("gameinfo/roles-nightmeta.json")
 
+def load_extra_roles():
+    """Load role data from a JSON file."""
+
+    # loop through all json files in gameinfo/characters
+    # and load them into a list
+    extra_roles = []
+    for filename in os.listdir("gameinfo/characters"):
+        if filename.endswith(".json"):
+            extra_roles.append(load_data(f"gameinfo/characters/{filename}"))
+
+    return extra_roles
 
 def pdf2images(pdf_file: str, output_dir: str):
     """Convert a PDF file to a set of images."""
