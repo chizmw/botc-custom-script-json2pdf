@@ -4,6 +4,7 @@ from typing import Optional
 from botcpdf.jinx import Jinx
 from botcpdf.util import (
     cleanup_role_id,
+    load_extra_roles,
     load_fabled_data,
     load_nightdata,
     load_nightmeta,
@@ -38,9 +39,9 @@ class Role:
         self.name = role_data["name"]
         self.team = role_data["team"]
         self.first_night_reminder = role_data["firstNightReminder"]
-        self.other_night_reminder = role_data["otherNightReminder"]
-        self.reminders = role_data["reminders"]
-        self.setup = role_data["setup"]
+        self.other_night_reminder = role_data.get("otherNightReminder", "")
+        self.reminders = role_data.get("reminders", [])
+        self.setup = role_data.get("setup", False)
 
         # we need to knoiw if we're stylizing or not before we can store the
         # ability
@@ -110,6 +111,9 @@ class RoleData:
         # 'regular' role info from roles-bra1n.json
         self.add_character_roles()
 
+        # extra characters not in the main json (yet)
+        self.add_extra_roles()
+
         # we'll add fabled roles to the same dict
         self.add_fabled_roles()
 
@@ -118,6 +122,20 @@ class RoleData:
 
         # work out values for first_night and other_night
         self.derive_night_values()
+
+    def add_extra_roles(self) -> None:
+        """Add extra roles to the role data."""
+        role_data = load_extra_roles()
+        for role in role_data:
+            # if it already exists, we'll warn and preserve the existing data
+            if role["id"] in self.roles:
+                print(
+                    f"Warning: role with id '{role['id']}' already exists; "
+                    "preserving existing data"
+                )
+                continue
+
+            self.roles[role["id"]] = Role(role)
 
     def derive_night_values(self):
         """Derive values for first_night and other_night"""
