@@ -300,3 +300,4 @@ __pycache__
 scripts/
 generated
 .terraform.lock.hcl
+.infracost/
