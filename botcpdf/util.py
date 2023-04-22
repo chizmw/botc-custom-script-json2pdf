@@ -125,5 +125,13 @@ def cleanup_role_id(id_slug) -> str:
 
     return id_slug
 
-def is_aws_env():
-    return os.environ.get('AWS_LAMBDA_FUNCTION_NAME') or os.environ.get('AWS_EXECUTION_ENV')
+
+def is_aws_env() -> bool:
+    """Check if we're running in AWS Lambda.
+
+    Returns:
+        bool: true if we're running in AWS Lambda, false otherwise
+    """
+    return os.environ.get("AWS_LAMBDA_FUNCTION_NAME") or os.environ.get(
+        "AWS_EXECUTION_ENV"
+    )

@@ -5,12 +5,12 @@ from typing import Optional
 from pkg_resources import get_distribution  # type: ignore
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML  # type: ignore
+from aws_lambda_powertools.logging.logger import Logger
 from botcpdf.benchmark import timeit  # type: ignore
 from botcpdf.jinx import Jinxes  # type: ignore
 from botcpdf.role import Role, RoleData
 from botcpdf.util import cleanup_role_id, is_aws_env, pdf2images  # type: ignore
 
-from aws_lambda_powertools.logging.logger import Logger
 
 class ScriptMeta:
     """Represents script metadata."""
@@ -179,10 +179,14 @@ class Script:
 
             self.other_nights[role.other_night] = role
 
-
     @timeit
-    def render(self) -> None:
-        """Render the script to PDF"""
+    def render(self) -> str:
+        """Render the script as a PDF.
+
+        Returns:
+            str: local path to the PDF file
+        """
+
         env = Environment(
             loader=FileSystemLoader("templates"), extensions=["jinja2.ext.loopcontrols"]
         )
@@ -239,3 +243,5 @@ class Script:
                 os.path.join(pdf_folder, f"{self.title}.pdf"),
                 f"generated/{self.title}",
             )
+
+        return os.path.join(pdf_folder, f"{self.title}.pdf")
