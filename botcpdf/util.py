@@ -4,8 +4,12 @@ import json
 import shutil
 import sys
 import os
+from typing import Optional
 import requests  # type: ignore
 from pdf2image import convert_from_path
+
+import boto3  # type: ignore
+from botocore.exceptions import NoCredentialsError  # type: ignore
 
 
 def fetch_remote_data(url: str):
@@ -126,7 +130,7 @@ def cleanup_role_id(id_slug) -> str:
     return id_slug
 
 
-def is_aws_env() -> bool:
+def is_aws_env() -> Optional[str]:
     """Check if we're running in AWS Lambda.
 
     Returns:
@@ -135,3 +139,26 @@ def is_aws_env() -> bool:
     return os.environ.get("AWS_LAMBDA_FUNCTION_NAME") or os.environ.get(
         "AWS_EXECUTION_ENV"
     )
+
+def upload_to_s3(local_file, s3_file) -> Optional[str]:
+    s3 = boto3.client('s3')
+
+    try:
+        s3.upload_file(local_file, os.environ['BUCKET_NAME'], s3_file)
+        url = s3.generate_presigned_url(
+            ClientMethod='get_object',
+            Params={
+                'Bucket': os.environ['BUCKET_NAME'],
+                'Key': s3_file
+            },
+            ExpiresIn=24 * 3600
+        )
+
+        print("Upload Successful", url)
+        return url
+    except FileNotFoundError:
+        print("The file was not found")
+        return None
+    except NoCredentialsError:
+        print("Credentials not available")
+        return None
