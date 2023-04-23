@@ -28,12 +28,8 @@ class ScriptMeta:
     def __init__(self, data: dict):
         """Initialize script metadata."""
 
-        # ignore the id field if it's _meta
-        if data.get("id") == "_meta":
-            data.pop("id")
-
         # make sure we only use known fields; not all required
-        if not set(data.keys()).issubset({"name", "author", "logo"}):
+        if not set(data.keys()).issubset({"id", "name", "author", "logo"}):
             raise ValueError("Unexpected fields in script metadata")
 
         self.name = data.get("name", None)
@@ -47,34 +43,26 @@ class ScriptMeta:
 class Script:
     """Represents a script."""
 
-    char_types: dict[str, list[Role]] = {
-        "townsfolk": [],
-        "outsider": [],
-        "minion": [],
-        "demon": [],
-        "fabled": [],
-    }
-    first_night: dict[float, Role] = {}
-    other_nights: dict[float, Role] = {}
-
+    # class variables
+    # these are shared across all instances of the class
     role_data: RoleData = RoleData()
 
-    meta: Optional[ScriptMeta] = None
-
-    hatred: dict[str, list[str]] = {}
-    hate_pair: dict[str, str] = {}
-
-    def __init__(self, title: str, script_data: dict, logger = None):
+    def __init__(self, title: str, script_data: dict, logger=None):
         """Initialize a script."""
+
+        self._init_defaults()
+
         self.title = title
         self.logger = logger
 
         self._ensure_logger()
 
+        self.logger.info("Initializing script %s", self.title)
+        self.logger.debug(script_data)
+
         # we want to preserve the order of the characters
         # so we'll use a list instead of a set
         for char in script_data:
-            self.logger.debug(f"Processing character: {char}")
             self._add_char(char)
 
         # add meta roles to night instructions
@@ -83,6 +71,20 @@ class Script:
         # now we've loaded all the core information we can examine what we have
         # and see if there are any jinxes
         self._process_jinxes()
+
+    def _init_defaults(self) -> None:
+        self.char_types: dict[str, list[Role]] = {
+            "townsfolk": [],
+            "outsider": [],
+            "minion": [],
+            "demon": [],
+            "fabled": [],
+        }
+        self.first_night: dict[float, Role] = {}
+        self.other_nights: dict[float, Role] = {}
+        self.meta: Optional[ScriptMeta] = None
+        self.hatred: dict[str, list[str]] = {}
+        self.hate_pair: dict[str, str] = {}
 
     @timeit
     def _ensure_logger(self) -> None:
@@ -95,7 +97,7 @@ class Script:
             ch.setLevel(logging.DEBUG)
             # create formatter and add it to the handlers
             formatter = logging.Formatter(
-                '%(created)f [%(levelname)s] %(name)s, line %(lineno)d: %(message)s'
+                "%(created)f [%(levelname)s] %(name)s, line %(lineno)d: %(message)s"
             )
             ch.setFormatter(formatter)
             # add the handlers to logger
@@ -138,17 +140,25 @@ class Script:
                         jinx_info = jinxes.get_jinx(slug, role.id_slug)
                         self.hate_pair[f"{slug}-{role.id_slug}"] = jinx_info.reason
 
-    def __repr__(self):
-        repr_str = ""
-        for char_type in self.char_types.items():
-            repr_str += char_type
-            for char in self.char_types[char_type]:
-                repr_str += f"\t{char}"
+    def __str__(self):
+        _str = ""
+        # for char_type in self.char_types.items():
+        # _str += char_type
+        # for char in self.char_types[char_type]:
+        # _str += f"\t{char}"
 
-        repr_str += f"first night: {self.sorted_first_night()}"
-        repr_str += f"other nights: {self.sorted_other_nights()}"
+        _str += f"Script: {self.title}\n"
 
-        return repr_str
+        for char_type in self.char_types.keys():
+            chars = [char.name for char in self.char_types[char_type]]
+            _str += f"  {char_type}: {chars}\n"
+
+        first_chars = [char.name for char in self.sorted_first_night()]
+        other_chars = [char.name for char in self.sorted_other_nights()]
+        _str += f"  first night: {first_chars}"
+        _str += f"  other nights: {other_chars}"
+
+        return _str
 
     def role_in_script(self, role_id: str) -> bool:
         """Return True if the role is in the script."""
@@ -176,7 +186,9 @@ class Script:
             self.meta = ScriptMeta(char)
             # if we have 'name' then update the title
             if self.meta.name:
-                self.logger.debug(f"Updating title to {self.meta.name} from {self.title}")
+                self.logger.debug(
+                    f"Updating title to {self.meta.name} from {self.title}"
+                )
                 self.title = self.meta.name
 
             return
@@ -188,6 +200,7 @@ class Script:
 
         # add to the appropriate list
         self.char_types[role.team].append(role)
+
         # if it's a first night character, add it to the first night list
         if role.first_night != 0:
             # if there's already a character in the slot, raise an error
@@ -244,8 +257,12 @@ class Script:
 
         # if we have BOTC_DEBUG set...
         if os.environ.get("BOTC_DEBUG"):
+            if is_aws_env():
+                html_output = os.path.join("/tmp", f"{self.title}.html")
+            else:
+                html_output = f"{self.title}.html"
             # write the rendered HTML to a file
-            with open(f"{self.title}.html", "w", encoding="utf-8") as fhandle:
+            with open(html_output, "w", encoding="utf-8") as fhandle:
                 fhandle.write(html_out)
 
         # convert the HTML to PDF

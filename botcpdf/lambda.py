@@ -2,11 +2,12 @@
 import os
 import sys
 import json
+import traceback
 from typing import Any, Dict
 
 from aws_lambda_powertools.logging.logger import Logger
 from aws_lambda_powertools.utilities.typing import LambdaContext
-from pkg_resources import get_distribution
+from pkg_resources import get_distribution # type: ignore
 
 from botcpdf.script import Script
 from botcpdf.util import upload_pdf_to_s3
@@ -51,18 +52,21 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
         # save to S3
         url = upload_pdf_to_s3(
             pdf_path,
+            context.aws_request_id
         )
 
     except Exception as err:
         response = {
             "statusCode": 500,
             "headers": {
-                "x-botc-json2pdf-version": get_distribution("botc-json2pdf").__dict__.get("version"),
+                "x-botc-json2pdf-version": get_distribution(
+                    "botc-json2pdf"
+                ).__dict__.get("_version"),
             },
             "isBase64Encoded": False,
             "body": f"Error: {err}",
         }
-        logger.error(err)
+        traceback.print_stack()
         return response
 
     # redirect in the response
@@ -70,7 +74,9 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
         "statusCode": 302,
         "headers": {
             "Location": url,
-            "x-botc-json2pdf-version": get_distribution("botc-json2pdf").__dict__.get("version"),
+            "x-botc-json2pdf-version": get_distribution("botc-json2pdf").__dict__.get(
+                "_version"
+            ),
         },
         "isBase64Encoded": False,
         "body": "",
