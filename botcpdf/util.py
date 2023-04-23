@@ -10,6 +10,8 @@ from pdf2image import convert_from_path
 
 import boto3  # type: ignore
 from botocore.exceptions import NoCredentialsError  # type: ignore
+from botocore.config import Config # type: ignore
+
 
 
 def fetch_remote_data(url: str):
@@ -51,6 +53,7 @@ def load_nightmeta():
     """Load role data from a JSON file."""
     return load_data("gameinfo/roles-nightmeta.json")
 
+
 def load_extra_roles():
     """Load role data from a JSON file."""
 
@@ -62,6 +65,7 @@ def load_extra_roles():
             extra_roles.append(load_data(f"gameinfo/characters/{filename}"))
 
     return extra_roles
+
 
 def pdf2images(pdf_file: str, output_dir: str):
     """Convert a PDF file to a set of images."""
@@ -140,25 +144,53 @@ def is_aws_env() -> Optional[str]:
         "AWS_EXECUTION_ENV"
     )
 
-def upload_to_s3(local_file, s3_file) -> Optional[str]:
-    s3 = boto3.client('s3')
+
+def upload_to_s3(local_file: str, s3_file: str) -> str:
+    """Upload a file to an S3 bucket.
+
+    Args:
+        local_file (str): local file to upload
+        s3_file (str): name of the file in S3
+
+    Raises:
+        FileNotFoundError: local_file not found
+        NoCredentialsError: problem with AWS credentials
+
+    Returns:
+        str: _description_
+    """
+    s3 = boto3.client("s3", config=Config(signature_version='s3v4'))  # pylint: disable=invalid-name
 
     try:
-        s3.upload_file(local_file, os.environ['BUCKET_NAME'], s3_file)
+        s3.upload_file(local_file, os.environ["BUCKET_NAME"], s3_file)
         url = s3.generate_presigned_url(
-            ClientMethod='get_object',
-            Params={
-                'Bucket': os.environ['BUCKET_NAME'],
-                'Key': s3_file
-            },
-            ExpiresIn=24 * 3600
+            ClientMethod="get_object",
+            Params={"Bucket": os.environ["BUCKET_NAME"], "Key": s3_file},
+            ExpiresIn=24 * 3600,
         )
 
         print("Upload Successful", url)
         return url
-    except FileNotFoundError:
-        print("The file was not found")
-        return None
-    except NoCredentialsError:
-        print("Credentials not available")
-        return None
+    except FileNotFoundError as exc:
+        raise FileNotFoundError(f"File not found: {local_file}") from exc
+
+    except NoCredentialsError as exc:
+        raise NoCredentialsError() from exc
+
+
+def upload_pdf_to_s3(pdf_file: str) -> str:
+    """Upload a PDF file to S3.
+
+    Args:
+        pdf_file (str): local path to the PDF file
+
+    Returns:
+        str: signed URL to the uploaded file
+    """
+
+    # get the basename of the file
+    basename = os.path.basename(pdf_file)
+
+    url = upload_to_s3(pdf_file, f"pdf/{basename}")
+
+    return url

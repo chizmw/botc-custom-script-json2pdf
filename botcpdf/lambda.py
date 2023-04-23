@@ -2,13 +2,14 @@
 import os
 import sys
 import json
-import base64
 from typing import Any, Dict
 
 from aws_lambda_powertools.logging.logger import Logger
 from aws_lambda_powertools.utilities.typing import LambdaContext
+from pkg_resources import get_distribution
 
 from botcpdf.script import Script
+from botcpdf.util import upload_pdf_to_s3
 
 # JSON output format, service name can be set by environment variable "POWERTOOLS_SERVICE_NAME"
 LOGLEVEL = os.environ.get("LOGLEVEL", "WARNING").upper()
@@ -43,19 +44,36 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
     )
     logger.info("Rendering %s…", script.title)
 
-    # it would be nice to have this return the filepath, or content to return to the user
-    pdf_path = script.render()
+    try:
+        # it would be nice to have this return the filepath, or content to return to the user
+        pdf_path = script.render()
 
-    # return the PDF in the response
-    pdf_response = open(pdf_path, "rb").read()
+        # save to S3
+        url = upload_pdf_to_s3(
+            pdf_path,
+        )
 
-    base64_pdf = base64.b64encode(pdf_response).decode("utf-8")
+    except Exception as err:
+        response = {
+            "statusCode": 500,
+            "headers": {
+                "x-botc-json2pdf-version": get_distribution("botc-json2pdf").__dict__.get("version"),
+            },
+            "isBase64Encoded": False,
+            "body": f"Error: {err}",
+        }
+        logger.error(err)
+        return response
 
+    # redirect in the response
     response = {
-        "statusCode": 200,
-        "headers": {"Content-Type": "application/pdf"},
-        "body": base64_pdf,
-        "isBase64Encoded": True,
+        "statusCode": 302,
+        "headers": {
+            "Location": url,
+            "x-botc-json2pdf-version": get_distribution("botc-json2pdf").__dict__.get("version"),
+        },
+        "isBase64Encoded": False,
+        "body": "",
     }
 
     return response
