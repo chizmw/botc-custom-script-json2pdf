@@ -1,11 +1,11 @@
 """This module contains the Script class, which represents a script."""
 
+import logging
 import os
 from typing import Optional
 from pkg_resources import get_distribution  # type: ignore
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML  # type: ignore
-from aws_lambda_powertools.logging.logger import Logger
 from botcpdf.benchmark import timeit  # type: ignore
 from botcpdf.jinx import Jinxes  # type: ignore
 from botcpdf.role import Role, RoleData
@@ -64,14 +64,17 @@ class Script:
     hatred: dict[str, list[str]] = {}
     hate_pair: dict[str, str] = {}
 
-    def __init__(self, title: str, script_data: dict, logger: Optional[Logger] = None):
+    def __init__(self, title: str, script_data: dict, logger = None):
         """Initialize a script."""
         self.title = title
         self.logger = logger
 
+        self._ensure_logger()
+
         # we want to preserve the order of the characters
         # so we'll use a list instead of a set
         for char in script_data:
+            self.logger.debug(f"Processing character: {char}")
             self._add_char(char)
 
         # add meta roles to night instructions
@@ -80,6 +83,27 @@ class Script:
         # now we've loaded all the core information we can examine what we have
         # and see if there are any jinxes
         self._process_jinxes()
+
+    @timeit
+    def _ensure_logger(self) -> None:
+        # if we don't have a logger, we'll create one that will log to stdout
+        if self.logger is None:
+            logger = logging.getLogger(__name__)
+            logger.setLevel(logging.DEBUG)
+            # create console handler with a higher log level
+            ch = logging.StreamHandler()
+            ch.setLevel(logging.DEBUG)
+            # create formatter and add it to the handlers
+            formatter = logging.Formatter(
+                '%(created)f [%(levelname)s] %(name)s, line %(lineno)d: %(message)s'
+            )
+            ch.setFormatter(formatter)
+            # add the handlers to logger
+            logger.addHandler(ch)
+
+            self.logger = logger
+
+            self.logger.info("No logger provided, creating one.")
 
     @timeit
     def _add_meta_roles(self) -> None:
@@ -152,6 +176,7 @@ class Script:
             self.meta = ScriptMeta(char)
             # if we have 'name' then update the title
             if self.meta.name:
+                self.logger.debug(f"Updating title to {self.meta.name} from {self.title}")
                 self.title = self.meta.name
 
             return
@@ -167,7 +192,10 @@ class Script:
         if role.first_night != 0:
             # if there's already a character in the slot, raise an error
             if role.first_night in self.first_night:
-                raise ValueError(f"Duplicate first night character: {role.first_night}")
+                raise ValueError(
+                    f"Duplicate first night character in {role.first_night} position. "
+                    f"{role} trying to replace {self.first_night[role.first_night]}"
+                )
 
             self.first_night[role.first_night] = role
 
@@ -212,8 +240,7 @@ class Script:
 
         html_out = template.render(template_vars)
 
-        if self.logger is not None:
-            self.logger.info(template_vars)
+        self.logger.info(template_vars)
 
         # if we have BOTC_DEBUG set...
         if os.environ.get("BOTC_DEBUG"):
