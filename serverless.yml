@@ -19,6 +19,7 @@ provider:
     InfoURL: https://github.com/chizmw/botc-custom-script-json2pdf
   environment:
     BUCKET_NAME: 436158765452-botc-pdf-bucket
+    BOTC_DEBUG: 1
   timeout: 15
   logRetentionInDays: 7
 
