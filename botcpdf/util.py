@@ -11,6 +11,7 @@ from pdf2image import convert_from_path
 import boto3  # type: ignore
 from botocore.exceptions import NoCredentialsError  # type: ignore
 from botocore.config import Config  # type: ignore
+from botcpdf.version import __version__
 
 
 def fetch_remote_data(url: str):
@@ -144,7 +145,9 @@ def is_aws_env() -> Optional[str]:
     )
 
 
-def upload_to_s3(local_file: str, s3_file: str, download_filename: Optional[str] = None) -> str:
+def upload_to_s3(
+    local_file: str, s3_file: str, download_filename: Optional[str] = None
+) -> str:
     """Upload a file to an S3 bucket.
 
     Args:
@@ -158,7 +161,7 @@ def upload_to_s3(local_file: str, s3_file: str, download_filename: Optional[str]
     Returns:
         str: _description_
     """
-    s3 = boto3.client(
+    s3client = boto3.client(
         "s3", config=Config(signature_version="s3v4")
     )  # pylint: disable=invalid-name
 
@@ -166,7 +169,7 @@ def upload_to_s3(local_file: str, s3_file: str, download_filename: Optional[str]
         if download_filename is None:
             download_filename = os.path.basename(local_file)
 
-        s3.upload_file(
+        s3client.upload_file(
             local_file,
             os.environ["BUCKET_NAME"],
             s3_file,
@@ -174,7 +177,7 @@ def upload_to_s3(local_file: str, s3_file: str, download_filename: Optional[str]
                 "ContentDisposition": f"attachment; filename={download_filename}"
             },
         )
-        url = s3.generate_presigned_url(
+        url = s3client.generate_presigned_url(
             ClientMethod="get_object",
             Params={"Bucket": os.environ["BUCKET_NAME"], "Key": s3_file},
             ExpiresIn=24 * 3600,
@@ -203,6 +206,12 @@ def upload_pdf_to_s3(pdf_file: str, aws_request_id: str) -> str:
     # get the basename of the file
     basename = os.path.basename(pdf_file)
 
-    url = upload_to_s3(pdf_file, f"pdf/{aws_request_id}-{basename}", basename)
+    # get the name and extension
+    name, ext = os.path.splitext(basename)
+
+    # we want the new filename to be: version, name, request id, and extension
+    pdfname = f"{__version__}-{name}-{aws_request_id}{ext}"
+
+    url = upload_to_s3(pdf_file, f"pdf/{pdfname}", basename)
 
     return url

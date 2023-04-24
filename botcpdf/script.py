@@ -43,6 +43,8 @@ class ScriptMeta:
 class Script:
     """Represents a script."""
 
+    # pylint: disable=too-many-instance-attributes
+
     # class variables
     # these are shared across all instances of the class
     role_data: RoleData = RoleData()
@@ -93,15 +95,15 @@ class Script:
             logger = logging.getLogger(__name__)
             logger.setLevel(logging.DEBUG)
             # create console handler with a higher log level
-            ch = logging.StreamHandler()
-            ch.setLevel(logging.DEBUG)
+            handler = logging.StreamHandler()
+            handler.setLevel(logging.DEBUG)
             # create formatter and add it to the handlers
             formatter = logging.Formatter(
                 "%(created)f [%(levelname)s] %(name)s, line %(lineno)d: %(message)s"
             )
-            ch.setFormatter(formatter)
+            handler.setFormatter(formatter)
             # add the handlers to logger
-            logger.addHandler(ch)
+            logger.addHandler(handler)
 
             self.logger = logger
 
@@ -149,12 +151,17 @@ class Script:
 
         _str += f"Script: {self.title}\n"
 
-        for char_type in self.char_types.keys():
-            chars = [char.name for char in self.char_types[char_type]]
+        # loop through the items in the dictionary
+        for char_type, type_roles in self.char_types.items():
+            chars = [char.name for char in type_roles]
+            chars.sort()
             _str += f"  {char_type}: {chars}\n"
 
         first_chars = [char.name for char in self.sorted_first_night()]
+        first_chars.sort()
         other_chars = [char.name for char in self.sorted_other_nights()]
+        other_chars.sort()
+
         _str += f"  first night: {first_chars}"
         _str += f"  other nights: {other_chars}"
 
@@ -186,6 +193,7 @@ class Script:
             self.meta = ScriptMeta(char)
             # if we have 'name' then update the title
             if self.meta.name:
+                # pylint: disable=logging-fstring-interpolation
                 self.logger.debug(
                     f"Updating title to {self.meta.name} from {self.title}"
                 )
