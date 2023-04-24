@@ -28,6 +28,15 @@ jobs:
         with:
           python-version: 3.x
 
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: 1.4.2
+
+      - name: Install dependencies
+        run: |
+          poetry install
+
       # yamllint disable-line rule:line-length
       # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-system-path
       - name: Update PATH
