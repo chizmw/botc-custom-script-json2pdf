@@ -39,7 +39,7 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
     logger.debug(body_json)
 
     script = Script(
-        title="docker test",
+        title="A Script Has No Name",
         script_data=body_json,
         logger=logger,
     )
@@ -68,13 +68,19 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
 
     # redirect in the response
     response = {
-        "statusCode": 302,
+        "statusCode": 200,
         "headers": {
             "Location": url,
             "x-botc-json2pdf-version": __version__,
         },
         "isBase64Encoded": False,
-        "body": "",
+        "body": json.dumps(
+            {
+                "url": url,
+                "script_name": script.title,
+                "version": __version__,
+            }
+        ),
     }
 
     return response
