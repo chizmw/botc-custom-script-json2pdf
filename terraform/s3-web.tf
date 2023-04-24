@@ -97,10 +97,10 @@ resource "aws_s3_bucket_versioning" "botc_www_bucket_versioning" {
 
 locals {
   files = {
-    "index.html"                 = "text/html"
-    "script.js"                  = "application/javascript"
-    "styles.css"                 = "text/css"
-    "www/images/storyteller.png" = "image/png"
+    "index.html"             = "text/html"
+    "script.js"              = "application/javascript"
+    "styles.css"             = "text/css"
+    "images/storyteller.png" = "image/png"
   }
 }
 
