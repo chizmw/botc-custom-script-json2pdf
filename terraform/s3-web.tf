@@ -61,7 +61,7 @@ resource "aws_s3_bucket_cors_configuration" "example" {
   cors_rule {
     allowed_headers = ["Authorization", "Content-Length"]
     allowed_methods = ["GET", "POST"]
-    allowed_origins = ["https://${local.host_name}"]
+    allowed_origins = ["https://${local.host_name}", "http://json2pdf.tower.theboardingparty.com.s3-website.eu-west-2.amazonaws.com/"]
     max_age_seconds = 3000
   }
 }

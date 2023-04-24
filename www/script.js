@@ -33,6 +33,9 @@ async function uploadFile(file) {
     const response = await fetch(apiUrl, {
       method: 'POST',
       body: formData,
+      // we want no-cors mode so we can actually post
+      // the file to the API endpoint.
+      mode: 'no-cors',
     });
 
     if (response.ok) {
