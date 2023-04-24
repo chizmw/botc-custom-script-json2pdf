@@ -1,5 +1,6 @@
 const dropZone = document.getElementById('drop_zone');
-const apiUrl = 'https://chisel.malik-wright.uk/upload';
+const apiUrl =
+  'https://cv2cfac6il.execute-api.eu-west-2.amazonaws.com/dev/render';
 
 dropZone.addEventListener('dragover', (e) => {
   e.preventDefault();
