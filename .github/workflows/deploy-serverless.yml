@@ -93,7 +93,7 @@ jobs:
         if: github.event_name == 'pull_request'
         # yamllint disable rule:line-length
         run: |
-          curl -LO -X POST 'https://cv2cfac6il.execute-api.eu-west-2.amazonaws.com/dev/render' --header 'Accept: */*' --header 'User-Agent: Thunder Client (https://www.thunderclient.com)' --header 'x-api-key: Fw9MCCoxNo3QePgwH9mZq1qxoyXYieLZ5IlW9dJ8' --header 'Content-Type: application/json' --data-raw '[{"id":"_meta","author":"ChiselMW","name":"Pipeline DevTest"},{"id":"dreamer"},{"id":"gossip"},{"id":"minstrel"}, {"id":"sailor"}, {"id":"mutant"}, {"id":"lunatic"}, {"id":"drunk"}, {"id":"vizier"}, {"id": "poisoner"}, {"id": "assassin"}, {"id":"Leviathan"}, {"id":"Po"}]'
+          curl -LO -X POST 'https://cv2cfac6il.execute-api.eu-west-2.amazonaws.com/dev/render' --header 'Accept: */*' --header 'User-Agent: Thunder Client (https://www.thunderclient.com)' --header 'x-api-key: ${{ secrets.DEV_API_KEY}}' --header 'Content-Type: application/json' --data-raw '[{"id":"_meta","author":"ChiselMW","name":"Pipeline DevTest"},{"id":"dreamer"},{"id":"gossip"},{"id":"minstrel"}, {"id":"sailor"}, {"id":"mutant"}, {"id":"lunatic"}, {"id":"drunk"}, {"id":"vizier"}, {"id": "poisoner"}, {"id": "assassin"}, {"id":"Leviathan"}, {"id":"Po"}]'
 
       - name: SLS Deploy (prod)
         shell: bash
