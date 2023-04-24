@@ -32,6 +32,30 @@ data "aws_iam_policy_document" "trust_relationships_deploy_json2pdf" {
   }
 }
 
+# create a policy called deploy_json2pdf_finegrained_extras
+data "aws_iam_policy_document" "deploy_json2pdf_finegrained_extras" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "iam:CreatePolicy",
+      "iam:CreatePolicyVersion",
+      "iam:GetGroup",
+      "iam:TagPolicy",
+      "route53:ChangeResourceRecordSets",
+      "route53:GetChange",
+      "route53:GetHostedZone",
+      "route53:ListResourceRecordSets",
+      "route53:ListTagsForResource",
+      "s3:PutBucketPolicy",
+    ]
+    resources = ["*"]
+  }
+}
+resource "aws_iam_policy" "Deploy_FineGrainedExtras_policy" {
+  name   = "AllowBOTCDeployExtras"
+  path   = "/botc/"
+  policy = data.aws_iam_policy_document.deploy_json2pdf_finegrained_extras.json
+}
 
 
 # create an IAM user group called BOTC_json2pdf which attaches an existing policy called AllowAssumeJson2PdfRole
@@ -66,6 +90,11 @@ data "aws_iam_policy_document" "AllowAssumeJson2PdfRole" {
 resource "aws_iam_group_policy_attachment" "AllowAssumeJson2PdfRole" {
   group      = aws_iam_group.BOTC_json2pdf.name
   policy_arn = aws_iam_policy.AllowAssumeJson2PdfRole.arn
+}
+
+resource "aws_iam_group_policy_attachment" "Deploy_FineGrainedExtras" {
+  group      = aws_iam_group.BOTC_json2pdf.name
+  policy_arn = aws_iam_policy.Deploy_FineGrainedExtras_policy.arn
 }
 
 # create an IAM user called botc.json2pdf

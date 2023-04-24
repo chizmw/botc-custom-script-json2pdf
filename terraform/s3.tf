@@ -2,12 +2,6 @@
 resource "aws_s3_bucket" "botc_pdf_bucket" {
   bucket   = "436158765452-botc-pdf-bucket"
   provider = aws
-  tags = merge(
-    local.default_tags,
-    {
-      Name = "botc-pdf-bucket"
-    }
-  )
 }
 
 resource "aws_s3_bucket_ownership_controls" "botc_pdf_bucket_ownership_controls" {
