@@ -37,8 +37,12 @@ data "aws_iam_policy_document" "deploy_json2pdf_finegrained_extras" {
   statement {
     effect = "Allow"
     actions = [
+      "acm:AddTagsToCertificate",
+      "acm:RequestCertificate",
       "iam:CreatePolicy",
       "iam:CreatePolicyVersion",
+      "iam:DeletePolicyVersion",
+      "iam:DetachRolePolicy",
       "iam:GetGroup",
       "iam:TagPolicy",
       "route53:ChangeResourceRecordSets",
@@ -94,6 +98,12 @@ resource "aws_iam_group_policy_attachment" "AllowAssumeJson2PdfRole" {
 
 resource "aws_iam_group_policy_attachment" "Deploy_FineGrainedExtras" {
   group      = aws_iam_group.BOTC_json2pdf.name
+  policy_arn = aws_iam_policy.Deploy_FineGrainedExtras_policy.arn
+}
+
+# attach Deploy_FineGrainedExtras_policy to the deploy_json2pdf role
+resource "aws_iam_role_policy_attachment" "Deploy_FineGrainedExtras" {
+  role       = aws_iam_role.deploy_json2pdf.name
   policy_arn = aws_iam_policy.Deploy_FineGrainedExtras_policy.arn
 }
 

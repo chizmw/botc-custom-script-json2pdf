@@ -21,3 +21,11 @@ provider "aws" {
     tags = local.tag_defaults
   }
 }
+
+provider "aws" {
+  alias  = "acm_provider"
+  region = "us-east-1"
+  default_tags {
+    tags = local.tag_defaults
+  }
+}
