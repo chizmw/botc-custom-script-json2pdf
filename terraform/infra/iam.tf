@@ -39,21 +39,26 @@ data "aws_iam_policy_document" "deploy_json2pdf_finegrained_extras" {
     actions = [
       "acm:AddTagsToCertificate",
       "acm:DescribeCertificate",
+      "acm:ListTagsForCertificate",
       "acm:RequestCertificate",
+      "cloudfront:GetDistribution",
+      "cloudfront:ListTagsForResource",
       "iam:CreatePolicy",
       "iam:CreatePolicyVersion",
       "iam:DeletePolicyVersion",
       "iam:DetachRolePolicy",
       "iam:GetGroup",
       "iam:GetUser",
+      "iam:ListAttachedGroupPolicies",
+      "iam:ListGroupsForUser",
       "iam:TagPolicy",
       "route53:ChangeResourceRecordSets",
       "route53:GetChange",
       "route53:GetHostedZone",
       "route53:ListResourceRecordSets",
       "route53:ListTagsForResource",
-      "s3:PutBucketPolicy",
       "s3:PutBucketAcl",
+      "s3:PutBucketPolicy",
     ]
     resources = ["*"]
   }
