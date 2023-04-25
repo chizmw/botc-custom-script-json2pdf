@@ -38,12 +38,14 @@ data "aws_iam_policy_document" "deploy_json2pdf_finegrained_extras" {
     effect = "Allow"
     actions = [
       "acm:AddTagsToCertificate",
+      "acm:DescribeCertificate",
       "acm:RequestCertificate",
       "iam:CreatePolicy",
       "iam:CreatePolicyVersion",
       "iam:DeletePolicyVersion",
       "iam:DetachRolePolicy",
       "iam:GetGroup",
+      "iam:GetUser",
       "iam:TagPolicy",
       "route53:ChangeResourceRecordSets",
       "route53:GetChange",
@@ -51,6 +53,7 @@ data "aws_iam_policy_document" "deploy_json2pdf_finegrained_extras" {
       "route53:ListResourceRecordSets",
       "route53:ListTagsForResource",
       "s3:PutBucketPolicy",
+      "s3:PutBucketAcl",
     ]
     resources = ["*"]
   }
