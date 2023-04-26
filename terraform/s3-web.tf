@@ -125,8 +125,8 @@ resource "aws_acm_certificate" "ssl_certificate" {
   provider                  = aws.acm_provider
   domain_name               = var.www_domain_name
   subject_alternative_names = ["*.${var.www_domain_name}"]
-  validation_method         = "EMAIL"
-  #validation_method         = "DNS"
+  #validation_method         = "EMAIL"
+  validation_method = "DNS"
 
   tags = merge(
     local.tag_defaults,
@@ -138,12 +138,22 @@ resource "aws_acm_certificate" "ssl_certificate" {
   }
 }
 
+/*
+resource "aws_route53_record" "cert_validation" {
+  name    = aws_acm_certificate.ssl_certificate.domain_name
+  type    = aws_acm_certificate.ssl_certificate.domain_validation_options.0.type
+  zone_id = data.aws_route53_zone.www_bucket.zone_id
+  records = ["${aws_acm_certificate.ssl_certificate.domain_validation_options.0.resource_record_value}"]
+  ttl     = 60
+}
+
 # Uncomment the validation_record_fqdns line if you do DNS validation instead of Email.
 resource "aws_acm_certificate_validation" "cert_validation" {
-  provider        = aws.acm_provider
-  certificate_arn = aws_acm_certificate.ssl_certificate.arn
-  #validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
+  provider                = aws.acm_provider
+  certificate_arn         = aws_acm_certificate.ssl_certificate.arn
+  validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }
+*/
 
 # Cloudfront distribution for main s3 site.
 resource "aws_cloudfront_distribution" "www_s3_distribution" {
@@ -199,7 +209,8 @@ resource "aws_cloudfront_distribution" "www_s3_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate_validation.cert_validation.certificate_arn
+    #acm_certificate_arn      = aws_acm_certificate_validation.cert_validation.certificate_arn
+    acm_certificate_arn      = aws_acm_certificate.ssl_certificate.arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.1_2016"
   }
@@ -253,7 +264,7 @@ resource "aws_cloudfront_distribution" "root_s3_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate_validation.cert_validation.certificate_arn
+    acm_certificate_arn      = aws_acm_certificate.ssl_certificate.arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.1_2016"
   }
