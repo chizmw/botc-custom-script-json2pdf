@@ -1,84 +1,98 @@
-const dropZone = document.getElementById('drop_zone');
 const apiUrl =
   'https://cv2cfac6il.execute-api.eu-west-2.amazonaws.com/dev/render';
 
-dropZone.addEventListener('dragover', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  dropZone.style.backgroundColor = '#f0f0f0';
+const dropzone = new Dropzone('#demo-upload', {
+  url: apiUrl,
+  previewTemplate: document.querySelector('#preview-template').innerHTML,
+  parallelUploads: 2,
+  thumbnailHeight: 120,
+  thumbnailWidth: 120,
+  maxFilesize: 5,
+  filesizeBase: 1000,
+  uploadMultiple: false,
+  acceptedFiles: 'application/json',
+  headers: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'x-api-key': 'htmoQURLmm2MM0uTGV1s69EyReK3JReJ9XFwBWM2',
+  },
+  withCredentials: true,
+  /*
+  headers: {
+    'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+    'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
+    'Access-Control-Allow-Headers':
+      'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Content-Type': 'application/json',
+  },
+  */
+
+  thumbnail: function (file, dataUrl) {
+    if (file.previewElement) {
+      file.previewElement.classList.remove('dz-file-preview');
+      const images = file.previewElement.querySelectorAll(
+        '[data-dz-thumbnail]'
+      );
+      for (const element of images) {
+        let thumbnailElement = element;
+        thumbnailElement.alt = file.name;
+        thumbnailElement.src = dataUrl;
+      }
+      setTimeout(function () {
+        file.previewElement.classList.add('dz-image-preview');
+      }, 1);
+    }
+  },
 });
 
-dropZone.addEventListener('dragleave', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  dropZone.style.backgroundColor = '';
-});
+// Now fake the file upload, since GitHub does not handle file uploads
+// and returns a 404
 
-dropZone.addEventListener('drop', (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  dropZone.style.backgroundColor = '';
+const minSteps = 6,
+  maxSteps = 60,
+  timeBetweenSteps = 100,
+  bytesPerStep = 100000;
 
-  const files = e.dataTransfer.files;
-  if (files.length > 0) {
-    uploadFile(files[0]);
-  }
-});
+dropzone._uploadFiles = function (files) {
+  let self = this;
 
-async function uploadFile(file) {
-  const formData = new FormData();
-  formData.append('file', file);
+  for (const element of files) {
+    let file = element;
+    let totalSteps = Math.round(
+      Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep))
+    );
 
-  try {
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      body: formData,
-      // we want no-cors mode so we can actually post
-      // the file to the API endpoint.
-      mode: 'no-cors',
-    });
+    for (let step = 0; step < totalSteps; step++) {
+      let duration = timeBetweenSteps * (step + 1);
+      setTimeout(
+        (function (file, totalSteps, step) {
+          return function () {
+            file.upload = {
+              progress: (100 * (step + 1)) / totalSteps,
+              total: file.size,
+              bytesSent: ((step + 1) * file.size) / totalSteps,
+            };
 
-    if (response.ok) {
-      const data = await response.json();
-      checkFinishedStatus(data.taskId);
-    } else {
-      console.error(
-        'Error uploading file:',
-        response.status,
-        response.statusText
+            self.emit(
+              'uploadprogress',
+              file,
+              file.upload.progress,
+              file.upload.bytesSent
+            );
+            if (file.upload.progress == 100) {
+              file.status = Dropzone.SUCCESS;
+              self.emit('success', file, 'success', null);
+              self.emit('complete', file);
+              self.processQueue();
+            }
+          };
+        })(file, totalSteps, step),
+        duration
       );
     }
-  } catch (error) {
-    console.error('Error uploading file:', error);
   }
-}
-
-async function checkFinishedStatus(taskId) {
-  const checkUrl = `https://your-api-endpoint.com/status/${taskId}`;
-
-  let finished = false;
-  while (!finished) {
-    try {
-      const response = await fetch(checkUrl);
-      if (response.ok) {
-        const data = await response.json();
-        finished = data.finished;
-        if (!finished) {
-          setTimeout(() => {}, 3000); // Wait 3 seconds before polling again.
-        } else {
-          console.log('File processing finished:', data.result);
-        }
-      } else {
-        console.error(
-          'Error checking status:',
-          response.status,
-          response.statusText
-        );
-        break;
-      }
-    } catch (error) {
-      console.error('Error checking status:', error);
-      break;
-    }
-  }
-}
+};
+/* comment */
+/* comment */
+/* comment */

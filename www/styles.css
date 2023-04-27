@@ -11,6 +11,7 @@ body {
   background-color: #f8f8f8;
   color: #333;
   padding: 20px;
+  text-rendering: optimizeLegibility;
 }
 
 /* Headings */
@@ -46,27 +47,27 @@ a:hover {
 }
 
 /* Navigation */
-nav {
+div .nav {
   background-color: #333;
-  padding: 15px;
+  padding: 5px;
 }
 
-nav ul {
+div .nav ul {
   list-style-type: none;
 }
 
-nav ul li {
+div .nav ul li {
   display: inline;
   margin-right: 10px;
 }
 
-nav ul li a {
+div .nav ul li a {
   color: #fff;
   font-size: 1.1em;
 }
 
 /* Main Content */
-article {
+div .article {
   padding: 20px;
   background-color: #fff;
   border-radius: 5px;
@@ -76,16 +77,16 @@ article {
   flex-direction: row;
 }
 
-article img {
+div .article img {
   max-width: 100%;
   height: auto;
 }
 
-article p {
+div .article p {
   margin-bottom: 10px;
 }
 
-article div {
+div .article div {
   margin-left: 20px;
 }
 
@@ -95,16 +96,19 @@ footer {
   margin-top: 20px;
 }
 
-#drop_zone {
-  width: 300px;
-  height: 200px;
-  padding: 10px;
-  border: 2px dashed #ccc;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.dropzone {
+  background: white;
+  border-radius: 5px;
+  border: 2px dashed rgb(0, 135, 247);
+  border-image: none;
+  max-width: 500px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.dropzone:hover {
+  border: 4px dashed rgb(0, 135, 247);
+  background-color: #e0e0e0;
 }
 
 .float-left {
