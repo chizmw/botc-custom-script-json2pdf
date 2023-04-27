@@ -59,6 +59,8 @@ module "cors" {
   ]
 
   allow_origin = "https://${var.site_name}.${var.domain_name}"
+
+  allow_credentials = true
 }
 
 # dev stage
