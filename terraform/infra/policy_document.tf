@@ -47,6 +47,7 @@ data "aws_iam_policy_document" "policydoc-deploy_json2pdf_finegrained_extras" {
       "route53:ListTagsForResource",
       "s3:PutBucketAcl",
       "s3:PutBucketPolicy",
+      "cloudfront:CreateInvalidation",
     ]
     resources = ["*"]
   }
