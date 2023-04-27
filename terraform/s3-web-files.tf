@@ -4,6 +4,16 @@ locals {
     "script.js"              = "application/javascript"
     "styles.css"             = "text/css"
     "images/storyteller.png" = "image/png"
+
+    # favicon resources
+    "favicon/android-chrome-192x192.png" = "image/png"
+    "favicon/android-chrome-512x512.png" = "image/png"
+    "favicon/apple-touch-icon.png"       = "image/png"
+    "favicon/favicon-16x16.png"          = "image/png"
+    "favicon/favicon-32x32.png"          = "image/png"
+    "favicon/favicon.ico"                = "image/x-icon"
+    "favicon/site.webmanifest"           = "application/manifest+json"
+
   }
 }
 
