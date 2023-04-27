@@ -1,14 +1,3 @@
-variable "www_domain_name" {
-  type        = string
-  description = "The domain name for the website."
-  default     = "velvetlookout.org"
-}
-
-variable "www_bucket_name" {
-  type        = string
-  description = "The name of the bucket without the www. prefix. Normally domain_name."
-  default     = "velvetlookout.org"
-}
 
 variable "common_tags" {
   description = "Common tags you want applied to all components."
@@ -19,7 +8,7 @@ variable "common_tags" {
 }
 
 resource "aws_s3_bucket" "www_bucket" {
-  bucket = "blood.${var.www_bucket_name}"
+  bucket = "${var.site_name}.${var.www_bucket_name}"
   tags = merge(
     local.tag_defaults,
     var.common_tags,
@@ -47,7 +36,7 @@ resource "aws_s3_bucket_policy" "www_bucket_policy" {
     aws_s3_bucket_acl.www_bucket_acl,
   ]
   bucket = aws_s3_bucket.www_bucket.id
-  policy = templatefile("templates/s3-policy.json", { bucket = "blood.${var.www_bucket_name}" })
+  policy = templatefile("templates/s3-policy.json", { bucket = "${var.site_name}.${var.www_bucket_name}" })
 }
 
 resource "aws_s3_bucket_cors_configuration" "www_bucket_cors" {
@@ -56,7 +45,7 @@ resource "aws_s3_bucket_cors_configuration" "www_bucket_cors" {
   cors_rule {
     allowed_headers = ["Authorization", "Content-Length"]
     allowed_methods = ["GET", "POST"]
-    allowed_origins = ["https://blood.${var.www_domain_name}"]
+    allowed_origins = ["https://${var.site_name}.${var.www_domain_name}"]
     max_age_seconds = 3000
   }
 }
@@ -91,7 +80,7 @@ resource "aws_s3_bucket" "root_bucket" {
 resource "aws_s3_bucket_website_configuration" "root_bucket_website" {
   bucket = aws_s3_bucket.www_bucket.id
   redirect_all_requests_to {
-    host_name = "https://blood.${var.www_domain_name}"
+    host_name = "https://${var.site_name}.${var.www_domain_name}"
     protocol  = "https"
   }
 }
@@ -125,8 +114,8 @@ resource "aws_acm_certificate" "ssl_certificate" {
   provider                  = aws.acm_provider
   domain_name               = var.www_domain_name
   subject_alternative_names = ["*.${var.www_domain_name}"]
-  #validation_method         = "EMAIL"
-  validation_method = "DNS"
+  validation_method         = "EMAIL"
+  #validation_method = "DNS"
 
   tags = merge(
     local.tag_defaults,
@@ -146,20 +135,20 @@ resource "aws_route53_record" "cert_validation" {
   records = ["${aws_acm_certificate.ssl_certificate.domain_validation_options.0.resource_record_value}"]
   ttl     = 60
 }
+*/
 
 # Uncomment the validation_record_fqdns line if you do DNS validation instead of Email.
 resource "aws_acm_certificate_validation" "cert_validation" {
-  provider                = aws.acm_provider
-  certificate_arn         = aws_acm_certificate.ssl_certificate.arn
-  validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
+  provider        = aws.acm_provider
+  certificate_arn = aws_acm_certificate.ssl_certificate.arn
+  #validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }
-*/
 
 # Cloudfront distribution for main s3 site.
 resource "aws_cloudfront_distribution" "www_s3_distribution" {
   origin {
     domain_name = aws_s3_bucket.www_bucket.bucket_regional_domain_name
-    origin_id   = "S3-www.${var.www_bucket_name}"
+    origin_id   = "S3-${var.site_name}.${var.www_bucket_name}"
 
     custom_origin_config {
       http_port              = 80
@@ -173,7 +162,7 @@ resource "aws_cloudfront_distribution" "www_s3_distribution" {
   is_ipv6_enabled     = true
   default_root_object = "index.html"
 
-  aliases = ["blood.${var.www_domain_name}"]
+  aliases = ["${var.site_name}.${var.www_domain_name}"]
 
   custom_error_response {
     error_caching_min_ttl = 0
@@ -185,7 +174,7 @@ resource "aws_cloudfront_distribution" "www_s3_distribution" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "S3-blood.${var.www_bucket_name}"
+    target_origin_id = "S3-${var.site_name}.${var.www_bucket_name}"
 
     forwarded_values {
       query_string = false
@@ -275,17 +264,12 @@ resource "aws_cloudfront_distribution" "root_s3_distribution" {
   )
 }
 
-resource "aws_route53_zone" "main" {
+data "aws_route53_zone" "main" {
   name = var.www_domain_name
-
-  tags = merge(
-    local.tag_defaults,
-    var.common_tags,
-  )
 }
 
 resource "aws_route53_record" "root-a" {
-  zone_id = aws_route53_zone.main.zone_id
+  zone_id = data.aws_route53_zone.main.zone_id
   name    = var.www_domain_name
   type    = "A"
 
@@ -297,8 +281,8 @@ resource "aws_route53_record" "root-a" {
 }
 
 resource "aws_route53_record" "www-a" {
-  zone_id = aws_route53_zone.main.zone_id
-  name    = "blood.${var.www_domain_name}"
+  zone_id = data.aws_route53_zone.main.zone_id
+  name    = "${var.site_name}.${var.www_domain_name}"
   type    = "A"
 
   alias {
