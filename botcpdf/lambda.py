@@ -7,6 +7,7 @@ from typing import Any, Dict
 
 from aws_lambda_powertools.logging.logger import Logger
 from aws_lambda_powertools.utilities.typing import LambdaContext
+from requests_toolbelt import MultipartDecoder
 
 from botcpdf.script import Script
 from botcpdf.util import upload_pdf_to_s3
@@ -33,10 +34,30 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
     logger.debug("%s handler called", __name__)
     logger.debug(event)
 
-    # we need to convert event["body"] from a JSON string to a Python dict
-    # we can do this with the json module
-    body_json = json.loads(event.get("body", "{'error': 'no body'}"))
-    logger.debug(body_json)
+    # we've changed the upload/input format to work with the web page submission
+    # which means the event body is now a multipart/form-data
+    # so we need to parse it
+    # we can use requests-toolbelt for this
+    multipart_data = MultipartDecoder(
+        event["body"],
+        event["headers"]["content-type"],
+    )
+
+    for part in multipart_data.parts:
+        # we're only interested in the JSON part
+        if not part.headers[b"Content-Disposition"].startswith(
+            b'form-data; name="json"'
+        ):
+            logger.debug("skipping part %s", part.headers[b"Content-Disposition"])
+            continue
+
+        # we need to convert event["body"] from a JSON string to a Python dict
+        # we can do this with the json module
+        body_json = json.loads(part.content)
+        logger.debug(body_json)
+
+        # we should only have one part, so we can break out of the loop
+        break
 
     script = Script(
         title="A Script Has No Name",
