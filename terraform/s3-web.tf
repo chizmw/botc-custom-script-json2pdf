@@ -9,10 +9,6 @@ variable "common_tags" {
 
 resource "aws_s3_bucket" "www_bucket" {
   bucket = "${var.site_name}.${var.www_bucket_name}"
-  tags = merge(
-    local.tag_defaults,
-    var.common_tags,
-  )
 }
 
 resource "aws_s3_bucket_ownership_controls" "www_bucket_ownership_controls" {
@@ -71,14 +67,9 @@ resource "aws_s3_bucket" "root_bucket" {
   /*website {
     redirect_all_requests_to = "https://www.${var.www_domain_name}"
   }*/
-
-  tags = merge(
-    local.tag_defaults,
-    var.common_tags,
-  )
 }
 resource "aws_s3_bucket_website_configuration" "root_bucket_website" {
-  bucket = aws_s3_bucket.www_bucket.id
+  bucket = aws_s3_bucket.root_bucket.id
   redirect_all_requests_to {
     host_name = "https://${var.site_name}.${var.www_domain_name}"
     protocol  = "https"
@@ -116,12 +107,6 @@ resource "aws_acm_certificate" "ssl_certificate" {
   subject_alternative_names = ["*.${var.www_domain_name}"]
   validation_method         = "EMAIL"
   #validation_method = "DNS"
-
-  tags = merge(
-    local.tag_defaults,
-    var.common_tags,
-  )
-
   lifecycle {
     create_before_destroy = true
   }
@@ -203,8 +188,6 @@ resource "aws_cloudfront_distribution" "www_s3_distribution" {
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.1_2016"
   }
-
-  tags = var.common_tags
 }
 
 # Cloudfront S3 for redirect to www.
@@ -257,11 +240,6 @@ resource "aws_cloudfront_distribution" "root_s3_distribution" {
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.1_2016"
   }
-
-  tags = merge(
-    local.tag_defaults,
-    var.common_tags,
-  )
 }
 
 data "aws_route53_zone" "main" {
