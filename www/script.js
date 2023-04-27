@@ -16,17 +16,6 @@ const dropzone = new Dropzone('#demo-upload', {
     'Access-Control-Allow-Origin': '*',
     'x-api-key': 'htmoQURLmm2MM0uTGV1s69EyReK3JReJ9XFwBWM2',
   },
-  withCredentials: true,
-  /*
-  headers: {
-    'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-    'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
-    'Access-Control-Allow-Headers':
-      'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Content-Type': 'application/json',
-  },
-  */
 
   thumbnail: function (file, dataUrl) {
     if (file.previewElement) {
