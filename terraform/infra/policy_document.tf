@@ -28,6 +28,7 @@ data "aws_iam_policy_document" "policydoc-deploy_json2pdf_finegrained_extras" {
       "acm:DescribeCertificate",
       "acm:ListTagsForCertificate",
       "acm:RequestCertificate",
+      "cloudfront:CreateInvalidation",
       "cloudfront:GetDistribution",
       "cloudfront:ListTagsForResource",
       "iam:CreatePolicy",
@@ -39,6 +40,9 @@ data "aws_iam_policy_document" "policydoc-deploy_json2pdf_finegrained_extras" {
       "iam:ListAttachedGroupPolicies",
       "iam:ListGroupsForUser",
       "iam:TagPolicy",
+      "kms:DescribeCustomKeyStores",
+      "kms:ListAliases",
+      "kms:ListKeys",
       "route53:ChangeResourceRecordSets",
       "route53:GetChange",
       "route53:GetHostedZone",
@@ -47,9 +51,24 @@ data "aws_iam_policy_document" "policydoc-deploy_json2pdf_finegrained_extras" {
       "route53:ListTagsForResource",
       "s3:PutBucketAcl",
       "s3:PutBucketPolicy",
-      "cloudfront:CreateInvalidation",
     ]
     resources = ["*"]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "kms:GetParametersForImport",
+      "kms:GetPublicKey",
+      "kms:ListKeyPolicies",
+      "kms:ListRetirableGrants",
+      "kms:GetKeyRotationStatus",
+      "kms:GetKeyPolicy",
+      "kms:DescribeKey",
+      "kms:ListResourceTags",
+      "kms:ListGrants"
+    ]
+    resources = ["arn:aws:kms:*:436158765452:key/*"]
   }
 }
 
