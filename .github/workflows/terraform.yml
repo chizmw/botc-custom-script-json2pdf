@@ -25,8 +25,6 @@ jobs:
       matrix:
         terraform-dir:
           - terraform
-          - terraform/infra
-          - terraform/velvetlookout.org
         include:
           - account-name-prefix: chizography
             session-tag: botc-json2pdf
