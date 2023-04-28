@@ -7,7 +7,7 @@ from typing import Any, Dict
 
 from aws_lambda_powertools.logging.logger import Logger
 from aws_lambda_powertools.utilities.typing import LambdaContext
-from requests_toolbelt import MultipartDecoder
+from requests_toolbelt import MultipartDecoder  # type: ignore
 
 from botcpdf.script import Script
 from botcpdf.util import upload_pdf_to_s3
