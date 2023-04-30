@@ -50,6 +50,12 @@ ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/Extension Cord.pdf"
 endif
 
+test-newchars: poetry
+	@$(MAKE) process INPUT_FILE="scripts/Grind My Viz.json"
+ifeq ($(shell uname),Darwin)
+	@open -a Preview "pdfs/Grind My Viz.pdf"
+endif
+
 test-meta: poetry
 	@$(MAKE) process INPUT_FILE='scripts/my-test-script.json'
 ifeq ($(shell uname),Darwin)
