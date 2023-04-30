@@ -60,9 +60,9 @@ def load_extra_roles():
     # loop through all json files in gameinfo/characters
     # and load them into a list
     extra_roles = []
-    for filename in os.listdir("gameinfo/characters"):
+    for filename in os.listdir("gameinfo/extra-characters"):
         if filename.endswith(".json"):
-            extra_roles.append(load_data(f"gameinfo/characters/{filename}"))
+            extra_roles.append(load_data(f"gameinfo/extra-characters/{filename}"))
 
     return extra_roles
 
