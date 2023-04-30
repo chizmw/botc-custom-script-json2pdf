@@ -58,9 +58,10 @@ module "cors" {
     "access-control-allow-origin",
   ]
 
-  allow_origin = "https://${var.site_name}.${var.domain_name}"
+  #allow_origin = "https://${var.site_name}.${var.domain_name},http://127.0.0.1:5500"
+  allow_origin = "http://127.0.0.1:5500"
 
-  allow_credentials = true
+  allow_credentials = false
 }
 
 # dev stage
