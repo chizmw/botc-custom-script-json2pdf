@@ -122,6 +122,9 @@ header {
 .character-name-townsfolk {
   color: #00f;
 }
+.character-name-traveler {
+  color: brown;
+}
 .character-reminder {
   color: #000;
   font-family: 'Fira Sans', sans-serif;
@@ -137,6 +140,9 @@ header {
 .character-type-townsfolk {
   border-top: 2px solid #00f;
   color: #00f;
+}
+.character-type-traveler {
+  color: brown;
 }
 .cols-2 {
   -moz-column-count: 2;
