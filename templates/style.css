@@ -123,7 +123,7 @@ header {
   color: #00f;
 }
 .character-name-traveler {
-  color: brown;
+  color: #804141;
 }
 .character-reminder {
   color: #000;
@@ -141,8 +141,11 @@ header {
   border-top: 2px solid #00f;
   color: #00f;
 }
+.character-type-jinx {
+  color: #af6e4c;
+}
 .character-type-traveler {
-  color: brown;
+  color: #804141;
 }
 .cols-2 {
   -moz-column-count: 2;
@@ -166,7 +169,7 @@ header {
   width: 40px;
 }
 .jinx-night-reason {
-  color: brown;
+  color: #af6e4c;
   display: inline-block;
   font-family: 'Fira Sans', sans-serif;
   max-width: 50%;
@@ -187,7 +190,7 @@ header {
   width: 100%;
 }
 .jinxes {
-  border-top: 1.5px solid brown;
+  border-top: 1.5px solid #af6e4c;
   flex-direction: row;
   float: right;
   font-family: 'Alegreya Sans SC', sans-serif;
@@ -196,7 +199,7 @@ header {
   vertical-align: middle;
 }
 .jinxes-label-text {
-  color: brown;
+  color: #af6e4c;
   font-family: 'Alegreya Sans SC', sans-serif;
   font-size: 8pt;
   margin-right: -3px;
@@ -214,6 +217,12 @@ header {
 .line-prejinx-nightinfo {
   border-bottom: 3px double #a9a9a9;
   flex: 1;
+  margin-bottom: 2px;
+}
+.line-pretraveler-nightinfo {
+  border-bottom: 3px double #a9a9a9;
+  flex: 1;
+  padding-top: 20px;
   margin-bottom: 2px;
 }
 .top-left-header {
