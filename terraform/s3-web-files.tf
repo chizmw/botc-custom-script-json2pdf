@@ -4,6 +4,8 @@ locals {
     "script.js"              = "application/javascript"
     "styles.css"             = "text/css"
     "images/storyteller.png" = "image/png"
+    "images/download.png"    = "image/png"
+    "dropzone.css"           = "text/css"
 
     # favicon resources
     "favicon/android-chrome-192x192.png" = "image/png"

@@ -1,7 +1,8 @@
 const apiUrl =
   'https://cv2cfac6il.execute-api.eu-west-2.amazonaws.com/dev/render';
 
-const dropzone = new Dropzone('#demo-upload', {
+//const dropzone = new Dropzone('#demo-upload', {
+Dropzone.options.customScript = {
   url: apiUrl,
   previewTemplate: document.querySelector('#preview-template').innerHTML,
   parallelUploads: 2,
@@ -33,11 +34,29 @@ const dropzone = new Dropzone('#demo-upload', {
       }, 1);
     }
   },
-});
+  //});
+  //
+  init: function () {
+    this.on('success', (file) => {
+      const obj = JSON.parse(file.xhr.response);
+      console.log(obj);
+      window.location.href = obj.url;
+      // find span data-dz-name and replace with obj.url
+      const span = file.previewElement.querySelector('[data-dz-name]');
+      span.innerHTML =
+        '<a href="' + obj.url + '" target="_blank">' + obj.script_name + '</a>';
+      // hide .dz-size
+      const dzsize = file.previewElement.querySelector('.dz-size');
+      dzsize.innerHTML =
+        '<span data-dz-size><img src="images/download.png" width="16" height="16"></span>';
+    });
+  },
+};
 
 // Now fake the file upload, since GitHub does not handle file uploads
 // and returns a 404
 
+/*
 const minSteps = 6,
   maxSteps = 60,
   timeBetweenSteps = 100,
@@ -82,6 +101,7 @@ dropzone._uploadFiles = function (files) {
     }
   }
 };
+*/
 /* comment */
 /* comment */
 /* comment */
