@@ -81,6 +81,7 @@ class Script:
             "minion": [],
             "demon": [],
             "fabled": [],
+            "traveler": [],
         }
         self.first_night: dict[float, Role] = {}
         self.other_nights: dict[float, Role] = {}

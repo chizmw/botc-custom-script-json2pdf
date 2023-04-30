@@ -44,6 +44,12 @@ ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/No Roles Barred.pdf"
 endif
 
+test-broken: poetry
+	@$(MAKE) process INPUT_FILE="scripts/broke-test.json"
+ifeq ($(shell uname),Darwin)
+	@open -a Preview "pdfs/Extension Cord.pdf"
+endif
+
 test-meta: poetry
 	@$(MAKE) process INPUT_FILE='scripts/my-test-script.json'
 ifeq ($(shell uname),Darwin)
