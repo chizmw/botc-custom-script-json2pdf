@@ -35,6 +35,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set Workspace Env
+        # if we're a PR then we user 'dev', otherwise we use 'prod'
+        run: |
+          if [ -n "${{ github.event.pull_request.head.sha }}" ]; then
+            echo "TF_WORKSPACE=dev" >> "$GITHUB_ENV"
+          else
+            echo "TF_WORKSPACE=prod" >> "$GITHUB_ENV"
+          fi
+
       - name: Run terraform actions
         id: run-terraform-actions
         # yamllint disable-line rule:line-length
