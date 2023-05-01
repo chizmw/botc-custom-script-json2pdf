@@ -1,12 +1,3 @@
-
-variable "common_tags" {
-  description = "Common tags you want applied to all components."
-  default = {
-    "X-Foo"     = "botc-www"
-    "X-Article" = "https://www.alexhyett.com/terraform-s3-static-website-hosting/"
-  }
-}
-
 resource "aws_s3_bucket" "www_bucket" {
   bucket = "${var.site_name}.${var.www_bucket_name}"
 }
@@ -100,34 +91,8 @@ resource "aws_s3_bucket_policy" "root_bucket_policy" {
   policy = templatefile("templates/s3-policy.json", { bucket = var.www_bucket_name })
 }
 
-# SSL Certificate
-resource "aws_acm_certificate" "ssl_certificate" {
-  provider                  = aws.acm_provider
-  domain_name               = var.www_domain_name
-  subject_alternative_names = ["*.${var.www_domain_name}"]
-  validation_method         = "EMAIL"
-  #validation_method = "DNS"
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-/*
-resource "aws_route53_record" "cert_validation" {
-  name    = aws_acm_certificate.ssl_certificate.domain_name
-  type    = aws_acm_certificate.ssl_certificate.domain_validation_options.0.type
-  zone_id = data.aws_route53_zone.www_bucket.zone_id
-  records = ["${aws_acm_certificate.ssl_certificate.domain_validation_options.0.resource_record_value}"]
-  ttl     = 60
-}
-*/
 
 # Uncomment the validation_record_fqdns line if you do DNS validation instead of Email.
-resource "aws_acm_certificate_validation" "cert_validation" {
-  provider        = aws.acm_provider
-  certificate_arn = aws_acm_certificate.ssl_certificate.arn
-  #validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
-}
 
 # Cloudfront distribution for main s3 site.
 resource "aws_cloudfront_distribution" "www_s3_distribution" {
@@ -239,33 +204,5 @@ resource "aws_cloudfront_distribution" "root_s3_distribution" {
     acm_certificate_arn      = aws_acm_certificate.ssl_certificate.arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.1_2016"
-  }
-}
-
-data "aws_route53_zone" "main" {
-  name = var.www_domain_name
-}
-
-resource "aws_route53_record" "root-a" {
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = var.www_domain_name
-  type    = "A"
-
-  alias {
-    name                   = aws_cloudfront_distribution.root_s3_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.root_s3_distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
-
-resource "aws_route53_record" "www-a" {
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = "${var.site_name}.${var.www_domain_name}"
-  type    = "A"
-
-  alias {
-    name                   = aws_cloudfront_distribution.www_s3_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.www_s3_distribution.hosted_zone_id
-    evaluate_target_health = false
   }
 }
