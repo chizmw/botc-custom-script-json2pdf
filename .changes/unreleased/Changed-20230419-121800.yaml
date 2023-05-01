@@ -1,5 +1,0 @@
-kind: Changed
-body: set python requirement to 3.10 (lambda compatibility)
-time: 2023-04-19T12:18:00.408106+01:00
-custom:
-  GithubIssue: ""

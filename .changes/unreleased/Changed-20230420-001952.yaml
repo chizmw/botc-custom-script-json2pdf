@@ -1,5 +1,0 @@
-kind: Changed
-body: 'docker-test: make the curl post silent'
-time: 2023-04-20T00:19:52.462179+01:00
-custom:
-  GithubIssue: ""

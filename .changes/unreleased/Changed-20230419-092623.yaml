@@ -1,5 +1,0 @@
-kind: Changed
-body: ignore pyproject.toml in create release workflow
-time: 2023-04-19T09:26:23.510189+01:00
-custom:
-  GithubIssue: ""
