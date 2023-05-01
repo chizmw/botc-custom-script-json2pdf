@@ -1,0 +1,16 @@
+<!-- Maybe Traveler On The Night Info Sheet-->
+{%- if travelers %}
+  <div class="line-pretraveler-nightinfo"></div>
+  <h2 class="character-type character-type-traveler">{{ "travelers" | upper }}</h2>
+  <div class="cols-2">
+    {%- for traveler in travelers %}
+      <div class="character-block character-block-player">
+        <img src="file://{{icon_folder}}/{{traveler.id_slug}}.png" alt="{{ traveler.name }}" class="character-icon"/>
+        <div class="character-name character-name-traveler">
+          {{ traveler.name }}
+        </div>
+        <div class="character-ability">{{ traveler.ability }}</div>
+      </div>
+    {%- endfor %}
+  </div>
+{%- endif %}

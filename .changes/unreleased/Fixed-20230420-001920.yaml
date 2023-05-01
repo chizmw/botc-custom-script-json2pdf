@@ -1,0 +1,5 @@
+kind: Fixed
+body: Remove style options that raise warnings and are ignore
+time: 2023-04-20T00:19:20.938069+01:00
+custom:
+  GithubIssue: ""

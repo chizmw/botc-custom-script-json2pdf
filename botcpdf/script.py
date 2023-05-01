@@ -1,5 +1,6 @@
 """This module contains the Script class, which represents a script."""
 
+import logging
 import os
 from typing import Optional
 from pkg_resources import get_distribution  # type: ignore
@@ -8,7 +9,7 @@ from weasyprint import HTML  # type: ignore
 from botcpdf.benchmark import timeit  # type: ignore
 from botcpdf.jinx import Jinxes  # type: ignore
 from botcpdf.role import Role, RoleData
-from botcpdf.util import cleanup_role_id, pdf2images  # type: ignore
+from botcpdf.util import cleanup_role_id, is_aws_env, pdf2images  # type: ignore
 
 
 class ScriptMeta:
@@ -27,12 +28,8 @@ class ScriptMeta:
     def __init__(self, data: dict):
         """Initialize script metadata."""
 
-        # ignore the id field if it's _meta
-        if data.get("id") == "_meta":
-            data.pop("id")
-
         # make sure we only use known fields; not all required
-        if not set(data.keys()).issubset({"name", "author", "logo"}):
+        if not set(data.keys()).issubset({"id", "name", "author", "logo"}):
             raise ValueError("Unexpected fields in script metadata")
 
         self.name = data.get("name", None)
@@ -46,26 +43,24 @@ class ScriptMeta:
 class Script:
     """Represents a script."""
 
-    char_types: dict[str, list[Role]] = {
-        "townsfolk": [],
-        "outsider": [],
-        "minion": [],
-        "demon": [],
-        "fabled": [],
-    }
-    first_night: dict[float, Role] = {}
-    other_nights: dict[float, Role] = {}
+    # pylint: disable=too-many-instance-attributes
 
+    # class variables
+    # these are shared across all instances of the class
     role_data: RoleData = RoleData()
 
-    meta: Optional[ScriptMeta] = None
-
-    hatred: dict[str, list[str]] = {}
-    hate_pair: dict[str, str] = {}
-
-    def __init__(self, title: str, script_data: dict):
+    def __init__(self, title: str, script_data: dict, logger=None):
         """Initialize a script."""
+
+        self._init_defaults()
+
         self.title = title
+        self.logger = logger
+
+        self._ensure_logger()
+
+        self.logger.info("Initializing script %s", self.title)
+        self.logger.debug(script_data)
 
         # we want to preserve the order of the characters
         # so we'll use a list instead of a set
@@ -78,6 +73,42 @@ class Script:
         # now we've loaded all the core information we can examine what we have
         # and see if there are any jinxes
         self._process_jinxes()
+
+    def _init_defaults(self) -> None:
+        self.char_types: dict[str, list[Role]] = {
+            "townsfolk": [],
+            "outsider": [],
+            "minion": [],
+            "demon": [],
+            "fabled": [],
+            "traveler": [],
+        }
+        self.first_night: dict[float, Role] = {}
+        self.other_nights: dict[float, Role] = {}
+        self.meta: Optional[ScriptMeta] = None
+        self.hatred: dict[str, list[str]] = {}
+        self.hate_pair: dict[str, str] = {}
+
+    @timeit
+    def _ensure_logger(self) -> None:
+        # if we don't have a logger, we'll create one that will log to stdout
+        if self.logger is None:
+            logger = logging.getLogger(__name__)
+            logger.setLevel(logging.DEBUG)
+            # create console handler with a higher log level
+            handler = logging.StreamHandler()
+            handler.setLevel(logging.DEBUG)
+            # create formatter and add it to the handlers
+            formatter = logging.Formatter(
+                "%(created)f [%(levelname)s] %(name)s, line %(lineno)d: %(message)s"
+            )
+            handler.setFormatter(formatter)
+            # add the handlers to logger
+            logger.addHandler(handler)
+
+            self.logger = logger
+
+            self.logger.info("No logger provided, creating one.")
 
     @timeit
     def _add_meta_roles(self) -> None:
@@ -112,17 +143,30 @@ class Script:
                         jinx_info = jinxes.get_jinx(slug, role.id_slug)
                         self.hate_pair[f"{slug}-{role.id_slug}"] = jinx_info.reason
 
-    def __repr__(self):
-        repr_str = ""
-        for char_type in self.char_types.items():
-            repr_str += char_type
-            for char in self.char_types[char_type]:
-                repr_str += f"\t{char}"
+    def __str__(self):
+        _str = ""
+        # for char_type in self.char_types.items():
+        # _str += char_type
+        # for char in self.char_types[char_type]:
+        # _str += f"\t{char}"
 
-        repr_str += f"first night: {self.sorted_first_night()}"
-        repr_str += f"other nights: {self.sorted_other_nights()}"
+        _str += f"Script: {self.title}\n"
 
-        return repr_str
+        # loop through the items in the dictionary
+        for char_type, type_roles in self.char_types.items():
+            chars = [char.name for char in type_roles]
+            chars.sort()
+            _str += f"  {char_type}: {chars}\n"
+
+        first_chars = [char.name for char in self.sorted_first_night()]
+        first_chars.sort()
+        other_chars = [char.name for char in self.sorted_other_nights()]
+        other_chars.sort()
+
+        _str += f"  first night: {first_chars}"
+        _str += f"  other nights: {other_chars}"
+
+        return _str
 
     def role_in_script(self, role_id: str) -> bool:
         """Return True if the role is in the script."""
@@ -150,6 +194,10 @@ class Script:
             self.meta = ScriptMeta(char)
             # if we have 'name' then update the title
             if self.meta.name:
+                # pylint: disable=logging-fstring-interpolation
+                self.logger.debug(
+                    f"Updating title to {self.meta.name} from {self.title}"
+                )
                 self.title = self.meta.name
 
             return
@@ -161,11 +209,15 @@ class Script:
 
         # add to the appropriate list
         self.char_types[role.team].append(role)
+
         # if it's a first night character, add it to the first night list
         if role.first_night != 0:
             # if there's already a character in the slot, raise an error
             if role.first_night in self.first_night:
-                raise ValueError(f"Duplicate first night character: {role.first_night}")
+                raise ValueError(
+                    f"Duplicate first night character in {role.first_night} position. "
+                    f"{role} trying to replace {self.first_night[role.first_night]}"
+                )
 
             self.first_night[role.first_night] = role
 
@@ -178,8 +230,13 @@ class Script:
             self.other_nights[role.other_night] = role
 
     @timeit
-    def render(self):
-        """Render the script to PDF"""
+    def render(self) -> str:
+        """Render the script as a PDF.
+
+        Returns:
+            str: local path to the PDF file
+        """
+
         env = Environment(
             loader=FileSystemLoader("templates"), extensions=["jinja2.ext.loopcontrols"]
         )
@@ -202,25 +259,36 @@ class Script:
             "hatred": self.hatred,
             "hate_pair": self.hate_pair,
         }
+
         html_out = template.render(template_vars)
+
+        self.logger.info(template_vars)
 
         # if we have BOTC_DEBUG set...
         if os.environ.get("BOTC_DEBUG"):
+            if is_aws_env():
+                html_output = os.path.join("/tmp", f"{self.title}.html")
+            else:
+                html_output = f"{self.title}.html"
             # write the rendered HTML to a file
-            with open(f"{self.title}.html", "w", encoding="utf-8") as fhandle:
+            with open(html_output, "w", encoding="utf-8") as fhandle:
                 fhandle.write(html_out)
 
         # convert the HTML to PDF
-        pdf_folder = os.path.abspath(os.path.join(this_folder, "..", "pdfs"))
-        # if pdf_folder doesn't exist, create it
-        if not os.path.exists(pdf_folder):
-            os.makedirs(pdf_folder)
+        if is_aws_env():
+            pdf_folder = "/tmp"
+        else:
+            pdf_folder = os.path.abspath(os.path.join(this_folder, "..", "pdfs"))
+            # if non-tmp pdf_folder doesn't exist, create it
+            if not os.path.exists(pdf_folder):
+                os.makedirs(pdf_folder)
         # save the PDF in the pdfs folder
         HTML(string=html_out).write_pdf(
             os.path.join(pdf_folder, f"{self.title}.pdf"),
             stylesheets=["templates/style.css"],
             optimize_size=(),
         )
+        print("PDF saved to " + os.path.join(pdf_folder, f"{self.title}.pdf"))
 
         # if we have BOTC_PDF2IMAGE set...
         if os.environ.get("BOTC_PDF2IMAGE"):
@@ -228,3 +296,5 @@ class Script:
                 os.path.join(pdf_folder, f"{self.title}.pdf"),
                 f"generated/{self.title}",
             )
+
+        return os.path.join(pdf_folder, f"{self.title}.pdf")

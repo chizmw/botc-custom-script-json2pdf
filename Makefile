@@ -44,6 +44,18 @@ ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/No Roles Barred.pdf"
 endif
 
+test-broken: poetry
+	@$(MAKE) process INPUT_FILE="scripts/broke-test.json"
+ifeq ($(shell uname),Darwin)
+	@open -a Preview "pdfs/Extension Cord.pdf"
+endif
+
+test-newchars: poetry
+	@$(MAKE) process INPUT_FILE="scripts/Grind My Viz.json"
+ifeq ($(shell uname),Darwin)
+	@open -a Preview "pdfs/Grind My Viz.pdf"
+endif
+
 test-meta: poetry
 	@$(MAKE) process INPUT_FILE='scripts/my-test-script.json'
 ifeq ($(shell uname),Darwin)
@@ -98,3 +110,15 @@ grab-some-scripts:
 	@curl -Ls -o 'scripts/Trouble Distilled.json' https://botc-scripts.azurewebsites.net/script/303/1.0.0/download
 # 34 Jinxes - a script with a lot of jinxes (nometa)
 	@curl -Ls -o 'scripts/34 Jinxes.json' https://botc-scripts.azurewebsites.net/script/544/1.0.0/download
+
+docker-test: grab-some-scripts
+	@$(eval CONTAINER := "test$(shell date +%s)")
+	@$(eval IMAGE := "hello-world:latest")
+	@docker build -t $(IMAGE) .
+	@docker run -d -v ~/.aws-lambda-rie:/aws-lambda -p 9000:8080 --entrypoint /aws-lambda/aws-lambda-rie --name $(CONTAINER) $(IMAGE) /usr/local/bin/python -m awslambdaric botcpdf.lambda.render
+	@sleep 3
+	@curl -s -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '@scripts/No Roles Barred.json' -O
+	@echo
+	docker logs $(CONTAINER)
+	@docker stop $(CONTAINER) >/dev/null || true
+	@docker rm $(CONTAINER) >/dev/null || true

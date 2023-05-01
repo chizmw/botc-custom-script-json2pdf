@@ -4,8 +4,14 @@ import json
 import shutil
 import sys
 import os
+from typing import Optional
 import requests  # type: ignore
 from pdf2image import convert_from_path
+
+import boto3  # type: ignore
+from botocore.exceptions import NoCredentialsError  # type: ignore
+from botocore.config import Config  # type: ignore
+from botcpdf.version import __version__
 
 
 def fetch_remote_data(url: str):
@@ -47,17 +53,19 @@ def load_nightmeta():
     """Load role data from a JSON file."""
     return load_data("gameinfo/roles-nightmeta.json")
 
+
 def load_extra_roles():
     """Load role data from a JSON file."""
 
     # loop through all json files in gameinfo/characters
     # and load them into a list
     extra_roles = []
-    for filename in os.listdir("gameinfo/characters"):
+    for filename in os.listdir("gameinfo/extra-characters"):
         if filename.endswith(".json"):
-            extra_roles.append(load_data(f"gameinfo/characters/{filename}"))
+            extra_roles.append(load_data(f"gameinfo/extra-characters/{filename}"))
 
     return extra_roles
+
 
 def pdf2images(pdf_file: str, output_dir: str):
     """Convert a PDF file to a set of images."""
@@ -124,3 +132,86 @@ def cleanup_role_id(id_slug) -> str:
     id_slug = id_slug.lower()
 
     return id_slug
+
+
+def is_aws_env() -> Optional[str]:
+    """Check if we're running in AWS Lambda.
+
+    Returns:
+        bool: true if we're running in AWS Lambda, false otherwise
+    """
+    return os.environ.get("AWS_LAMBDA_FUNCTION_NAME") or os.environ.get(
+        "AWS_EXECUTION_ENV"
+    )
+
+
+def upload_to_s3(
+    local_file: str, s3_file: str, download_filename: Optional[str] = None
+) -> str:
+    """Upload a file to an S3 bucket.
+
+    Args:
+        local_file (str): local file to upload
+        s3_file (str): name of the file in S3
+
+    Raises:
+        FileNotFoundError: local_file not found
+        NoCredentialsError: problem with AWS credentials
+
+    Returns:
+        str: _description_
+    """
+    s3client = boto3.client(
+        "s3", config=Config(signature_version="s3v4")
+    )  # pylint: disable=invalid-name
+
+    try:
+        if download_filename is None:
+            download_filename = os.path.basename(local_file)
+
+        s3client.upload_file(
+            local_file,
+            os.environ["BUCKET_NAME"],
+            s3_file,
+            ExtraArgs={
+                "ContentDisposition": f"attachment; filename={download_filename}"
+            },
+        )
+        url = s3client.generate_presigned_url(
+            ClientMethod="get_object",
+            Params={"Bucket": os.environ["BUCKET_NAME"], "Key": s3_file},
+            ExpiresIn=24 * 3600,
+        )
+
+        print(url)
+
+        return url
+    except FileNotFoundError as exc:
+        raise FileNotFoundError(f"File not found: {local_file}") from exc
+
+    except NoCredentialsError as exc:
+        raise NoCredentialsError() from exc
+
+
+def upload_pdf_to_s3(pdf_file: str, aws_request_id: str) -> str:
+    """Upload a PDF file to S3.
+
+    Args:
+        pdf_file (str): local path to the PDF file
+
+    Returns:
+        str: signed URL to the uploaded file
+    """
+
+    # get the basename of the file
+    basename = os.path.basename(pdf_file)
+
+    # get the name and extension
+    name, ext = os.path.splitext(basename)
+
+    # we want the new filename to be: version, name, request id, and extension
+    pdfname = f"{__version__}-{name}-{aws_request_id}{ext}"
+
+    url = upload_to_s3(pdf_file, f"pdf/{pdfname}", basename)
+
+    return url

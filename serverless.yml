@@ -1,0 +1,33 @@
+---
+service: botc-custom-script-json2pdf
+
+provider:
+  name: aws
+  region: eu-west-2
+  iam:
+    role: arn:aws:iam::436158765452:role/botc/deploy_json2pdf
+  ecr:
+    scanOnPush: true
+    images:
+      json2pdf:
+        path: ./
+        file: Dockerfile
+  stackTags:
+    Name: botc-custom-script-json2pdf
+    Owner: chisel
+    Product: botc-custom-script-json2pdf
+    InfoURL: https://github.com/chizmw/botc-custom-script-json2pdf
+  environment:
+    BUCKET_NAME: 436158765452-botc-pdf-bucket
+    BOTC_DEBUG: 1
+  timeout: 15
+  logRetentionInDays: 7
+
+plugins:
+  - serverless-docker
+
+functions:
+  botc-json2pdf:
+    timeout: 15
+    image:
+      name: json2pdf

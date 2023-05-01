@@ -12,6 +12,7 @@ on:
       - '**/.changes/*md'
       - '**/README.md'
       - '**/CHANGELOG.md'
+      - '**/pyproject.toml'
     tags-ignore:
       - '**'
 

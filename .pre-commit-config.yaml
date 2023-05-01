@@ -54,13 +54,13 @@ repos:
       # - id: shfmt
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.77.2
+    rev: v1.77.3
     hooks:
       - id: terraform_fmt
-      - id: terraform_docs
+      # - id: terraform_docs
 
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.30.0
+    rev: v1.31.0
     hooks:
       - id: yamllint
         args: [--format, parsable, --strict]
@@ -103,3 +103,18 @@ repos:
     rev: v2.12.0.2
     hooks:
       - id: hadolint
+
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+        language_version: python3.10
+
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: poetry run pylint
+        language: system
+        files: ^botcpdf/
+        types: [python]

@@ -60,12 +60,16 @@ class Role:
         # this looks weird to me, and as we fetch this data from the json
         # we modify it here to suit our desired
         text = text.replace(
+            "[Most players are Legion]",
+            "&nbsp;<strong>[Most players are Legion]</strong>",
+        )
+        text = text.replace(
             "(Travellers don’t count)",
-            "&nbsp;<strong>[Travellers don’t count]</strong>&nbsp;",
+            "&nbsp;<strong>[Travellers don’t count]</strong>",
         )
         text = text.replace(
             "(not yourself)",
-            "&nbsp;<strong>[not yourself]</strong>&nbsp;",
+            "&nbsp;<strong>[not yourself]</strong>",
         )
 
         # replace '[+N Outsider]' with '<strong>[+N Outsider]</strong>'

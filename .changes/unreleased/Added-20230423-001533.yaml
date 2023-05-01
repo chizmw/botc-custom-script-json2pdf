@@ -1,0 +1,5 @@
+kind: Added
+body: add util.upload_to_aws()
+time: 2023-04-23T00:15:33.110316+01:00
+custom:
+  GithubIssue: ""
