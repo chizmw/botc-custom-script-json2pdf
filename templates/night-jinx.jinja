@@ -7,7 +7,7 @@
       <div class="jinx-reminder-block">
         {%- set slugs = tag.split("-") %}
         {%- for slug in slugs %}
-          <img src="file://{{icon_folder}}/{{slug}}.png" alt="{{ reason }}" class="jinx-night-icon"/>
+          <img src="file://{{icon_folder}}/{{slug}}.png" alt="{{ reason }}" class="night-icon jinx-night-icon"/>
         {%- endfor %}
         <span class="jinx-night-reason">{{ reason }}</span>
       </div>

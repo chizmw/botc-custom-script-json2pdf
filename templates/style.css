@@ -114,6 +114,10 @@ header {
 .character-name- {
   color: #000;
 }
+.character-name-night {
+  font-size: 8pt;
+  padding-right: 3px;
+}
 .character-name-demon,
 .character-name-minion {
   color: red;
@@ -121,6 +125,9 @@ header {
 .character-name-outsider,
 .character-name-townsfolk {
   color: #00f;
+}
+.character-name-fabled {
+  color: #ff844a;
 }
 .character-name-traveler {
   color: #804141;
@@ -144,6 +151,9 @@ header {
 .character-type-jinx {
   color: #af6e4c;
 }
+.character-type-fabled {
+  color: #ff844a;
+}
 .character-type-traveler {
   color: #804141;
 }
@@ -163,10 +173,22 @@ header {
   max-width: 30px;
   vertical-align: bottom;
 }
-.jinx-night-icon {
+
+.night-icon {
   border: none;
   max-height: 40px;
   width: 40px;
+}
+.traveler-night-icon,
+.fabled-night-icon {
+  border: none;
+  display: inline-flex;
+  float: left;
+  margin-bottom: auto;
+  margin-top: auto;
+  height: 30px;
+  padding-right: 5px;
+  max-width: 30px;
 }
 .jinx-night-reason {
   color: #af6e4c;
@@ -176,10 +198,38 @@ header {
   padding-left: 15px;
   white-space: normal;
 }
+.traveler-night-ability {
+  color: #af6e4c;
+  /*
+  display: inline-block;
+  font-family: 'Fira Sans', sans-serif;
+  max-width: 50%;
+  padding-left: 15px;
+  white-space: normal;*/
+}
+.fabled-night-ability {
+  color: #ff844a;
+  /*
+  display: inline-block;
+  font-family: 'Fira Sans', sans-serif;
+  max-width: 50%;
+  padding-left: 15px;
+  white-space: normal;*/
+}
 .jinx-reminder-block {
   align-items: center;
   display: flex;
   margin-bottom: -2px;
+  break-inside: avoid-column;
+}
+.traveler-reminder-block,
+.fabled-reminder-block {
+  border: none;
+  break-inside: avoid-column;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  vertical-align: top;
+  min-height: 30px;
 }
 .jinx-reminder-wrapper {
   align-items: center;
@@ -222,7 +272,13 @@ header {
 .line-pretraveler-nightinfo {
   border-bottom: 3px double #a9a9a9;
   flex: 1;
-  padding-top: 20px;
+  padding-top: 5px;
+  margin-bottom: 2px;
+}
+.line-prefabled-nightinfo {
+  border-bottom: 3px double #a9a9a9;
+  flex: 1;
+  padding-top: 5px;
   margin-bottom: 2px;
 }
 .top-left-header {

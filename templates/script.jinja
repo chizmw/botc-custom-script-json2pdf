@@ -12,8 +12,9 @@
   </head>
   <body>
     <h1 class="script-title">{{ title }}</h1>
-    {%- set _dummy = characters.pop('fabled') %}
-    {%- set travelers = characters.pop('traveler') %}
+
+    {%- set fabled = characters.pop('fabled') %}
+    {%- set travelers = characters.pop('traveler') -%}
 
     {%- for type in characters %}
       {%- set type_plural = type + 's' if type != 'townsfolk' else type %}
@@ -85,8 +86,7 @@
       {%- endif %}
     {%- endfor %}
 
-    {% include 'night-jinx.jinja' %}
-    {% include 'night-traveler.jinja' %}
+    {% include 'night-extras.jinja' %}
 
 
     <!-- Other Night Info -->
@@ -117,8 +117,7 @@
       {%- endif %}
     {%- endfor %}
 
-    {% include 'night-jinx.jinja' %}
-    {% include 'night-traveler.jinja' %}
+    {% include 'night-extras.jinja' %}
 
   </body>
 </html>
