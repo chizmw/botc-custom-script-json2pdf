@@ -1,0 +1,5 @@
+kind: Removed
+body: remove debug workflow
+time: 2023-05-01T13:40:04.21991+01:00
+custom:
+  GithubIssue: ""
