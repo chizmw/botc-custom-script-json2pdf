@@ -26,3 +26,33 @@ resource "aws_s3_bucket_versioning" "botc_pdf_bucket_versioning" {
     status = "Enabled"
   }
 }
+
+###
+### DEV
+###
+resource "aws_s3_bucket" "botc_pdf_bucket_workspaced" {
+  bucket   = "436158765452-botc-pdf-bucket-${terraform.workspace}"
+  provider = aws
+}
+
+resource "aws_s3_bucket_ownership_controls" "botc_pdf_bucket_ownership_controls_workspaced" {
+  bucket = aws_s3_bucket.botc_pdf_bucket_workspaced.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "botc_pdf_bucket_acl_workspaced" {
+  depends_on = [
+    aws_s3_bucket_ownership_controls.botc_pdf_bucket_ownership_controls_workspaced
+  ]
+  bucket = aws_s3_bucket.botc_pdf_bucket_workspaced.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_versioning" "botc_pdf_bucket_versioning_workspaced" {
+  bucket = aws_s3_bucket.botc_pdf_bucket_workspaced.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
