@@ -51,7 +51,7 @@ resource "aws_s3_bucket_website_configuration" "www_bucket_website" {
 
 # S3 bucket for redirecting non-www to www.
 resource "aws_s3_bucket" "root_bucket" {
-  bucket = var.www_bucket_name
+  bucket = var.www_domain_name
   #acl    = "public-read"
   #policy = templatefile("templates/s3-policy.json", { bucket = var.www_bucket_name })
 
