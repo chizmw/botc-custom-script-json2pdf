@@ -8,7 +8,7 @@
 body {
   font-family: 'Fira Sans', sans-serif;
   line-height: 1.6;
-  background-color: #f8f8f8;
+  background-color: #0b1317;
   color: #333;
   padding: 20px;
   text-rendering: optimizeLegibility;
@@ -123,4 +123,37 @@ footer {
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+}
+
+.background-container {
+  background-color: #3a6b3a; /* Set your desired background color here */
+}
+
+.background-image {
+  background-image: url('images/background.png');
+  background-size: 100% auto; /* Scale the image to 100% width and auto height */
+
+  background-position: top;
+  /* Adjust the following properties as needed */
+  background-repeat: no-repeat;
+  height: 100vh; /* Set the height of the background div */
+  width: 100%; /* Set the width of the background div */
+}
+
+.footer {
+  position: center bottom;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 5px;
+  background-color: #efefef;
+  text-align: center;
+  font-size: small;
+}
+
+@media (max-width: 768px) {
+  .background-image {
+    background-position: center bottom;
+    background-size: 100%;
+  }
 }
