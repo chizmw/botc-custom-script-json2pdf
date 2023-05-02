@@ -6,7 +6,7 @@
   {%- for role in fabled %}
       <div class="fabled-reminder-block">
         <img src="file://{{icon_folder}}/{{role.id_slug}}.png" alt="{{ role.slug_id }}" class="night-icon fabled-night-icon"/>
-        <span class="character-name character-name-{{ role.team }}">{{ role.name }}</span>
+        <span class="character-name character-name-night character-name-{{ role.team }}">{{ role.name }}</span>
         <span class="fabled-night-ability">{{ role.ability }}</span>
       </div>
   {%- endfor %}
