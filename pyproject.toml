@@ -17,7 +17,6 @@ pytz = "^2023.3"
 aws-lambda-powertools = "^2.14.0"
 jmespath = "^1.0.1"
 boto3 = "^1.26.118"
-requests-toolbelt = "^0.10.1"
 
 
 [tool.poetry.group.dev.dependencies]
