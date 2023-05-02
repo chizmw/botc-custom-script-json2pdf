@@ -1,7 +1,7 @@
 # a bucket for the $workspace files to be stored in
 
 resource "aws_s3_bucket" "wkspc_www_bucket" {
-  bucket = "${var.site_name}.${var.www_bucket_name}"
+  bucket = "${local.site_name}.${var.www_bucket_name}"
 }
 
 resource "aws_s3_bucket_ownership_controls" "wkspc_www_bucket_ownership_controls" {
@@ -25,7 +25,7 @@ resource "aws_s3_bucket_policy" "wkspc_www_bucket_policy" {
     aws_s3_bucket_acl.wkspc_www_bucket_acl,
   ]
   bucket = aws_s3_bucket.wkspc_www_bucket.id
-  policy = templatefile("templates/s3-policy.json", { bucket = "${var.site_name}.${var.www_bucket_name}" })
+  policy = templatefile("templates/s3-policy.json", { bucket = "${local.site_name}.${var.www_bucket_name}" })
 }
 
 resource "aws_s3_bucket_cors_configuration" "wkspc_www_bucket_cors" {
