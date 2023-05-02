@@ -65,11 +65,11 @@ module "cors" {
 }
 
 # dev stage
-resource "aws_api_gateway_rest_api" "example" {
+resource "aws_api_gateway_rest_api" "prod" {
   body = jsonencode({
     openapi = "3.0.1"
     info = {
-      title   = "example"
+      title   = "prod"
       version = "1.0"
     }
     paths = {
@@ -86,10 +86,10 @@ resource "aws_api_gateway_rest_api" "example" {
     }
   })
 
-  name = "example"
+  name = "prod"
 }
 
-resource "aws_api_gateway_deployment" "example" {
+resource "aws_api_gateway_deployment" "prod" {
   rest_api_id = aws_api_gateway_rest_api.api_botc_json2pdf.id
 
   triggers = {
@@ -101,15 +101,15 @@ resource "aws_api_gateway_deployment" "example" {
   }
 }
 
-resource "aws_api_gateway_stage" "example" {
-  deployment_id = aws_api_gateway_deployment.example.id
+resource "aws_api_gateway_stage" "prod" {
+  deployment_id = aws_api_gateway_deployment.prod.id
   rest_api_id   = aws_api_gateway_rest_api.api_botc_json2pdf.id
-  stage_name    = "example"
+  stage_name    = "prod"
 }
 
-resource "aws_api_gateway_method_settings" "example" {
+resource "aws_api_gateway_method_settings" "prod" {
   rest_api_id = aws_api_gateway_rest_api.api_botc_json2pdf.id
-  stage_name  = aws_api_gateway_stage.example.stage_name
+  stage_name  = aws_api_gateway_stage.prod.stage_name
   method_path = "*/*"
 
   settings {
