@@ -302,3 +302,5 @@ generated
 .terraform.lock.hcl
 .infracost/
 terraform/.pluralith/
+package-lock.json
+package.json
