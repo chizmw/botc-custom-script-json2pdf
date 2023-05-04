@@ -89,31 +89,32 @@ resource "aws_api_gateway_rest_api" "prod" {
   name = "prod"
 }
 
-resource "aws_api_gateway_deployment" "prod" {
-  rest_api_id = aws_api_gateway_rest_api.api_botc_json2pdf.id
+# resource "aws_api_gateway_deployment" "prod" {
+#   depends_on  = [aws_api_gateway_rest_api.prod]
+#   rest_api_id = aws_api_gateway_rest_api.api_botc_json2pdf.id
 
-  triggers = {
-    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.api_botc_json2pdf.body))
-  }
+#   triggers = {
+#     redeployment = sha1(jsonencode(aws_api_gateway_rest_api.api_botc_json2pdf.body))
+#   }
 
-  lifecycle {
-    create_before_destroy = true
-  }
-}
+#   lifecycle {
+#     create_before_destroy = true
+#   }
+# }
 
-resource "aws_api_gateway_stage" "prod" {
-  deployment_id = aws_api_gateway_deployment.prod.id
-  rest_api_id   = aws_api_gateway_rest_api.api_botc_json2pdf.id
-  stage_name    = "prod"
-}
+# resource "aws_api_gateway_stage" "prod" {
+#   deployment_id = aws_api_gateway_deployment.prod.id
+#   rest_api_id   = aws_api_gateway_rest_api.api_botc_json2pdf.id
+#   stage_name    = "prod"
+# }
 
-resource "aws_api_gateway_method_settings" "prod" {
-  rest_api_id = aws_api_gateway_rest_api.api_botc_json2pdf.id
-  stage_name  = aws_api_gateway_stage.prod.stage_name
-  method_path = "*/*"
+# resource "aws_api_gateway_method_settings" "prod" {
+#   rest_api_id = aws_api_gateway_rest_api.api_botc_json2pdf.id
+#   stage_name  = aws_api_gateway_stage.prod.stage_name
+#   method_path = "*/*"
 
-  settings {
-    metrics_enabled = true
-    logging_level   = "INFO"
-  }
-}
+#   settings {
+#     metrics_enabled = true
+#     logging_level   = "INFO"
+#   }
+#}
