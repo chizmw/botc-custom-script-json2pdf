@@ -22,6 +22,12 @@ provider:
     BOTC_DEBUG: 1
   timeout: 15
   logRetentionInDays: 7
+  stage: ${self:custom.stage}
+  apiGateway:
+    shouldStartNameWithService: true
+    minimumCompressionSize: 1024
+    binaryMediaTypes:
+      - application/pdf
 
 plugins:
   - serverless-docker
@@ -31,3 +37,6 @@ functions:
     timeout: 15
     image:
       name: json2pdf
+
+custom:
+  stage: ${opt:stage, 'dev'}
