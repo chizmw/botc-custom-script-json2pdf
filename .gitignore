@@ -301,3 +301,4 @@ scripts/
 generated
 .terraform.lock.hcl
 .infracost/
+terraform/.pluralith/
