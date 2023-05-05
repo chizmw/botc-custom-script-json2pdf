@@ -1,10 +1,10 @@
 terraform {
   backend "s3" {
-    # don't set any value's here
+    # don't set any values here (other than region)
     # we need to be using the same TF_CLI_ARGS_init as the workflows
+    region = "eu-west-2"
     #bucket               = "436158765452-terraform-state"
     #key                  = "chizography-botcjson2pdf"
-    #region               = "eu-west-2"
     #workspace_key_prefix = "tf-state"
   }
 

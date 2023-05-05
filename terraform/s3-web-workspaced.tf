@@ -106,7 +106,7 @@ resource "aws_cloudfront_distribution" "wkspc_www_s3_distribution" {
 
   viewer_certificate {
     #acm_certificate_arn      = aws_acm_certificate_validation.cert_validation.certificate_arn
-    acm_certificate_arn      = aws_acm_certificate.ssl_certificate.arn
+    acm_certificate_arn      = data.aws_acm_certificate.star_domain.arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.1_2016"
   }

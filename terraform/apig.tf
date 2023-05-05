@@ -65,29 +65,29 @@ module "cors" {
 }
 
 # dev stage
-resource "aws_api_gateway_rest_api" "prod" {
-  body = jsonencode({
-    openapi = "3.0.1"
-    info = {
-      title   = "prod"
-      version = "1.0"
-    }
-    paths = {
-      "/path1" = {
-        get = {
-          x-amazon-apigateway-integration = {
-            httpMethod           = "GET"
-            payloadFormatVersion = "1.0"
-            type                 = "HTTP_PROXY"
-            uri                  = "https://ip-ranges.amazonaws.com/ip-ranges.json"
-          }
-        }
-      }
-    }
-  })
+# resource "aws_api_gateway_rest_api" "prod" {
+#   body = jsonencode({
+#     openapi = "3.0.1"
+#     info = {
+#       title   = "prod"
+#       version = "1.0"
+#     }
+#     paths = {
+#       "/path1" = {
+#         get = {
+#           x-amazon-apigateway-integration = {
+#             httpMethod           = "GET"
+#             payloadFormatVersion = "1.0"
+#             type                 = "HTTP_PROXY"
+#             uri                  = "https://ip-ranges.amazonaws.com/ip-ranges.json"
+#           }
+#         }
+#       }
+#     }
+#   })
 
-  name = "prod"
-}
+#   name = "prod"
+# }
 
 # resource "aws_api_gateway_deployment" "prod" {
 #   depends_on  = [aws_api_gateway_rest_api.prod]
