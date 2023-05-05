@@ -176,8 +176,8 @@ For better or worse, this project is the result of that desire.
 - other icons
   - [Night](https://uxwing.com/night-icon/)
   - [Sunrise](https://uxwing.com/sunrise-icon/)
-  - [[D]emon](https://uxwing.com/d-alphabet-icon/)
-  - [[M]inion](https://uxwing.com/m-alphabet-icon/)
+  - [(D)emon](https://uxwing.com/d-alphabet-icon/)
+  - [(M)inion](https://uxwing.com/m-alphabet-icon/)
 - [Fira Sans font family](https://www.1001fonts.com/fira-sans-font.html)
 
 <!-- markdown links -->
