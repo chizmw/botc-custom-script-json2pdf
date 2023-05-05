@@ -47,7 +47,7 @@ jobs:
       - name: Run terraform actions
         id: run-terraform-actions
         # yamllint disable-line rule:line-length
-        uses: chizmw/terraform-workflow-action@88e143a19362da7adc7aee7327ab09cbe97c2222
+        uses: chizmw/terraform-workflow-action@37da56700f92c9236be112a41d19a4372b4354ef
         with:
           # yamllint disable rule:line-length
           use-workspaces: true
