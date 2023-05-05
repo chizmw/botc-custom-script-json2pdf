@@ -48,13 +48,13 @@ jobs:
       - name: Run terraform actions
         id: run-terraform-actions
         # yamllint disable-line rule:line-length
-        uses: chizmw/terraform-workflow-action@9c25229bfe9a3c621881b3798d5cb309e382c789
+        uses: chizmw/terraform-workflow-action@fb63d00a76c26c99839e8fe5d2f178b401a89014
         with:
           # yamllint disable rule:line-length
           use-workspaces: true
           workspace: ${{ env.WORKSPACE }}
           terraform-dir: ${{ matrix.terraform-dir }}
-          state-key: ${{ github.repository }}-${{ matrix.aws-account-id }}-${{ matrix.session-tag }}.tfstate
+          # state-key: ${{ github.repository }}-${{ matrix.aws-account-id }}-${{ matrix.session-tag }}.tfstate
           aws-account-id: ${{ matrix.aws-account-id }}
           aws-account-name-prefix: ${{ matrix.account-name-prefix }}
           aws-session-tag: ${{ matrix.session-tag }}

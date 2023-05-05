@@ -1,8 +1,11 @@
 terraform {
   backend "s3" {
-    bucket = "436158765452-terraform-state"
-    key    = "states/chizography-botcjson2pdf"
-    region = "eu-west-2"
+    # don't set any value's here
+    # we need to be using the same TF_CLI_ARGS_init as the workflows
+    #bucket               = "436158765452-terraform-state"
+    #key                  = "chizography-botcjson2pdf"
+    #region               = "eu-west-2"
+    #workspace_key_prefix = "tf-state"
   }
 
   required_version = "~> 1.4"
