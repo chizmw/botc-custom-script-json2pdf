@@ -47,9 +47,11 @@ jobs:
       - name: Run terraform actions
         id: run-terraform-actions
         # yamllint disable-line rule:line-length
-        uses: chizmw/terraform-workflow-action@864120ce39c483176213b1b57f57f4215839d270
+        uses: chizmw/terraform-workflow-action@88e143a19362da7adc7aee7327ab09cbe97c2222
         with:
           # yamllint disable rule:line-length
+          use-workspaces: true
+          workspace: ${{ env.TF_WORKSPACE }}
           terraform-dir: ${{ matrix.terraform-dir }}
           state-key: ${{ github.repository }}-${{ matrix.aws-account-id }}-${{ matrix.session-tag }}.tfstate
           aws-account-id: ${{ matrix.aws-account-id }}
