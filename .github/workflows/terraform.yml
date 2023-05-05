@@ -37,6 +37,7 @@ jobs:
 
       - name: Set Workspace Env
         # if we're a PR then we user 'dev', otherwise we use 'prod'
+        # https://support.hashicorp.com/hc/en-us/articles/360043550953-Selecting-a-workspace-when-running-Terraform-in-automation
         run: |
           if [ -n "${{ github.event.pull_request.head.sha }}" ]; then
             echo "TF_WORKSPACE=dev" >> "$GITHUB_ENV"
@@ -50,8 +51,7 @@ jobs:
         uses: chizmw/terraform-workflow-action@efdc883652ea9d9c7ac22bd2b08dc19df1017540
         with:
           # yamllint disable rule:line-length
-          use-workspaces: true
-          workspace: ${{ env.TF_WORKSPACE }}
+          use-workspaces: false
           terraform-dir: ${{ matrix.terraform-dir }}
           state-key: ${{ github.repository }}-${{ matrix.aws-account-id }}-${{ matrix.session-tag }}.tfstate
           aws-account-id: ${{ matrix.aws-account-id }}
