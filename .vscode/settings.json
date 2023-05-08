@@ -8,5 +8,8 @@
       "at-rules",
       "rules"
     ]
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
   }
 }
