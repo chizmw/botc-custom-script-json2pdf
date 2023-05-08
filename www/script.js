@@ -1,3 +1,5 @@
+const API_KEY = 'BpMKPlqwE01o9At5ldhB33QDjKgxmGHs4XhZhCmZ';
+
 Dropzone.options.customScript = {
   url: API_GATEWAY_URL + '/render',
   previewTemplate: document.querySelector('#preview-template').innerHTML,
@@ -10,8 +12,8 @@ Dropzone.options.customScript = {
   acceptedFiles: 'application/json',
   headers: {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'x-api-key': 'htmoQURLmm2MM0uTGV1s69EyReK3JReJ9XFwBWM2',
+    'access-control-allow-origin': '*',
+    'x-api-key': API_KEY,
   },
 
   thumbnail: function (file, dataUrl) {
@@ -48,14 +50,13 @@ Dropzone.options.customScript = {
     });
 
     this.on('error', (file, message, xhr) => {
-      console.log('THERE WAS AN ERROR');
-      console.log(xhr);
       console.error(message);
-      console.log(file);
       if (file.previewElement) {
         file.previewElement.classList.add('dz-error');
+        const dzerror = file.previewElement.querySelector('.dz-error-message');
         if (typeof message !== 'string' && message.error) {
           message = message.error;
+          dzerror.style.opacity = 1;
         }
         for (let node of file.previewElement.querySelectorAll(
           '[data-dz-errormessage]'
