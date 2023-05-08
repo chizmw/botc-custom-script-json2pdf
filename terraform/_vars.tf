@@ -29,3 +29,16 @@ variable "common_tags" {
     "X-Article" = "https://www.alexhyett.com/terraform-s3-static-website-hosting/"
   }
 }
+
+
+variable "sls_service_name" {
+  type        = string
+  description = "The name of the serverless service."
+  default     = "botc-custom-script-json2pdf"
+}
+
+variable "sls_function_name" {
+  type        = string
+  description = "The name of the serverless function."
+  default     = "botc-json2pdf"
+}
