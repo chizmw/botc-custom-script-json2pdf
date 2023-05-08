@@ -19,6 +19,7 @@ terraform {
 }
 
 provider "aws" {
+  alias  = "default"
   region = "eu-west-2"
   default_tags {
     tags = local.tag_defaults

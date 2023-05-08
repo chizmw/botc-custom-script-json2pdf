@@ -1,4 +1,10 @@
 
+
+variable "aws_region" {
+  type        = string
+  description = "The AWS region to deploy to."
+  default     = "eu-west-2"
+}
 variable "domain_name" {
   type    = string
   default = "arcane-scripts.net"
