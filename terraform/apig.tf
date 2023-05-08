@@ -28,14 +28,9 @@ resource "aws_api_gateway_request_validator" "api_render_validator" {
   validate_request_parameters = true
 }
 
-# add POST method to /render
-resource "aws_api_gateway_method" "api_render_post" {
-  rest_api_id          = aws_api_gateway_rest_api.api_botc_json2pdf.id
-  resource_id          = aws_api_gateway_resource.api_botc_json2pdf_render.id
-  http_method          = "POST"
-  request_validator_id = aws_api_gateway_request_validator.api_render_validator.id
-  api_key_required     = true
-  authorization        = "NONE"
+
+data "aws_lambda_function" "api_render_pdf" {
+  function_name = "${var.sls_service_name}-${terraform.workspace}-${var.sls_function_name}"
 }
 
 # CORS
@@ -58,63 +53,189 @@ module "cors" {
     "access-control-allow-origin",
   ]
 
-  allow_origin = "https://${var.site_name}.${var.domain_name}"
+  #allow_origin = "https://${var.site_name}.${var.domain_name}"
   #allow_origin = "http://127.0.0.1:5500"
+  allow_origin = "*"
 
   allow_credentials = false
 }
 
-# dev stage
-# resource "aws_api_gateway_rest_api" "prod" {
-#   body = jsonencode({
-#     openapi = "3.0.1"
-#     info = {
-#       title   = "prod"
-#       version = "1.0"
-#     }
-#     paths = {
-#       "/path1" = {
-#         get = {
-#           x-amazon-apigateway-integration = {
-#             httpMethod           = "GET"
-#             payloadFormatVersion = "1.0"
-#             type                 = "HTTP_PROXY"
-#             uri                  = "https://ip-ranges.amazonaws.com/ip-ranges.json"
-#           }
-#         }
-#       }
-#     }
-#   })
 
-#   name = "prod"
-# }
+resource "aws_api_gateway_deployment" "api_botc_json2pdf_deployment" {
+  rest_api_id = aws_api_gateway_rest_api.api_botc_json2pdf.id
 
-# resource "aws_api_gateway_deployment" "prod" {
-#   depends_on  = [aws_api_gateway_rest_api.prod]
-#   rest_api_id = aws_api_gateway_rest_api.api_botc_json2pdf.id
+  triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_resource.api_botc_json2pdf_render.id,
+      aws_api_gateway_method.api_render_post.id,
+      aws_api_gateway_integration.api_render_post_integration.id,
 
-#   triggers = {
-#     redeployment = sha1(jsonencode(aws_api_gateway_rest_api.api_botc_json2pdf.body))
-#   }
+      aws_api_gateway_gateway_response.api_botc_json2pdf_gateway_response_400.id,
+      aws_api_gateway_gateway_response.api_botc_json2pdf_gateway_response_401.id,
+      aws_api_gateway_gateway_response.api_botc_json2pdf_gateway_response_403.id,
+      aws_api_gateway_gateway_response.api_botc_json2pdf_gateway_response_500.id,
 
-#   lifecycle {
-#     create_before_destroy = true
-#   }
-# }
+      aws_api_gateway_gateway_response.api_botc_json2pdf_gateway_response_400_forbidden.id,
 
-# resource "aws_api_gateway_stage" "prod" {
-#   deployment_id = aws_api_gateway_deployment.prod.id
-#   rest_api_id   = aws_api_gateway_rest_api.api_botc_json2pdf.id
-#   stage_name    = "prod"
-# }
+      aws_api_gateway_method_response.api_botc_json2pdf_method_response_400.id,
+      aws_api_gateway_method_response.api_botc_json2pdf_method_response_403.id,
+      aws_api_gateway_method_response.api_botc_json2pdf_method_response_500.id,
 
-# resource "aws_api_gateway_method_settings" "prod" {
-#   rest_api_id = aws_api_gateway_rest_api.api_botc_json2pdf.id
-#   stage_name  = aws_api_gateway_stage.prod.stage_name
-#   method_path = "*/*"
+      module.cors,
 
-#   settings {
-#     metrics_enabled = true
-#     logging_level   = "INFO"
-#   }
-#}
+
+      aws_api_gateway_gateway_response.api_botc_json2pdf_gateway_response_400.id,
+      aws_api_gateway_gateway_response.api_botc_json2pdf_gateway_response_400_forbidden.id,
+      aws_api_gateway_gateway_response.api_botc_json2pdf_gateway_response_401.id,
+      aws_api_gateway_gateway_response.api_botc_json2pdf_gateway_response_403.id,
+      aws_api_gateway_gateway_response.api_botc_json2pdf_gateway_response_500.id,
+      aws_api_gateway_method_response.api_botc_json2pdf_method_response_400.id,
+      aws_api_gateway_method_response.api_botc_json2pdf_method_response_400_forbidden.id,
+      aws_api_gateway_method_response.api_botc_json2pdf_method_response_403.id,
+      aws_api_gateway_method_response.api_botc_json2pdf_method_response_500.id,
+      aws_api_gateway_method_response.api_botc_json2pdf_option_method_response_400.id,
+      aws_api_gateway_method_response.api_botc_json2pdf_option_method_response_403.id,
+    ]))
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+
+resource "aws_api_gateway_stage" "api_botc_json2pdf_stage" {
+  stage_name    = terraform.workspace
+  rest_api_id   = aws_api_gateway_rest_api.api_botc_json2pdf.id
+  deployment_id = aws_api_gateway_deployment.api_botc_json2pdf_deployment.id
+  variables = {
+    "env"    = terraform.workspace
+    "lambda" = "${var.sls_service_name}-${terraform.workspace}-${var.sls_function_name}"
+  }
+}
+
+resource "aws_api_gateway_method_settings" "api_botc_json2pdf_method_settings" {
+  rest_api_id = aws_api_gateway_rest_api.api_botc_json2pdf.id
+  stage_name  = aws_api_gateway_stage.api_botc_json2pdf_stage.stage_name
+  method_path = "*/*"
+
+  settings {
+    metrics_enabled = true
+    logging_level   = "INFO"
+  }
+}
+
+# add a gateway response for a 403
+resource "aws_api_gateway_gateway_response" "api_botc_json2pdf_gateway_response_403" {
+  rest_api_id   = aws_api_gateway_rest_api.api_botc_json2pdf.id
+  response_type = "ACCESS_DENIED"
+  status_code   = "403"
+  response_templates = {
+    "application/json" = <<EOF
+{
+    message            = "$context.error.messageString"
+    resourcePath       = "$context.resourcePath"
+    stage              = "$context.stage"
+    "stageVariables.a" = "$stageVariables.a"
+    statusCode         = "'404'"
+    type               = "$context.error.responseType"
+}
+EOF
+  }
+
+  response_parameters = {
+    "gatewayresponse.header.x-request-id" = "method.request.header.x-amzn-RequestId"
+  }
+}
+
+
+
+# add a gateway response for a Missing Authentication Token
+resource "aws_api_gateway_gateway_response" "api_botc_json2pdf_gateway_response_401" {
+  rest_api_id   = aws_api_gateway_rest_api.api_botc_json2pdf.id
+  response_type = "AUTHORIZER_FAILURE"
+  status_code   = "401"
+  response_templates = {
+    "application/json" = <<EOF
+{
+  "message": $context.error.messageString,
+  "type": $context.error.responseType,
+  "stage": "$context.stage",
+  "resourcePath": "$context.resourcePath",
+  "httpMethod": "$context.httpMethod",
+  "requestId": "$context.requestId",
+  "resourceId": "$context.resourceId",
+  "authorizer": "$context.authorizer",
+  "identity": "$context.identity"
+}
+EOF
+  }
+}
+
+# add a generic gateway response for a 400
+resource "aws_api_gateway_gateway_response" "api_botc_json2pdf_gateway_response_400" {
+  rest_api_id   = aws_api_gateway_rest_api.api_botc_json2pdf.id
+  response_type = "INVALID_API_KEY"
+  status_code   = "401"
+  response_templates = {
+    "application/json" = <<EOF
+{
+  "message": $context.error.messageString,
+  "type": $context.error.responseType,
+  "stage": "$context.stage",
+  "resourcePath": "$context.resourcePath",
+  "httpMethod": "$context.httpMethod",
+  "requestId": "$context.requestId",
+  "resourceId": "$context.resourceId",
+  "authorizer": "$context.authorizer",
+  "identity": "$context.identity"
+}
+EOF
+  }
+
+  response_parameters = {
+    "gatewayresponse.header.x-chisel" = "'my-static-value'"
+  }
+}
+
+resource "aws_api_gateway_gateway_response" "api_botc_json2pdf_gateway_response_400_forbidden" {
+  rest_api_id   = aws_api_gateway_rest_api.api_botc_json2pdf.id
+  response_type = "UNAUTHORIZED"
+  status_code   = "401"
+  response_templates = {
+    "application/json" = <<EOF
+{
+  "message": $context.error.messageString,
+  "type": $context.error.responseType,
+  "stage": "$context.stage",
+  "resourcePath": "$context.resourcePath",
+  "httpMethod": "$context.httpMethod",
+  "requestId": "$context.requestId",
+  "resourceId": "$context.resourceId",
+  "authorizer": "$context.authorizer",
+  "identity": "$context.identity"
+}
+EOF
+  }
+
+  response_parameters = {
+    "gatewayresponse.header.x-chisel" = "'my-static-value'"
+  }
+}
+
+
+
+# add a generic gateway response for a 500
+resource "aws_api_gateway_gateway_response" "api_botc_json2pdf_gateway_response_500" {
+  rest_api_id   = aws_api_gateway_rest_api.api_botc_json2pdf.id
+  response_type = "DEFAULT_5XX"
+  status_code   = "500"
+  response_templates = {
+    "application/json" = <<EOF
+{
+  "message": $context.error.messageString,
+  "type": $context.error.responseType
+}
+EOF
+  }
+}
