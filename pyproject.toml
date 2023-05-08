@@ -14,7 +14,7 @@ pypdf = "^3.8.0"
 pdf2image = "^1.16.3"
 requests = "^2.28.2"
 pytz = "^2023.3"
-aws-lambda-powertools = "^2.14.0"
+aws-lambda-powertools = "^2.15.0"
 jmespath = "^1.0.1"
 boto3 = "^1.26.118"
 
