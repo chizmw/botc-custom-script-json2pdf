@@ -71,8 +71,8 @@ resource "aws_api_gateway_integration_response" "options_integration_response" {
   http_method = aws_api_gateway_method.options_method.http_method
   status_code = aws_api_gateway_method_response.options_200.status_code
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-    "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS,POST,PUT'",
+    "method.response.header.Access-Control-Allow-Headers" = "'X-Chisel-Info,access-control-allow-origin,cache-control,x-requested-with,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+    "method.response.header.Access-Control-Allow-Methods" = "'OPTIONS,POST'",
     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
   }
   depends_on = [aws_api_gateway_method_response.options_200]
@@ -80,12 +80,26 @@ resource "aws_api_gateway_integration_response" "options_integration_response" {
 
 # POST method
 
+# a request validator is required for API Gateway to accept the request body
+resource "aws_api_gateway_request_validator" "cors_request_validator" {
+  provider                    = aws.default
+  name                        = "cors_request_validator"
+  rest_api_id                 = aws_api_gateway_rest_api.cors_api.id
+  validate_request_body       = true
+  validate_request_parameters = false
+}
+
 resource "aws_api_gateway_method" "cors_method" {
-  provider      = aws.default
-  rest_api_id   = aws_api_gateway_rest_api.cors_api.id
-  resource_id   = aws_api_gateway_resource.cors_resource.id
-  http_method   = "POST"
-  authorization = "NONE"
+  provider         = aws.default
+  rest_api_id      = aws_api_gateway_rest_api.cors_api.id
+  resource_id      = aws_api_gateway_resource.cors_resource.id
+  http_method      = "POST"
+  authorization    = "NONE"
+  api_key_required = true
+  # I know, hard coded is bad; we'll come back to this
+  # just wanted to get past this:
+  #     - request_validator_id = "io70c1" -> null
+  request_validator_id = "io70c1"
 }
 
 resource "aws_api_gateway_method_response" "cors_method_response_200" {
@@ -95,7 +109,8 @@ resource "aws_api_gateway_method_response" "cors_method_response_200" {
   http_method = aws_api_gateway_method.cors_method.http_method
   status_code = "200"
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
+    "method.response.header.Access-Control-Allow-Headers" = true
   }
   depends_on = [aws_api_gateway_method.cors_method]
 }
@@ -116,10 +131,22 @@ resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id = aws_api_gateway_rest_api.cors_api.id
   stage_name  = local.api_stage
   depends_on = [
+    aws_api_gateway_gateway_response.cors_gateway_response,
     aws_api_gateway_integration.integration,
     aws_api_gateway_integration.options_integration,
-    aws_api_gateway_integration_response.options_integration_response
+    aws_api_gateway_integration_response.options_integration_response,
   ]
+
+  triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_gateway_response.cors_gateway_response.id,
+      aws_api_gateway_integration.integration.id,
+      aws_api_gateway_integration.options_integration.id,
+      aws_api_gateway_integration_response.options_integration_response.id,
+      aws_api_gateway_integration_response.options_integration_response.response_templates,
+      aws_api_gateway_integration_response.options_integration_response.response_parameters,
+    ]))
+  }
 }
 
 resource "aws_lambda_permission" "apigw_lambda" {
@@ -146,4 +173,29 @@ resource "aws_lambda_function" "lambda" {
   runtime          = local.python_runtime
   timeout          = 60
   source_code_hash = data.archive_file.lambda.output_base64sha256
+}
+
+
+# BLOODY CORS!
+
+# we need a gateway reaponse for default 4xx responses that add the following
+# header
+# Access-Control-Allow-Origin: '*'
+# https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html
+resource "aws_api_gateway_gateway_response" "cors_gateway_response" {
+  provider    = aws.default
+  rest_api_id = aws_api_gateway_rest_api.cors_api.id
+  # this is the default 4xx response
+  # https://docs.aws.amazon.com/apigateway/latest/developerguide/supported-gateway-response-types.html
+  response_type = "DEFAULT_4XX"
+  response_parameters = {
+    "gatewayresponse.header.Access-Control-Allow-Origin" = "'*'"
+    "gatewayresponse.header.X-Chisel-Info"               = "'DEFAULT_4XX from terraform'"
+  }
+  response_templates = {
+    "application/json" = jsonencode({
+      message = "DEFAULT_4XX from terraform"
+    })
+  }
+  depends_on = [aws_api_gateway_rest_api.cors_api]
 }
