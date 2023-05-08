@@ -49,6 +49,7 @@ module "cors" {
     "X-Amz-Date",
     "X-Amz-Security-Token",
     "X-Api-Key",
+    "x-api-key",
     "x-requested-with",
     "access-control-allow-origin",
   ]
@@ -80,9 +81,6 @@ resource "aws_api_gateway_deployment" "api_botc_json2pdf_deployment" {
       aws_api_gateway_method_response.api_botc_json2pdf_method_response_400.id,
       aws_api_gateway_method_response.api_botc_json2pdf_method_response_403.id,
       aws_api_gateway_method_response.api_botc_json2pdf_method_response_500.id,
-
-      module.cors,
-
 
       aws_api_gateway_gateway_response.api_botc_json2pdf_gateway_response_400.id,
       aws_api_gateway_gateway_response.api_botc_json2pdf_gateway_response_400_forbidden.id,

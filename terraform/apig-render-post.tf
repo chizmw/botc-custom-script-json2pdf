@@ -20,6 +20,12 @@ resource "aws_api_gateway_integration" "api_render_post_integration" {
   uri = "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:436158765452:function:$${stageVariables.lambda}/invocations"
 }
 
+locals {
+  default_method_response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = true
+    "method.response.header.x-api-key"                   = true
+  }
+}
 
 resource "aws_api_gateway_method_response" "api_botc_json2pdf_method_response_400" {
   rest_api_id = aws_api_gateway_rest_api.api_botc_json2pdf.id
@@ -29,9 +35,7 @@ resource "aws_api_gateway_method_response" "api_botc_json2pdf_method_response_40
   response_models = {
     "application/json" = "Error"
   }
-  response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = true
-  }
+  response_parameters = local.default_method_response_parameters
 }
 
 resource "aws_api_gateway_method_response" "api_botc_json2pdf_method_response_400_forbidden" {
@@ -42,6 +46,7 @@ resource "aws_api_gateway_method_response" "api_botc_json2pdf_method_response_40
   response_models = {
     "application/json" = "Error"
   }
+  response_parameters = local.default_method_response_parameters
 }
 
 resource "aws_api_gateway_method_response" "api_botc_json2pdf_method_response_403" {
@@ -52,6 +57,7 @@ resource "aws_api_gateway_method_response" "api_botc_json2pdf_method_response_40
   response_models = {
     "application/json" = "Error"
   }
+  response_parameters = local.default_method_response_parameters
 }
 
 resource "aws_api_gateway_method_response" "api_botc_json2pdf_method_response_500" {
@@ -62,4 +68,5 @@ resource "aws_api_gateway_method_response" "api_botc_json2pdf_method_response_50
   response_models = {
     "application/json" = "Error"
   }
+  response_parameters = local.default_method_response_parameters
 }
