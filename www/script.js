@@ -1,9 +1,5 @@
-const apiUrl =
-  'https://cv2cfac6il.execute-api.eu-west-2.amazonaws.com/dev/render';
-
-//const dropzone = new Dropzone('#demo-upload', {
 Dropzone.options.customScript = {
-  url: apiUrl,
+  url: API_GATEWAY_URL + '/render',
   previewTemplate: document.querySelector('#preview-template').innerHTML,
   parallelUploads: 2,
   thumbnailHeight: 120,
@@ -50,58 +46,23 @@ Dropzone.options.customScript = {
       dzsize.innerHTML =
         '<span data-dz-size><img src="images/download.png" width="16" height="16"></span>';
     });
+
+    this.on('error', (file, message, xhr) => {
+      console.log('THERE WAS AN ERROR');
+      console.log(xhr);
+      console.error(message);
+      console.log(file);
+      if (file.previewElement) {
+        file.previewElement.classList.add('dz-error');
+        if (typeof message !== 'string' && message.error) {
+          message = message.error;
+        }
+        for (let node of file.previewElement.querySelectorAll(
+          '[data-dz-errormessage]'
+        )) {
+          node.textContent = message;
+        }
+      }
+    });
   },
 };
-
-// Now fake the file upload, since GitHub does not handle file uploads
-// and returns a 404
-
-/*
-const minSteps = 6,
-  maxSteps = 60,
-  timeBetweenSteps = 100,
-  bytesPerStep = 100000;
-
-dropzone._uploadFiles = function (files) {
-  let self = this;
-
-  for (const element of files) {
-    let file = element;
-    let totalSteps = Math.round(
-      Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep))
-    );
-
-    for (let step = 0; step < totalSteps; step++) {
-      let duration = timeBetweenSteps * (step + 1);
-      setTimeout(
-        (function (file, totalSteps, step) {
-          return function () {
-            file.upload = {
-              progress: (100 * (step + 1)) / totalSteps,
-              total: file.size,
-              bytesSent: ((step + 1) * file.size) / totalSteps,
-            };
-
-            self.emit(
-              'uploadprogress',
-              file,
-              file.upload.progress,
-              file.upload.bytesSent
-            );
-            if (file.upload.progress == 100) {
-              file.status = Dropzone.SUCCESS;
-              self.emit('success', file, 'success', null);
-              self.emit('complete', file);
-              self.processQueue();
-            }
-          };
-        })(file, totalSteps, step),
-        duration
-      );
-    }
-  }
-};
-*/
-/* comment */
-/* comment */
-/* comment */
