@@ -122,6 +122,10 @@ resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id = aws_api_gateway_rest_api.cors_api.id
   stage_name  = local.api_stage
 
+  lifecycle {
+    create_before_destroy = true
+  }
+
   depends_on = [
     aws_api_gateway_gateway_response.cors_gateway_response,
     aws_api_gateway_gateway_response.cors_gateway_response,
@@ -238,4 +242,17 @@ resource "aws_api_gateway_gateway_response" "cors_gateway_response_for" {
     )
   }
   depends_on = [aws_api_gateway_rest_api.cors_api]
+}
+
+resource "aws_api_gateway_stage" "api_stage" {
+  stage_name    = terraform.workspace
+  rest_api_id   = aws_api_gateway_rest_api.cors_api.id
+  deployment_id = aws_api_gateway_deployment.deployment.id
+  variables = {
+    "env"             = terraform.workspace
+    "stage"           = terraform.workspace
+    "lambda"          = "${var.sls_service_name}-${terraform.workspace}-${var.sls_function_name}"
+    "lambda_arn"      = aws_lambda_function.lambda.arn
+    "lambda_function" = data.aws_lambda_function.api_render_pdf.arn
+  }
 }
