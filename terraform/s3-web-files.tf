@@ -46,6 +46,10 @@ resource "aws_s3_object" "wkspc_botc_www_files" {
   content_type = each.value
   acl          = "public-read"
   etag         = filemd5("../www/${each.key}")
+
+  tags = {
+    "BelongsToDist" = aws_cloudfront_distribution.wkspc_www_s3_distribution.id
+  }
 }
 
 # we need to create an s3 file/object (const.js) that contains the API Gateway
