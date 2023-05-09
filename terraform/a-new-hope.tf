@@ -1,13 +1,4 @@
 # https://mrponath.medium.com/terraform-and-aws-api-gateway-a137ee48a8ac
-
-locals {
-  pdf_api_name        = "pdf-api"
-  pdf_api_description = "JSON-to-PDF API for custom BotC scripts"
-  pdf_render_path     = "render"
-  api_stage           = (terraform.workspace == "prod") ? "prod" : "dev"
-  python_runtime      = "python3.10"
-}
-
 # SETUP and "OPTIONS
 
 resource "aws_api_gateway_rest_api" "cors_api" {
@@ -126,14 +117,6 @@ resource "aws_api_gateway_integration" "integration" {
   depends_on              = [aws_api_gateway_method.cors_method, aws_lambda_function.lambda]
 }
 
-
-variable "triggers_redeployment" {
-  type = list(string)
-  default = [
-  ]
-}
-
-
 resource "aws_api_gateway_deployment" "deployment" {
   provider    = aws.default
   rest_api_id = aws_api_gateway_rest_api.cors_api.id
@@ -174,12 +157,6 @@ resource "aws_lambda_permission" "apigw_lambda" {
   function_name = aws_lambda_function.lambda.arn
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.aws_region}:123456789012:${aws_api_gateway_rest_api.cors_api.id}/*/${aws_api_gateway_method.cors_method.http_method}/${local.pdf_render_path}"
-}
-
-data "archive_file" "lambda" {
-  type        = "zip"
-  source_file = "main.py"
-  output_path = "lambda_function_payload.zip"
 }
 
 resource "aws_lambda_function" "lambda" {

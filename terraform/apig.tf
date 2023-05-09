@@ -29,10 +29,6 @@ resource "aws_api_gateway_request_validator" "api_render_validator" {
 }
 
 
-data "aws_lambda_function" "api_render_pdf" {
-  function_name = "${var.sls_service_name}-${terraform.workspace}-${var.sls_function_name}"
-}
-
 # CORS
 module "cors" {
   source  = "squidfunk/api-gateway-enable-cors/aws"

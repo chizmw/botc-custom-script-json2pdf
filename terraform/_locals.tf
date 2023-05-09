@@ -15,3 +15,12 @@ locals {
   # get the lookup value from the wkspc_site_name map based on the workspace name
   site_name = lookup(local.wkspc_site_name, terraform.workspace)
 }
+
+# used in "a new hope" apigateway
+locals {
+  pdf_api_name        = "pdf-api"
+  pdf_api_description = "JSON-to-PDF API for custom BotC scripts"
+  pdf_render_path     = "render"
+  api_stage           = (terraform.workspace == "prod") ? "prod" : "dev"
+  python_runtime      = "python3.10"
+}
