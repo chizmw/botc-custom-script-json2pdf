@@ -113,12 +113,8 @@ resource "aws_api_gateway_integration" "integration" {
   http_method             = aws_api_gateway_method.cors_method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  #uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.lambda.arn}/invocations"
-  #uri        = data.aws_lambda_function.api_render_pdf.invoke_arn
-  #uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.lambda.arn}/invocations"
-  #uri        = "${var.sls_service_name}-$${stageVariables.env}-${var.sls_function_name}"
-  uri        = "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:436158765452:function:$${stageVariables.lambda}/invocations"
-  depends_on = [aws_api_gateway_method.cors_method, data.aws_lambda_function.api_render_pdf]
+  uri                     = "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:436158765452:function:$${stageVariables.lambda}/invocations"
+  depends_on              = [aws_api_gateway_method.cors_method, data.aws_lambda_function.api_render_pdf]
 }
 
 
