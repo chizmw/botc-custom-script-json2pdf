@@ -18,9 +18,10 @@ locals {
 
 # used in "a new hope" apigateway
 locals {
-  pdf_api_name        = "pdf-api"
-  pdf_api_description = "JSON-to-PDF API for custom BotC scripts"
-  pdf_render_path     = "render"
-  api_stage           = (terraform.workspace == "prod") ? "prod" : "dev"
-  python_runtime      = "python3.10"
+  pdf_api_name               = "pdf-api"
+  pdf_api_description        = "JSON-to-PDF API for custom BotC scripts"
+  pdf_render_path            = "render"
+  api_stage                  = (terraform.workspace == "prod") ? "prod" : "dev"
+  python_runtime             = "python3.10"
+  lambda_stage_function_name = "${var.sls_service_name}-${terraform.workspace}-${var.sls_function_name}"
 }

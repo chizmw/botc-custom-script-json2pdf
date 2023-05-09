@@ -113,9 +113,14 @@ resource "aws_api_gateway_integration" "integration" {
   http_method             = aws_api_gateway_method.cors_method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.lambda.arn}/invocations"
-  depends_on              = [aws_api_gateway_method.cors_method, aws_lambda_function.lambda]
+  #uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.lambda.arn}/invocations"
+  #uri        = data.aws_lambda_function.api_render_pdf.invoke_arn
+  #uri                     = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${aws_lambda_function.lambda.arn}/invocations"
+  #uri        = "${var.sls_service_name}-$${stageVariables.env}-${var.sls_function_name}"
+  uri        = "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:436158765452:function:$${stageVariables.lambda}/invocations"
+  depends_on = [aws_api_gateway_method.cors_method, data.aws_lambda_function.api_render_pdf]
 }
+
 
 resource "aws_api_gateway_deployment" "deployment" {
   provider    = aws.default
@@ -139,12 +144,12 @@ resource "aws_api_gateway_deployment" "deployment" {
       aws_api_gateway_gateway_response.cors_gateway_response.id,
       aws_api_gateway_gateway_response.cors_gateway_response.response_templates,
       aws_api_gateway_integration.integration.id,
+      aws_api_gateway_integration.integration.uri,
       aws_api_gateway_integration.options_integration.id,
       aws_api_gateway_integration_response.options_integration_response.id,
       aws_api_gateway_integration_response.options_integration_response.response_parameters,
       aws_api_gateway_integration_response.options_integration_response.response_templates,
       local.gatewayresponses,
-
     ]))
   }
 
@@ -251,7 +256,7 @@ resource "aws_api_gateway_stage" "api_stage" {
   variables = {
     "env"             = terraform.workspace
     "stage"           = terraform.workspace
-    "lambda"          = "${var.sls_service_name}-${terraform.workspace}-${var.sls_function_name}"
+    "lambda"          = local.lambda_stage_function_name
     "lambda_arn"      = aws_lambda_function.lambda.arn
     "lambda_function" = data.aws_lambda_function.api_render_pdf.arn
   }
