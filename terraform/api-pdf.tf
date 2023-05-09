@@ -133,6 +133,7 @@ resource "aws_api_gateway_deployment" "deployment" {
     aws_api_gateway_integration.integration,
     aws_api_gateway_integration.options_integration,
     aws_api_gateway_integration_response.options_integration_response,
+    data.external.poetry_version,
   ]
 
   triggers = {
@@ -146,6 +147,7 @@ resource "aws_api_gateway_deployment" "deployment" {
       aws_api_gateway_integration_response.options_integration_response.response_parameters,
       aws_api_gateway_integration_response.options_integration_response.response_templates,
       local.gatewayresponses,
+      data.external.poetry_version.result.version,
     ]))
   }
 
