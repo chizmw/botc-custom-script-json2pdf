@@ -241,7 +241,7 @@ resource "aws_api_gateway_gateway_response" "cors_gateway_response_for" {
   }
   response_templates = {
     "application/json" = jsonencode(
-      { "error" : each.value, "chisel" : "was here" }
+      { "error" : each.value, "chisel" : "was here", "version" : data.external.poetry_version.result.version }
     )
   }
   depends_on = [aws_api_gateway_rest_api.cors_api]
