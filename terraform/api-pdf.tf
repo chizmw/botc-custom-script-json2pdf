@@ -184,3 +184,14 @@ resource "aws_api_gateway_stage" "api_stage" {
     "lambda_function" = data.aws_lambda_function.api_render_pdf.arn
   }
 }
+
+resource "aws_lambda_permission" "apigateway" {
+  #statement_id  = "60410a97-27cb-49d7-a3fe-621a6123063e"
+  action = "lambda:InvokeFunction"
+  #function_name = "arn:aws:lambda:eu-west-2:436158765452:function:${var.stage_variables_lambda}"
+  function_name = data.aws_lambda_function.api_render_pdf.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  #source_arn = "arn:aws:execute-api:eu-west-2:436158765452:p1ntlz7vxk/*/POST/render"
+  source_arn = data.aws_lambda_function.api_render_pdf.arn
+}
