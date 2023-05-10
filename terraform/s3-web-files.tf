@@ -20,20 +20,6 @@ locals {
   }
 }
 
-# resource "aws_s3_object" "botc_www_files" {
-#   depends_on = [
-#     aws_s3_bucket_policy.www_bucket_policy,
-#   ]
-#   for_each = local.files
-
-#   bucket       = aws_s3_bucket.www_bucket.id
-#   key          = each.key
-#   source       = "../www/${each.key}"
-#   content_type = each.value
-#   acl          = "public-read"
-#   etag         = filemd5("../www/${each.key}")
-#}
-
 resource "aws_s3_object" "wkspc_botc_www_files" {
   depends_on = [
     aws_s3_bucket_policy.wkspc_www_bucket_policy,
@@ -67,5 +53,4 @@ const API_GATEWAY_URL = "${aws_api_gateway_stage.api_stage.invoke_url}";
 EOF
   content_type = "application/javascript"
   acl          = "public-read"
-  #etag         = filemd5("../www/const.js")
 }

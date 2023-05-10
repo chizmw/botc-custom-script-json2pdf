@@ -12,3 +12,11 @@ data "archive_file" "lambda" {
 data "aws_lambda_function" "api_render_pdf" {
   function_name = "${var.sls_service_name}-${terraform.workspace}-${var.sls_function_name}"
 }
+
+data "aws_lambda_function" "lambda_invalidate_cache" {
+  function_name = "invalidate-cache"
+}
+
+data "aws_iam_role" "iam_for_lambda" {
+  name = "deploy_json2pdf"
+}

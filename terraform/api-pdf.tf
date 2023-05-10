@@ -102,26 +102,6 @@ resource "aws_api_gateway_deployment" "deployment" {
   }
 }
 
-# resource "aws_lambda_permission" "apigw_lambda" {
-#   provider      = aws.default
-#   statement_id  = "AllowExecutionFromAPIGateway"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.lambda.arn
-#   principal     = "apigateway.amazonaws.com"
-#   source_arn    = "arn:aws:execute-api:${var.aws_region}:123456789012:${aws_api_gateway_rest_api.cors_api.id}/*/${aws_api_gateway_method.cors_method.http_method}/${local.pdf_render_path}"
-# }
-
-# resource "aws_lambda_function" "lambda" {
-#   provider         = aws.default
-#   filename         = data.archive_file.lambda.output_path
-#   function_name    = "API_GATEWAY_PREPROCESS"
-#   role             = data.aws_iam_role.iam_for_lambda.arn
-#   handler          = "main.lambda_handler"
-#   runtime          = local.python_runtime
-#   timeout          = 60
-#   source_code_hash = data.archive_file.lambda.output_base64sha256
-# }
-
 
 # BLOODY CORS!
 
