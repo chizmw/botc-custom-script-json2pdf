@@ -1,102 +1,46 @@
 # https://mrponath.medium.com/terraform-and-aws-api-gateway-a137ee48a8ac
 # SETUP and "OPTIONS
+data "aws_api_gateway_rest_api" "cors_api" {
+  provider = aws.default
+  name     = local.pdf_api_name
+}
 
-resource "aws_api_gateway_rest_api" "cors_api" {
+data "aws_api_gateway_resource" "cors_resource" {
   provider    = aws.default
-  name        = local.pdf_api_name
-  description = local.pdf_api_description
+  rest_api_id = data.aws_api_gateway_rest_api.cors_api.id
+  path        = "/${local.pdf_render_path}"
 }
 
-resource "aws_api_gateway_resource" "cors_resource" {
-  provider    = aws.default
-  path_part   = local.pdf_render_path
-  parent_id   = aws_api_gateway_rest_api.cors_api.root_resource_id
-  rest_api_id = aws_api_gateway_rest_api.cors_api.id
-}
 
-resource "aws_api_gateway_method" "options_method" {
-  provider      = aws.default
-  rest_api_id   = aws_api_gateway_rest_api.cors_api.id
-  resource_id   = aws_api_gateway_resource.cors_resource.id
-  http_method   = "OPTIONS"
-  authorization = "NONE"
-}
 
-resource "aws_api_gateway_method_response" "options_200" {
-  provider    = aws.default
-  rest_api_id = aws_api_gateway_rest_api.cors_api.id
-  resource_id = aws_api_gateway_resource.cors_resource.id
-  http_method = aws_api_gateway_method.options_method.http_method
-  status_code = 200
-  response_models = {
-    "application/json" = "Empty"
-  }
-  response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers" = true,
-    "method.response.header.Access-Control-Allow-Methods" = true,
-    "method.response.header.Access-Control-Allow-Origin"  = true
-  }
-  depends_on = [aws_api_gateway_method.options_method]
-}
-
-resource "aws_api_gateway_integration" "options_integration" {
-  provider    = aws.default
-  rest_api_id = aws_api_gateway_rest_api.cors_api.id
-  resource_id = aws_api_gateway_resource.cors_resource.id
-  http_method = aws_api_gateway_method.options_method.http_method
-  type        = "MOCK"
-  depends_on  = [aws_api_gateway_method.options_method]
-  request_templates = {
-    "application/json" = jsonencode(
-      {
-        statusCode = 200
-      }
-    )
-  }
-}
-
-resource "aws_api_gateway_integration_response" "options_integration_response" {
-  provider    = aws.default
-  rest_api_id = aws_api_gateway_rest_api.cors_api.id
-  resource_id = aws_api_gateway_resource.cors_resource.id
-  http_method = aws_api_gateway_method.options_method.http_method
-  status_code = aws_api_gateway_method_response.options_200.status_code
-  response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers" = "'X-Chisel-Info,access-control-allow-origin,cache-control,x-requested-with,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-    "method.response.header.Access-Control-Allow-Methods" = "'OPTIONS,POST'",
-    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
-  }
-  depends_on = [aws_api_gateway_method_response.options_200]
-}
 
 # POST method
 
 # a request validator is required for API Gateway to accept the request body
-resource "aws_api_gateway_request_validator" "cors_request_validator" {
+resource "aws_api_gateway_request_validator" "json2pdf_request_validator" {
   provider                    = aws.default
-  name                        = "cors_request_validator"
-  rest_api_id                 = aws_api_gateway_rest_api.cors_api.id
+  name                        = "json2pdf_request_validator-${terraform.workspace}"
+  rest_api_id                 = data.aws_api_gateway_rest_api.cors_api.id
   validate_request_body       = true
   validate_request_parameters = false
 }
 
+
+
 resource "aws_api_gateway_method" "cors_method" {
-  provider         = aws.default
-  rest_api_id      = aws_api_gateway_rest_api.cors_api.id
-  resource_id      = aws_api_gateway_resource.cors_resource.id
-  http_method      = "POST"
-  authorization    = "NONE"
-  api_key_required = true
-  # I know, hard coded is bad; we'll come back to this
-  # just wanted to get past this:
-  #     - request_validator_id = "io70c1" -> null
-  request_validator_id = "io70c1"
+  provider             = aws.default
+  rest_api_id          = data.aws_api_gateway_rest_api.cors_api.id
+  resource_id          = data.aws_api_gateway_resource.cors_resource.id
+  http_method          = "POST"
+  authorization        = "NONE"
+  api_key_required     = true
+  request_validator_id = aws_api_gateway_request_validator.json2pdf_request_validator.id
 }
 
 resource "aws_api_gateway_method_response" "cors_method_response_200" {
   provider    = aws.default
-  rest_api_id = aws_api_gateway_rest_api.cors_api.id
-  resource_id = aws_api_gateway_resource.cors_resource.id
+  rest_api_id = data.aws_api_gateway_rest_api.cors_api.id
+  resource_id = data.aws_api_gateway_resource.cors_resource.id
   http_method = aws_api_gateway_method.cors_method.http_method
   status_code = "200"
   response_parameters = {
@@ -108,8 +52,8 @@ resource "aws_api_gateway_method_response" "cors_method_response_200" {
 
 resource "aws_api_gateway_integration" "integration" {
   provider                = aws.default
-  rest_api_id             = aws_api_gateway_rest_api.cors_api.id
-  resource_id             = aws_api_gateway_resource.cors_resource.id
+  rest_api_id             = data.aws_api_gateway_rest_api.cors_api.id
+  resource_id             = data.aws_api_gateway_resource.cors_resource.id
   http_method             = aws_api_gateway_method.cors_method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
@@ -120,7 +64,7 @@ resource "aws_api_gateway_integration" "integration" {
 
 resource "aws_api_gateway_deployment" "deployment" {
   provider    = aws.default
-  rest_api_id = aws_api_gateway_rest_api.cors_api.id
+  rest_api_id = data.aws_api_gateway_rest_api.cors_api.id
   stage_name  = local.api_stage
 
   lifecycle {
@@ -131,8 +75,8 @@ resource "aws_api_gateway_deployment" "deployment" {
     aws_api_gateway_gateway_response.cors_gateway_response,
     aws_api_gateway_gateway_response.cors_gateway_response,
     aws_api_gateway_integration.integration,
-    aws_api_gateway_integration.options_integration,
-    aws_api_gateway_integration_response.options_integration_response,
+    #aws_api_gateway_integration.options_integration,
+    #aws_api_gateway_integration_response.options_integration_response,
     data.external.poetry_version,
   ]
 
@@ -142,40 +86,41 @@ resource "aws_api_gateway_deployment" "deployment" {
       aws_api_gateway_gateway_response.cors_gateway_response.response_templates,
       aws_api_gateway_integration.integration.id,
       aws_api_gateway_integration.integration.uri,
-      aws_api_gateway_integration.options_integration.id,
-      aws_api_gateway_integration_response.options_integration_response.id,
-      aws_api_gateway_integration_response.options_integration_response.response_parameters,
-      aws_api_gateway_integration_response.options_integration_response.response_templates,
+      #aws_api_gateway_integration.options_integration.id,
+      #aws_api_gateway_integration_response.options_integration_response.id,
+      #aws_api_gateway_integration_response.options_integration_response.response_parameters,
+      #aws_api_gateway_integration_response.options_integration_response.response_templates,
       local.gatewayresponses,
       data.external.poetry_version.result.version,
     ]))
   }
 
   variables = {
-    "lambda_arn" = aws_lambda_function.lambda.arn
-    "stage"      = local.api_stage
+    #"lambda_arn" = aws_lambda_function.lambda.arn
+    "lambda" = local.lambda_stage_function_name
+    "stage"  = local.api_stage
   }
 }
 
-resource "aws_lambda_permission" "apigw_lambda" {
-  provider      = aws.default
-  statement_id  = "AllowExecutionFromAPIGateway"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.lambda.arn
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "arn:aws:execute-api:${var.aws_region}:123456789012:${aws_api_gateway_rest_api.cors_api.id}/*/${aws_api_gateway_method.cors_method.http_method}/${local.pdf_render_path}"
-}
+# resource "aws_lambda_permission" "apigw_lambda" {
+#   provider      = aws.default
+#   statement_id  = "AllowExecutionFromAPIGateway"
+#   action        = "lambda:InvokeFunction"
+#   function_name = aws_lambda_function.lambda.arn
+#   principal     = "apigateway.amazonaws.com"
+#   source_arn    = "arn:aws:execute-api:${var.aws_region}:123456789012:${aws_api_gateway_rest_api.cors_api.id}/*/${aws_api_gateway_method.cors_method.http_method}/${local.pdf_render_path}"
+# }
 
-resource "aws_lambda_function" "lambda" {
-  provider         = aws.default
-  filename         = data.archive_file.lambda.output_path
-  function_name    = "API_GATEWAY_PREPROCESS"
-  role             = data.aws_iam_role.iam_for_lambda.arn
-  handler          = "main.lambda_handler"
-  runtime          = local.python_runtime
-  timeout          = 60
-  source_code_hash = data.archive_file.lambda.output_base64sha256
-}
+# resource "aws_lambda_function" "lambda" {
+#   provider         = aws.default
+#   filename         = data.archive_file.lambda.output_path
+#   function_name    = "API_GATEWAY_PREPROCESS"
+#   role             = data.aws_iam_role.iam_for_lambda.arn
+#   handler          = "main.lambda_handler"
+#   runtime          = local.python_runtime
+#   timeout          = 60
+#   source_code_hash = data.archive_file.lambda.output_base64sha256
+# }
 
 
 # BLOODY CORS!
@@ -186,7 +131,7 @@ resource "aws_lambda_function" "lambda" {
 # https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html
 resource "aws_api_gateway_gateway_response" "cors_gateway_response" {
   provider    = aws.default
-  rest_api_id = aws_api_gateway_rest_api.cors_api.id
+  rest_api_id = data.aws_api_gateway_rest_api.cors_api.id
   # this is the default 4xx response
   # https://docs.aws.amazon.com/apigateway/latest/developerguide/supported-gateway-response-types.html
   response_type = "DEFAULT_4XX"
@@ -199,7 +144,7 @@ resource "aws_api_gateway_gateway_response" "cors_gateway_response" {
       { "error" : "a non-specific 4XX error has occurred", "chisel" : "was here" }
     )
   }
-  depends_on = [aws_api_gateway_rest_api.cors_api]
+  depends_on = [data.aws_api_gateway_rest_api.cors_api]
 }
 
 locals {
@@ -228,7 +173,7 @@ locals {
 
 resource "aws_api_gateway_gateway_response" "cors_gateway_response_for" {
   provider    = aws.default
-  rest_api_id = aws_api_gateway_rest_api.cors_api.id
+  rest_api_id = data.aws_api_gateway_rest_api.cors_api.id
 
   for_each = local.gatewayresponses
 
@@ -244,18 +189,18 @@ resource "aws_api_gateway_gateway_response" "cors_gateway_response_for" {
       { "error" : each.value, "chisel" : "was here", "version" : data.external.poetry_version.result.version }
     )
   }
-  depends_on = [aws_api_gateway_rest_api.cors_api]
+  depends_on = [data.aws_api_gateway_rest_api.cors_api]
 }
 
 resource "aws_api_gateway_stage" "api_stage" {
   stage_name    = terraform.workspace
-  rest_api_id   = aws_api_gateway_rest_api.cors_api.id
+  rest_api_id   = data.aws_api_gateway_rest_api.cors_api.id
   deployment_id = aws_api_gateway_deployment.deployment.id
   variables = {
-    "env"             = terraform.workspace
-    "stage"           = terraform.workspace
-    "lambda"          = local.lambda_stage_function_name
-    "lambda_arn"      = aws_lambda_function.lambda.arn
+    "env"    = terraform.workspace
+    "stage"  = terraform.workspace
+    "lambda" = local.lambda_stage_function_name
+    #"lambda_arn"      = aws_lambda_function.lambda.arn
     "lambda_function" = data.aws_lambda_function.api_render_pdf.arn
   }
 }

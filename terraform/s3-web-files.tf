@@ -56,7 +56,7 @@ resource "aws_s3_object" "wkspc_botc_www_files" {
 # URL so that the web page can call the API Gateway
 resource "aws_s3_object" "botc_www_const_js" {
   depends_on = [
-    aws_s3_bucket_policy.www_bucket_policy,
+    aws_s3_bucket_policy.wkspc_www_bucket_policy,
     aws_api_gateway_stage.api_stage,
   ]
   bucket       = aws_s3_bucket.wkspc_www_bucket.id

@@ -10,7 +10,7 @@ variable "domain_name" {
   default = "arcane-scripts.net"
 }
 
-variable "site_name" {
+variable "Xsite_name" {
   type    = string
   default = "make"
 }
