@@ -31,6 +31,7 @@ jobs:
             session-tag: botc-json2pdf
             aws-account-id: 436158765452
             aws-deployment-role: botc/deploy_json2pdf
+            aws-region: eu-west-2
 
     steps:
       - uses: actions/checkout@v3
@@ -62,4 +63,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.CHIZOGRAPHY_GITHUB_AWS_SECRET_ACCESS_KEY }}
           aws-deployment-role: ${{ matrix.aws-deployment-role }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          aws-region: ${{ matrix.aws-region }}
           # yamllint enable rule:line-length
