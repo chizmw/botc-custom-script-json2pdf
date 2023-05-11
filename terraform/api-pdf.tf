@@ -1,16 +1,5 @@
 # https://mrponath.medium.com/terraform-and-aws-api-gateway-a137ee48a8ac
 # SETUP and "OPTIONS
-data "aws_api_gateway_rest_api" "json2pdf_api" {
-  provider = aws.default
-  name     = local.pdf_api_name
-}
-
-data "aws_api_gateway_resource" "json2pdf_resource" {
-  provider    = aws.default
-  rest_api_id = data.aws_api_gateway_rest_api.json2pdf_api.id
-  path        = "/${local.pdf_render_path}"
-}
-
 
 
 # POST method

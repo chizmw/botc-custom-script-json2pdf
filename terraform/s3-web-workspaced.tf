@@ -132,8 +132,3 @@ resource "aws_lambda_permission" "allow_bucket" {
   principal     = "s3.amazonaws.com"
   source_arn    = aws_s3_bucket.wkspc_www_bucket.arn
 }
-
-data "aws_lambda_function" "invalidate_cache" {
-  provider      = aws.default
-  function_name = "invalidate-cache"
-}

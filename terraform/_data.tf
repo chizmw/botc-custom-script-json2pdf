@@ -23,3 +23,20 @@ data "aws_iam_role" "iam_for_lambda" {
   provider = aws.default
   name     = "deploy_json2pdf"
 }
+
+
+data "aws_lambda_function" "invalidate_cache" {
+  provider      = aws.default
+  function_name = "invalidate-cache"
+}
+
+data "aws_api_gateway_rest_api" "json2pdf_api" {
+  provider = aws.default
+  name     = local.pdf_api_name
+}
+
+data "aws_api_gateway_resource" "json2pdf_resource" {
+  provider    = aws.default
+  rest_api_id = data.aws_api_gateway_rest_api.json2pdf_api.id
+  path        = "/${local.pdf_render_path}"
+}
