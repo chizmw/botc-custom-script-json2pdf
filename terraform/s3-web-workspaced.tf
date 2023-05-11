@@ -134,5 +134,6 @@ resource "aws_lambda_permission" "allow_bucket" {
 }
 
 data "aws_lambda_function" "invalidate_cache" {
+  provider      = aws.default
   function_name = "invalidate-cache"
 }
