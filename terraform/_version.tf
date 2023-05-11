@@ -19,7 +19,7 @@ resource "null_resource" "commit_version" {
   }
 
   triggers = {
-    always_run = "${timestamp()}"
+    always_run = timestamp()
   }
 }
 
