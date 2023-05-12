@@ -46,6 +46,18 @@ jobs:
             echo "WORKSPACE=prod" >> "$GITHUB_ENV"
           fi
 
+      # because we know some of our terraform has an external poetry data
+      # source, we need to install poetry
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: 1.4.2
+
       - name: Run terraform actions
         id: run-terraform-actions
         # yamllint disable-line rule:line-length
