@@ -77,3 +77,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           aws-region: ${{ matrix.aws-region }}
           # yamllint enable rule:line-length
+
+          # if we're in a PR set auto-apply to true
+          auto-apply: ${{ github.event_name == 'pull_request' }}
