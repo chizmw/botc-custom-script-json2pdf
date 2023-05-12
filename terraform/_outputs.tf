@@ -1,10 +1,14 @@
 
 output "poetry_version" {
-  value = data.external.poetry_version.result.version
+  value = data.external.useful_version_info.result.poetry_version
 }
 
 output "commit_version" {
-  value = data.external.commit_version.result.version
+  value = data.external.useful_version_info.result.head_sha
+}
+
+output "project_dir" {
+  value = data.external.useful_version_info.result.project_dir
 }
 
 output "stage_function_name" {

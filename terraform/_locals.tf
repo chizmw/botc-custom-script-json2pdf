@@ -1,10 +1,11 @@
 locals {
 
   tag_defaults = {
-    Owner   = "chisel"
-    Product = "botc-custom-script-json2pdf"
-    InfoURL = "https://github.com/chizmw/botc-custom-script-json2pdf"
-    Version = data.external.poetry_version.result.version
+    Owner      = "chisel"
+    Product    = "botc-custom-script-json2pdf"
+    InfoURL    = "https://github.com/chizmw/botc-custom-script-json2pdf"
+    Version    = data.external.useful_version_info.result.poetry_version
+    ShaVersion = data.external.useful_version_info.result.head_sha
   }
 
   # wkspc_site_name is based on the workspace name; if it's 'prod' we use 'make', if it's 'dev' we use 'preview'
