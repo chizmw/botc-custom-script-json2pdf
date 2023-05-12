@@ -10,8 +10,8 @@ locals {
 
   # wkspc_site_name is based on the workspace name; if it's 'prod' we use 'make', if it's 'dev' we use 'preview'
   wkspc_site_name = {
-    prod = "maker"
-    dev  = "preview"
+    prod = "make"
+    dev  = "beta"
   }
 
   # get the lookup value from the wkspc_site_name map based on the workspace name
