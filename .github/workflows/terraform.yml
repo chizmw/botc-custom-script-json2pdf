@@ -24,14 +24,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        terraform-dir:
-          - terraform
+        aws-account-id:
+          - 436158765452
+        session-tag:
+          - botc-json2pdf
         include:
           - account-name-prefix: chizography
-            session-tag: botc-json2pdf
             aws-account-id: 436158765452
             aws-deployment-role: botc/deploy_json2pdf
             aws-region: eu-west-2
+            terraform-dir: terraform
 
     steps:
       - uses: actions/checkout@v3
