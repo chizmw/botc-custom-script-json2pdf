@@ -25,6 +25,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Configure Environment
+        run: |
+          # add the tag name to the environment
+          echo "BOTC_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
       - name: Get JSON
         shell: bash
         run: |
@@ -48,7 +53,8 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
-          title: Regenerate PNG sample images [auto-generated]
+          # yamllint disable-line rule:line-length
+          title: Generate PNG sample images for ${{env.BOTC_TAG || 'unknown'}} [auto-generated]
           # add some labels
           labels: automatic-pr, generate-pngs
           # this is the name of the branch created to hold the changes for the
