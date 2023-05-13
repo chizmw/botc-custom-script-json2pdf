@@ -1,0 +1,5 @@
+kind: Fixed
+body: add 'tag event' to the serverless deploy env logic
+time: 2023-05-13T15:28:56.380592+01:00
+custom:
+  GithubIssue: ""
