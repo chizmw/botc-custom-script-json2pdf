@@ -1,0 +1,5 @@
+kind: Changed
+body: specify 'portrait' in @page for pdf css
+time: 2023-05-13T22:15:24.051911+01:00
+custom:
+  GithubIssue: ""

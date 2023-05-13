@@ -1,6 +1,9 @@
 @page {
-  margin: 5mm;
-  size: A4;
+  margin-top: 5mm;
+  margin-bottom: 5mm;
+  margin-left: 12mm;
+  margin-right: 12mm;
+  size: A4 portrait;
 }
 body {
   color: #ff0;

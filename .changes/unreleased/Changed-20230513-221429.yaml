@@ -1,0 +1,5 @@
+kind: Changed
+body: increase left & right pdf margins
+time: 2023-05-13T22:14:29.741304+01:00
+custom:
+  GithubIssue: "64"
