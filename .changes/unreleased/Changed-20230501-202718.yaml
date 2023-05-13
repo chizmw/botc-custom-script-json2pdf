@@ -1,5 +1,0 @@
-kind: Changed
-body: split some of s3-web into _vars, acm and r53
-time: 2023-05-01T20:27:18.36655+01:00
-custom:
-  GithubIssue: ""
