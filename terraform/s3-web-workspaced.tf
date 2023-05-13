@@ -132,3 +132,12 @@ resource "aws_lambda_permission" "allow_bucket" {
   principal     = "s3.amazonaws.com"
   source_arn    = aws_s3_bucket.wkspc_www_bucket.arn
 }
+
+# Add permission for S3 bucket to trigger Lambda function
+resource "aws_lambda_permission" "apigw_invoke_function" {
+  statement_id  = "AllowApiGatewayToInvokeFunction-${local.site_name}-${terraform.workspace}"
+  action        = "lambda:InvokeFunction"
+  function_name = data.aws_lambda_function.api_render_pdf.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${data.aws_api_gateway_rest_api.json2pdf_api.execution_arn}/*/*"
+}
