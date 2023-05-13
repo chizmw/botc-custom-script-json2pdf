@@ -60,6 +60,10 @@ jobs:
           elif [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/main" ]; then
             echo "DEPLOY_ENV=prod" >> "$GITHUB_ENV"
 
+          # it's a tag event
+          elif [ "${{ github.event_name }}" == "push" ] && [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "DEPLOY_ENV=prod" >> "$GITHUB_ENV"
+
           # no idea what's going on
           else
             # ::error

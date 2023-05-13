@@ -109,9 +109,9 @@ resource "aws_api_gateway_stage" "api_stage" {
 }
 
 resource "aws_lambda_permission" "apigateway" {
-  statement_id  = "AllowExecutionFromAPIGateway-${local.api_stage}"
+  statement_id  = "AllowExecutionFromAPIGateway-${local.api_stage}-v3"
   action        = "lambda:InvokeFunction"
   function_name = data.aws_lambda_function.api_render_pdf.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "arn:aws:lambda:eu-west-2:436158765452:function:${var.sls_service_name}-${local.api_stage}-${var.sls_function_name}"
+  source_arn    = "${data.aws_api_gateway_rest_api.json2pdf_api.execution_arn}/*/*"
 }

@@ -1,5 +1,0 @@
-kind: Fixed
-body: fix bucket for aws_s3_bucket.root_bucket
-time: 2023-05-01T20:32:33.970992+01:00
-custom:
-  GithubIssue: ""

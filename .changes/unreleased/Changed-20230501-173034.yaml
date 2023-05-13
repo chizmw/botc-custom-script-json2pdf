@@ -1,5 +1,0 @@
-kind: Changed
-body: increase terraform version to 1.4.*
-time: 2023-05-01T17:30:34.219905+01:00
-custom:
-  GithubIssue: ""

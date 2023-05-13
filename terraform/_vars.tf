@@ -41,5 +41,5 @@ variable "sls_service_name" {
 variable "sls_function_name" {
   type        = string
   description = "The name of the serverless function."
-  default     = "botc-json2pdf"
+  default     = "render-pdf"
 }
