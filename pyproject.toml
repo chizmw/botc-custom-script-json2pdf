@@ -16,7 +16,7 @@ requests = "^2.28.2"
 pytz = "^2023.3"
 aws-lambda-powertools = "^2.14.0"
 jmespath = "^1.0.1"
-boto3 = "^1.26.118"
+boto3 = "^1.26.133"
 
 
 [tool.poetry.group.dev.dependencies]
