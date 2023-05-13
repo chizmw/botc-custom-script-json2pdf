@@ -1,5 +1,8 @@
 @page {
-  margin: 5mm;
+  margin-top: 5mm;
+  margin-bottom: 5mm;
+  margin-left: 12mm;
+  margin-right: 12mm;
   size: A4;
 }
 body {
