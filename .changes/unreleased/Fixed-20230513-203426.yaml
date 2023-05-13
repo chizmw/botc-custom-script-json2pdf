@@ -1,0 +1,5 @@
+kind: Fixed
+body: fix apigw->lambda invoke permission for 'prod'
+time: 2023-05-13T20:34:26.278747+01:00
+custom:
+  GithubIssue: "63"
