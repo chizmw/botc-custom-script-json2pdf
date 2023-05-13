@@ -33,7 +33,7 @@ plugins:
   - serverless-docker
 
 functions:
-  botc-json2pdf:
+  render-pdf:
     timeout: 15
     image:
       name: json2pdf
