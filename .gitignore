@@ -307,3 +307,4 @@ package.json
 tmp/
 terraform/lambda_function_payload.zip
 terraform/poetry-version.json
+templates/generated.css

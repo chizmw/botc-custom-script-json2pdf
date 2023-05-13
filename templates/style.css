@@ -3,7 +3,8 @@
   margin-bottom: 5mm;
   margin-left: 12mm;
   margin-right: 12mm;
-  size: A4 portrait;
+  size: A5 landscape;
+  background-color: white;
 }
 body {
   color: #ff0;

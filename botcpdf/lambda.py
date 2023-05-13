@@ -100,9 +100,13 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
     # so we need to parse it
     # we can use requests-toolbelt for this
 
+    # start with nothing in the options
+    script_options = None
+
     script = Script(
         title=file_name,
         script_data=file_contents,
+        options=script_options,
         logger=logger,
     )
     logger.info("Rendering %s…", script.title)
