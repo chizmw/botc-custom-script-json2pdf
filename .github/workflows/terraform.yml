@@ -35,6 +35,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Set Workspace Env
         # if we're a PR then we user 'dev', otherwise we use 'prod'
