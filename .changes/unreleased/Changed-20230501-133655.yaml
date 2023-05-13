@@ -1,5 +1,0 @@
-kind: Changed
-body: only 'deploy serverless' on PR and tags
-time: 2023-05-01T13:36:55.405703+01:00
-custom:
-  GithubIssue: ""

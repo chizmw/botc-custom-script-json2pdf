@@ -1,5 +1,0 @@
-kind: Changed
-body: only run terraform workflow on PRs and tags
-time: 2023-05-01T17:29:36.386431+01:00
-custom:
-  GithubIssue: ""
