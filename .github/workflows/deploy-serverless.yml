@@ -4,7 +4,8 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main]
+    tags:
+      - '*'
 
 name: Deploy Serverless
 
@@ -47,6 +48,26 @@ jobs:
         with:
           node-version: 16
 
+      - name: Set Environment Env
+        # if we're a PR then we user 'dev', otherwise we use 'prod'
+        # yamllint disable rule:line-length
+        run: |
+          # pull request
+          if [ -n "${{ github.event.pull_request.head.sha }}" ]; then
+            echo "DEPLOY_ENV=dev" >> "$GITHUB_ENV"
+
+          # push to default branch
+          elif [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "DEPLOY_ENV=prod" >> "$GITHUB_ENV"
+
+          # no idea what's going on
+          else
+            # ::error
+            echo "::error::Unknown event type: ${{ github.event_name }} ${{ github.ref }}"
+              exit 66
+          fi
+        # yamllint enable rule:line-length
+
       - name: SLS Prep
         shell: bash
         run: |
@@ -57,9 +78,10 @@ jobs:
       - name: Debug Matrix
         shell: bash
         run: |
-          echo "aws-account-name: ${{ matrix.aws-account-name }}"
-          echo "aws-account-id: ${{ matrix.aws-account-id }}"
-          echo "aws-deployment-role: ${{ matrix.aws-deployment-role }}"
+          echo "::notice::aws-account-name: ${{matrix.aws-account-name}}"
+          echo "::notice::aws-account-id: ${{matrix.aws-account-id}}"
+          echo "::notice::aws-deployment-role: ${{matrix.aws-deployment-role}}"
+          echo "::notice::DEPLOY_ENV: ${{env.DEPLOY_ENV}}"
 
       - name: SLS List Deploy
         shell: bash
@@ -75,31 +97,11 @@ jobs:
           && chmod +x ~/.aws-lambda-rie/aws-lambda-rie
         # yamllint enable rule:line-length
 
-      - name: Test Docker Image
-        shell: bash
-        # only test if we're on a pull request
-        if: github.event_name == 'pull_request'
-        run: |
-          make -k docker-test
-
-      - name: SLS Deploy (dev)
+      - name: SLS Deploy (by env)
         shell: bash
         if: github.event_name == 'pull_request'
         run: |
-          sls deploy --stage dev
-
-      - name: Call API (dev)
-        shell: bash
-        if: github.event_name == 'pull_request'
-        # yamllint disable rule:line-length
-        run: |
-          curl -LO -X POST 'https://cv2cfac6il.execute-api.eu-west-2.amazonaws.com/dev/render' --header 'Accept: */*' --header 'User-Agent: Thunder Client (https://www.thunderclient.com)' --header 'x-api-key: ${{ secrets.DEV_API_KEY}}' --header 'Content-Type: application/json' --data-raw '[{"id":"_meta","author":"ChiselMW","name":"Pipeline DevTest"},{"id":"dreamer"},{"id":"gossip"},{"id":"minstrel"}, {"id":"sailor"}, {"id":"mutant"}, {"id":"lunatic"}, {"id":"drunk"}, {"id":"vizier"}, {"id": "poisoner"}, {"id": "assassin"}, {"id":"Leviathan"}, {"id":"Po"}]'
-
-      - name: SLS Deploy (prod)
-        shell: bash
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          sls deploy --stage prod
+          sls deploy --stage ${{ env.DEPLOY_ENV }}
 
       - name: Notify Discord
         uses: th0th/notify-discord@v0.4.1

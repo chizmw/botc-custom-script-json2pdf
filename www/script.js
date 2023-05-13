@@ -1,9 +1,7 @@
-const apiUrl =
-  'https://cv2cfac6il.execute-api.eu-west-2.amazonaws.com/dev/render';
+const API_KEY = 'plTBNe7lT95DmuPMyBm2w8bK4cMbwIQk4ci547Kc';
 
-//const dropzone = new Dropzone('#demo-upload', {
 Dropzone.options.customScript = {
-  url: apiUrl,
+  url: API_GATEWAY_URL + '/render',
   previewTemplate: document.querySelector('#preview-template').innerHTML,
   parallelUploads: 2,
   thumbnailHeight: 120,
@@ -14,8 +12,8 @@ Dropzone.options.customScript = {
   acceptedFiles: 'application/json',
   headers: {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'x-api-key': 'htmoQURLmm2MM0uTGV1s69EyReK3JReJ9XFwBWM2',
+    'access-control-allow-origin': '*',
+    'x-api-key': API_KEY,
   },
 
   thumbnail: function (file, dataUrl) {
@@ -50,58 +48,22 @@ Dropzone.options.customScript = {
       dzsize.innerHTML =
         '<span data-dz-size><img src="images/download.png" width="16" height="16"></span>';
     });
+
+    this.on('error', (file, message, xhr) => {
+      console.error(message);
+      if (file.previewElement) {
+        file.previewElement.classList.add('dz-error');
+        const dzerror = file.previewElement.querySelector('.dz-error-message');
+        if (typeof message !== 'string' && message.error) {
+          message = message.error;
+          dzerror.style.opacity = 1;
+        }
+        for (let node of file.previewElement.querySelectorAll(
+          '[data-dz-errormessage]'
+        )) {
+          node.textContent = message;
+        }
+      }
+    });
   },
 };
-
-// Now fake the file upload, since GitHub does not handle file uploads
-// and returns a 404
-
-/*
-const minSteps = 6,
-  maxSteps = 60,
-  timeBetweenSteps = 100,
-  bytesPerStep = 100000;
-
-dropzone._uploadFiles = function (files) {
-  let self = this;
-
-  for (const element of files) {
-    let file = element;
-    let totalSteps = Math.round(
-      Math.min(maxSteps, Math.max(minSteps, file.size / bytesPerStep))
-    );
-
-    for (let step = 0; step < totalSteps; step++) {
-      let duration = timeBetweenSteps * (step + 1);
-      setTimeout(
-        (function (file, totalSteps, step) {
-          return function () {
-            file.upload = {
-              progress: (100 * (step + 1)) / totalSteps,
-              total: file.size,
-              bytesSent: ((step + 1) * file.size) / totalSteps,
-            };
-
-            self.emit(
-              'uploadprogress',
-              file,
-              file.upload.progress,
-              file.upload.bytesSent
-            );
-            if (file.upload.progress == 100) {
-              file.status = Dropzone.SUCCESS;
-              self.emit('success', file, 'success', null);
-              self.emit('complete', file);
-              self.processQueue();
-            }
-          };
-        })(file, totalSteps, step),
-        duration
-      );
-    }
-  }
-};
-*/
-/* comment */
-/* comment */
-/* comment */

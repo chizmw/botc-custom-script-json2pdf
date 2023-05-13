@@ -29,7 +29,7 @@ repos:
   # use this and NOT the one in jumanjihouse; it supports the enable/disable
   # markup
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.33.0
+    rev: v0.34.0
     hooks:
       - id: markdownlint
         args: [--ignore, .changes/*md, --ignore, CHANGELOG.md]
@@ -54,7 +54,7 @@ repos:
       # - id: shfmt
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.77.3
+    rev: v1.79.0
     hooks:
       - id: terraform_fmt
       # - id: terraform_docs
@@ -72,7 +72,7 @@ repos:
       - id: shellcheck
 
   - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-    rev: 0.2.2
+    rev: 0.2.3
     hooks:
       - id: yamlfmt
         args: [--offset, '2', --mapping, '2', --sequence, '4']
