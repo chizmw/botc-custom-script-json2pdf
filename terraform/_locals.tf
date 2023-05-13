@@ -5,7 +5,7 @@ locals {
     Product    = "botc-custom-script-json2pdf"
     InfoURL    = "https://github.com/chizmw/botc-custom-script-json2pdf"
     Version    = data.external.useful_version_info.result.poetry_version
-    ShaVersion = data.external.useful_version_info.result.head_sha
+    ShaVersion = data.external.useful_version_info.result.commit_version
   }
 
   # wkspc_site_name is based on the workspace name; if it's 'prod' we use 'make', if it's 'dev' we use 'preview'
