@@ -9,19 +9,28 @@ from requests_toolbelt.multipart import decoder  # type: ignore
 class MultipartDecoder:
     """A small helper for parsing multipart/form-data requests."""
 
-    def __init__(self, multipart_data_bytestring: bytes) -> None:
+    def __init__(self, multipart_data) -> None:
         """Initialise the MultipartDecoder.
 
         Args:
             multipart_data_string (bytes): The raw multipart/form-data string
             received in the event
         """
-        # store the multipart data string for later use
-        self.multipart_data_bytestring: bytes = multipart_data_bytestring
-        self.multipart_data_string: str = self.multipart_data_bytestring.decode()
+
+        # convert the multipart data to a string if it's not already
+        if isinstance(multipart_data, bytes):
+            # convert the multipart data to a string
+            self.multipart_data_str = multipart_data.decode()
+        elif isinstance(multipart_data, str):
+            self.multipart_data_str = multipart_data
+        else:
+            # throw an error if we get something we don't understand
+            raise TypeError(
+                f"multipart_data must be a string or bytes, not {type(multipart_data)}"
+            )
 
         # The boundary is always the first line of the request body.
-        self.boundary: str = self.multipart_data_string.split("\r\n")[0]
+        self.boundary: str = self.multipart_data_str.split("\r\n")[0]
         # we remove TWO of the dashes from the boundary.
         self.boundary = self.boundary[2:]
 
@@ -38,8 +47,9 @@ class MultipartDecoder:
             print(json.dumps(self.form_data, default=str))
 
     def _decode(self) -> decoder.MultipartDecoder:
+        # we need to send bytes to the decoder, so we encode the string
         return decoder.MultipartDecoder(
-            self.multipart_data_bytestring, self.content_type
+            self.multipart_data_str.encode("utf-8"), self.content_type
         )
 
     def _process_parts(self) -> None:

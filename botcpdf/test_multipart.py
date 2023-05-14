@@ -24,8 +24,15 @@ class TestMultipart(unittest.TestCase):
 
     def test_multipart_init(self):
         """Test MultipartDecoder initialization."""
+
+        # MULTIPART_DATA is a bytes object; check that we do actually have bytes
+        self.assertIsInstance(MULTIPART_DATA, bytes)
+
         multipart = MultipartDecoder(MULTIPART_DATA)
         self.assertEqual(multipart.boundary, "----WebKitFormBoundaryaJzDFsBAWm255fSZ")
+
+        # the boundary should be a string, not bytes
+        self.assertIsInstance(multipart.boundary, str)
 
         self.assertEqual(
             multipart.content_type,
@@ -35,6 +42,12 @@ class TestMultipart(unittest.TestCase):
         # we should have a field paperSize with a value Letter
         self.assertEqual(multipart.get_field("paperSize"), "Letter")
 
+        # the paperSize field should be a string, not bytes
+        self.assertIsInstance(multipart.get_field("paperSize"), str)
+
         # we should have a file file with a name Half of the 108.json
         filename = "Half of the 108.json"
         self.assertEqual(multipart.get_file(filename).get("name"), filename)
+
+        # the file name should be a string, not bytes
+        self.assertIsInstance(multipart.get_file(filename).get("name"), str)
