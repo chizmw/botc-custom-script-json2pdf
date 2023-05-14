@@ -1,0 +1,5 @@
+kind: Fixed
+body: change tf workflow to (also) apply on tag events
+time: 2023-05-14T23:52:23.168726+01:00
+custom:
+  GithubIssue: ""
