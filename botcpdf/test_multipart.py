@@ -25,7 +25,7 @@ class TestMultipart(unittest.TestCase):
     def test_multipart_init(self):
         """Test MultipartDecoder initialization."""
         multipart = MultipartDecoder(MULTIPART_DATA)
-        self.assertEqual(multipart.boundary, b"----WebKitFormBoundaryaJzDFsBAWm255fSZ")
+        self.assertEqual(multipart.boundary, "----WebKitFormBoundaryaJzDFsBAWm255fSZ")
 
         self.assertEqual(
             multipart.content_type,

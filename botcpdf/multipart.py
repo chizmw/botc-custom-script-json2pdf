@@ -9,7 +9,7 @@ from requests_toolbelt.multipart import decoder  # type: ignore
 class MultipartDecoder:
     """A small helper for parsing multipart/form-data requests."""
 
-    def __init__(self, multipart_data_string: bytes) -> None:
+    def __init__(self, multipart_data_bytestring: bytes) -> None:
         """Initialise the MultipartDecoder.
 
         Args:
@@ -17,16 +17,15 @@ class MultipartDecoder:
             received in the event
         """
         # store the multipart data string for later use
-        self.multipart_data_string: bytes = multipart_data_string
+        self.multipart_data_bytestring: bytes = multipart_data_bytestring
+        self.multipart_data_string: str = self.multipart_data_bytestring.decode()
 
         # The boundary is always the first line of the request body.
-        self.boundary: bytes = multipart_data_string.split(b"\r\n")[0]
+        self.boundary: str = self.multipart_data_string.split("\r\n")[0]
         # we remove TWO of the dashes from the boundary.
         self.boundary = self.boundary[2:]
 
-        self.content_type: str = (
-            f"multipart/form-data; boundary={self.boundary.decode()}"
-        )
+        self.content_type: str = f"multipart/form-data; boundary={self.boundary}"
 
         self.decoded = self._decode().parts
 
@@ -39,7 +38,9 @@ class MultipartDecoder:
             print(json.dumps(self.form_data, default=str))
 
     def _decode(self) -> decoder.MultipartDecoder:
-        return decoder.MultipartDecoder(self.multipart_data_string, self.content_type)
+        return decoder.MultipartDecoder(
+            self.multipart_data_bytestring, self.content_type
+        )
 
     def _process_parts(self) -> None:
         for part in self.decoded:
