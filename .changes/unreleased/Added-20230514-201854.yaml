@@ -1,0 +1,5 @@
+kind: Added
+body: if non-aws env, create symlink to generated pdf
+time: 2023-05-14T20:18:54.553798+01:00
+custom:
+  GithubIssue: ""

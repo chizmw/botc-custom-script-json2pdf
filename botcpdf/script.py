@@ -339,6 +339,17 @@ class Script:
         )
         print("PDF saved to " + pdf_filename)
 
+        # if we are NOT in aws, create a symlink to the pdf in the pdfs folder
+        if not is_aws_env():
+            # if the symlink already exists, delete it
+            if os.path.exists(f"{pdf_folder}/just-baked.pdf"):
+                os.remove(f"{pdf_folder}/just-baked.pdf")
+            # create the symlink
+            os.symlink(
+                os.path.join(os.getcwd(), pdf_filename),
+                os.path.join(pdf_folder, "just-baked.pdf"),
+            )
+
         # if we have BOTC_PDF2IMAGE set...
         if os.environ.get("BOTC_PDF2IMAGE"):
             pdf2images(
