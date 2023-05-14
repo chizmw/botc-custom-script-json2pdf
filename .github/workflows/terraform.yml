@@ -80,7 +80,6 @@ jobs:
           aws-deployment-role: ${{ matrix.aws-deployment-role }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           aws-region: ${{ matrix.aws-region }}
+          # if we're in a PR or a tag push, set auto-apply to true
+          auto-apply: ${{ github.event_name == 'pull_request' || github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') }}
           # yamllint enable rule:line-length
-
-          # if we're in a PR set auto-apply to true
-          auto-apply: ${{ github.event_name == 'pull_request' }}
