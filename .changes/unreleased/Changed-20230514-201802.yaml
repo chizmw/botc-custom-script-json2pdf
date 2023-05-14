@@ -1,0 +1,5 @@
+kind: Changed
+body: add a4/letter to generated PDF file name
+time: 2023-05-14T20:18:02.837921+01:00
+custom:
+  GithubIssue: "74"

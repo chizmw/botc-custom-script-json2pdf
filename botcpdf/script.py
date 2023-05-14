@@ -322,6 +322,8 @@ class Script:
                 fhandle.write(html_out)
 
         # convert the HTML to PDF
+        pdf_filename = self._pdf_filename_with_path(this_folder=this_folder)
+
         if is_aws_env():
             pdf_folder = "/tmp"
         else:
@@ -331,11 +333,11 @@ class Script:
                 os.makedirs(pdf_folder)
         # save the PDF in the pdfs folder
         HTML(string=html_out).write_pdf(
-            os.path.join(pdf_folder, f"{self.title}.pdf"),
+            pdf_filename,
             stylesheets=["templates/style.css"],
             optimize_size=(),
         )
-        print("PDF saved to " + os.path.join(pdf_folder, f"{self.title}.pdf"))
+        print("PDF saved to " + pdf_filename)
 
         # if we have BOTC_PDF2IMAGE set...
         if os.environ.get("BOTC_PDF2IMAGE"):
@@ -344,4 +346,36 @@ class Script:
                 f"generated/{self.title}",
             )
 
-        return os.path.join(pdf_folder, f"{self.title}.pdf")
+        return pdf_filename
+
+    def _pdf_filename_without_path(self) -> str:
+        """Return the PDF filename."""
+
+        filename = self.title
+
+        # if we have a paper size, add it to the filename (lowercase)
+        if self.paper_size:
+            filename += f"-{self.paper_size.lower()}"
+
+        # finally add the extension
+        filename += ".pdf"
+
+        return filename
+
+    def _pdf_filename_with_path(self, this_folder) -> str:
+        """Return the PDF filename with path."""
+
+        filename = self._pdf_filename_without_path()
+
+        # if we're in an AWS environment, we need to use /tmp
+        if is_aws_env():
+            filename = os.path.join("/tmp", filename)
+
+        else:
+            pdf_folder = os.path.abspath(os.path.join(this_folder, "..", "pdfs"))
+            # if non-tmp pdf_folder doesn't exist, create it
+            if not os.path.exists(pdf_folder):
+                os.makedirs(pdf_folder)
+            filename = os.path.join(pdf_folder, filename)
+
+        return filename
