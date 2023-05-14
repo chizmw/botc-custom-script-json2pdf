@@ -32,6 +32,9 @@ fmt: install-dev
 lint: install-dev
 	@$(POETRY) run pylint $(PYSRC)
 
+test: install-dev
+	@$(POETRY) run python -m unittest -v
+
 tb: poetry
 	@$(MAKE) process INPUT_FILE="scripts/Trouble Brewing.json"
 ifeq ($(shell uname),Darwin)
