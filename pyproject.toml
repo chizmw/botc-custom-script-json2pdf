@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "botc-json2pdf"
-version = "0.2.5"
+version = "0.2.6a5"
 description = ""
 authors = ["Chisel <chisel@malik-wright.uk>"]
 readme = "README.md"
@@ -17,6 +17,7 @@ pytz = "^2023.3"
 aws-lambda-powertools = "^2.14.0"
 jmespath = "^1.0.1"
 boto3 = "^1.26.118"
+requests-toolbelt = "^1.0.0"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -87,6 +87,22 @@ jobs:
           echo "::notice::aws-deployment-role: ${{matrix.aws-deployment-role}}"
           echo "::notice::DEPLOY_ENV: ${{env.DEPLOY_ENV}}"
 
+      # install python and poetry so we can run the tests
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: 1.4.2
+
+      - name: Run Tests
+        shell: bash
+        run: |
+          make test
+
       - name: SLS List Deploy
         shell: bash
         run: |

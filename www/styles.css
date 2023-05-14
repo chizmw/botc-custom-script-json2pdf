@@ -157,3 +157,11 @@ footer {
     background-size: 100%;
   }
 }
+
+div.ul-options {
+  font-size: smaller;
+  border-width: 0.5px;
+  border-style: dashed;
+  border-color: #333;
+  padding: 3px;
+}

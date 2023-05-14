@@ -32,34 +32,37 @@ fmt: install-dev
 lint: install-dev
 	@$(POETRY) run pylint $(PYSRC)
 
+test: install-dev
+	@$(POETRY) run python -m unittest -v
+
 tb: poetry
 	@$(MAKE) process INPUT_FILE="scripts/Trouble Brewing.json"
 ifeq ($(shell uname),Darwin)
-	@open -a Preview "pdfs/Trouble Brewing.pdf"
+	@open -a Preview "pdfs/just-baked.pdf"
 endif
 
 nrb: poetry
 	@$(MAKE) process INPUT_FILE="scripts/No Roles Barred.json"
 ifeq ($(shell uname),Darwin)
-	@open -a Preview "pdfs/No Roles Barred.pdf"
+	@open -a Preview "pdfs/just-baked.pdf"
 endif
 
 test-broken: poetry
 	@$(MAKE) process INPUT_FILE="scripts/broke-test.json"
 ifeq ($(shell uname),Darwin)
-	@open -a Preview "pdfs/Extension Cord.pdf"
+	@open -a Preview "pdfs/just-baked.pdf"
 endif
 
 test-newchars: poetry
 	@$(MAKE) process INPUT_FILE="scripts/Grind My Viz.json"
 ifeq ($(shell uname),Darwin)
-	@open -a Preview "pdfs/Grind My Viz.pdf"
+	@open -a Preview "pdfs/just-baked.pdf"
 endif
 
 test-meta: poetry
 	@$(MAKE) process INPUT_FILE='scripts/my-test-script.json'
 ifeq ($(shell uname),Darwin)
-	@open -a Preview 'pdfs/I am a list name.pdf'
+	@open -a Preview 'pdfs/just-baked.pdf"
 endif
 
 all-scripts: install-dev

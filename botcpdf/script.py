@@ -49,7 +49,9 @@ class Script:
     # these are shared across all instances of the class
     role_data: RoleData = RoleData()
 
-    def __init__(self, title: str, script_data: dict, logger=None):
+    def __init__(
+        self, title: str, script_data: dict, options: Optional[dict] = None, logger=None
+    ):
         """Initialize a script."""
 
         self._init_defaults()
@@ -59,6 +61,9 @@ class Script:
 
         self._ensure_logger()
 
+        self._process_options(options)
+
+        # the data we use to render the PDF
         self.logger.info("Initializing script %s", self.title)
         self.logger.debug(script_data)
 
@@ -73,6 +78,30 @@ class Script:
         # now we've loaded all the core information we can examine what we have
         # and see if there are any jinxes
         self._process_jinxes()
+
+    def _default_options(self) -> dict:
+        """Return a dict of default options."""
+
+        return {
+            "paper_size": "A4",
+        }
+
+    def _process_options(self, options: Optional[dict]) -> None:
+        """Process the options."""
+        self.options = self._default_options()
+
+        # maybe overwrite defaults with preferred options
+        if options is not None:
+            # raise an error if options contains any unexpected keys, i.e. not
+            # in self.options as they are right now
+            if not set(options.keys()).issubset(set(self.options.keys())):
+                unexpected_keys = set(options.keys()) - set(self.options.keys())
+                unexpected = ", ".join(sorted(unexpected_keys))
+                raise ValueError(f"""Unexpected options: {unexpected}""")
+
+            self.options.update(options)
+
+        self.paper_size = self.options.get("paper_size", "A4")
 
     def _init_defaults(self) -> None:
         self.char_types: dict[str, list[Role]] = {
@@ -229,6 +258,14 @@ class Script:
 
             self.other_nights[role.other_night] = role
 
+    def _generate_css_extras(self, folder: str) -> None:
+        # open templates/generated.css fo writing to
+        with open(f"{folder}/generated.css", "w", encoding="utf-8") as css_file:
+            print("/* generated css */", file=css_file)
+
+            # page size
+            print(f"@page {{ size: {self.paper_size} portrait; }}", file=css_file)
+
     @timeit
     def render(self) -> str:
         """Render the script as a PDF.
@@ -248,6 +285,11 @@ class Script:
         icon_folder = os.path.abspath(os.path.join(this_folder, "..", "icons"))
         template_folder = os.path.abspath(os.path.join(this_folder, "..", "templates"))
 
+        # start with our generated destination the same as the template folder
+        generated_folder = template_folder
+        if is_aws_env():
+            generated_folder = os.path.abspath("/tmp")
+
         template_vars = {
             "_project": get_distribution("botc-json2pdf").__dict__,
             "title": self.title,
@@ -256,9 +298,14 @@ class Script:
             "other_nights": self.sorted_other_nights(),
             "icon_folder": icon_folder,
             "template_folder": template_folder,
+            "generated_folder": generated_folder,
             "hatred": self.hatred,
             "hate_pair": self.hate_pair,
+            "paper_size": self.paper_size,
         }
+
+        # make sure we have the generated css file
+        self._generate_css_extras(generated_folder)
 
         html_out = template.render(template_vars)
 
@@ -275,6 +322,8 @@ class Script:
                 fhandle.write(html_out)
 
         # convert the HTML to PDF
+        pdf_filename = self._pdf_filename_with_path(this_folder=this_folder)
+
         if is_aws_env():
             pdf_folder = "/tmp"
         else:
@@ -284,11 +333,22 @@ class Script:
                 os.makedirs(pdf_folder)
         # save the PDF in the pdfs folder
         HTML(string=html_out).write_pdf(
-            os.path.join(pdf_folder, f"{self.title}.pdf"),
+            pdf_filename,
             stylesheets=["templates/style.css"],
             optimize_size=(),
         )
-        print("PDF saved to " + os.path.join(pdf_folder, f"{self.title}.pdf"))
+        print("PDF saved to " + pdf_filename)
+
+        # if we are NOT in aws, create a symlink to the pdf in the pdfs folder
+        if not is_aws_env():
+            # if the symlink already exists, delete it
+            if os.path.exists(f"{pdf_folder}/just-baked.pdf"):
+                os.remove(f"{pdf_folder}/just-baked.pdf")
+            # create the symlink
+            os.symlink(
+                os.path.join(os.getcwd(), pdf_filename),
+                os.path.join(pdf_folder, "just-baked.pdf"),
+            )
 
         # if we have BOTC_PDF2IMAGE set...
         if os.environ.get("BOTC_PDF2IMAGE"):
@@ -297,4 +357,36 @@ class Script:
                 f"generated/{self.title}",
             )
 
-        return os.path.join(pdf_folder, f"{self.title}.pdf")
+        return pdf_filename
+
+    def _pdf_filename_without_path(self) -> str:
+        """Return the PDF filename."""
+
+        filename = self.title
+
+        # if we have a paper size, add it to the filename (lowercase)
+        if self.paper_size:
+            filename += f"-{self.paper_size.lower()}"
+
+        # finally add the extension
+        filename += ".pdf"
+
+        return filename
+
+    def _pdf_filename_with_path(self, this_folder) -> str:
+        """Return the PDF filename with path."""
+
+        filename = self._pdf_filename_without_path()
+
+        # if we're in an AWS environment, we need to use /tmp
+        if is_aws_env():
+            filename = os.path.join("/tmp", filename)
+
+        else:
+            pdf_folder = os.path.abspath(os.path.join(this_folder, "..", "pdfs"))
+            # if non-tmp pdf_folder doesn't exist, create it
+            if not os.path.exists(pdf_folder):
+                os.makedirs(pdf_folder)
+            filename = os.path.join(pdf_folder, filename)
+
+        return filename

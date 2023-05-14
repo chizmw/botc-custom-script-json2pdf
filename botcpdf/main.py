@@ -38,7 +38,13 @@ def main():
 
         script_data = load_data(filename)
 
-    script = Script(script_name, script_data)
+    script_options = {
+        # we have A5 as the default in styles.css, so this proves that the
+        # option works
+        "paper_size": "A4",
+    }
+
+    script = Script(script_name, script_data, script_options)
     print(f"""Rendering "{script.title}"…""")
     script.render()
 
