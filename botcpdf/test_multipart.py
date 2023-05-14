@@ -51,3 +51,8 @@ class TestMultipart(unittest.TestCase):
 
         # the file name should be a string, not bytes
         self.assertIsInstance(multipart.get_file(filename).get("name"), str)
+
+        # get_file_names should return a list of strings; with our data we
+        # should have one item in the list with a value of Half of the 108.json
+        print(multipart.get_file_names())
+        self.assertEqual(multipart.get_file_names(), [filename])

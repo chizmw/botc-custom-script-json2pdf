@@ -113,4 +113,9 @@ class MultipartDecoder:
         Returns:
             list[str]: a list of file names
         """
-        return self.form_data["files"].keys()
+
+        # do not do this - you get dist_keys, not a list
+        # return self.form_data["files"].keys()
+
+        # do this instead
+        return list(self.form_data["files"].keys())
