@@ -94,3 +94,12 @@ class MultipartDecoder:
             Any: the field data
         """
         return self.form_data["fields"][field_name]
+
+    # get the names of all the files
+    def get_file_names(self) -> list[str]:
+        """Get the names of all the files.
+
+        Returns:
+            list[str]: a list of file names
+        """
+        return self.form_data["files"].keys()

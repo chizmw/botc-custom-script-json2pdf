@@ -1,5 +1,4 @@
 """ Lambda function to render a PDF from a JSON script. """
-import re
 import sys
 import json
 import logging
@@ -7,6 +6,7 @@ import traceback
 from typing import Any, Dict
 
 from aws_lambda_powertools.utilities.typing import LambdaContext
+from botcpdf.multipart import MultipartDecoder
 
 from botcpdf.script import Script
 from botcpdf.util import upload_pdf_to_s3
@@ -30,50 +30,6 @@ logger.addHandler(handler)
 # logger: Logger = Logger(service="botc-custom-script-json2pdf", level=LOGLEVEL)
 
 
-def extract_file_contents(multipart_string) -> tuple[str, Any]:
-    """
-    Extracts the filename and file contents from a multipart/form-data string.
-
-    If the content type is JSON, it converts the file contents to a Python object.
-    Otherwise, it raises a ValueError.
-
-    Args:
-        multipart_string (str): The multipart/form-data string to parse.
-
-    Returns:
-        tuple: A tuple containing the filename (str) and the file contents
-        (object), converted to a Python object if the content type is JSON.
-
-    Raises:
-        ValueError: If the boundary or file contents are not found in the
-        multipart_string, or if the content type is unsupported.
-    """
-    boundary_match = re.search(r"^--(.+?)\r\n", multipart_string)
-    if not boundary_match:
-        raise ValueError("Boundary not found in the multipart_string")
-
-    boundary = boundary_match.group(1)
-    file_contents_pattern = re.compile(
-        rf'Content-Disposition: form-data; name="file"; filename="(.+?)"\r\n'
-        rf"Content-Type: (.+?)\r\n"
-        rf"\r\n"
-        rf"(.*?)\r\n--{boundary}",
-        re.DOTALL,
-    )
-
-    match = file_contents_pattern.search(multipart_string)
-    if match:
-        filename = match.group(1)
-        content_type = match.group(2)
-        file_contents = match.group(3)
-
-        if content_type == "application/json":
-            return filename, json.loads(file_contents)
-        raise ValueError("Unsupported content type")
-
-    raise ValueError("File contents not found in the multipart_string")
-
-
 def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
     """Lambda function to render a PDF from a JSON script.
 
@@ -90,7 +46,32 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
     logger.debug("%s handler called", __name__)
     logger.debug(event)
 
-    file_name, file_contents = extract_file_contents(event["body"])
+    multipart = MultipartDecoder(event["body"])
+    uploaded_files = multipart.get_file_names()
+    if len(uploaded_files) != 1:
+        return {
+            "statusCode": 400,
+            "body": json.dumps(
+                {
+                    "message": "Exactly one file must be uploaded",
+                    "uploaded_files": uploaded_files,
+                }
+            ),
+        }
+    file_info = multipart.get_file(uploaded_files[0])
+    if file_info["content_type"] != "application/json":
+        return {
+            "statusCode": 400,
+            "body": json.dumps(
+                {
+                    "message": "File must be JSON",
+                    "content_type": file_info["content_type"],
+                }
+            ),
+        }
+
+    file_name = file_info["filename"]
+    file_contents = file_info["json"]
 
     # strip the .json extension to get the script_title
     file_name = file_name.replace(".json", "")
@@ -102,6 +83,13 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
 
     # start with nothing in the options
     script_options = None
+
+    # if we have paperSize, we need to add it to the options
+    if option_value := multipart.get_field("paperSize"):
+        # turn script_options into a dict if it's not already
+        if not script_options:
+            script_options = {}
+        script_options = {"paper_size": option_value}
 
     script = Script(
         title=file_name,
