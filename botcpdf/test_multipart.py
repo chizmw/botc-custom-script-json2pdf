@@ -54,5 +54,34 @@ class TestMultipart(unittest.TestCase):
 
         # get_file_names should return a list of strings; with our data we
         # should have one item in the list with a value of Half of the 108.json
-        print(multipart.get_file_names())
         self.assertEqual(multipart.get_file_names(), [filename])
+
+    def test_lambda_behaviour(self):
+        """Test that the lambda behaviour works as expected"""
+        # we should refactor to actually call methods, not just copy paste what
+        # we did in the lambda.py file
+
+        # event is just a dict with a body key that has the MULTIPART_DATA
+        # value
+        event = {"body": MULTIPART_DATA}
+
+        multipart = MultipartDecoder(event["body"])
+        # multipart should be a MultipartDecoder object
+        self.assertIsInstance(multipart, MultipartDecoder)
+
+        uploaded_files = multipart.get_file_names()
+        # uploaded_files should be a list
+        self.assertIsInstance(uploaded_files, list)
+
+        file_info = multipart.get_file(uploaded_files[0])
+        # file_info should be a dict
+        self.assertIsInstance(file_info, dict)
+
+        # grab some info about the file
+        file_name = file_info["name"]
+        file_contents = file_info["json"]
+
+        # file_name should be a string
+        self.assertIsInstance(file_name, str)
+        # file_contents should be a json object
+        self.assertIsInstance(file_contents, list)

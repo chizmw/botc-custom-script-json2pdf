@@ -70,7 +70,7 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
             ),
         }
 
-    file_name = file_info["filename"]
+    file_name = file_info["name"]
     file_contents = file_info["json"]
 
     # strip the .json extension to get the script_title
