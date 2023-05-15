@@ -11,6 +11,9 @@ body {
   font-family: 'Fira Sans', sans-serif;
   font-size: 8pt;
   margin-left: 20px;
+
+  height: 100vh;
+  width: 100vw;
 }
 div.not-first-night {
   bottom: 1%;
@@ -21,6 +24,31 @@ div.not-first-night {
   position: absolute;
   transform: translateX(-50%);
 }
+
+.full-page {
+  position: absolute;
+  top: 5mm;
+  left: 12mm;
+  right: 12mm;
+  bottom: 5mm;
+}
+
+.left-side {
+  margin-left: -20px; /* Adjust this value to match the column gap */
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 50%;
+}
+
+.right-side {
+  transform: rotate(180deg);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+}
+
 footer .footer-left {
   font-size: 8px;
   left: 0;
@@ -62,6 +90,14 @@ h2.character-type {
   transform-origin: left;
   white-space: nowrap;
 }
+h2.simple-first-night {
+  color: #000;
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 18pt;
+  font-weight: 900;
+  border-bottom: 1.5px solid #000;
+}
+
 header {
   align-items: flex-start;
   background-color: #2f4f4f;

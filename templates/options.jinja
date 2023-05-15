@@ -1,0 +1,21 @@
+{%- set options = [] -%}
+
+{%- if script_options.paper_size -%}
+{%- set tmp = options.append(script_options.paper_size) -%}
+{%- endif %}
+
+{%- if script_options.easy_print_pdf -%}
+{%- set tmp = options.append('EasyPrint') -%}
+
+    {# we only need to show these if we ARE doing EasyPrint #}
+    {%- if script_options.double_sided -%}
+    {%- set tmp = options.append('2-Sided') -%}
+    {%- endif -%}
+
+    {%- if script_options.player_night_order -%}
+    {%- set tmp = options.append('PlayerNightOrder') -%}
+    {%- endif -%}
+
+{%- endif -%}
+
+[{{ options|join(', ') }}]

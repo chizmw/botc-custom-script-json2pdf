@@ -1,0 +1,21 @@
+<div class="full-page">
+  <div class="left-side">
+    <h2 class="simple-first-night">First Night</h2>
+    {%- for character in first_night %}
+      <div class="character-block character-block-nightinfo">
+        <img src="file://{{icon_folder}}/{{character.id_slug}}.png" alt="{{ character.name }}" class="character-icon-nightinfo"/>
+        <span class="character-name character-name-{{ character.team }}">{{ character.name }}</span>
+      </div>
+    {%- endfor %}
+  </div>
+
+  <div class="right-side">
+    <h2 class="simple-first-night">Other Nights</h2>
+      {%- for character in other_nights %}
+        <div class="character-block character-block-nightinfo">
+          <img src="file://{{icon_folder}}/{{character.id_slug}}.png" alt="{{ character.name }}" class="character-icon-nightinfo"/>
+          <span class="character-name character-name-{{ character.team }}">{{ character.name }}</span>
+        </div>
+      {%- endfor %}
+  </div>
+</div>
