@@ -68,6 +68,27 @@ class ScriptOptions:
         self.simple_night_order = self.options.get("simple_night_order", False)
         self.player_count = self.options.get("player_count", 3)
 
+        # player_count must be an integer; we need to convert from the special
+        # values (teenyville, ravenswood_regular, ravenswood_max) to the actual
+        # numbers
+        if self.player_count == "teensyville":
+            self.player_count = 7
+        elif self.player_count == "ravenswood_regular":
+            self.player_count = 16
+        elif self.player_count == "ravenswood_max":
+            self.player_count = 21
+
+        # a safety net to make sure some crazy value hasn't slipped through
+        if not isinstance(self.player_count, int):
+            raise ValueError(
+                f"""player_count must be an int, not {self.player_count}"""
+            )
+        # make sure it's a sensible number
+        if self.player_count < 1 or self.player_count > 21:
+            raise ValueError(
+                f"""player_count must be between 1 and 21, not {self.player_count}"""
+            )
+
     def __str__(self) -> str:
         # return a string representation of the options
         option_strings = []
