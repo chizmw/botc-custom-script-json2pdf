@@ -27,6 +27,8 @@ class ScriptOptions:
             # we want to print the player instructions in the night order
             # (requires easy_print_pdf)
             "player_night_order": True,
+            # some STs like the simpler night order
+            "simple_night_order": True,
         }
 
     def _process_options(self, options: Optional[dict]) -> None:
@@ -48,6 +50,7 @@ class ScriptOptions:
         self.easy_print_pdf = self.options.get("easy_print_pdf", False)
         self.double_sided = self.options.get("double_sided", False)
         self.player_night_order = self.options.get("player_night_order", False)
+        self.simple_night_order = self.options.get("simple_night_order", False)
 
     def __str__(self) -> str:
         # loop through all options and print them
