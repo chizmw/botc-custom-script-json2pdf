@@ -1,5 +1,6 @@
 """This module contains the Script class, which represents a script."""
 
+import json
 import logging
 import os
 from typing import Optional
@@ -9,6 +10,7 @@ from weasyprint import HTML  # type: ignore
 from botcpdf.benchmark import timeit  # type: ignore
 from botcpdf.jinx import Jinxes  # type: ignore
 from botcpdf.role import Role, RoleData
+from botcpdf.script_options import ScriptOptions
 from botcpdf.util import cleanup_role_id, is_aws_env, pdf2images  # type: ignore
 
 
@@ -61,11 +63,13 @@ class Script:
 
         self._ensure_logger()
 
-        self._process_options(options)
+        self.options = ScriptOptions(options)
+
+        self.logger.info(self.options)
 
         # the data we use to render the PDF
         self.logger.info("Initializing script %s", self.title)
-        self.logger.debug(script_data)
+        # self.logger.debug(script_data)
 
         # we want to preserve the order of the characters
         # so we'll use a list instead of a set
@@ -78,30 +82,6 @@ class Script:
         # now we've loaded all the core information we can examine what we have
         # and see if there are any jinxes
         self._process_jinxes()
-
-    def _default_options(self) -> dict:
-        """Return a dict of default options."""
-
-        return {
-            "paper_size": "A4",
-        }
-
-    def _process_options(self, options: Optional[dict]) -> None:
-        """Process the options."""
-        self.options = self._default_options()
-
-        # maybe overwrite defaults with preferred options
-        if options is not None:
-            # raise an error if options contains any unexpected keys, i.e. not
-            # in self.options as they are right now
-            if not set(options.keys()).issubset(set(self.options.keys())):
-                unexpected_keys = set(options.keys()) - set(self.options.keys())
-                unexpected = ", ".join(sorted(unexpected_keys))
-                raise ValueError(f"""Unexpected options: {unexpected}""")
-
-            self.options.update(options)
-
-        self.paper_size = self.options.get("paper_size", "A4")
 
     def _init_defaults(self) -> None:
         self.char_types: dict[str, list[Role]] = {
@@ -264,7 +244,9 @@ class Script:
             print("/* generated css */", file=css_file)
 
             # page size
-            print(f"@page {{ size: {self.paper_size} portrait; }}", file=css_file)
+            print(
+                f"@page {{ size: {self.options.paper_size} portrait; }}", file=css_file
+            )
 
     @timeit
     def render(self) -> str:
@@ -301,7 +283,8 @@ class Script:
             "generated_folder": generated_folder,
             "hatred": self.hatred,
             "hate_pair": self.hate_pair,
-            "paper_size": self.paper_size,
+            # options that can affect how the PDF is rendered
+            "script_options": self.options,
         }
 
         # make sure we have the generated css file
@@ -309,7 +292,7 @@ class Script:
 
         html_out = template.render(template_vars)
 
-        self.logger.info(template_vars)
+        self.logger.debug(json.dumps(template_vars, default=lambda x: x.__dict__))
 
         # if we have BOTC_DEBUG set...
         if os.environ.get("BOTC_DEBUG"):
@@ -365,8 +348,8 @@ class Script:
         filename = self.title
 
         # if we have a paper size, add it to the filename (lowercase)
-        if self.paper_size:
-            filename += f"-{self.paper_size.lower()}"
+        if self.options.paper_size:
+            filename += f"-{self.options.paper_size.lower()}"
 
         # finally add the extension
         filename += ".pdf"
