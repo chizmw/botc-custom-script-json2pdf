@@ -53,10 +53,6 @@ class ScriptOptions:
         self.simple_night_order = self.options.get("simple_night_order", False)
 
     def __str__(self) -> str:
-        # loop through all options and print them
-        for key, value in self.options.items():
-            print(key, value)
-
         # return a string representation of the options
         option_strings = []
         for key, value in self.options.items():

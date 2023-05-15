@@ -1,6 +1,5 @@
 """This module contains the Script class, which represents a script."""
 
-import json
 import logging
 import os
 from typing import Optional
@@ -292,7 +291,7 @@ class Script:
 
         html_out = template.render(template_vars)
 
-        self.logger.debug(json.dumps(template_vars, default=lambda x: x.__dict__))
+        # self.logger.debug(json.dumps(template_vars, default=lambda x: x.__dict__))
 
         # if we have BOTC_DEBUG set...
         if os.environ.get("BOTC_DEBUG"):
