@@ -1,0 +1,5 @@
+kind: Fixed
+body: enable 'SLS Deploy (by env)' on tag event
+time: 2023-05-15T23:43:13.528354+01:00
+custom:
+  GithubIssue: ""
