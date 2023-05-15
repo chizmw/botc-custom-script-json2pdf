@@ -113,8 +113,8 @@
                 <details open>
                   <summary>Script Options</summary>
 
-                  <div>
-                    Paper size:
+                  <div class="script-option">
+                    <div>Paper size:</div>
                     <select name="paperSize" id="paperSize">
                       <option value="A4" selected>A4</option>
                       <option value="letter">Letter</option>
@@ -128,8 +128,8 @@
                     />
                   </div>
 
-                  <div>
-                    Night Info:
+                  <div class="script-option">
+                    <div>Night Info:</div>
                     <select name="stNightInfo" id="stNightInfo">
                       <option value="onesheet">One Sheet</option>
                       <option value="doublesided" selected>Double-Sided</option>
@@ -143,8 +143,8 @@
                     />
                   </div>
 
-                  <div>
-                    Format:
+                  <div class="script-option">
+                    <div>Format:</div>
                     <select name="scriptFormat" id="scriptFormat">
                       <option value="regular">Regular</option>
                       <option value="easyprint" selected>
@@ -160,8 +160,8 @@
                     />
                   </div>
 
-                  <div>
-                    Print Format:
+                  <div class="script-option">
+                    <div>Print Format:</div>
                     <select name="printFormat" id="printFormat">
                       <option value="singleSided">Single-Sided</option>
                       <option value="doubleSided" selected>Double-Sided</option>
@@ -175,8 +175,8 @@
                     />
                   </div>
 
-                  <div>
-                    Players see Night Info:
+                  <div class="script-option">
+                    <div>Players see Night Info:</div>
                     <select name="playerNightInfo" id="playerNightInfo">
                       <option value="yes">Yes, share with players</option>
                       <option value="no" selected>No, keep it vague</option>
@@ -190,8 +190,8 @@
                     />
                   </div>
 
-                  <div>
-                    Player Count
+                  <div class="script-option">
+                    <div>Player Count:</div>
                     <select name="playerCount" id="playerCount">
                       <option value="teensyville">
                         Teensyville (7 copies)
@@ -324,7 +324,7 @@
         interactive: false,
         interactiveDebounce: 75,
         hideOnClick: true,
-        trigger: 'mouseenter click',
+        trigger: 'click',
         placement: 'auto-end',
         touch: 'hold',
       });

@@ -167,3 +167,37 @@ div.ul-options {
   background-color: lightslategray;
   color: white;
 }
+
+div.script-option > div {
+  font-weight: 700;
+  color: white;
+  padding-left: 6px;
+}
+
+div.script-option > select {
+  margin-left: 15px;
+  width: 100%;
+  min-width: 15ch;
+  max-width: 30ch;
+  border: 1px solid var(--select-border);
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em;
+  cursor: pointer;
+  background-color: #fff;
+  background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+  margin-bottom: 5px;
+}
+
+.select--disabled {
+  cursor: not-allowed;
+  background-color: #eee;
+  background-image: linear-gradient(to top, #ddd, #eee 33%);
+}
+
+#customScript > div.ul-options > details > div.script-option > img {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
