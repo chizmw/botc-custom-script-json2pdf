@@ -31,6 +31,7 @@ logger.addHandler(handler)
 
 
 # pylint: disable=too-many-branches
+# pylint: disable=too-many-statements
 def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
     """Lambda function to render a PDF from a JSON script.
 
@@ -94,25 +95,43 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
     # if we have paperSize, we need to add it to the options
     if option_value := multipart.get_field("paperSize"):
         script_options["paper_size"] = option_value
+    else:
+        # default to A4
+        script_options["paper_size"] = "A4"
 
     if option_value := multipart.get_field("stNightInfo"):
         if option_value == "onesheet":
             script_options["simple_night_order"] = True
+        else:
+            # default to doublesided / non-simple
+            script_options["simple_night_order"] = False
 
     if option_value := multipart.get_field("scriptFormat"):
         if option_value == "easyprint":
             script_options["easy_print_pdf"] = True
+        else:
+            # default to standard
+            script_options["easy_print_pdf"] = False
 
     if option_value := multipart.get_field("printFormat"):
         if option_value == "doublesided":
             script_options["double_sided"] = True
+        else:
+            # default to singlesided
+            script_options["double_sided"] = False
 
     if option_value := multipart.get_field("playerNightInfo"):
         if option_value == "yes":
             script_options["player_night_order"] = True
+        else:
+            # default to no
+            script_options["player_night_order"] = False
 
     if option_value := multipart.get_field("playerCount"):
         script_options["player_count"] = option_value
+    else:
+        # default to teensyville
+        script_options["player_count"] = "teensyville"
 
     script = Script(
         title=file_name,
