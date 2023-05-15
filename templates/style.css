@@ -11,9 +11,7 @@ body {
   font-family: 'Fira Sans', sans-serif;
   font-size: 8pt;
 
-  height: 100vh;
   margin-left: 20px;
-  width: 100vw;
 }
 div.not-first-night {
   bottom: 2%;
