@@ -1,5 +1,0 @@
-kind: Changed
-body: tweak the @timeit function output
-time: 2023-05-15T20:24:02.637469+01:00
-custom:
-  GithubIssue: ""

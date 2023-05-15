@@ -1,5 +1,0 @@
-kind: Changed
-body: increase sls timeout (15->30)
-time: 2023-05-15T18:23:15.208525+01:00
-custom:
-  GithubIssue: ""
