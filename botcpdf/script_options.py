@@ -28,7 +28,7 @@ class ScriptOptions:
             # (requires easy_print_pdf)
             "player_night_order": True,
             # some STs like the simpler night order
-            "simple_night_order": True,
+            "simple_night_order": False,
         }
 
     def _process_options(self, options: Optional[dict]) -> None:
