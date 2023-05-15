@@ -1,5 +1,5 @@
 {% if script_options.easy_print_pdf %}
-    {% set copies_needed = 2 %}
+    {% set copies_needed = 3 %}
     {% else %}
     {% set copies_needed = 1 %}
 {% endif %}
@@ -8,13 +8,13 @@
     {% include "player-reference.jinja" %}
 
     {% if script_options.easy_print_pdf %}
-      <!-- Page Break For Multiple Player References -->
-      <p style="page-break-before: always" ></p>
-
       {# only include if we have the  double_sided option #}
       {% if script_options.double_sided %}
+        {# only add night order summary to page if option enabled, otherwise this is just a blank page #}
+        {% if script_options.player_night_order %}
         <!-- a simplified night order for player's to see-->
         {% include "simple-night-order.jinja" %}
+        {%- endif -%}
 
         <!-- if we aren't the last copy, another page break -->
         {% if not loop.last %}

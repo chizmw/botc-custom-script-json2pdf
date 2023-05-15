@@ -33,7 +33,7 @@ div.not-first-night {
   bottom: 5mm;
 }
 
-.left-side {
+.first-night {
   margin-left: -20px; /* Adjust this value to match the column gap */
   top: 0;
   left: 0;
@@ -41,7 +41,7 @@ div.not-first-night {
   width: 50%;
 }
 
-.right-side {
+.other-nights {
   transform: rotate(180deg);
   position: absolute;
   bottom: 0;

@@ -17,7 +17,6 @@
     {%- set fabled = characters.pop('fabled') %}
     {%- set travelers = characters.pop('traveler') -%}
 
-    {% include 'player-reference-easyloop.jinja' %}
 
     <footer>
       <div class="footer-left">
@@ -30,66 +29,17 @@
       </div>
     </footer>
 
-    <!-- First Night Info -->
-    <p style="page-break-before: always" ></p>
+    {% include 'player-reference-easyloop.jinja' %}
 
-    <header>
-      <div class="top-left-header">
-        <!-- Your top-left header content here -->
-        <h1>First Night</h1>
-      </div>
-      <div class="top-right-header">
-        <!-- Your top-right header content here -->
-        <h1>{{ title }}</h1>
-      </div>
-    </header>
+    {%- if script_options.simple_night_order == True %}
+    {%- set night_include = "simple-night-order.jinja" -%}
+    {%- else -%}
+    {%- set night_include = "full-fat-night-order.jinja" -%}
+    {%- endif %}
 
-    <!-- First Night Info -->
-    {%- for character in first_night %}
-      <div class="character-block character-block-nightinfo">
-        <img src="file://{{icon_folder}}/{{character.id_slug}}.png" alt="{{ character.name }}" class="character-icon-nightinfo"/>
-        <span class="character-name character-name-{{ character.team }}">{{ character.name }}</span>
-        <span class="character-ability-reminder">{{ character.ability }}</span>
-        <div class="character-reminder">{{ character.first_night_reminder }}</div>
-      </div>
-
-      {%- if not loop.last %}
-        <div class="line-nightinfo"></div>
-      {%- endif %}
-    {%- endfor %}
-
-    {% include 'night-extras.jinja' %}
+    {% include night_include %}
 
 
-    <!-- Other Night Info -->
-    <p style="page-break-before: always" ></p>
 
-    <header>
-      <div class="top-left-header">
-        <!-- Your top-left header content here -->
-        <h1>Other Nights</h1>
-      </div>
-      <div class="top-right-header">
-        <!-- Your top-right header content here -->
-        <h1>{{ title }}</h1>
-      </div>
-    </header>
-
-    <!-- Other Night Info -->
-    {%- for character in other_nights %}
-      <div class="character-block character-block-nightinfo">
-        <img src="file://{{icon_folder}}/{{character.id_slug}}.png" alt="{{ character.name }}" class="character-icon-nightinfo"/>
-        <span class="character-name character-name-{{ character.team }}">{{ character.name }}</span>
-        <span class="character-ability-reminder">{{ character.ability }}</span>
-        <div class="character-reminder">{{ character.other_night_reminder }}</div>
-      </div>
-
-      {%- if not loop.last %}
-        <div class="line-nightinfo"></div>
-      {%- endif %}
-    {%- endfor %}
-
-    {% include 'night-extras.jinja' %}
-
-  </body>
+</body>
 </html>
