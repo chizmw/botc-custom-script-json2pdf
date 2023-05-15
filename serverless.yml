@@ -18,9 +18,10 @@ provider:
     Product: botc-custom-script-json2pdf
     InfoURL: https://github.com/chizmw/botc-custom-script-json2pdf
   environment:
-    BUCKET_NAME: 436158765452-botc-pdf-bucket
+    BUCKET_NAME: 436158765452-botc-pdf-bucket-${opt:stage, 'dev'}
     BOTC_DEBUG: 1
-  timeout: 30
+  # Note: API Gateway has a maximum timeout of 30 seconds
+  timeout: 90
   logRetentionInDays: 7
   stage: ${self:custom.stage}
   apiGateway:
@@ -28,13 +29,14 @@ provider:
     minimumCompressionSize: 1024
     binaryMediaTypes:
       - application/pdf
+  memorySize: 2048
 
 plugins:
   - serverless-docker
 
 functions:
   render-pdf:
-    timeout: 60
+    timeout: 90
     image:
       name: json2pdf
 
