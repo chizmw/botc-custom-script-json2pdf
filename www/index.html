@@ -110,17 +110,115 @@
               name="customScript"
             >
               <div class="ul-options">
-                <details>
+                <details open>
                   <summary>Script Options</summary>
-                  Paper size:
-                  <select name="paperSize" id="paperSize">
-                    <option value="A4">A4</option>
-                    <option value="Letter">Letter</option>
-                  </select>
+
+                  <div>
+                    Paper size:
+                    <select name="paperSize" id="paperSize">
+                      <option value="A4" selected>A4</option>
+                      <option value="letter">Letter</option>
+                    </select>
+                    <img
+                      src="images/infobutton.png"
+                      alt="info"
+                      height="16"
+                      class="tippy-tip"
+                      data-tippy-content="Choose your preferred paper size: <code>A4</code> or <code>Letter</code>.<br/><small><em>Letter has not been fully tested and refined so may yield unexpected results.</em></small>"
+                    />
+                  </div>
+
+                  <div>
+                    Night Info:
+                    <select name="stNightInfo" id="stNightInfo">
+                      <option value="onesheet">One Sheet</option>
+                      <option value="doublesided" selected>Double-Sided</option>
+                    </select>
+                    <img
+                      src="images/infobutton.png"
+                      alt="info"
+                      height="16"
+                      class="tippy-tip"
+                      data-tippy-content="<strong>One Sheet</strong> generates a single page for the Night Information. There are no descriptions of the actions to perform, simply a list of phases (<em>Dusk, Dawn, … characters, …</em>)<br/><br/><strong>Double-Sided</strong> generates one page for each of <em>First Night</em> and <em>Second Night</em> and has the actions to perform for each phase. Generally expected to be printed double-sided."
+                    />
+                  </div>
+
+                  <div>
+                    Format:
+                    <select name="scriptFormat" id="scriptFormat">
+                      <option value="regular">Regular</option>
+                      <option value="easyprint" selected>
+                        Hassle-Free Printable
+                      </option>
+                    </select>
+                    <img
+                      src="images/infobutton.png"
+                      alt="info"
+                      height="16"
+                      class="tippy-tip"
+                      data-tippy-content="<strong>Regular</strong> format is the default format and is a single page for each page of information (Player Reference, Night Order, etc).<br/><br/><strong>Hassle-Free Printable</strong> format is intended to be a document that can just be printed and has the correct quantity of pages for players as well as the Storyteller.<br>This option also enables other PDF rendering options such as <em>double-sided printing</em>."
+                    />
+                  </div>
+
+                  <div>
+                    Print Format:
+                    <select name="printFormat" id="printFormat">
+                      <option value="singleSided">Single-Sided</option>
+                      <option value="doubleSided" selected>Double-Sided</option>
+                    </select>
+                    <img
+                      src="images/infobutton.png"
+                      alt="info"
+                      height="16"
+                      class="tippy-tip"
+                      data-tippy-content="Choose your preferred print format: <code>Single-Sided</code> or <code>Double-Sided</code>.<br/><br/>Depending on other options selected this will insert blank pages, or 'one sheet' style Night Info, where necessary to ensure the correct pages are printed on the front and back of each sheet."
+                    />
+                  </div>
+
+                  <div>
+                    Players see Night Info:
+                    <select name="playerNightInfo" id="playerNightInfo">
+                      <option value="yes">Yes, share with players</option>
+                      <option value="no" selected>No, keep it vague</option>
+                    </select>
+                    <img
+                      src="images/infobutton.png"
+                      alt="info"
+                      height="16"
+                      class="tippy-tip"
+                      data-tippy-content="Some Storytellers like to share the Night Info with players, others prefer to keep it vague. Choose your preference here.<br/><br/>If you choose to share the Night Info with players, the generated PDF will have the Night Info pages included. If you choose to keep it vague, the Night Info pages will be omitted from the generated PDF and a blank page will be generated in their place.<br/><br/><strong>Note:</strong> This option is only available when <em>Double-Sided</em> print format is selected."
+                    />
+                  </div>
+
+                  <div>
+                    Player Count
+                    <select name="playerCount" id="playerCount">
+                      <option value="teensyville">
+                        Teensyville (7 copies)
+                      </option>
+                      <option value="ravenswood_regular" selected>
+                        Ravenswood Bluff (16 copies)
+                      </option>
+                      <option value="ravenswood_traveler">
+                        Ravenswood Bluff Max (21 copies)
+                      </option>
+                    </select>
+                    <img
+                      src="images/infobutton.png"
+                      alt="info"
+                      height="16"
+                      class="tippy-tip"
+                      data-tippy-content="There's no benefit in printing more copies than you need. Choose the number of players you expect to have in your game and the generated PDF will have the correct number of pages for you to print.<br/><br/><strong>Teensyville</strong>: these are games and scripts suited for 5 and 6 players. <small><em>(7 copies)</em></small> <br/><strong>Ravenswood Bluff</strong>: there are enough copies to run games at the full non-traveler player count. Alternatively medium sized towns with space for travellers. <small><em>(16 copies)</em></small> <br/><strong>Ravenswood Bluff Max</strong>: enough copies for a full village and the maximum number of travelers. <small><em>(21 copies)</em></small> <br/><br/><strong>… one for the Storyteller</strong>: each quantity is one more than you may initially expect so that the Storyteller has a copy to refer to. <br/><br/><strong>Note:</strong> This option is only available when <em>Hassle-Free Printable</em> format is selected."
+                    />
+                  </div>
                 </details>
               </div>
               <div class="dz-message needsclick">
-                Drop files here or click to upload
+                <strong>Drop files here or click to upload.</strong><br />
+                <small
+                  >Choose your options above before uploading.<br />
+                  Uploads are immediately processed.</small
+                >
               </div>
             </form>
           </div>
@@ -217,5 +315,19 @@
       </div>
     </div>
     <div class="footer">© 2023 Chisel. All rights reserved.</div>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script type="text/javascript">
+      tippy('.tippy-tip', {
+        allowHTML: true,
+        arrow: true,
+        interactive: false,
+        interactiveDebounce: 75,
+        hideOnClick: true,
+        trigger: 'mouseenter click',
+        placement: 'auto-end',
+        touch: 'hold',
+      });
+    </script>
   </body>
 </html>

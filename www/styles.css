@@ -164,4 +164,6 @@ div.ul-options {
   border-style: dashed;
   border-color: #333;
   padding: 3px;
+  background-color: lightslategray;
+  color: white;
 }
