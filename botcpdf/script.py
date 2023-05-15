@@ -344,11 +344,10 @@ class Script:
     def _pdf_filename_without_path(self) -> str:
         """Return the PDF filename."""
 
-        filename = self.title
+        filename = self.title.replace(" ", "-")
 
-        # if we have a paper size, add it to the filename (lowercase)
-        if self.options.paper_size:
-            filename += f"-{self.options.paper_size.lower()}"
+        # append the slug from our options class
+        filename += f"-{self.options.get_filename_slug()}"
 
         # finally add the extension
         filename += ".pdf"
