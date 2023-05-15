@@ -17,22 +17,36 @@ class ScriptOptions:
 
         return {
             # we always want to set the paper size
+            # web: paperSize
             "paper_size": "A4",
             # easy print allows us to print the PDF in one job
             # (not: here's the player instructions n-times; here's the night
             # order once)
+            # web: scriptFormat
             "easy_print_pdf": True,
             # double sided printing is the default (requires easy_print_pdf)
+            # web: printFormat
             "double_sided": True,
             # we want to print the player instructions in the night order
             # (requires easy_print_pdf)
+            # web: playerNightInfo
             "player_night_order": True,
             # some STs like the simpler night order
+            # web: stNightInfo
             "simple_night_order": False,
+            # sensible numbers for number of player reference sheets
+            # web: playerCount
+            # - teensyville: 7
+            # - ravenswood_regular: 16
+            # - ravenswood_max: 21
+            "player_count": 16,
         }
 
     def _process_options(self, options: Optional[dict]) -> None:
         """Process the options."""
+
+        print(f"options: {options}")
+
         self.options = self._default_options()
 
         # maybe overwrite defaults with preferred options
