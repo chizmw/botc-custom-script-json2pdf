@@ -75,7 +75,7 @@ class ScriptOptions:
             self.player_count = 7
         elif self.player_count == "ravenswood_regular":
             self.player_count = 16
-        elif self.player_count == "ravenswood_max":
+        elif self.player_count == "ravenswood_traveler":
             self.player_count = 21
 
         # a safety net to make sure some crazy value hasn't slipped through
