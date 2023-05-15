@@ -16,6 +16,10 @@
     {%- set tmp = options.append('PlayerNightOrder') -%}
     {%- endif -%}
 
+    {%- if script_options.simple_night_order -%}
+    {%- set tmp = options.append('CompactNightOrder') -%}
+    {%- endif -%}
+
 {%- endif -%}
 
 [{{ options|join(', ') }}]
