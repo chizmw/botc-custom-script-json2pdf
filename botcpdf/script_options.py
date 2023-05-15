@@ -39,7 +39,7 @@ class ScriptOptions:
             # - teensyville: 7
             # - ravenswood_regular: 16
             # - ravenswood_max: 21
-            "player_count": 16,
+            "player_count": 3,
         }
 
     def _process_options(self, options: Optional[dict]) -> None:
@@ -59,12 +59,14 @@ class ScriptOptions:
                 raise ValueError(f"""Unexpected options: {unexpected}""")
 
             self.options.update(options)
+            print(f"self.options: {self.options}")
 
         self.paper_size = self.options.get("paper_size", "A4")
         self.easy_print_pdf = self.options.get("easy_print_pdf", False)
         self.double_sided = self.options.get("double_sided", False)
         self.player_night_order = self.options.get("player_night_order", False)
         self.simple_night_order = self.options.get("simple_night_order", False)
+        self.player_count = self.options.get("player_count", 3)
 
     def __str__(self) -> str:
         # return a string representation of the options

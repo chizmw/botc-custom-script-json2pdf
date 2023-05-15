@@ -112,8 +112,7 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
             script_options["player_night_order"] = True
 
     if option_value := multipart.get_field("playerCount"):
-        if option_value == "yes":
-            script_options["player_night_order"] = option_value
+        script_options["player_count"] = option_value
 
     script = Script(
         title=file_name,

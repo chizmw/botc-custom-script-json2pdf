@@ -1,7 +1,7 @@
 {%- set options = [] -%}
 
 {%- if script_options.paper_size -%}
-{%- set tmp = options.append(script_options.paper_size) -%}
+{%- set tmp = options.append(script_options.paper_size |capitalize) -%}
 {%- endif %}
 
 {%- if script_options.easy_print_pdf -%}
@@ -18,6 +18,10 @@
 
     {%- if script_options.simple_night_order -%}
     {%- set tmp = options.append('CompactNightOrder') -%}
+    {%- endif -%}
+
+    {%- if script_options.player_count -%}
+    {%- set tmp = options.append(script_options.player_count ~ "PeopleTown") -%}
     {%- endif -%}
 
 {%- endif -%}
