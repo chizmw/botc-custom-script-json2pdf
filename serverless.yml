@@ -34,7 +34,7 @@ plugins:
 
 functions:
   render-pdf:
-    timeout: 15
+    timeout: 31
     image:
       name: json2pdf
 
