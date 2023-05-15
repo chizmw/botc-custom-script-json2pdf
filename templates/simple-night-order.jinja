@@ -19,4 +19,18 @@
         </div>
       {%- endfor %}
   </div>
+
+      <div class="centered-div">
+      {%- if hate_pair %}
+        {%- for tag, reason in hate_pair |dictsort %}
+            <div class="jinx-simple-night-icon">
+              {%- set slugs = tag.split("-") %}
+              {%- for slug in slugs %}
+                <img src="file://{{icon_folder}}/{{slug}}.png" alt="{{ reason }}" class="night-icon"/>
+              {%- endfor %}
+            </div>
+              <div class="jinx-simple-night-reason">{{ reason }}</div>
+        {%- endfor %}
+      {%- endif %}
+    </div>
 </div>

@@ -31,6 +31,9 @@ div.not-first-night {
   left: 12mm;
   right: 12mm;
   bottom: 5mm;
+
+  justify-content: center;
+  align-items: center;
 }
 
 .first-night {
@@ -47,6 +50,15 @@ div.not-first-night {
   bottom: 0;
   right: 0;
   width: 50%;
+}
+
+.centered-div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+  max-width: 30%;
 }
 
 footer .footer-left {
@@ -238,23 +250,23 @@ header {
   padding-left: 15px;
   white-space: normal;
 }
+
+.jinx-simple-night-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.jinx-simple-night-reason {
+  color: #af6e4c;
+  font-family: 'Fira Sans', sans-serif;
+  white-space: normal;
+  text-align: center;
+}
 .traveler-night-ability {
   color: #af6e4c;
-  /*
-  display: inline-block;
-  font-family: 'Fira Sans', sans-serif;
-  max-width: 50%;
-  padding-left: 15px;
-  white-space: normal;*/
 }
 .fabled-night-ability {
   color: #ff844a;
-  /*
-  display: inline-block;
-  font-family: 'Fira Sans', sans-serif;
-  max-width: 50%;
-  padding-left: 15px;
-  white-space: normal;*/
 }
 .jinx-reminder-block {
   align-items: center;
