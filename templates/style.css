@@ -1,19 +1,20 @@
 @page {
-  margin-top: 5mm;
+  background-color: white;
   margin-bottom: 5mm;
   margin-left: 12mm;
   margin-right: 12mm;
+  margin-top: 5mm;
   size: A5 landscape;
-  background-color: white;
 }
 body {
   color: #ff0;
   font-family: 'Fira Sans', sans-serif;
   font-size: 8pt;
+
   margin-left: 20px;
 }
 div.not-first-night {
-  bottom: 1%;
+  bottom: 2%;
   color: #000;
   font-family: 'Fira Sans', sans-serif;
   font-size: 8pt;
@@ -21,6 +22,46 @@ div.not-first-night {
   position: absolute;
   transform: translateX(-50%);
 }
+
+.full-page {
+  align-items: center;
+  bottom: 5mm;
+
+  justify-content: center;
+  left: 12mm;
+  position: absolute;
+  right: 12mm;
+  top: 5mm;
+}
+
+.first-night {
+  left: 0;
+  margin-left: -20px; /* Adjust this value to match the column gap */
+  position: absolute;
+  top: 0;
+  width: 50%;
+}
+
+.other-nights {
+  bottom: 0;
+  position: absolute;
+  right: 0;
+  transform: rotate(180deg);
+  width: 50%;
+}
+
+.centered-div {
+  left: 50%;
+  max-width: 40%;
+  padding: 1rem;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-style: dashed solid;
+  border-width: 1px;
+  border-color: #dddddd;
+}
+
 footer .footer-left {
   font-size: 8px;
   left: 0;
@@ -32,7 +73,7 @@ footer .footer-right {
 }
 footer {
   align-items: flex-start;
-  bottom: 15px;
+  bottom: 10px;
   color: #000;
   display: flex;
   font-family: 'Fira Sans', sans-serif;
@@ -62,6 +103,14 @@ h2.character-type {
   transform-origin: left;
   white-space: nowrap;
 }
+h2.simple-first-night {
+  border-bottom: 1.5px solid #000;
+  color: #000;
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 18pt;
+  font-weight: 900;
+}
+
 header {
   align-items: flex-start;
   background-color: #2f4f4f;
@@ -188,11 +237,11 @@ header {
   border: none;
   display: inline-flex;
   float: left;
+  height: 30px;
   margin-bottom: auto;
   margin-top: auto;
-  height: 30px;
-  padding-right: 5px;
   max-width: 30px;
+  padding-right: 5px;
 }
 .jinx-night-reason {
   color: #af6e4c;
@@ -202,29 +251,29 @@ header {
   padding-left: 15px;
   white-space: normal;
 }
+
+.jinx-simple-night-icon {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.jinx-simple-night-reason {
+  color: #af6e4c;
+  font-family: 'Fira Sans', sans-serif;
+  text-align: center;
+  white-space: normal;
+}
 .traveler-night-ability {
   color: #af6e4c;
-  /*
-  display: inline-block;
-  font-family: 'Fira Sans', sans-serif;
-  max-width: 50%;
-  padding-left: 15px;
-  white-space: normal;*/
 }
 .fabled-night-ability {
   color: #ff844a;
-  /*
-  display: inline-block;
-  font-family: 'Fira Sans', sans-serif;
-  max-width: 50%;
-  padding-left: 15px;
-  white-space: normal;*/
 }
 .jinx-reminder-block {
   align-items: center;
+  break-inside: avoid-column;
   display: flex;
   margin-bottom: -2px;
-  break-inside: avoid-column;
 }
 .traveler-reminder-block,
 .fabled-reminder-block {
@@ -232,8 +281,8 @@ header {
   break-inside: avoid-column;
   margin-bottom: 2px;
   margin-top: 2px;
-  vertical-align: top;
   min-height: 30px;
+  vertical-align: top;
 }
 .jinx-reminder-wrapper {
   align-items: center;
@@ -276,14 +325,14 @@ header {
 .line-pretraveler-nightinfo {
   border-bottom: 3px double #a9a9a9;
   flex: 1;
-  padding-top: 5px;
   margin-bottom: 2px;
+  padding-top: 5px;
 }
 .line-prefabled-nightinfo {
   border-bottom: 3px double #a9a9a9;
   flex: 1;
-  padding-top: 5px;
   margin-bottom: 2px;
+  padding-top: 5px;
 }
 .top-left-header {
   font-family: 'Alegreya Sans SC', sans-serif;

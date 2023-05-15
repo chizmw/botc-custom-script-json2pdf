@@ -42,6 +42,7 @@ def main():
         # we have A5 as the default in styles.css, so this proves that the
         # option works
         "paper_size": "A4",
+        "player_count": "teensyville",
     }
 
     script = Script(script_name, script_data, script_options)

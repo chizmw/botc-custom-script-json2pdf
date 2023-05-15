@@ -20,7 +20,7 @@ provider:
   environment:
     BUCKET_NAME: 436158765452-botc-pdf-bucket
     BOTC_DEBUG: 1
-  timeout: 15
+  timeout: 30
   logRetentionInDays: 7
   stage: ${self:custom.stage}
   apiGateway:
@@ -34,7 +34,7 @@ plugins:
 
 functions:
   render-pdf:
-    timeout: 15
+    timeout: 31
     image:
       name: json2pdf
 

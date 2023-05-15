@@ -6,6 +6,7 @@ locals {
     "images/storyteller.png" = "image/png"
     "images/download.png"    = "image/png"
     "images/background.png"  = "image/png"
+    "images/infobutton.png"  = "image/png"
     "dropzone.css"           = "text/css"
 
     # favicon resources

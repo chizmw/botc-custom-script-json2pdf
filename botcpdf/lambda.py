@@ -30,6 +30,7 @@ logger.addHandler(handler)
 # logger: Logger = Logger(service="botc-custom-script-json2pdf", level=LOGLEVEL)
 
 
+# pylint: disable=too-many-branches
 def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
     """Lambda function to render a PDF from a JSON script.
 
@@ -82,14 +83,36 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
     # we can use requests-toolbelt for this
 
     # start with nothing in the options
-    script_options = None
+    script_options = {}
+
+    # deal with inncoming options
+    # do it klunky way first, then refactor to be more elegant later
+    # we could say "match the web and the backend" but that's not a good idea
+    # as we want to be able to change the web without breaking the backend
+    # and vice versa
 
     # if we have paperSize, we need to add it to the options
     if option_value := multipart.get_field("paperSize"):
-        # turn script_options into a dict if it's not already
-        if not script_options:
-            script_options = {}
-        script_options = {"paper_size": option_value}
+        script_options["paper_size"] = option_value
+
+    if option_value := multipart.get_field("stNightInfo"):
+        if option_value == "onesheet":
+            script_options["simple_night_order"] = True
+
+    if option_value := multipart.get_field("scriptFormat"):
+        if option_value == "easyprint":
+            script_options["easy_print_pdf"] = True
+
+    if option_value := multipart.get_field("printFormat"):
+        if option_value == "doublesided":
+            script_options["double_sided"] = True
+
+    if option_value := multipart.get_field("playerNightInfo"):
+        if option_value == "yes":
+            script_options["player_night_order"] = True
+
+    if option_value := multipart.get_field("playerCount"):
+        script_options["player_count"] = option_value
 
     script = Script(
         title=file_name,

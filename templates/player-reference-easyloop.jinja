@@ -1,0 +1,25 @@
+{% if script_options.easy_print_pdf %}
+    {% set copies_needed = script_options.player_count %}
+    {% else %}
+    {% set copies_needed = 1 %}
+{% endif %}
+
+{% for i in range(copies_needed) %}
+    {% include "player-reference.jinja" %}
+
+    {% if script_options.easy_print_pdf %}
+      {# only include if we have the  double_sided option #}
+      {% if script_options.double_sided %}
+        {# only add night order summary to page if option enabled, otherwise this is just a blank page #}
+        {% if script_options.player_night_order %}
+        <!-- a simplified night order for player's to see-->
+        {% include "simple-night-order.jinja" %}
+        {%- endif -%}
+
+        <!-- if we aren't the last copy, another page break -->
+        {% if not loop.last %}
+          <p style="page-break-before: always" ></p>
+        {%- endif %}
+      {% endif %}
+    {%- endif %}
+{% endfor %}

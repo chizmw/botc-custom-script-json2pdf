@@ -2,13 +2,14 @@
 
 import logging
 import os
-from typing import Optional
+from typing import Optional, Tuple
 from pkg_resources import get_distribution  # type: ignore
 from jinja2 import Environment, FileSystemLoader
 from weasyprint import HTML  # type: ignore
 from botcpdf.benchmark import timeit  # type: ignore
 from botcpdf.jinx import Jinxes  # type: ignore
 from botcpdf.role import Role, RoleData
+from botcpdf.script_options import ScriptOptions
 from botcpdf.util import cleanup_role_id, is_aws_env, pdf2images  # type: ignore
 
 
@@ -61,11 +62,13 @@ class Script:
 
         self._ensure_logger()
 
-        self._process_options(options)
+        self.options = ScriptOptions(options)
+
+        self.logger.info(self.options)
 
         # the data we use to render the PDF
         self.logger.info("Initializing script %s", self.title)
-        self.logger.debug(script_data)
+        # self.logger.debug(script_data)
 
         # we want to preserve the order of the characters
         # so we'll use a list instead of a set
@@ -78,30 +81,6 @@ class Script:
         # now we've loaded all the core information we can examine what we have
         # and see if there are any jinxes
         self._process_jinxes()
-
-    def _default_options(self) -> dict:
-        """Return a dict of default options."""
-
-        return {
-            "paper_size": "A4",
-        }
-
-    def _process_options(self, options: Optional[dict]) -> None:
-        """Process the options."""
-        self.options = self._default_options()
-
-        # maybe overwrite defaults with preferred options
-        if options is not None:
-            # raise an error if options contains any unexpected keys, i.e. not
-            # in self.options as they are right now
-            if not set(options.keys()).issubset(set(self.options.keys())):
-                unexpected_keys = set(options.keys()) - set(self.options.keys())
-                unexpected = ", ".join(sorted(unexpected_keys))
-                raise ValueError(f"""Unexpected options: {unexpected}""")
-
-            self.options.update(options)
-
-        self.paper_size = self.options.get("paper_size", "A4")
 
     def _init_defaults(self) -> None:
         self.char_types: dict[str, list[Role]] = {
@@ -264,7 +243,53 @@ class Script:
             print("/* generated css */", file=css_file)
 
             # page size
-            print(f"@page {{ size: {self.paper_size} portrait; }}", file=css_file)
+            print(
+                f"@page {{ size: {self.options.paper_size} portrait; }}", file=css_file
+            )
+
+    @timeit
+    def _render_html(self, template_vars: dict) -> str:
+        env = Environment(
+            loader=FileSystemLoader("templates"), extensions=["jinja2.ext.loopcontrols"]
+        )
+        template = env.get_template("script.jinja")
+        html_out = template.render(template_vars)
+
+        return html_out
+
+    @timeit
+    def _render_pdf(self, html_out: str, this_folder: str) -> Tuple[str, str]:
+        # convert the HTML to PDF
+        pdf_filename = self._pdf_filename_with_path(this_folder=this_folder)
+
+        if is_aws_env():
+            pdf_folder = "/tmp"
+        else:
+            pdf_folder = os.path.abspath(os.path.join(this_folder, "..", "pdfs"))
+            # if non-tmp pdf_folder doesn't exist, create it
+            if not os.path.exists(pdf_folder):
+                os.makedirs(pdf_folder)
+        # save the PDF in the pdfs folder
+        HTML(string=html_out).write_pdf(
+            pdf_filename,
+            stylesheets=["templates/style.css"],
+            optimize_size=(),
+        )
+
+        return pdf_folder, pdf_filename
+
+    @timeit
+    def _refresh_symlink(self, pdf_folder: str, pdf_filename: str) -> None:
+        # if we are NOT in aws, create a symlink to the pdf in the pdfs folder
+        if not is_aws_env():
+            # if the symlink already exists, delete it
+            if os.path.exists(f"{pdf_folder}/just-baked.pdf"):
+                os.remove(f"{pdf_folder}/just-baked.pdf")
+            # create the symlink
+            os.symlink(
+                os.path.join(os.getcwd(), pdf_filename),
+                os.path.join(pdf_folder, "just-baked.pdf"),
+            )
 
     @timeit
     def render(self) -> str:
@@ -273,11 +298,6 @@ class Script:
         Returns:
             str: local path to the PDF file
         """
-
-        env = Environment(
-            loader=FileSystemLoader("templates"), extensions=["jinja2.ext.loopcontrols"]
-        )
-        template = env.get_template("script.jinja")
 
         # so we can actually use images in the PDF
         this_folder = os.path.dirname(os.path.abspath(__file__))
@@ -301,15 +321,16 @@ class Script:
             "generated_folder": generated_folder,
             "hatred": self.hatred,
             "hate_pair": self.hate_pair,
-            "paper_size": self.paper_size,
+            # options that can affect how the PDF is rendered
+            "script_options": self.options,
         }
 
         # make sure we have the generated css file
         self._generate_css_extras(generated_folder)
 
-        html_out = template.render(template_vars)
+        html_out = self._render_html(template_vars)
 
-        self.logger.info(template_vars)
+        # self.logger.debug(json.dumps(template_vars, default=lambda x: x.__dict__))
 
         # if we have BOTC_DEBUG set...
         if os.environ.get("BOTC_DEBUG"):
@@ -321,34 +342,12 @@ class Script:
             with open(html_output, "w", encoding="utf-8") as fhandle:
                 fhandle.write(html_out)
 
-        # convert the HTML to PDF
-        pdf_filename = self._pdf_filename_with_path(this_folder=this_folder)
-
-        if is_aws_env():
-            pdf_folder = "/tmp"
-        else:
-            pdf_folder = os.path.abspath(os.path.join(this_folder, "..", "pdfs"))
-            # if non-tmp pdf_folder doesn't exist, create it
-            if not os.path.exists(pdf_folder):
-                os.makedirs(pdf_folder)
-        # save the PDF in the pdfs folder
-        HTML(string=html_out).write_pdf(
-            pdf_filename,
-            stylesheets=["templates/style.css"],
-            optimize_size=(),
-        )
+        # render the thing we most want - the PDF
+        pdf_folder, pdf_filename = self._render_pdf(html_out, this_folder)
         print("PDF saved to " + pdf_filename)
 
         # if we are NOT in aws, create a symlink to the pdf in the pdfs folder
-        if not is_aws_env():
-            # if the symlink already exists, delete it
-            if os.path.exists(f"{pdf_folder}/just-baked.pdf"):
-                os.remove(f"{pdf_folder}/just-baked.pdf")
-            # create the symlink
-            os.symlink(
-                os.path.join(os.getcwd(), pdf_filename),
-                os.path.join(pdf_folder, "just-baked.pdf"),
-            )
+        self._refresh_symlink(pdf_folder, pdf_filename)
 
         # if we have BOTC_PDF2IMAGE set...
         if os.environ.get("BOTC_PDF2IMAGE"):
@@ -362,11 +361,10 @@ class Script:
     def _pdf_filename_without_path(self) -> str:
         """Return the PDF filename."""
 
-        filename = self.title
+        filename = self.title.replace(" ", "-")
 
-        # if we have a paper size, add it to the filename (lowercase)
-        if self.paper_size:
-            filename += f"-{self.paper_size.lower()}"
+        # append the slug from our options class
+        filename += f"_{self.options.get_filename_slug()}"
 
         # finally add the extension
         filename += ".pdf"
