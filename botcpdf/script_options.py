@@ -104,14 +104,6 @@ class ScriptOptions:
         # we want to include the paper size in the filename
         filename_slug = self.paper_size.lower()
 
-        # we want to include the double sided option in the filename
-        if self.double_sided:
-            filename_slug += "_2sided"
-
-        # we want to include the night order in the filename
-        if self.player_night_order:
-            filename_slug += "_playernightorder"
-
         # we want to include the simple night order in the filename
         if self.simple_night_order:
             filename_slug += "_compactnight"
@@ -119,5 +111,18 @@ class ScriptOptions:
         # we want to include the easy print option in the filename
         if self.easy_print_pdf:
             filename_slug += "_easyprint"
+
+            # these are only meaningful if easy print is enabled
+
+            # we want to include the double sided option in the filename
+            if self.double_sided:
+                filename_slug += "_2sided"
+
+            # we want to include the night order in the filename
+            if self.player_night_order:
+                filename_slug += "_playernightorder"
+
+            # we want to include the player count in the filename
+            filename_slug += f"_{self.player_count}playersheets"
 
         return filename_slug
