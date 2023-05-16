@@ -3,13 +3,17 @@
 
 from typing import Optional
 
+from botcpdf.util import ensure_logger
+
 
 class ScriptOptions:
     """Represents PDF options for a script."""
 
     # pylint: disable=too-few-public-methods
+    # pylint: disable=too-many-instance-attributes
 
-    def __init__(self, options: Optional[dict]):
+    def __init__(self, options: Optional[dict], logger=None):
+        self.logger = ensure_logger(logger=logger)
         self._process_options(options)
 
     def _default_options(self) -> dict:

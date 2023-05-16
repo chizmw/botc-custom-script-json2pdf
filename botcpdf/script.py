@@ -59,9 +59,9 @@ class Script:
         self.title = title
         self.logger = logger
 
-        self._ensure_logger()
+        self.logger = ensure_logger(self.logger)
 
-        self.options = ScriptOptions(options)
+        self.options = ScriptOptions(options, self.logger)
 
         self.logger.info(self.options)
 
@@ -95,10 +95,6 @@ class Script:
         self.meta: Optional[ScriptMeta] = None
         self.hatred: dict[str, list[str]] = {}
         self.hate_pair: dict[str, str] = {}
-
-    @timeit
-    def _ensure_logger(self) -> None:
-        self.logger = ensure_logger(self.logger)
 
     @timeit
     def _add_meta_roles(self) -> None:
