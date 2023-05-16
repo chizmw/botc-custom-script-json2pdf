@@ -1,7 +1,7 @@
 """This module contains the Script class, which represents a script."""
 
-import logging
 import os
+import re
 from typing import Optional, Tuple
 from pkg_resources import get_distribution  # type: ignore
 from jinja2 import Environment, FileSystemLoader
@@ -10,7 +10,7 @@ from botcpdf.benchmark import timeit  # type: ignore
 from botcpdf.jinx import Jinxes  # type: ignore
 from botcpdf.role import Role, RoleData
 from botcpdf.script_options import ScriptOptions
-from botcpdf.util import cleanup_role_id, is_aws_env, pdf2images  # type: ignore
+from botcpdf.util import cleanup_role_id, ensure_logger, is_aws_env, pdf2images  # type: ignore
 
 
 class ScriptMeta:
@@ -60,9 +60,9 @@ class Script:
         self.title = title
         self.logger = logger
 
-        self._ensure_logger()
+        self.logger = ensure_logger(self.logger)
 
-        self.options = ScriptOptions(options)
+        self.options = ScriptOptions(options, self.logger)
 
         self.logger.info(self.options)
 
@@ -96,27 +96,6 @@ class Script:
         self.meta: Optional[ScriptMeta] = None
         self.hatred: dict[str, list[str]] = {}
         self.hate_pair: dict[str, str] = {}
-
-    @timeit
-    def _ensure_logger(self) -> None:
-        # if we don't have a logger, we'll create one that will log to stdout
-        if self.logger is None:
-            logger = logging.getLogger(__name__)
-            logger.setLevel(logging.DEBUG)
-            # create console handler with a higher log level
-            handler = logging.StreamHandler()
-            handler.setLevel(logging.DEBUG)
-            # create formatter and add it to the handlers
-            formatter = logging.Formatter(
-                "%(created)f [%(levelname)s] %(name)s, line %(lineno)d: %(message)s"
-            )
-            handler.setFormatter(formatter)
-            # add the handlers to logger
-            logger.addHandler(handler)
-
-            self.logger = logger
-
-            self.logger.info("No logger provided, creating one.")
 
     @timeit
     def _add_meta_roles(self) -> None:
@@ -298,6 +277,7 @@ class Script:
         Returns:
             str: local path to the PDF file
         """
+        self.logger.debug("""Rendering "%s"…""", self.title)
 
         # so we can actually use images in the PDF
         this_folder = os.path.dirname(os.path.abspath(__file__))
@@ -344,7 +324,7 @@ class Script:
 
         # render the thing we most want - the PDF
         pdf_folder, pdf_filename = self._render_pdf(html_out, this_folder)
-        print("PDF saved to " + pdf_filename)
+        self.logger.info("PDF saved to %s", pdf_filename)
 
         # if we are NOT in aws, create a symlink to the pdf in the pdfs folder
         self._refresh_symlink(pdf_folder, pdf_filename)
@@ -361,7 +341,10 @@ class Script:
     def _pdf_filename_without_path(self) -> str:
         """Return the PDF filename."""
 
+        # make spaces into dashes
         filename = self.title.replace(" ", "-")
+        # remove any special characters, keeping dashes and underscores
+        filename = re.sub(r"[^a-zA-Z0-9]", "", filename)
 
         # append the slug from our options class
         filename += f"_{self.options.get_filename_slug()}"

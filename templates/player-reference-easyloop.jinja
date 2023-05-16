@@ -12,13 +12,15 @@
       {% if script_options.double_sided %}
         {# only add night order summary to page if option enabled, otherwise this is just a blank page #}
         {% if script_options.player_night_order %}
-        <!-- a simplified night order for player's to see-->
-        {% include "simple-night-order.jinja" %}
+          <!-- a simplified night order for player's to see-->
+          {% include "simple-night-order.jinja" %}
+        {% else %}
+          <p style="page-break-before: always" ></p><p>ccc</p>
         {%- endif -%}
 
         <!-- if we aren't the last copy, another page break -->
         {% if not loop.last %}
-          <p style="page-break-before: always" ></p>
+          <p style="page-break-before: always" ></p><p>ccc</p>
         {%- endif %}
       {% endif %}
     {%- endif %}

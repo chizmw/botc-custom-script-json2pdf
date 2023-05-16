@@ -2,6 +2,7 @@ locals {
   files = {
     "index.html"             = "text/html"
     "script.js"              = "application/javascript"
+    "custom.js"              = "application/javascript"
     "styles.css"             = "text/css"
     "images/storyteller.png" = "image/png"
     "images/download.png"    = "image/png"

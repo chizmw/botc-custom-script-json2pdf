@@ -3,13 +3,17 @@
 
 from typing import Optional
 
+from botcpdf.util import ensure_logger
+
 
 class ScriptOptions:
     """Represents PDF options for a script."""
 
     # pylint: disable=too-few-public-methods
+    # pylint: disable=too-many-instance-attributes
 
-    def __init__(self, options: Optional[dict]):
+    def __init__(self, options: Optional[dict], logger=None):
+        self.logger = ensure_logger(logger=logger)
         self._process_options(options)
 
     def _default_options(self) -> dict:
@@ -45,7 +49,7 @@ class ScriptOptions:
     def _process_options(self, options: Optional[dict]) -> None:
         """Process the options."""
 
-        print(f"options: {options}")
+        self.logger.debug("options: %s", options)
 
         self.options = self._default_options()
 
@@ -59,7 +63,7 @@ class ScriptOptions:
                 raise ValueError(f"""Unexpected options: {unexpected}""")
 
             self.options.update(options)
-            print(f"self.options: {self.options}")
+            self.logger.debug("self.options: %s", self.options)
 
         self.paper_size = self.options.get("paper_size", "A4")
         self.easy_print_pdf = self.options.get("easy_print_pdf", False)
@@ -104,14 +108,6 @@ class ScriptOptions:
         # we want to include the paper size in the filename
         filename_slug = self.paper_size.lower()
 
-        # we want to include the double sided option in the filename
-        if self.double_sided:
-            filename_slug += "_2sided"
-
-        # we want to include the night order in the filename
-        if self.player_night_order:
-            filename_slug += "_playernightorder"
-
         # we want to include the simple night order in the filename
         if self.simple_night_order:
             filename_slug += "_compactnight"
@@ -119,5 +115,18 @@ class ScriptOptions:
         # we want to include the easy print option in the filename
         if self.easy_print_pdf:
             filename_slug += "_easyprint"
+
+            # these are only meaningful if easy print is enabled
+
+            # we want to include the double sided option in the filename
+            if self.double_sided:
+                filename_slug += "_2sided"
+
+            # we want to include the night order in the filename
+            if self.player_night_order:
+                filename_slug += "_playernightorder"
+
+            # we want to include the player count in the filename
+            filename_slug += f"_{self.player_count}playersheets"
 
         return filename_slug

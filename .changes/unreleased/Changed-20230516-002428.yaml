@@ -1,0 +1,5 @@
+kind: Changed
+body: set lambda function timeout to 60s
+time: 2023-05-16T00:24:28.127736+01:00
+custom:
+  GithubIssue: ""

@@ -1,0 +1,5 @@
+kind: Changed
+body: extract ensure_logger() into utils
+time: 2023-05-16T08:18:09.928381+01:00
+custom:
+  GithubIssue: ""

@@ -1,0 +1,5 @@
+kind: Changed
+body: Use "Regular" format by default in upload form
+time: 2023-05-16T10:31:11.693529+01:00
+custom:
+  GithubIssue: ""

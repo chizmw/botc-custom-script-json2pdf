@@ -39,14 +39,16 @@ def main():
         script_data = load_data(filename)
 
     script_options = {
-        # we have A5 as the default in styles.css, so this proves that the
-        # option works
         "paper_size": "A4",
-        "player_count": "teensyville",
+        "simple_night_order": False,
+        "easy_print_pdf": True,
+        "double_sided": True,
+        "player_night_order": True,
+        "player_count": "ravenswood_traveler",
     }
 
     script = Script(script_name, script_data, script_options)
-    print(f"""Rendering "{script.title}"…""")
+    # print(f"""Rendering "{script.title}"…""")
     script.render()
 
 

@@ -10,6 +10,10 @@ process: install-dev
 	@basename="$(shell basename "$(INPUT_FILE)" .json)" && \
 	poetry run python3 -m botcpdf.main "$(INPUT_FILE)"
 
+variations: install-dev
+	@basename="$(shell basename "$(INPUT_FILE)" .json)" && \
+	poetry run python3 -m botcpdf.cli_make_many "$(INPUT_FILE)"
+
 clean:
 	@find . -type f \( -iname "*.pdf" -o -iname "*.html" \) -exec rm -vf {} \;
 
@@ -55,6 +59,12 @@ endif
 
 test-newchars: poetry
 	@$(MAKE) process INPUT_FILE="scripts/Grind My Viz.json"
+ifeq ($(shell uname),Darwin)
+	@open -a Preview "pdfs/just-baked.pdf"
+endif
+
+variations-newchars: poetry
+	@time $(MAKE) variations INPUT_FILE="scripts/Grind My Viz.json"
 ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/just-baked.pdf"
 endif
@@ -125,3 +135,11 @@ docker-test: grab-some-scripts
 	docker logs $(CONTAINER)
 	@docker stop $(CONTAINER) >/dev/null || true
 	@docker rm $(CONTAINER) >/dev/null || true
+
+prerelease: poetry
+	@git commit -m "$$(poetry version prerelease)" pyproject.toml
+
+
+preminor: poetry
+	MSG = "$(shell poetry version preminor)"
+	@git commit -m "$$(poetry version preminor)" pyproject.toml

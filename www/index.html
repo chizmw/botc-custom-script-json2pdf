@@ -132,14 +132,14 @@
                     <div>Night Info:</div>
                     <select name="stNightInfo" id="stNightInfo">
                       <option value="onesheet">One Sheet</option>
-                      <option value="doublesided" selected>Double-Sided</option>
+                      <option value="twosheet" selected>Two Sheets</option>
                     </select>
                     <img
                       src="images/infobutton.png"
                       alt="info"
                       height="16"
                       class="tippy-tip"
-                      data-tippy-content="<strong>One Sheet</strong> generates a single page for the Night Information. There are no descriptions of the actions to perform, simply a list of phases (<em>Dusk, Dawn, … characters, …</em>)<br/><br/><strong>Double-Sided</strong> generates one page for each of <em>First Night</em> and <em>Second Night</em> and has the actions to perform for each phase. Generally expected to be printed double-sided."
+                      data-tippy-content="<strong>One Sheet</strong> generates a single page for the Night Information. There are no descriptions of the actions to perform, simply a list of phases (<em>Dusk, Dawn, … characters, …</em>)<br/><br/><strong>Two Sheets</strong> generates one page for each of <em>First Night</em> and <em>Second Night</em> and has the actions to perform for each phase. Generally expected to be printed double-sided."
                     />
                   </div>
 
@@ -162,7 +162,11 @@
 
                   <div class="script-option">
                     <div>Print Format:</div>
-                    <select name="printFormat" id="printFormat">
+                    <select
+                      name="printFormat"
+                      id="printFormat"
+                      class="needs-easyprint"
+                    >
                       <option value="singleSided">Single-Sided</option>
                       <option value="doubleSided" selected>Double-Sided</option>
                     </select>
@@ -177,7 +181,11 @@
 
                   <div class="script-option">
                     <div>Players see Night Info:</div>
-                    <select name="playerNightInfo" id="playerNightInfo">
+                    <select
+                      name="playerNightInfo"
+                      id="playerNightInfo"
+                      class="needs-easyprint"
+                    >
                       <option value="yes">Yes, share with players</option>
                       <option value="no" selected>No, keep it vague</option>
                     </select>
@@ -192,7 +200,11 @@
 
                   <div class="script-option">
                     <div>Player Count:</div>
-                    <select name="playerCount" id="playerCount">
+                    <select
+                      name="playerCount"
+                      id="playerCount"
+                      class="needs-easyprint"
+                    >
                       <option value="teensyville">
                         Teensyville (7 copies)
                       </option>
@@ -317,17 +329,6 @@
     <div class="footer">© 2023 Chisel. All rights reserved.</div>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
-    <script type="text/javascript">
-      tippy('.tippy-tip', {
-        allowHTML: true,
-        arrow: true,
-        interactive: false,
-        interactiveDebounce: 75,
-        hideOnClick: true,
-        trigger: 'click',
-        placement: 'auto-end',
-        touch: true,
-      });
-    </script>
+    <script src="custom.js"></script>
   </body>
 </html>

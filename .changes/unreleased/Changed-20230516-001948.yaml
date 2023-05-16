@@ -1,0 +1,5 @@
+kind: Changed
+body: ensure we set (default) values for all options in lambda.py
+time: 2023-05-16T00:19:48.199211+01:00
+custom:
+  GithubIssue: ""
