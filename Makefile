@@ -10,6 +10,10 @@ process: install-dev
 	@basename="$(shell basename "$(INPUT_FILE)" .json)" && \
 	poetry run python3 -m botcpdf.main "$(INPUT_FILE)"
 
+variations: install-dev
+	@basename="$(shell basename "$(INPUT_FILE)" .json)" && \
+	poetry run python3 -m botcpdf.cli_make_many "$(INPUT_FILE)"
+
 clean:
 	@find . -type f \( -iname "*.pdf" -o -iname "*.html" \) -exec rm -vf {} \;
 
@@ -55,6 +59,12 @@ endif
 
 test-newchars: poetry
 	@$(MAKE) process INPUT_FILE="scripts/Grind My Viz.json"
+ifeq ($(shell uname),Darwin)
+	@open -a Preview "pdfs/just-baked.pdf"
+endif
+
+variations-newchars: poetry
+	@time $(MAKE) variations INPUT_FILE="scripts/Grind My Viz.json"
 ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/just-baked.pdf"
 endif
