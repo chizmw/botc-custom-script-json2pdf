@@ -1,6 +1,7 @@
 """Utility functions for botcpdf."""
 
 import json
+import logging
 import shutil
 import sys
 import os
@@ -215,3 +216,24 @@ def upload_pdf_to_s3(pdf_file: str, aws_request_id: str) -> str:
     url = upload_to_s3(pdf_file, f"pdf/{pdfname}", basename)
 
     return url
+
+
+def ensure_logger(logger) -> logging.Logger:
+    """Ensure we have a logger."""
+    # if we don't have a logger, we'll create one that will log to stdout
+    if logger is None:
+        logger = logging.getLogger(__name__)
+        logger.setLevel(logging.DEBUG)
+        # create console handler with a higher log level
+        handler = logging.StreamHandler()
+        handler.setLevel(logging.DEBUG)
+        # create formatter and add it to the handlers
+        formatter = logging.Formatter(
+            "%(created)f [%(levelname)s] %(name)s, line %(lineno)d: %(message)s"
+        )
+        handler.setFormatter(formatter)
+        # add the handlers to logger
+        logger.addHandler(handler)
+        logger.debug("No logger provided, creating one.")
+
+    return logger
