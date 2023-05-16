@@ -38,17 +38,18 @@ def main():
 
         script_data = load_data(filename)
 
+    # pylint: disable=duplicate-code
     script_options = {
         "paper_size": "A4",
         "simple_night_order": False,
         "easy_print_pdf": True,
         "double_sided": True,
         "player_night_order": True,
-        "player_count": "ravenswood_traveler",
+        "player_count": "teensyville",
     }
 
     script = Script(script_name, script_data, script_options)
-    # print(f"""Rendering "{script.title}"…""")
+
     script.render()
 
 
