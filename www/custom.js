@@ -26,6 +26,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
     });
+
+    // set to "regular" by default; it's not what Chisel uses, but it's
+    // probably the least surprising
+    match.value = 'regular';
+    // trigger the change event to disable the other options
+    match.dispatchEvent(new Event('change'));
   });
   console.log('DOMContentLoaded');
 });
