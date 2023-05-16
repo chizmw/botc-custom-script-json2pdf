@@ -135,3 +135,11 @@ docker-test: grab-some-scripts
 	docker logs $(CONTAINER)
 	@docker stop $(CONTAINER) >/dev/null || true
 	@docker rm $(CONTAINER) >/dev/null || true
+
+prerelease: poetry
+	@git commit -m "$$(poetry version prerelease)" pyproject.toml
+
+
+preminor: poetry
+	MSG = "$(shell poetry version preminor)"
+	@git commit -m "$$(poetry version preminor)" pyproject.toml
