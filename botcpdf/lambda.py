@@ -3,7 +3,7 @@ import sys
 import json
 import logging
 import traceback
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from botcpdf.multipart import MultipartDecoder
@@ -32,7 +32,7 @@ logger.addHandler(handler)
 
 # pylint: disable=too-many-branches
 # pylint: disable=too-many-statements
-def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
+def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str, Any]:
     """Lambda function to render a PDF from a JSON script.
 
     Args:
@@ -78,7 +78,7 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
     # strip the .json extension to get the script_title
     file_name = file_name.replace(".json", "")
 
-    # we've changed the upload/input format to work with the web page submission
+    # we"ve changed the upload/input format to work with the web page submission
     # which means the event body is now a multipart/form-data
     # so we need to parse it
     # we can use requests-toolbelt for this
@@ -88,7 +88,7 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
 
     # deal with inncoming options
     # do it klunky way first, then refactor to be more elegant later
-    # we could say "match the web and the backend" but that's not a good idea
+    # we could say "match the web and the backend" but that"s not a good idea
     # as we want to be able to change the web without breaking the backend
     # and vice versa
 
@@ -146,7 +146,7 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
     headers = {
         "x-botc-json2pdf-version": __version__,
         # we might want to improve this, but I believe this resolves the CORS console error
-        # as APIG doesn't provide headers here, just passes on what we give it
+        # as APIG doesn"t provide headers here, just passes on what we give it
         # https://dev.to/aws-builders/your-complete-api-gateway-and-cors-guide-11jb
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD",
@@ -159,9 +159,12 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
         pdf_path = script.render()
 
         # save to S3
-        url = upload_pdf_to_s3(pdf_path, context.aws_request_id)
+        if context is not None:
+            url = upload_pdf_to_s3(pdf_path, context.aws_request_id)
+        else:
+            url = "file://just-local.txt"
 
-    # we're happy to catch _anything_ here
+    # we"re happy to catch _anything_ here
     # pylint: disable=broad-except
     except Exception as err:
         response = {
@@ -200,5 +203,10 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
 
 
 if __name__ == "__main__":
-    print("try: make docker-test")
+    # pylint: disable=line-too-long
+    fake_event = {
+        "body": '------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="paperSize"\r\n\r\nA4\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="stNightInfo"\r\n\r\ntwosheet\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="scriptFormat"\r\n\r\neasyprint\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="printFormat"\r\n\r\ndoubleSided\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="playerNightInfo"\r\n\r\nyes\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="playerCount"\r\n\r\nravenswood_regular\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="file"; filename="Reptiles.json"\r\nContent-Type: application/json\r\n\r\n[{"id": "_meta", "logo": "https://i.ibb.co/y6xbjrC/Reptiles-logo.png", "name": "Reptiles!", "author": "Aero"}, {"id": "chef"}, {"id": "washerwoman"}, {"id": "librarian"}, {"id": "sailor"}, {"id": "general"}, {"id": "chambermaid"}, {"id": "snake_charmer"}, {"id": "flowergirl"}, {"id": "undertaker"}, {"id": "innkeeper"}, {"id": "philosopher"}, {"id": "fool"}, {"id": "tea_lady"}, {"id": "virgin"}, {"id": "saint"}, {"id": "sweetheart"}, {"id": "heretic"}, {"id": "drunk"}, {"id": "barber"}, {"id": "poisoner"}, {"id": "devils_advocate"}, {"id": "spy"}, {"id": "psychopath"}, {"id": "baron"}, {"id": "al-hadikhia"}, {"id": "storm_catcher"}, {"id": "djinn"}]\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY--\r\n',
+        "isBase64Encoded": False,
+    }
+    render(fake_event, None)
     sys.exit(1)
