@@ -1,6 +1,5 @@
 """This module contains the Script class, which represents a script."""
 
-import logging
 import os
 from typing import Optional, Tuple
 from pkg_resources import get_distribution  # type: ignore
@@ -10,7 +9,7 @@ from botcpdf.benchmark import timeit  # type: ignore
 from botcpdf.jinx import Jinxes  # type: ignore
 from botcpdf.role import Role, RoleData
 from botcpdf.script_options import ScriptOptions
-from botcpdf.util import cleanup_role_id, is_aws_env, pdf2images  # type: ignore
+from botcpdf.util import cleanup_role_id, ensure_logger, is_aws_env, pdf2images  # type: ignore
 
 
 class ScriptMeta:
@@ -99,24 +98,7 @@ class Script:
 
     @timeit
     def _ensure_logger(self) -> None:
-        # if we don't have a logger, we'll create one that will log to stdout
-        if self.logger is None:
-            logger = logging.getLogger(__name__)
-            logger.setLevel(logging.DEBUG)
-            # create console handler with a higher log level
-            handler = logging.StreamHandler()
-            handler.setLevel(logging.DEBUG)
-            # create formatter and add it to the handlers
-            formatter = logging.Formatter(
-                "%(created)f [%(levelname)s] %(name)s, line %(lineno)d: %(message)s"
-            )
-            handler.setFormatter(formatter)
-            # add the handlers to logger
-            logger.addHandler(handler)
-
-            self.logger = logger
-
-            self.logger.info("No logger provided, creating one.")
+        self.logger = ensure_logger(self.logger)
 
     @timeit
     def _add_meta_roles(self) -> None:
