@@ -1,6 +1,7 @@
 """This module contains the Script class, which represents a script."""
 
 import os
+import re
 from typing import Optional, Tuple
 from pkg_resources import get_distribution  # type: ignore
 from jinja2 import Environment, FileSystemLoader
@@ -340,7 +341,10 @@ class Script:
     def _pdf_filename_without_path(self) -> str:
         """Return the PDF filename."""
 
+        # make spaces into dashes
         filename = self.title.replace(" ", "-")
+        # remove any special characters, keeping dashes and underscores
+        filename = re.sub(r"[^a-zA-Z0-9]", "", filename)
 
         # append the slug from our options class
         filename += f"_{self.options.get_filename_slug()}"
