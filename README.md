@@ -2,7 +2,7 @@
 
 <!-- markdownlint-disable MD013 -->
 
-![version](https://img.shields.io/badge/version-v0.2.10-blue) ![GitHub issues](https://img.shields.io/github/issues-raw/chizmw/botc-custom-script-json2pdf) ![GitHub last commit](https://img.shields.io/github/last-commit/chizmw/botc-custom-script-json2pdf) ![GitHub pull requests](https://img.shields.io/github/issues-pr/chizmw/botc-custom-script-json2pdf)
+![version](https://img.shields.io/badge/version-v0.2.11-blue) ![GitHub issues](https://img.shields.io/github/issues-raw/chizmw/botc-custom-script-json2pdf) ![GitHub last commit](https://img.shields.io/github/last-commit/chizmw/botc-custom-script-json2pdf) ![GitHub pull requests](https://img.shields.io/github/issues-pr/chizmw/botc-custom-script-json2pdf)
 
 <!-- markdownlint-enable MD013 -->
 

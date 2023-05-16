@@ -1,5 +1,0 @@
-kind: Fixed
-body: deactivate option selections in web page when they aren't sensible to pick
-time: 2023-05-16T00:18:40.71321+01:00
-custom:
-  GithubIssue: ""
