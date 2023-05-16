@@ -114,7 +114,7 @@ def render(event: Dict[str, Any], context: LambdaContext) -> dict[str, Any]:
             script_options["easy_print_pdf"] = False
 
     if option_value := multipart.get_field("printFormat"):
-        if option_value == "doublesided":
+        if option_value == "doubleSided":
             script_options["double_sided"] = True
         else:
             # default to singlesided
