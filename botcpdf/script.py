@@ -276,6 +276,7 @@ class Script:
         Returns:
             str: local path to the PDF file
         """
+        self.logger.debug("""Rendering "%s"…""", self.title)
 
         # so we can actually use images in the PDF
         this_folder = os.path.dirname(os.path.abspath(__file__))
@@ -322,7 +323,7 @@ class Script:
 
         # render the thing we most want - the PDF
         pdf_folder, pdf_filename = self._render_pdf(html_out, this_folder)
-        print("PDF saved to " + pdf_filename)
+        self.logger.info("PDF saved to %s", pdf_filename)
 
         # if we are NOT in aws, create a symlink to the pdf in the pdfs folder
         self._refresh_symlink(pdf_folder, pdf_filename)

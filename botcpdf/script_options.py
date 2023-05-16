@@ -49,7 +49,7 @@ class ScriptOptions:
     def _process_options(self, options: Optional[dict]) -> None:
         """Process the options."""
 
-        print(f"options: {options}")
+        self.logger.debug("options: %s", options)
 
         self.options = self._default_options()
 
@@ -63,7 +63,7 @@ class ScriptOptions:
                 raise ValueError(f"""Unexpected options: {unexpected}""")
 
             self.options.update(options)
-            print(f"self.options: {self.options}")
+            self.logger.debug("self.options: %s", self.options)
 
         self.paper_size = self.options.get("paper_size", "A4")
         self.easy_print_pdf = self.options.get("easy_print_pdf", False)
