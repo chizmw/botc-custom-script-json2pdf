@@ -39,13 +39,6 @@ def main():
         script_data = load_data(filename)
 
     script_options = {
-        # we have A5 as the default in styles.css, so this proves that the
-        # option works
-        "paper_size": "A4",
-        "player_count": "teensyville",
-    }
-
-    script_options = {
         "paper_size": "A4",
         "simple_night_order": False,
         "easy_print_pdf": True,
