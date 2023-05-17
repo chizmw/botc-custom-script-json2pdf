@@ -71,6 +71,10 @@ class Role:
             "(not yourself)",
             "&nbsp;<strong>[not yourself]</strong>",
         )
+        text = text.replace(
+            "[1 Townsfolk is evil]",
+            "&nbsp;<strong>[1 Townsfolk is evil]</strong>",
+        )
 
         # replace '[+N Outsider]' with '<strong>[+N Outsider]</strong>'
         text = text.replace("[+", "&nbsp; <strong>[+")
