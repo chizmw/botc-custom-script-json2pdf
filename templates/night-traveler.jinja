@@ -2,7 +2,7 @@
 {%- if travelers %}
   <div class="line-pretraveler-nightinfo"></div>
   <h2 class="character-type character-type-traveler">{{ "travelers" | upper }}</h2>
-  <div class="cols-2">
+  <div class="cols-3">
   {%- for role in travelers %}
       <div class="traveler-reminder-block">
         <img src="file://{{icon_folder}}/{{role.id_slug}}.png" alt="{{ role.slug_id }}" class="night-icon traveler-night-icon"/>

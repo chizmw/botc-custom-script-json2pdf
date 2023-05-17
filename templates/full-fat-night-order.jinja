@@ -26,8 +26,10 @@
       {%- endif %}
     {%- endfor %}
 
-    {% include 'night-extras.jinja' %}
-
+    {# if we have at most 15 items in first_night #}
+    {% if first_night|length <= 15 %}
+      {% include 'night-extras.jinja' %}
+    {% endif %}
 
     <!-- Other Night Info -->
     <p style="page-break-before: always" ></p>
@@ -57,7 +59,10 @@
       {%- endif %}
     {%- endfor %}
 
-    {% include 'night-extras.jinja' %}
+    {# if we have at most 15 items in other_nights #}
+    {% if other_nights|length <= 15 %}
+      {% include 'night-extras.jinja' %}
+    {% endif %}
 
   </body>
 </html>
