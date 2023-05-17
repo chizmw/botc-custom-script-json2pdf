@@ -1,0 +1,5 @@
+kind: Changed
+body: don't create simple-night centred div unnecessarily
+time: 2023-05-17T22:12:31.859718+01:00
+custom:
+  GithubIssue: ""

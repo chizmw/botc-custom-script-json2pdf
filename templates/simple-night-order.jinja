@@ -20,6 +20,7 @@
       {%- endfor %}
   </div>
 
+    {% if hate_pair or travelers or fabled %}
       <div class="centered-div">
       {%- if hate_pair %}
         {%- for tag, reason in hate_pair |dictsort %}
@@ -28,10 +29,11 @@
               {%- for slug in slugs %}
                 <img src="file://{{icon_folder}}/{{slug}}.png" alt="{{ reason }}" class="night-icon"/>
               {%- endfor %}
-            </div>
+            </div><!-- end of jinx-simple-night-icon -->
               <div class="jinx-simple-night-reason">{{ reason }}</div>
         {%- endfor %}
       {%- endif %}
+
       {%- if travelers %}
         <div class="line-pretraveler-nightinfo"></div>
         {%- for role in travelers %}
@@ -39,9 +41,10 @@
               <img src="file://{{icon_folder}}/{{role.id_slug}}.png" alt="{{ role.slug_id }}" class="night-icon traveler-night-icon"/>
               <span class="character-name character-name-night character-name-{{ role.team }}">{{ role.name }}</span>
               <span class="traveler-night-ability">{{ role.ability }}</span>
-            </div>
+            </div><!-- end of traveler-reminder-block -->
         {%- endfor %}
       {%- endif %}
+
       {%- if fabled %}
         <div class="line-pretraveler-nightinfo"></div>
         {%- for role in fabled %}
@@ -49,8 +52,9 @@
               <img src="file://{{icon_folder}}/{{role.id_slug}}.png" alt="{{ role.slug_id }}" class="night-icon traveler-night-icon"/>
               <span class="character-name character-name-night character-name-{{ role.team }}">{{ role.name }}</span>
               <span class="traveler-night-ability">{{ role.ability }}</span>
-            </div>
+            </div><!-- end of traveler-reminder-block -->
         {%- endfor %}
       {%- endif %}
-    </div>
-</div>
+      </div><!-- end of centered div -->
+    {% endif %}
+</div><!-- end of full page -->
