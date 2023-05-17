@@ -72,7 +72,13 @@ endif
 test-meta: poetry
 	@$(MAKE) process INPUT_FILE='scripts/my-test-script.json'
 ifeq ($(shell uname),Darwin)
-	@open -a Preview 'pdfs/just-baked.pdf"
+	@open -a Preview "pdfs/just-baked.pdf"
+endif
+
+test-busy-nights: poetry
+	@$(MAKE) process INPUT_FILE="scripts/Clean Sweep.json"
+ifeq ($(shell uname),Darwin)
+	open-pdf-to-page "pdfs/just-baked.pdf" 15
 endif
 
 all-scripts: install-dev
