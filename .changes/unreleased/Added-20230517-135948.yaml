@@ -1,5 +1,0 @@
-kind: Added
-body: use browser localStorage to preserve form selections
-time: 2023-05-17T13:59:48.400763+01:00
-custom:
-  GithubIssue: ""
