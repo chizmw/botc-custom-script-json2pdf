@@ -89,6 +89,10 @@ h1.script-title {
   font-size: 18pt;
   font-weight: 900;
   text-align: right;
+
+  display: inline-block;
+  margin-bottom: 0;
+  margin-left: 5px;
 }
 h2.character-type {
   font-family: 'Alegreya Sans SC', sans-serif;
@@ -371,4 +375,28 @@ header {
   font-family: 'Alegreya Sans SC', sans-serif;
   font-size: 8px;
   padding-right: 10px;
+}
+
+.heading-container {
+  display: flex; /* Use Flexbox to align items on the same level */
+  justify-content: space-between; /* Distribute the items with maximum space between them */
+  align-items: flex-start; /* Align items to the start of the container */
+  width: 100%;
+}
+
+.author-presents {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  color: darkslategray;
+  font-family: 'Dancing Script', cursive;
+  transform: rotate(-8deg); /* Adjust the angle of the text here */
+  opacity: 0.8;
+  padding-top: 8px;
+}
+
+h1 {
+  display: inline-block;
+  margin-bottom: 0;
+  margin-left: 5px;
 }
