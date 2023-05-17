@@ -293,6 +293,7 @@ class Script:
         template_vars = {
             "_project": get_distribution("botc-json2pdf").__dict__,
             "title": self.title,
+            "meta": self.meta,
             "characters": self.char_types,
             "first_night": self.sorted_first_night(),
             "other_nights": self.sorted_other_nights(),
