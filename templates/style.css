@@ -384,6 +384,12 @@ header {
   width: 100%;
 }
 
+/* handle when ther author span is missing */
+.heading-container::before {
+  content: '';
+  flex-grow: 1;
+}
+
 .author-presents {
   display: inline-block;
   font-size: 14px;
