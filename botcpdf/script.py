@@ -333,7 +333,7 @@ class Script:
         # if we have BOTC_PDF2IMAGE set...
         if os.environ.get("BOTC_PDF2IMAGE"):
             pdf2images(
-                os.path.join(pdf_folder, f"{self.title}.pdf"),
+                os.path.join(pdf_folder, pdf_filename),
                 f"generated/{self.title}",
             )
 
