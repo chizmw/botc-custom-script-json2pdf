@@ -24,6 +24,9 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          # specify the tag as the ref to checkout
+          ref: ${{ github.ref }}
 
       - name: Configure Environment
         run: |
