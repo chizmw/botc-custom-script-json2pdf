@@ -144,8 +144,9 @@ docker-test: grab-some-scripts
 
 prerelease: poetry
 	@git commit -m "$$(poetry version prerelease)" pyproject.toml
+	poetry install
 
 
 preminor: poetry
-	MSG = "$(shell poetry version preminor)"
 	@git commit -m "$$(poetry version preminor)" pyproject.toml
+	poetry install
