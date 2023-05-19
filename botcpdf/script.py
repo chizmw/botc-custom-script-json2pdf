@@ -1,16 +1,20 @@
 """This module contains the Script class, which represents a script."""
 
+import inspect
 import os
 import re
 from typing import Optional, Tuple
+from discord_webhook import DiscordEmbed, DiscordWebhook
 from pkg_resources import get_distribution  # type: ignore
 from jinja2 import Environment, FileSystemLoader
+from requests import Response  # type: ignore
 from weasyprint import HTML  # type: ignore
 from botcpdf.benchmark import timeit  # type: ignore
 from botcpdf.jinx import Jinxes  # type: ignore
 from botcpdf.role import Role, RoleData
 from botcpdf.script_options import ScriptOptions
 from botcpdf.util import cleanup_role_id, ensure_logger, is_aws_env, pdf2images  # type: ignore
+from botcpdf.version import __version__
 
 
 class ScriptMeta:
@@ -50,25 +54,37 @@ class Script:
     # these are shared across all instances of the class
     role_data: RoleData = RoleData()
 
-    def __init__(
-        self, title: str, script_data: dict, options: Optional[dict] = None, logger=None
-    ):
+    def __init__(self, script_data: dict, options: Optional[dict] = None, logger=None):
         """Initialize a script."""
 
         self._init_defaults()
 
-        self.title = title
+        # set a default title
+        # this will be overwritten if the script has a meta entry
+        self.title = "Unknown"
+        # if we have scriptname in options, use that
+        if options is not None and "scriptname" in options:
+            self.title = options["scriptname"]
+
+        # if we have been told the filename in options, use that, with some cleanup
+        if options is not None and "filename" in options:
+            self.filename = cleanup_role_id(options["filename"])
+            self.title = (
+                options["filename"]
+                .rsplit("/", maxsplit=1)[-1]
+                .split(".", maxsplit=1)[0]
+            )
+
         self.logger = logger
 
         self.logger = ensure_logger(self.logger)
 
         self.options = ScriptOptions(options, self.logger)
 
-        self.logger.info(self.options)
+        self.logger.debug(self.options)
 
         # the data we use to render the PDF
-        self.logger.info("Initializing script %s", self.title)
-        # self.logger.debug(script_data)
+        self.logger.debug("Initializing script %s", self.title)
 
         # we want to preserve the order of the characters
         # so we'll use a list instead of a set
@@ -333,7 +349,7 @@ class Script:
         # if we have BOTC_PDF2IMAGE set...
         if os.environ.get("BOTC_PDF2IMAGE"):
             pdf2images(
-                os.path.join(pdf_folder, f"{self.title}.pdf"),
+                os.path.join(pdf_folder, pdf_filename),
                 f"generated/{self.title}",
             )
 
@@ -372,3 +388,40 @@ class Script:
             filename = os.path.join(pdf_folder, filename)
 
         return filename
+
+    def post_to_discord(self) -> Optional[Response]:
+        """Post to discord."""
+
+        webhook_url = os.environ.get("BOTC2JSON_WEBHOOK_URL", None)
+
+        if not webhook_url:
+            return None
+
+        # what's our caller / package name?
+        caller = inspect.stack()[1].filename.split("/")[-1].split(".")[0]
+
+        webhook = DiscordWebhook(url=webhook_url)
+
+        embed = DiscordEmbed(
+            title=f"Script `{self.title}` rendered!",
+            description=f"Script `{self.title}` rendered via `{caller}`.",
+            color=0x00FF00,
+        )
+        embed.add_embed_field(name="Paper Size", value=self.options.paper_size)
+        embed.add_embed_field(name="Easyprint", value=self.options.easy_print_pdf)
+        embed.add_embed_field(name="Double Sided", value=self.options.double_sided)
+        embed.add_embed_field(
+            name="Player Night Order", value=self.options.player_night_order
+        )
+        embed.add_embed_field(
+            name="Simple Night Order", value=self.options.simple_night_order
+        )
+        embed.add_embed_field(name="Village Size", value=self.options.player_count)
+
+        embed.set_footer(text=f"Arcane Scripts {__version__}")
+        embed.set_timestamp()
+
+        webhook.add_embed(embed)
+        response = webhook.execute()
+
+        return response

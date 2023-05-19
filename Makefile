@@ -1,14 +1,10 @@
 INPUT_FILE=
 
-.PHONY: all process
+.PHONY: all
 
 #all: poetry install-dev fmt lint run
 
-all: examples
-
-process: install-dev
-	@basename="$(shell basename "$(INPUT_FILE)" .json)" && \
-	poetry run python3 -m botcpdf.main "$(INPUT_FILE)"
+all: script-nrb script-tb script-gmv script-cs
 
 variations: install-dev
 	@basename="$(shell basename "$(INPUT_FILE)" .json)" && \
@@ -20,6 +16,7 @@ clean:
 POETRY=poetry
 POETRY_OK:=$(shell command -v $(POETRY) 2> /dev/null)
 PYSRC=botcpdf
+MAKE_PDF=bin/make-pdf --village-size sample
 
 poetry:
 ifndef POETRY_OK
@@ -39,53 +36,30 @@ lint: install-dev
 test: install-dev
 	@$(POETRY) run python -m unittest -v
 
-tb: poetry
-	@$(MAKE) process INPUT_FILE="scripts/Trouble Brewing.json"
+
+# some quick helpers to (quickly) generate some pdfs
+script-tb: TARGET:="Trouble Brewing"
+script-nrb: TARGET:="No Roles Barred"
+script-gmv: TARGET:="Grind My Viz"
+script-cs: TARGET:="Clean Sweep"
+
+script-tb script-nrb script-gmv script-cs: poetry
+	$(MAKE_PDF) scripts/$(TARGET).json
 ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/just-baked.pdf"
 endif
 
-nrb: poetry
-	@$(MAKE) process INPUT_FILE="scripts/No Roles Barred.json"
-ifeq ($(shell uname),Darwin)
-	@open -a Preview "pdfs/just-baked.pdf"
-endif
+# this is slightly different to the above, in that it generates a pdf for each
+# file in the scripts directory
+all-scripts: install-dev
+	@find scripts -type f -name '*.json' -exec bin/make-pdf {} --village-size sample \;
 
-test-broken: poetry
-	@$(MAKE) process INPUT_FILE="scripts/broke-test.json"
-ifeq ($(shell uname),Darwin)
-	@open -a Preview "pdfs/just-baked.pdf"
-endif
-
-test-newchars: poetry
-	@$(MAKE) process INPUT_FILE="scripts/Grind My Viz.json"
-ifeq ($(shell uname),Darwin)
-	@open -a Preview "pdfs/just-baked.pdf"
-endif
-
+# needs bundling into a script, or botcpdf.cli
 variations-newchars: poetry
 	@time $(MAKE) variations INPUT_FILE="scripts/Grind My Viz.json"
 ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/just-baked.pdf"
 endif
-
-test-meta: poetry
-	@$(MAKE) process INPUT_FILE='scripts/my-test-script.json'
-ifeq ($(shell uname),Darwin)
-	@open -a Preview "pdfs/just-baked.pdf"
-endif
-
-test-busy-nights: poetry
-	@$(MAKE) process INPUT_FILE="scripts/Clean Sweep.json"
-ifeq ($(shell uname),Darwin)
-	open-pdf-to-page "pdfs/just-baked.pdf" 15
-endif
-
-all-scripts: install-dev
-	@find scripts -type f -name '*.json' -exec $(MAKE) process INPUT_FILE="{}" \;
-
-optimise-pdf: install-dev
-	@find pdfs -type f -not -name "*.opt.pdf" -exec $(POETRY) run python3 -m botcpdf.optimise_pdf "{}" \;
 
 # this is just a quick helper for my own use - Chisel
 refresh-json:
@@ -144,8 +118,9 @@ docker-test: grab-some-scripts
 
 prerelease: poetry
 	@git commit -m "$$(poetry version prerelease)" pyproject.toml
+	poetry install
 
 
 preminor: poetry
-	MSG = "$(shell poetry version preminor)"
 	@git commit -m "$$(poetry version preminor)" pyproject.toml
+	poetry install
