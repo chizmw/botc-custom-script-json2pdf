@@ -73,7 +73,13 @@ def make_pdf(
         "player_count": villagesize,
     }
 
-    logfilename = f"{scriptname}.log".replace(" ", "_")
+    # we can't know the final script title before we configure the logger
+    # Script sets the title in the constructor, and we want to pass a logger to
+    # the constructor
+    # let's just use a generic name for the log file
+    logfilename = "botcpdf.log"
+
+    # create a logger
     logger = cli_logger(logfilename)
     # if we have debug, set the logger to debug
     if debug:
