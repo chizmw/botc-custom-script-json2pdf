@@ -71,6 +71,7 @@ def make_pdf(
         "player_night_order": playernightorder,
         "simple_night_order": simplenightorder,
         "player_count": villagesize,
+        "filename": filename,
     }
 
     # we can't know the final script title before we configure the logger
@@ -102,7 +103,11 @@ def make_pdf(
     logger.info("botcpdf version: %s", __version__)
 
     logger.info("Rendering script: %s…", scriptname)
-    script = Script(scriptname, scriptdata, options, logger)
+    script = Script(
+        script_data=scriptdata,
+        options=options,
+        logger=logger,
+    )
     script.render()
     logger.info("Done!")
 

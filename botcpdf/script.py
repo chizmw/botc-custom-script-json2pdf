@@ -54,14 +54,27 @@ class Script:
     # these are shared across all instances of the class
     role_data: RoleData = RoleData()
 
-    def __init__(
-        self, title: str, script_data: dict, options: Optional[dict] = None, logger=None
-    ):
+    def __init__(self, script_data: dict, options: Optional[dict] = None, logger=None):
         """Initialize a script."""
 
         self._init_defaults()
 
-        self.title = title
+        # set a default title
+        # this will be overwritten if the script has a meta entry
+        self.title = "Unknown"
+        # if we have scriptname in options, use that
+        if options is not None and "scriptname" in options:
+            self.title = options["scriptname"]
+
+        # if we have been told the filename in options, use that, with some cleanup
+        if options is not None and "filename" in options:
+            self.filename = cleanup_role_id(options["filename"])
+            self.title = (
+                options["filename"]
+                .rsplit("/", maxsplit=1)[-1]
+                .split(".", maxsplit=1)[0]
+            )
+
         self.logger = logger
 
         self.logger = ensure_logger(self.logger)

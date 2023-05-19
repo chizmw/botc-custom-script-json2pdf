@@ -84,7 +84,7 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
     # we can use requests-toolbelt for this
 
     # start with nothing in the options
-    script_options = {}
+    script_options = {"filename": file_info["name"]}
 
     # deal with inncoming options
     # do it klunky way first, then refactor to be more elegant later
@@ -134,10 +134,8 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
         script_options["player_count"] = "teensyville"
 
     script = Script(
-        title=file_name,
         script_data=file_contents,
         options=script_options,
-        logger=logger,
     )
     logger.info("Rendering %s…", script.title)
 

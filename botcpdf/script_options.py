@@ -44,6 +44,8 @@ class ScriptOptions:
             # - ravenswood_regular: 16
             # - ravenswood_max: 21
             "player_count": 3,
+            # we don't require this, but we do allow it
+            "filename": None,
         }
 
     def _process_options(self, options: Optional[dict]) -> None:

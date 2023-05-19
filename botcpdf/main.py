@@ -32,9 +32,6 @@ def main():
     # otherwise, assume it's a filename
     else:
         filename = sys.argv[1]
-        # this is kinda rudimentary, but it works as a first pass
-        # strip the path and extension from the filename
-        script_name = filename.rsplit("/", maxsplit=1)[-1].split(".", maxsplit=1)[0]
 
         script_data = load_data(filename)
 
@@ -46,9 +43,14 @@ def main():
         "double_sided": True,
         "player_night_order": True,
         "player_count": "teensyville",
+        "filename": filename,
+        "script_name": script_name,
     }
 
-    script = Script(script_name, script_data, script_options)
+    script = Script(
+        script_data=script_data,
+        options=script_options,
+    )
 
     script.render()
 
