@@ -164,6 +164,8 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
         else:
             url = "file://just-local.txt"
 
+        script.post_to_discord()
+
     # we"re happy to catch _anything_ here
     # pylint: disable=broad-except
     except Exception as err:
