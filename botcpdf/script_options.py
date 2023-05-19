@@ -65,6 +65,18 @@ class ScriptOptions:
             self.options.update(options)
             self.logger.debug("self.options: %s", self.options)
 
+        # village size / player_count of 'sample' is a special case
+        # we need to convert it to a number, and set some other options
+        # which may get overwritten by the options passed in, but that's ok
+        if self.options.get("player_count") == "sample":
+            # we want easyprint, double sided, player night order, and not simple night order
+            self.options["easy_print_pdf"] = True
+            self.options["double_sided"] = True
+            self.options["player_night_order"] = True
+            self.options["simple_night_order"] = False
+            # we want 1 player sheet - it's a short sample
+            self.options["player_count"] = 1
+
         self.paper_size = self.options.get("paper_size", "A4")
         self.easy_print_pdf = self.options.get("easy_print_pdf", False)
         self.double_sided = self.options.get("double_sided", False)
