@@ -2,8 +2,10 @@
   {% if meta.author %}
   <span class="author-presents">{{meta.author}} presents…</span>
   {% endif %}
+  <div class="spacer"></div> <!-- The new spacer div -->
   <h1 class="script-title">{{ title }}</h1>
 </div>
+
 
 {%- for type in characters %}
   {%- set type_plural = type + 's' if type != 'townsfolk' else type %}

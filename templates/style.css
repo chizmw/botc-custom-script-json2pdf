@@ -83,17 +83,6 @@ footer {
   position: fixed;
   right: 0;
 }
-h1.script-title {
-  color: #000;
-  font-family: 'Alegreya Sans SC', sans-serif;
-  font-size: 18pt;
-  font-weight: 900;
-  text-align: right;
-
-  display: inline-block;
-  margin-bottom: 0;
-  margin-left: 5px;
-}
 h2.character-type {
   font-family: 'Alegreya Sans SC', sans-serif;
   font-size: 18px;
@@ -377,16 +366,36 @@ header {
   padding-right: 10px;
 }
 
+h1.script-title {
+  color: #000;
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 18pt;
+  font-weight: 900;
+  text-align: right;
+
+  display: inline-block;
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+
+h1.script-title {
+  color: #000;
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 18pt;
+  font-weight: 900;
+  text-align: right;
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+
 .heading-container {
-  display: flex; /* Use Flexbox to align items on the same level */
-  justify-content: space-between; /* Distribute the items with maximum space between them */
-  align-items: flex-start; /* Align items to the start of the container */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   width: 100%;
 }
 
-/* handle when ther author span is missing */
-.heading-container::before {
-  content: '';
+.spacer {
   flex-grow: 1;
 }
 
@@ -396,13 +405,7 @@ header {
   font-weight: 700;
   color: darkslategray;
   font-family: 'Dancing Script', cursive;
-  transform: rotate(-8deg); /* Adjust the angle of the text here */
+  transform: rotate(-8deg);
   opacity: 0.8;
   padding-top: 8px;
-}
-
-h1 {
-  display: inline-block;
-  margin-bottom: 0;
-  margin-left: 5px;
 }
