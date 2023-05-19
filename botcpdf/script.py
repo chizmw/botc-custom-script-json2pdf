@@ -64,11 +64,10 @@ class Script:
 
         self.options = ScriptOptions(options, self.logger)
 
-        self.logger.info(self.options)
+        self.logger.debug(self.options)
 
         # the data we use to render the PDF
-        self.logger.info("Initializing script %s", self.title)
-        # self.logger.debug(script_data)
+        self.logger.debug("Initializing script %s", self.title)
 
         # we want to preserve the order of the characters
         # so we'll use a list instead of a set
