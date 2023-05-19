@@ -100,6 +100,9 @@ def make_pdf(
     script.render()
     logger.info("Done!")
 
+    # post to discord if we have a webhook
+    script.post_to_discord()
+
 
 cli.add_command(make_pdf)
 
