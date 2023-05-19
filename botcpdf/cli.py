@@ -5,6 +5,8 @@ from botcpdf.script import Script
 from botcpdf.util import load_data
 from botcpdf.version import __version__
 
+context_settings = {"help_option_names": ["-h", "--help"], "max_content_width": 200}
+
 
 @click.group()
 def cli():
@@ -14,27 +16,70 @@ def cli():
     pass
 
 
-@click.command()
+@click.command(context_settings=context_settings)
 # paper size
 @click.option(
     "--paper-size",
     type=click.Choice(["A4", "Letter"], case_sensitive=False),
-    help="Paper size to use for the PDF.",
+    help="paper size to use for the PDF",
     default="A4",
 )
+@click.option(
+    "-n",
+    "--script-name",
+    "scriptname",
+    default="A Script Has No Name",
+    help="name of the script to use if none in JSON metadata",
+)
 # easyprint / regular
-@click.option("-e", "--easyprint", "easyprint", flag_value=True, default=False)
-@click.option("-r", "--regular", "easyprint", flag_value=False)
+@click.option(
+    "-e",
+    "--easyprint",
+    "easyprint",
+    flag_value=True,
+    default=False,
+    help="enable document generation that's easier to print",
+)
+@click.option(
+    "-r",
+    "--regular",
+    "easyprint",
+    flag_value=False,
+    help="classic PDF format: one page for player reference, plus ST night order",
+)
 # double / single sided
-@click.option("-1", "--double-sided", "doublesided", flag_value=True, default=False)
-@click.option("-2", "--single-sided", "doublesided", flag_value=False)
+@click.option(
+    "-1",
+    "--single-sided",
+    "doublesided",
+    flag_value=False,
+    help="disable double-sided printing (--easyprint required)",
+)
+@click.option(
+    "-2",
+    "--double-sided",
+    "doublesided",
+    flag_value=True,
+    default=False,
+    help="enable double-sided printing (--easyprint required)",
+)
 # show players the night order
 @click.option(
-    "-p", "--player-night-order", "playernightorder", flag_value=True, default=False
+    "-p",
+    "--player-night-order",
+    "playernightorder",
+    flag_value=True,
+    default=False,
+    help="show players the night order (--double-sided required)",
 )
 # show a simple night order
 @click.option(
-    "-s", "--simple-night-order", "simplenightorder", flag_value=True, default=False
+    "-s",
+    "--simple-night-order",
+    "simplenightorder",
+    flag_value=True,
+    default=False,
+    help="generate a simple one-page night order sheet for the ST",
 )
 # player count; either a number or a special value
 @click.option(
@@ -45,8 +90,9 @@ def cli():
         case_sensitive=False,
     ),
     default="ravenswood_regular",
+    help="guide the number of copies of the player "
+    "reference sheet to generate. (--easyprint required)",
 )
-@click.option("-n", "--script-name", "scriptname", default="A Script Has No Name")
 @click.option("--debug", "debug", flag_value=True, default=False)
 @click.argument("filename", type=click.Path(exists=True, dir_okay=False))
 # pylint: disable=too-many-arguments
@@ -61,7 +107,7 @@ def make_pdf(
     villagesize,
     debug,
 ):
-    """Make a PDF."""
+    """Use the JSON file at FILENAME to generate a PDF of a custom script."""
     scriptdata = load_data(filename)
 
     options = {
