@@ -1,5 +1,0 @@
-kind: Fixed
-body: 'fix: f"{self.title}.pdf" -> pdf_filename'
-time: 2023-05-19T00:50:53.414885+01:00
-custom:
-  GithubIssue: ""
