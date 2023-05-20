@@ -52,6 +52,9 @@ jobs:
         # if we're a PR then we user 'dev', otherwise we use 'prod'
         # yamllint disable rule:line-length
         run: |
+          # debug pesky sls
+          echo "SLS_DEBUG=*" >> "$GITHUB_ENV"
+
           # pull request
           if [ -n "${{ github.event.pull_request.head.sha }}" ]; then
             echo "DEPLOY_ENV=dev" >> "$GITHUB_ENV"
