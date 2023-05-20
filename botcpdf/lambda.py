@@ -5,6 +5,10 @@ import logging
 import traceback
 from typing import Any, Dict, Optional
 
+# https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-python-configuration.html
+from aws_xray_sdk.core import xray_recorder  # type: ignore
+from aws_xray_sdk.core import patch_all  # type: ignore
+
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from botcpdf.multipart import MultipartDecoder
 
@@ -25,6 +29,13 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
+xray_recorder.configure(service="pdf-api")
+# PLUGINS = ("EC2Plugin", "ECSPlugin")
+# xray_recorder.configure(plugins=PLUGINS)
+patch_all()
+logging.getLogger("aws_xray_sdk").setLevel(logging.DEBUG)
+
+
 # JSON output format, service name can be set by environment variable "POWERTOOLS_SERVICE_NAME"
 # LOGLEVEL = os.environ.get("LOGLEVEL", "WARNING").upper()
 # logger: Logger = Logger(service="botc-custom-script-json2pdf", level=LOGLEVEL)
@@ -42,6 +53,8 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
     Returns:
         dict[str, Any]: Lambda response for API Gateway
     """
+    xray_recorder.begin_segment(__name__)
+
     # logger.set_correlation_id(context.aws_request_id)
 
     # pint our module name to make it easier to find in CloudWatch logs
@@ -154,7 +167,9 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
 
     try:
         # it would be nice to have this return the filepath, or content to return to the user
+        xray_recorder.begin_segment("script.render")
         pdf_path = script.render()
+        xray_recorder.end_segment()
 
         # save to S3
         if context is not None:
