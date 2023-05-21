@@ -1,0 +1,5 @@
+kind: Changed
+body: Update gameinfo/*.json from assets
+time: 2023-05-21T22:54:16.066595+01:00
+custom:
+  GithubIssue: "106"
