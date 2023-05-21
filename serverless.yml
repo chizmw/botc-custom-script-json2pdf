@@ -30,7 +30,7 @@ provider:
     minimumCompressionSize: 1024
     binaryMediaTypes:
       - application/pdf
-  memorySize: 2048
+  memorySize: 3008
   tracing:
     lambda: true
 
