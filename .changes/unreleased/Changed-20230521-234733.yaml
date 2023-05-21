@@ -1,5 +1,0 @@
-kind: Changed
-body: move Serverless workflow into terraform's
-time: 2023-05-21T23:47:33.12922+01:00
-custom:
-  GithubIssue: ""
