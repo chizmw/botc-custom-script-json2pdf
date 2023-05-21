@@ -1,5 +1,0 @@
-kind: Changed
-body: enable xray in serverless->lambda (all envs)
-time: 2023-05-19T23:38:53.745699+01:00
-custom:
-  GithubIssue: ""
