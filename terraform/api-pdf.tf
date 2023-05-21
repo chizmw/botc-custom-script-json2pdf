@@ -96,9 +96,10 @@ resource "aws_api_gateway_deployment" "deployment" {
 }
 
 resource "aws_api_gateway_stage" "api_stage" {
-  stage_name    = local.api_stage
-  rest_api_id   = data.aws_api_gateway_rest_api.json2pdf_api.id
-  deployment_id = aws_api_gateway_deployment.deployment.id
+  stage_name           = local.api_stage
+  rest_api_id          = data.aws_api_gateway_rest_api.json2pdf_api.id
+  deployment_id        = aws_api_gateway_deployment.deployment.id
+  xray_tracing_enabled = local.xray_tracingenabled
   variables = {
     "env"    = local.api_stage
     "stage"  = local.api_stage

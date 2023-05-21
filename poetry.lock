@@ -43,6 +43,22 @@ tracer = ["aws-xray-sdk (>=2.8.0,<3.0.0)"]
 validation = ["fastjsonschema (>=2.14.5,<3.0.0)"]
 
 [[package]]
+name = "aws-xray-sdk"
+version = "2.12.0"
+description = "The AWS X-Ray SDK for Python (the SDK) enables Python developers to record and emit information from within their applications to the AWS X-Ray service."
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "aws-xray-sdk-2.12.0.tar.gz", hash = "sha256:295afc237073a80956d7d4f27c31830edcb9a8ccca9ef8aa44990badef15e5b7"},
+    {file = "aws_xray_sdk-2.12.0-py2.py3-none-any.whl", hash = "sha256:30886e23cc2daadc1c06a76f25b071205e84848419d1ddf097b62a565e156542"},
+]
+
+[package.dependencies]
+botocore = ">=1.11.3"
+wrapt = "*"
+
+[[package]]
 name = "black"
 version = "23.3.0"
 description = "The uncompromising code formatter."
@@ -1245,7 +1261,7 @@ files = [
 name = "wrapt"
 version = "1.15.0"
 description = "Module for decorators, wrappers and monkey patching."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 files = [
@@ -1404,4 +1420,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "212a01e575430fe3d6ed4534e1f43b6b6a3d5b5ce1a858dc7f995580bd4ed393"
+content-hash = "7e4269645280018423a4b88c0560f43ba254d8a1157ce1d62e1f740d8d5d9b48"

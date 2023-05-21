@@ -26,4 +26,5 @@ locals {
   api_stage                  = (terraform.workspace == "prod") ? "prod" : "dev"
   python_runtime             = "python3.10"
   lambda_stage_function_name = "${var.sls_service_name}-${terraform.workspace}-${var.sls_function_name}"
+  xray_tracingenabled        = (terraform.workspace == "prod") ? true : false
 }

@@ -18,8 +18,9 @@ provider:
     Product: botc-custom-script-json2pdf
     InfoURL: https://github.com/chizmw/botc-custom-script-json2pdf
   environment:
-    BUCKET_NAME: 436158765452-botc-pdf-bucket-${opt:stage, 'dev'}
+    BUCKET_NAME: 436158765452-botc-pdf-bucket-${self:custom.stage}
     BOTC_DEBUG: 1
+    BOTC2JSON_WEBHOOK_URL: ${self:custom.discord_webhook}
   # Note: API Gateway has a maximum timeout of 30 seconds
   timeout: 90
   logRetentionInDays: 7
@@ -30,6 +31,8 @@ provider:
     binaryMediaTypes:
       - application/pdf
   memorySize: 2048
+  tracing:
+    lambda: true
 
 plugins:
   - serverless-docker
@@ -42,3 +45,5 @@ functions:
 
 custom:
   stage: ${opt:stage, 'dev'}
+  # yamllint disable-line rule:line-length
+  discord_webhook: ${ssm:/aws/reference/secretsmanager/pdf-api/discord-webhook-url/dev}
