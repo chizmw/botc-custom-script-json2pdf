@@ -1,0 +1,5 @@
+kind: Changed
+body: rename terraform.yml -> terraform-serverless-deploy.yml
+time: 2023-05-21T23:49:57.493161+01:00
+custom:
+  GithubIssue: ""
