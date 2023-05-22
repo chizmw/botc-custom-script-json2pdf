@@ -23,6 +23,14 @@
         {% if not loop.last %}
           <p style="page-break-before: always" ></p>
         {%- endif %}
-      {% endif %}
+      {%- else -%}
+        {# "single-sided" #}
+        {# if we're a 'sample' we need to add a page break here - probably?! #}
+        {%- if not loop.last %}
+          <p style="page-break-before: always" ></p>
+        {%- endif -%}
+      {%- endif -%}
+    {%- else -%}
+      {# "regular" #}
     {%- endif %}
 {% endfor %}
