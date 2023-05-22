@@ -55,7 +55,7 @@ def cli():
     "--double-sided",
     "doublesided",
     flag_value=True,
-    default=False,
+    default=True,
     help="enable double-sided printing (--easyprint required)",
 )
 # show players the night order
@@ -64,7 +64,7 @@ def cli():
     "--player-night-order",
     "playernightorder",
     flag_value=True,
-    default=False,
+    default=True,
     help="show players the night order (--double-sided required)",
 )
 # show a simple night order
