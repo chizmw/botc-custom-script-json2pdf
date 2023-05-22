@@ -1,1 +1,24 @@
-[{"id":"_meta","author":"Chisel","name":"Grind My Viz"},{"id":"investigator"},{"id":"pixie"},{"id":"empath"},{"id":"dreamer"},{"id":"mathematician"},{"id":"oracle"},{"id":"monk"},{"id":"artist"},{"id":"fisherman"},{"id":"soldier"},{"id":"ravenkeeper"},{"id":"cannibal"},{"id":"minstrel"},{"id":"damsel"},{"id":"puzzlemaster"},{"id":"recluse"},{"id":"mutant"},{"id":"marionette"},{"id":"vizier"},{"id":"organ_grinder"},{"id":"imp"}]
+[
+  { "id": "_meta", "author": "Chisel", "name": "Grind My Viz" },
+  { "id": "knight" },
+  { "id": "pixie" },
+  { "id": "empath" },
+  { "id": "dreamer" },
+  { "id": "steward" },
+  { "id": "oracle" },
+  { "id": "monk" },
+  { "id": "artist" },
+  { "id": "fisherman" },
+  { "id": "soldier" },
+  { "id": "ravenkeeper" },
+  { "id": "cannibal" },
+  { "id": "minstrel" },
+  { "id": "damsel" },
+  { "id": "puzzlemaster" },
+  { "id": "recluse" },
+  { "id": "mutant" },
+  { "id": "marionette" },
+  { "id": "vizier" },
+  { "id": "organ_grinder" },
+  { "id": "imp" }
+]
