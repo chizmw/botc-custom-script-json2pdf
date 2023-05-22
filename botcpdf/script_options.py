@@ -132,8 +132,12 @@ class ScriptOptions:
         if self.pdf_format == "easyprint":
             filename_slug += "_easyprint"
 
-            # these are only meaningful if easy print is enabled
+        if self.pdf_format == "sample":
+            filename_slug += "_showcase"
 
+        # these are only meaningful if easy print is enabled, or if we're
+        # using the sample format
+        if self.pdf_format in ("easyprint", "sample"):
             # we want to include the double sided option in the filename
             if self.double_sided:
                 filename_slug += "_2sided"
