@@ -23,7 +23,9 @@ logger.setLevel(logging.DEBUG)
 handler = logging.StreamHandler()
 handler.setLevel(logging.DEBUG)
 # create formatter and add it to the handlers
-formatter = logging.Formatter("%(levelname)s: %(name)s, line %(lineno)d: %(message)s")
+formatter = logging.Formatter(
+    "[lambda] %(levelname)s: %(name)s, line %(lineno)d: %(message)s"
+)
 handler.setFormatter(formatter)
 # add the handlers to logger
 logger.addHandler(handler)
