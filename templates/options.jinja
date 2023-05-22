@@ -6,17 +6,14 @@
 {%- endif %}
 
 {%- if script_options.pdf_format == "easyprint" %}
-    {%- set tmp = options.append('EasyPrintX') -%}
-    {% set multipage_activated = True %}
+    {%- set tmp = options.append('EasyPrint') -%}
 {%- endif %}
 
 {%- if script_options.pdf_format == "sample" %}
     {%- set tmp = options.append('Sample') -%}
-    {% set multipage_activated = True %}
 {%- endif %}
 
 {# if we have easyprint OR sample #}
-{# if script_options.pdf_format == "easyprint"  or script_options.pdf_format == "sample" #}
 {% if multipage_activated %}
     {# we only need to show these if we ARE doing EasyPrint/Sample #}
     {%- if script_options.double_sided -%}
