@@ -16,7 +16,7 @@ clean:
 POETRY=poetry
 POETRY_OK:=$(shell command -v $(POETRY) 2> /dev/null)
 PYSRC=botcpdf
-MAKE_PDF=bin/make-pdf --village-size sample
+MAKE_PDF=bin/make-pdf --format sample
 
 poetry:
 ifndef POETRY_OK
