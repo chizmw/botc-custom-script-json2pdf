@@ -38,6 +38,7 @@ class ScriptOptions:
             "simple_night_order": False,
             # sensible numbers for number of player reference sheets
             # web: playerCount
+            # - sample: 1
             # - teensyville: 7
             # - ravenswood_regular: 16
             # - ravenswood_max: 21
@@ -88,7 +89,9 @@ class ScriptOptions:
         # player_count must be an integer; we need to convert from the special
         # values (teenyville, ravenswood_regular, ravenswood_max) to the actual
         # numbers
-        if self.player_count == "teensyville":
+        if self.player_count == "sample":
+            self.player_count = 1
+        elif self.player_count == "teensyville":
             self.player_count = 7
         elif self.player_count == "ravenswood_regular":
             self.player_count = 16

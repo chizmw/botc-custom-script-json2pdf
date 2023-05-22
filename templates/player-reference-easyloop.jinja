@@ -1,4 +1,5 @@
-{% if script_options.easy_print_pdf %}
+{# if we have easyprint OR sample #}
+{% if multipage_activated %}
     {% set copies_needed = script_options.player_count %}
     {% else %}
     {% set copies_needed = 1 %}
@@ -7,7 +8,7 @@
 {% for i in range(copies_needed) %}
     {% include "player-reference.jinja" %}
 
-    {% if script_options.easy_print_pdf %}
+    {% if multipage_activated %}
       {# only include if we have the  double_sided option #}
       {% if script_options.double_sided %}
         {# only add night order summary to page if option enabled, otherwise this is just a blank page #}

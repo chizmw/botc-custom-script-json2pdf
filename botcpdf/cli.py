@@ -107,7 +107,7 @@ def make_pdf(
 
     options = {
         "paper_size": paper_size,
-        "format": scriptformat,
+        "pdf_format": scriptformat,
         "double_sided": doublesided,
         "player_night_order": playernightorder,
         "simple_night_order": simplenightorder,

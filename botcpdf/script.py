@@ -34,7 +34,8 @@ class ScriptMeta:
     def __init__(self, data: dict):
         """Initialize script metadata."""
 
-        xray_recorder.begin_subsegment("ScriptMeta.__init__")
+        if is_aws_env():
+            xray_recorder.begin_subsegment("ScriptMeta.__init__")
 
         # make sure we only use known fields; not all required
         if not set(data.keys()).issubset({"id", "name", "author", "logo"}):
@@ -44,7 +45,8 @@ class ScriptMeta:
         self.author = data.get("author", None)
         self.logo = data.get("logo", None)
 
-        xray_recorder.end_subsegment()
+        if is_aws_env():
+            xray_recorder.end_subsegment()
 
     def __repr__(self):
         return f"ScriptMeta(name='{self.name}', author='{self.author}', logo='{self.logo}')"  # pylint: disable=line-too-long
@@ -122,7 +124,8 @@ class Script:
     def _add_meta_roles(self) -> None:
         """Add meta roles to the night instructions."""
 
-        xray_recorder.begin_subsegment("Script._add_meta_roles")
+        if is_aws_env():
+            xray_recorder.begin_subsegment("Script._add_meta_roles")
 
         for role in self.role_data.get_first_night_meta_roles():
             self.first_night[role.first_night] = role
@@ -130,13 +133,15 @@ class Script:
         for role in self.role_data.get_other_night_meta_roles():
             self.other_nights[role.other_night] = role
 
-        xray_recorder.end_subsegment()
+        if is_aws_env():
+            xray_recorder.end_subsegment()
 
     @timeit
     def _process_jinxes(self) -> None:
         """Load the jinxes from the script data."""
 
-        xray_recorder.begin_subsegment("Script._process_jinxes")
+        if is_aws_env():
+            xray_recorder.begin_subsegment("Script._process_jinxes")
 
         jinxes = Jinxes()
 
@@ -159,7 +164,8 @@ class Script:
                         jinx_info = jinxes.get_jinx(slug, role.id_slug)
                         self.hate_pair[f"{slug}-{role.id_slug}"] = jinx_info.reason
 
-        xray_recorder.end_subsegment()
+        if is_aws_env():
+            xray_recorder.end_subsegment()
 
     def __str__(self):
         _str = ""
@@ -207,7 +213,10 @@ class Script:
     def _add_char(self, char: dict):
         """Add a character to the script."""
 
-        xray_recorder.begin_subsegment("Script._add_char." + char.get("id", "unknown"))
+        if is_aws_env():
+            xray_recorder.begin_subsegment(
+                "Script._add_char." + char.get("id", "unknown")
+            )
 
         # before we do anything at all we need to check for _meta in the data
         if char.get("id") == "_meta":
@@ -221,7 +230,8 @@ class Script:
                 )
                 self.title = self.meta.name
 
-            xray_recorder.end_subsegment()
+            if is_aws_env():
+                xray_recorder.end_subsegment()
             return
 
         # manage all the normal character data
@@ -236,7 +246,8 @@ class Script:
         if role.first_night != 0:
             # if there's already a character in the slot, raise an error
             if role.first_night in self.first_night:
-                xray_recorder.end_subsegment()
+                if is_aws_env():
+                    xray_recorder.end_subsegment()
                 raise ValueError(
                     f"Duplicate first night character in {role.first_night} position. "
                     f"{role} trying to replace {self.first_night[role.first_night]}"
@@ -248,12 +259,14 @@ class Script:
         if role.other_night != 0:
             # if there's already a character in the slot, raise an error
             if role.other_night in self.other_nights:
-                xray_recorder.end_subsegment()
+                if is_aws_env():
+                    xray_recorder.end_subsegment()
                 raise ValueError(f"Duplicate other night character: {role.other_night}")
 
             self.other_nights[role.other_night] = role
 
-        xray_recorder.end_subsegment()
+        if is_aws_env():
+            xray_recorder.end_subsegment()
 
     def _generate_css_extras(self, folder: str) -> None:
         # open templates/generated.css fo writing to
@@ -267,19 +280,22 @@ class Script:
 
     @timeit
     def _render_html(self, template_vars: dict) -> str:
-        xray_recorder.begin_subsegment("Script._render_html")
+        if is_aws_env():
+            xray_recorder.begin_subsegment("Script._render_html")
         env = Environment(
             loader=FileSystemLoader("templates"), extensions=["jinja2.ext.loopcontrols"]
         )
         template = env.get_template("script.jinja")
         html_out = template.render(template_vars)
 
-        xray_recorder.end_subsegment()
+        if is_aws_env():
+            xray_recorder.end_subsegment()
         return html_out
 
     @timeit
     def _render_pdf(self, html_out: str, this_folder: str) -> Tuple[str, str]:
-        xray_recorder.begin_subsegment("Script._render_pdf")
+        if is_aws_env():
+            xray_recorder.begin_subsegment("Script._render_pdf")
         # convert the HTML to PDF
         pdf_filename = self._pdf_filename_with_path(this_folder=this_folder)
 
@@ -297,7 +313,8 @@ class Script:
             optimize_size=(),
         )
 
-        xray_recorder.end_subsegment()
+        if is_aws_env():
+            xray_recorder.end_subsegment()
         return pdf_folder, pdf_filename
 
     @timeit
@@ -348,6 +365,8 @@ class Script:
             # options that can affect how the PDF is rendered
             "script_options": self.options,
         }
+
+        print("sending options to template: ", self.options)
 
         # make sure we have the generated css file
         self._generate_css_extras(generated_folder)
