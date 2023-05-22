@@ -84,7 +84,7 @@ def cli():
         ["sample", "teensyville", "ravenswood_regular", "ravenswood_traveler"],
         case_sensitive=False,
     ),
-    default="ravenswood_regular",
+    default="sample",
     help="guide the number of copies of the player "
     "reference sheet to generate. (--easyprint required)",
 )
