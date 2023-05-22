@@ -120,11 +120,9 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
             script_options["simple_night_order"] = False
 
     if option_value := multipart.get_field("scriptFormat"):
-        if option_value == "easyprint":
-            script_options["easy_print_pdf"] = True
-        else:
-            # default to standard
-            script_options["easy_print_pdf"] = False
+        script_options["pdf_format"] = option_value
+    else:
+        script_options["pdf_format"] = "sample"
 
     if option_value := multipart.get_field("printFormat"):
         if option_value == "doubleSided":
