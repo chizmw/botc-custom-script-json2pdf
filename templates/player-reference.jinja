@@ -37,3 +37,10 @@
 {%- endfor %}
 
 <div class="not-first-night">* Not on the first night</div>
+
+{# if we're a 'sample' we need to add a page break here - probably?! #}
+{%- if multipage_activated -%}
+  {%- if not loop.last %}
+  <p style="page-break-before: always" ></p>
+  {%- endif -%}
+{%- endif -%}
