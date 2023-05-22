@@ -21,8 +21,8 @@ def get_logger() -> logging.Logger:
     logger = logging.getLogger(__name__)
 
     # if we have any handlers then we've already configured the logger
-    if logger.hasHandlers():
-        return logger
+    # if logger.hasHandlers():
+    # return logger
 
     logger.setLevel(logging.DEBUG)
     # create console handler with a higher log level
