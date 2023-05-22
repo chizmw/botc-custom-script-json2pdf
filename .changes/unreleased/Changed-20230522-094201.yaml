@@ -1,0 +1,5 @@
+kind: Changed
+body: replace boolean easypdf option with 'pdf_format'
+time: 2023-05-22T09:42:01.555889+01:00
+custom:
+  GithubIssue: ""

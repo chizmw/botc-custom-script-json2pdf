@@ -23,11 +23,9 @@ class ScriptOptions:
             # we always want to set the paper size
             # web: paperSize
             "paper_size": "A4",
-            # easy print allows us to print the PDF in one job
-            # (not: here's the player instructions n-times; here's the night
-            # order once)
+            # scriptformat allows us to choose between the script formats
             # web: scriptFormat
-            "easy_print_pdf": True,
+            "pdf_format": "sample",
             # double sided printing is the default (requires easy_print_pdf)
             # web: printFormat
             "double_sided": True,
@@ -55,6 +53,18 @@ class ScriptOptions:
 
         self.options = self._default_options()
 
+        # village size / player_count of 'sample' is a special case
+        # we need to convert it to a number, and set some other options
+        # which may get overwritten by the options passed in, but that's ok
+        if self.options.get("pdf_format") == "sample":
+            self.logger.debug("pdf_format is sample; setting related options")
+            # we want easyprint, double sided, player night order, and not simple night order
+            self.options["double_sided"] = True
+            self.options["player_night_order"] = True
+            self.options["simple_night_order"] = False
+            # we want 1 player sheet - it's a short sample
+            self.options["player_count"] = 1
+
         # maybe overwrite defaults with preferred options
         if options is not None:
             # raise an error if options contains any unexpected keys, i.e. not
@@ -67,20 +77,9 @@ class ScriptOptions:
             self.options.update(options)
             self.logger.debug("self.options: %s", self.options)
 
-        # village size / player_count of 'sample' is a special case
-        # we need to convert it to a number, and set some other options
-        # which may get overwritten by the options passed in, but that's ok
-        if self.options.get("player_count") == "sample":
-            # we want easyprint, double sided, player night order, and not simple night order
-            self.options["easy_print_pdf"] = True
-            self.options["double_sided"] = True
-            self.options["player_night_order"] = True
-            self.options["simple_night_order"] = False
-            # we want 1 player sheet - it's a short sample
-            self.options["player_count"] = 1
-
+        # make sure we store the options as attributes
         self.paper_size = self.options.get("paper_size", "A4")
-        self.easy_print_pdf = self.options.get("easy_print_pdf", False)
+        self.pdf_format = self.options.get("pdf_format", "regular")
         self.double_sided = self.options.get("double_sided", False)
         self.player_night_order = self.options.get("player_night_order", False)
         self.simple_night_order = self.options.get("simple_night_order", False)
@@ -127,7 +126,7 @@ class ScriptOptions:
             filename_slug += "_compactnight"
 
         # we want to include the easy print option in the filename
-        if self.easy_print_pdf:
+        if self.pdf_format == "easyprint":
             filename_slug += "_easyprint"
 
             # these are only meaningful if easy print is enabled
