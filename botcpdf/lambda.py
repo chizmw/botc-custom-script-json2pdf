@@ -7,7 +7,6 @@ from typing import Any, Dict, Optional
 
 # https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-python-configuration.html
 from aws_xray_sdk.core import xray_recorder  # type: ignore
-from aws_xray_sdk.core import patch_all  # type: ignore
 
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from botcpdf.multipart import MultipartDecoder
@@ -17,34 +16,35 @@ from botcpdf.util import upload_pdf_to_s3
 from botcpdf.version import __version__
 
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-# create console handler with a higher log level
-handler = logging.StreamHandler()
-handler.setLevel(logging.DEBUG)
-# create formatter and add it to the handlers
-formatter = logging.Formatter(
-    "[lambda] %(levelname)s: %(name)s, line %(lineno)d: %(message)s"
-)
-handler.setFormatter(formatter)
-# add the handlers to logger
-logger.addHandler(handler)
+def get_logger() -> logging.Logger:
+    """Get a logger."""
+    logger = logging.getLogger(__name__)
 
+    # if we have any handlers then we've already configured the logger
+    if logger.hasHandlers():
+        return logger
 
-xray_recorder.configure(service="pdf-api")
-# PLUGINS = ("EC2Plugin", "ECSPlugin")
-# xray_recorder.configure(plugins=PLUGINS)
-patch_all()
-logging.getLogger("aws_xray_sdk").setLevel(logging.DEBUG)
+    logger.setLevel(logging.DEBUG)
+    # create console handler with a higher log level
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.DEBUG)
+    # create formatter and add it to the handlers
+    formatter = logging.Formatter(
+        "%(levelname)s: lambda: %(name)s, line %(lineno)d: %(message)s"
+    )
+    handler.setFormatter(formatter)
+    # add the handlers to logger
+    logger.addHandler(handler)
 
+    xray_recorder.configure(service="pdf-api")
+    logging.getLogger("aws_xray_sdk").setLevel(logging.DEBUG)
 
-# JSON output format, service name can be set by environment variable "POWERTOOLS_SERVICE_NAME"
-# LOGLEVEL = os.environ.get("LOGLEVEL", "WARNING").upper()
-# logger: Logger = Logger(service="botc-custom-script-json2pdf", level=LOGLEVEL)
+    return logger
 
 
 # pylint: disable=too-many-branches
 # pylint: disable=too-many-statements
+# pylint: disable=too-many-locals
 def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str, Any]:
     """Lambda function to render a PDF from a JSON script.
 
@@ -55,9 +55,9 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
     Returns:
         dict[str, Any]: Lambda response for API Gateway
     """
-    xray_recorder.begin_segment(__name__)
 
-    # logger.set_correlation_id(context.aws_request_id)
+    xray_recorder.begin_segment("botcpdf.lambda.render")
+    logger = get_logger()
 
     # pint our module name to make it easier to find in CloudWatch logs
     logger.debug("%s handler called", __name__)
@@ -149,6 +149,7 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
     script = Script(
         script_data=file_contents,
         options=script_options,
+        logger=logger,
     )
     logger.info("Rendering %s…", script.title)
 
@@ -167,9 +168,7 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
 
     try:
         # it would be nice to have this return the filepath, or content to return to the user
-        xray_recorder.begin_segment("script.render")
         pdf_path = script.render()
-        xray_recorder.end_segment()
 
         # save to S3
         if context is not None:
