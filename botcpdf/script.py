@@ -408,7 +408,7 @@ class Script:
             color=0x00FF00,
         )
         embed.add_embed_field(name="Paper Size", value=self.options.paper_size)
-        embed.add_embed_field(name="Easyprint", value=self.options.easy_print_pdf)
+        embed.add_embed_field(name="Format", value=self.options.pdf_format)
         embed.add_embed_field(name="Double Sided", value=self.options.double_sided)
         embed.add_embed_field(
             name="Player Night Order", value=self.options.player_night_order

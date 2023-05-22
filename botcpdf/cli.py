@@ -31,21 +31,16 @@ def cli():
     default="A Script Has No Name",
     help="name of the script to use if none in JSON metadata",
 )
-# easyprint / regular
 @click.option(
-    "-e",
-    "--easyprint",
-    "easyprint",
-    flag_value=True,
-    default=False,
-    help="enable document generation that's easier to print",
-)
-@click.option(
-    "-r",
-    "--regular",
-    "easyprint",
-    flag_value=False,
-    help="classic PDF format: one page for player reference, plus ST night order",
+    "-f",
+    "--format",
+    "scriptformat",
+    type=click.Choice(
+        ["sample", "regular", "easyprint"],
+        case_sensitive=False,
+    ),
+    default="sample",
+    help="script format to use for the PDF",
 )
 # double / single sided
 @click.option(
@@ -98,7 +93,7 @@ def cli():
 # pylint: disable=too-many-arguments
 def make_pdf(
     doublesided,
-    easyprint,
+    scriptformat,
     filename,
     paper_size,
     playernightorder,
@@ -112,7 +107,7 @@ def make_pdf(
 
     options = {
         "paper_size": paper_size,
-        "easy_print_pdf": easyprint,
+        "format": scriptformat,
         "double_sided": doublesided,
         "player_night_order": playernightorder,
         "simple_night_order": simplenightorder,
@@ -136,8 +131,8 @@ def make_pdf(
 
     # log the options
     logger.debug("Script name: %s", scriptname)
+    logger.debug("Script Format: %s", scriptformat)
     logger.debug("Paper size: %s", paper_size)
-    logger.debug("Easyprint: %s", easyprint)
     logger.debug("Double-sided: %s", doublesided)
     logger.debug("Player night order: %s", playernightorder)
     logger.debug("Simple night order: %s", simplenightorder)
