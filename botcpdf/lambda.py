@@ -212,6 +212,8 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
     }
     logger.info(response)
 
+    xray_recorder.end_segment()
+
     return response
 
 

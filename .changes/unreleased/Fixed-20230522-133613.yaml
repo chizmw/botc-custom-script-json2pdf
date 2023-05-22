@@ -1,0 +1,5 @@
+kind: Fixed
+body: add missing end_segment() for xray in lambda
+time: 2023-05-22T13:36:13.84057+01:00
+custom:
+  GithubIssue: ""
