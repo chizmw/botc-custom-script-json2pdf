@@ -64,7 +64,7 @@ def cli():
     "--player-night-order",
     "playernightorder",
     flag_value=True,
-    default=True,
+    default=False,
     help="show players the night order (--double-sided required)",
 )
 # show a simple night order
@@ -104,6 +104,10 @@ def make_pdf(
 ):
     """Use the JSON file at FILENAME to generate a PDF of a custom script."""
     scriptdata = load_data(filename)
+
+    # if we have 'sample' as the format, we need to enable player night order
+    if scriptformat == "sample":
+        playernightorder = True
 
     options = {
         "paper_size": paper_size,
