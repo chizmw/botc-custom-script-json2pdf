@@ -56,7 +56,6 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
         dict[str, Any]: Lambda response for API Gateway
     """
 
-    xray_recorder.begin_segment("botcpdf.lambda.render")
     logger = get_logger()
 
     # pint our module name to make it easier to find in CloudWatch logs
@@ -213,8 +212,6 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
     }
     logger.info(response)
 
-    xray_recorder.end_segment()
-
     return response
 
 
@@ -238,6 +235,8 @@ if __name__ == "__main__":
         },
     ]
 
+    xray_recorder.begin_segment("botcpdf.lambda.render")
     for fake_event in fake_events:
         render(fake_event, None)
+    xray_recorder.end_segment()
     sys.exit(1)
