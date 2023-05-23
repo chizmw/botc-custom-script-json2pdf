@@ -7,7 +7,6 @@ from typing import Any, Dict, Optional
 
 # https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-python-configuration.html
 from aws_xray_sdk.core import xray_recorder  # type: ignore
-from aws_xray_sdk.core import patch_all  # type: ignore
 
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from botcpdf.multipart import MultipartDecoder
@@ -17,32 +16,35 @@ from botcpdf.util import upload_pdf_to_s3
 from botcpdf.version import __version__
 
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-# create console handler with a higher log level
-handler = logging.StreamHandler()
-handler.setLevel(logging.DEBUG)
-# create formatter and add it to the handlers
-formatter = logging.Formatter("%(levelname)s: %(name)s, line %(lineno)d: %(message)s")
-handler.setFormatter(formatter)
-# add the handlers to logger
-logger.addHandler(handler)
+def get_logger() -> logging.Logger:
+    """Get a logger."""
+    logger = logging.getLogger(__name__)
 
+    # if we have any handlers then we've already configured the logger
+    # if logger.hasHandlers():
+    # return logger
 
-xray_recorder.configure(service="pdf-api")
-# PLUGINS = ("EC2Plugin", "ECSPlugin")
-# xray_recorder.configure(plugins=PLUGINS)
-patch_all()
-logging.getLogger("aws_xray_sdk").setLevel(logging.DEBUG)
+    logger.setLevel(logging.DEBUG)
+    # create console handler with a higher log level
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.DEBUG)
+    # create formatter and add it to the handlers
+    formatter = logging.Formatter(
+        "%(levelname)s: lambda: %(name)s, line %(lineno)d: %(message)s"
+    )
+    handler.setFormatter(formatter)
+    # add the handlers to logger
+    logger.addHandler(handler)
 
+    xray_recorder.configure(service="pdf-api")
+    logging.getLogger("aws_xray_sdk").setLevel(logging.DEBUG)
 
-# JSON output format, service name can be set by environment variable "POWERTOOLS_SERVICE_NAME"
-# LOGLEVEL = os.environ.get("LOGLEVEL", "WARNING").upper()
-# logger: Logger = Logger(service="botc-custom-script-json2pdf", level=LOGLEVEL)
+    return logger
 
 
 # pylint: disable=too-many-branches
 # pylint: disable=too-many-statements
+# pylint: disable=too-many-locals
 def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str, Any]:
     """Lambda function to render a PDF from a JSON script.
 
@@ -53,9 +55,8 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
     Returns:
         dict[str, Any]: Lambda response for API Gateway
     """
-    xray_recorder.begin_segment(__name__)
 
-    # logger.set_correlation_id(context.aws_request_id)
+    logger = get_logger()
 
     # pint our module name to make it easier to find in CloudWatch logs
     logger.debug("%s handler called", __name__)
@@ -120,11 +121,9 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
             script_options["simple_night_order"] = False
 
     if option_value := multipart.get_field("scriptFormat"):
-        if option_value == "easyprint":
-            script_options["easy_print_pdf"] = True
-        else:
-            # default to standard
-            script_options["easy_print_pdf"] = False
+        script_options["pdf_format"] = option_value
+    else:
+        script_options["pdf_format"] = "sample"
 
     if option_value := multipart.get_field("printFormat"):
         if option_value == "doubleSided":
@@ -149,6 +148,7 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
     script = Script(
         script_data=file_contents,
         options=script_options,
+        logger=logger,
     )
     logger.info("Rendering %s…", script.title)
 
@@ -167,9 +167,7 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
 
     try:
         # it would be nice to have this return the filepath, or content to return to the user
-        xray_recorder.begin_segment("script.render")
         pdf_path = script.render()
-        xray_recorder.end_segment()
 
         # save to S3
         if context is not None:
@@ -218,10 +216,27 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
 
 
 if __name__ == "__main__":
-    # pylint: disable=line-too-long
-    fake_event = {
-        "body": '------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="paperSize"\r\n\r\nA4\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="stNightInfo"\r\n\r\ntwosheet\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="scriptFormat"\r\n\r\neasyprint\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="printFormat"\r\n\r\ndoubleSided\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="playerNightInfo"\r\n\r\nyes\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="playerCount"\r\n\r\nravenswood_regular\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="file"; filename="Reptiles.json"\r\nContent-Type: application/json\r\n\r\n[{"id": "_meta", "logo": "https://i.ibb.co/y6xbjrC/Reptiles-logo.png", "name": "Reptiles!", "author": "Aero"}, {"id": "chef"}, {"id": "washerwoman"}, {"id": "librarian"}, {"id": "sailor"}, {"id": "general"}, {"id": "chambermaid"}, {"id": "snake_charmer"}, {"id": "flowergirl"}, {"id": "undertaker"}, {"id": "innkeeper"}, {"id": "philosopher"}, {"id": "fool"}, {"id": "tea_lady"}, {"id": "virgin"}, {"id": "saint"}, {"id": "sweetheart"}, {"id": "heretic"}, {"id": "drunk"}, {"id": "barber"}, {"id": "poisoner"}, {"id": "devils_advocate"}, {"id": "spy"}, {"id": "psychopath"}, {"id": "baron"}, {"id": "al-hadikhia"}, {"id": "storm_catcher"}, {"id": "djinn"}]\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY--\r\n',
-        "isBase64Encoded": False,
-    }
-    render(fake_event, None)
+    # these are based on a real event (Reptiles!) but tweaked to test behaviour with weird options
+    fake_events = [
+        {
+            # pylint: disable=line-too-long
+            "body": '------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="paperSize"\r\n\r\nA4\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="stNightInfo"\r\n\r\ntwosheet\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="scriptFormat"\r\n\r\neasyprint\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="printFormat"\r\n\r\ndoubleSided\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="playerNightInfo"\r\n\r\nyes\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="playerCount"\r\n\r\nravenswood_regular\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="file"; filename="FakeLambda1.json"\r\nContent-Type: application/json\r\n\r\n[{"id": "_meta", "logo": "https://i.ibb.co/y6xbjrC/Reptiles-logo.png", "name": "FakeLambda1", "author": "Adam"}, {"id": "chef"}, {"id": "washerwoman"}, {"id": "librarian"}, {"id": "sailor"}, {"id": "general"}, {"id": "chambermaid"}, {"id": "snake_charmer"}, {"id": "flowergirl"}, {"id": "undertaker"}, {"id": "innkeeper"}, {"id": "philosopher"}, {"id": "fool"}, {"id": "tea_lady"}, {"id": "virgin"}, {"id": "saint"}, {"id": "sweetheart"}, {"id": "heretic"}, {"id": "drunk"}, {"id": "barber"}, {"id": "poisoner"}, {"id": "devils_advocate"}, {"id": "spy"}, {"id": "psychopath"}, {"id": "baron"}, {"id": "al-hadikhia"}, {"id": "storm_catcher"}, {"id": "djinn"}]\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY--\r\n',
+            "isBase64Encoded": False,
+        },
+        {
+            # pylint: disable=line-too-long
+            "body": '------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="paperSize"\r\n\r\nA4\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="stNightInfo"\r\n\r\ntwosheet\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="scriptFormat"\r\n\r\nsample\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="printFormat"\r\n\r\ndoubleSided\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="playerNightInfo"\r\n\r\nyes\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="playerCount"\r\n\r\nravenswood_regular\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="file"; filename="FakeLambda2.json"\r\nContent-Type: application/json\r\n\r\n[{"id": "_meta", "logo": "https://i.ibb.co/y6xbjrC/Reptiles-logo.png", "name": "FakeLambda2", "author": "Beth"}, {"id": "chef"}, {"id": "washerwoman"}, {"id": "librarian"}, {"id": "sailor"}, {"id": "general"}, {"id": "chambermaid"}, {"id": "snake_charmer"}, {"id": "flowergirl"}, {"id": "undertaker"}, {"id": "innkeeper"}, {"id": "philosopher"}, {"id": "fool"}, {"id": "tea_lady"}, {"id": "virgin"}, {"id": "saint"}, {"id": "sweetheart"}, {"id": "heretic"}, {"id": "drunk"}, {"id": "barber"}, {"id": "poisoner"}, {"id": "devils_advocate"}, {"id": "spy"}, {"id": "psychopath"}, {"id": "baron"}, {"id": "al-hadikhia"}, {"id": "storm_catcher"}, {"id": "djinn"}]\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY--\r\n',
+            "isBase64Encoded": False,
+        },
+        {
+            # pylint: disable=line-too-long
+            "body": '------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="paperSize"\r\n\r\nA4\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="stNightInfo"\r\n\r\ntwosheet\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="scriptFormat"\r\n\r\nsample\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="printFormat"\r\n\r\ndoubleSided\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="playerNightInfo"\r\n\r\nyes\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="playerCount"\r\n\r\nravenswood_regular\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY\r\nContent-Disposition: form-data; name="file"; filename="FakeLambda3.json"\r\nContent-Type: application/json\r\n\r\n[{"id": "_meta", "logo": "https://i.ibb.co/y6xbjrC/Reptiles-logo.png", "name": "FakeLambda3", "author": "Caroline"}, {"id": "knight"}, {"id": "steward"}, {"id": "organgrinder"}, {"id": "vizier"}, {"id": "general"}, {"id": "chambermaid"}, {"id": "snake_charmer"}, {"id": "flowergirl"}, {"id": "undertaker"}, {"id": "innkeeper"}, {"id": "philosopher"}, {"id": "fool"}, {"id": "tea_lady"}, {"id": "virgin"}, {"id": "saint"}, {"id": "sweetheart"}, {"id": "heretic"}, {"id": "drunk"}, {"id": "barber"}, {"id": "poisoner"}, {"id": "devils_advocate"}, {"id": "spy"}, {"id": "psychopath"}, {"id": "baron"}, {"id": "al-hadikhia"}, {"id": "storm_catcher"}, {"id": "djinn"}]\r\n------WebKitFormBoundaryZ378ssyY1ve75AZY--\r\n',
+            "isBase64Encoded": False,
+        },
+    ]
+
+    xray_recorder.begin_segment("botcpdf.lambda.render")
+    for fake_event in fake_events:
+        render(fake_event, None)
+    xray_recorder.end_segment()
     sys.exit(1)

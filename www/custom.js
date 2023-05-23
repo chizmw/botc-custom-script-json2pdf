@@ -17,7 +17,10 @@ document.addEventListener('DOMContentLoaded', function () {
       /* find the .needsEasyPrint class elements */
       document.querySelectorAll('.needs-easyprint').forEach((dependant) => {
         /* if the selected value is "EasyPrint" */
-        if (event.target.value == 'easyprint') {
+        if (
+          event.target.value == 'easyprint' ||
+          event.target.value == 'sample'
+        ) {
           /* enable the element */
           dependant.disabled = false;
         } else {
@@ -27,14 +30,29 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
-    /* only force the 'regular' option if we don't have a value in localStorage */
+    /* do something sensible if we haven't got a value in localStorage */
     if (!localStorage.getItem('scriptFormat')) {
-      console.debug('✎ setting scriptFormat to regular');
+      console.debug('✎ setting scriptFormat to sample');
       // set to "regular" by default; it's not what Chisel uses, but it's
       // probably the least surprising
-      match.value = 'regular';
-      // trigger the change event to disable the other options
-      match.dispatchEvent(new Event('change'));
+      match.value = 'sample';
+
+      // selector and default value to choose
+      const defaults = {
+        '#scriptFormat': 'sample',
+        '#printFormat': 'doubleSided',
+        '#playerNightInfo': 'yes',
+        '#playerCount': 'sample',
+      };
+
+      // loop through the defaults and set them
+      for (const [selector, value] of Object.entries(defaults)) {
+        document.querySelector(selector).value = value;
+        // match the item, store the value in localStorage, and trigger a change event
+        let itemname = document.querySelector(selector).name;
+        localStorage.setItem(itemname, value);
+        document.querySelector(selector).dispatchEvent(new Event('change'));
+      }
     }
   });
 

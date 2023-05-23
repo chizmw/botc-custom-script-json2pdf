@@ -8,6 +8,7 @@ import os
 from typing import Optional
 import requests  # type: ignore
 from pdf2image import convert_from_path
+from aws_xray_sdk.core import xray_recorder  # type: ignore
 
 import boto3  # type: ignore
 from botocore.exceptions import NoCredentialsError  # type: ignore
@@ -235,5 +236,9 @@ def ensure_logger(logger) -> logging.Logger:
         # add the handlers to logger
         logger.addHandler(handler)
         logger.debug("No logger provided, creating one.")
+
+        if is_aws_env():
+            xray_recorder.configure(service="pdf-api")
+            logging.getLogger("aws_xray_sdk").setLevel(logging.DEBUG)
 
     return logger

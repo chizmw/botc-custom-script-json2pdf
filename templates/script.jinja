@@ -13,8 +13,11 @@
   </head>
   <body>
 
-    {%- set fabled = characters.pop('fabled') %}
+    {%- set fabled = characters.pop('fabled') -%}
     {%- set travelers = characters.pop('traveler') -%}
+    {%- if script_options.pdf_format == "easyprint"  or script_options.pdf_format == "sample" -%}
+    {%- set multipage_activated = True %}
+    {%- endif -%}
 
 
     <footer>
