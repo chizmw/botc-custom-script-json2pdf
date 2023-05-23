@@ -1,7 +1,6 @@
 """ Lambda function to render a PDF from a JSON script. """
 import sys
 import json
-import logging
 import traceback
 from typing import Any, Dict, Optional
 
@@ -12,34 +11,8 @@ from aws_lambda_powertools.utilities.typing import LambdaContext
 from botcpdf.multipart import MultipartDecoder
 
 from botcpdf.script import Script
-from botcpdf.util import upload_pdf_to_s3
+from botcpdf.util import ensure_logger, upload_pdf_to_s3
 from botcpdf.version import __version__
-
-
-def get_logger() -> logging.Logger:
-    """Get a logger."""
-    logger = logging.getLogger(__name__)
-
-    # if we have any handlers then we've already configured the logger
-    # if logger.hasHandlers():
-    # return logger
-
-    logger.setLevel(logging.DEBUG)
-    # create console handler with a higher log level
-    handler = logging.StreamHandler()
-    handler.setLevel(logging.DEBUG)
-    # create formatter and add it to the handlers
-    formatter = logging.Formatter(
-        "%(levelname)s: lambda: %(name)s, line %(lineno)d: %(message)s"
-    )
-    handler.setFormatter(formatter)
-    # add the handlers to logger
-    logger.addHandler(handler)
-
-    xray_recorder.configure(service="pdf-api")
-    logging.getLogger("aws_xray_sdk").setLevel(logging.DEBUG)
-
-    return logger
 
 
 # pylint: disable=too-many-branches
@@ -56,7 +29,7 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
         dict[str, Any]: Lambda response for API Gateway
     """
 
-    logger = get_logger()
+    logger = ensure_logger(None)
 
     # pint our module name to make it easier to find in CloudWatch logs
     logger.debug("%s handler called", __name__)
