@@ -21,9 +21,9 @@ class Role:
     name: str
     edition: Optional[str] = None
     team: str
-    first_night: int = 0
+    first_night_position: int = 0
     first_night_reminder: str
-    other_night: int = 0
+    other_night_position: int = 0
     other_night_reminder: str
     reminders: list[str]
     setup: bool
@@ -94,8 +94,25 @@ class Role:
         )
 
     def __str__(self):
+        # build up night order info, if we have it
+        night_order = ""
+        if self.first_night_position > 0:
+            night_order += f"first_night_position={self.first_night_position}"
+        if self.other_night_position > 0:
+            # if we already have a first night position, we'll add a comma
+            if night_order:
+                night_order += ", "
+            night_order += f"other_night_position={self.other_night_position}"
+        # if we have a night order, prefix it with a comma and a space
+        if night_order:
+            night_order = f", {night_order}"
+
+        # jinxes, if we don't have them (empty list) strigify as 'None'
+        if not self.jinxes:
+            jinxes = "None"
+
         # pylint: disable=line-too-long
-        return f"name: {self.name}, id: {self.id_slug}, team: {self.team}, edition: {self.edition}, jinxes: {self.jinxes}"
+        return f"Role(name='{self.name}', id_slug='{self.id_slug}', team='{self.team}', edition='{self.edition}', jinxes={jinxes}{night_order})"
 
     def get_edition_name(self) -> str:
         """Get the name of the edition."""
@@ -117,16 +134,16 @@ class RoleData:
         """Initialize role data."""
 
         # 'regular' role info from roles-bra1n.json
-        self.add_character_roles()
+        self._add_character_roles()
 
         # extra characters not in the main json (yet)
         self.add_extra_roles()
 
         # we'll add fabled roles to the same dict
-        self.add_fabled_roles()
+        self._add_fabled_roles()
 
         # Demon and Minion info, Dawn
-        self.add_meta_roles()
+        self._add_meta_roles()
 
         # work out values for first_night and other_night
         self.derive_night_values()
@@ -147,14 +164,17 @@ class RoleData:
 
     def derive_night_values(self):
         """Derive values for first_night and other_night"""
+        # the json data matches on "name" not "id"
         night_data = load_nightdata()
 
         # loop through firstNight list in night_data; we need the index as well
         for index, role_id in enumerate(night_data["firstNight"]):
+            print(f"role_id: {role_id}")
             # get the role object for the given id
             role = self.get_role(cleanup_role_id(role_id))
+            print(f"role after: {role}")
             # set the first_night attribute
-            role.first_night = index + 1
+            role.first_night_position = index + 1
 
         # loop through otherNight list in night_data; we need the index as well
         for index, role_id in enumerate(night_data["otherNight"]):
@@ -176,19 +196,19 @@ class RoleData:
 
         return self.roles[id_slug]
 
-    def add_character_roles(self) -> None:
+    def _add_character_roles(self) -> None:
         """Add character roles to the role data."""
         role_data = load_role_data()
         for role in role_data:
             self.roles[role["id"]] = Role(role)
 
-    def add_fabled_roles(self) -> None:
+    def _add_fabled_roles(self) -> None:
         """Add character roles to the role data."""
         role_data = load_fabled_data()
         for role in role_data:
             self.roles[role["id"]] = Role(role)
 
-    def add_meta_roles(self) -> None:
+    def _add_meta_roles(self) -> None:
         """Add meta roles to the role data.
 
         i.e. Minion/Demon info, Dawn, Dusk"""
