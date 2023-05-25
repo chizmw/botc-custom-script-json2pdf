@@ -42,8 +42,8 @@ class RoleData:
 
     def get_first_night_meta_roles(self) -> list[Role]:
         """Get a list of meta roles."""
-        return [self.roles["_minion"], self.roles["_demon"], self.roles["_dawn"]]
+        return [self.roles["MINION"], self.roles["DEMON"], self.roles["DAWN"]]
 
     def get_other_night_meta_roles(self) -> list[Role]:
         """Get a list of meta roles."""
-        return [self.roles["_dawn"], self.roles["_dusk"]]
+        return [self.roles["DAWN"], self.roles["DUSK"]]

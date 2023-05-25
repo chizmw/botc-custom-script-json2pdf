@@ -244,7 +244,7 @@ class Script:
         self.char_types[role.team].append(role)
 
         # if it's a first night character, add it to the first night list
-        if role.first_night_position != 0:
+        if role.first_night_position is not None and role.first_night_position != 0:
             # if there's already a character in the slot, raise an error
             if role.first_night_position in self.first_night:
                 if is_aws_env():
@@ -257,7 +257,7 @@ class Script:
             self.first_night[role.first_night_position] = role
 
         # if it's an other night character, add it to the other night list
-        if role.other_night_position != 0:
+        if role.other_night_position is not None and role.other_night_position != 0:
             # if there's already a character in the slot, raise an error
             if role.other_night_position in self.other_nights:
                 if is_aws_env():
@@ -369,7 +369,7 @@ class Script:
             "script_options": self.options,
         }
 
-        print("sending options to template: ", self.options)
+        self.logger.debug("sending options to template: %s", self.options)
 
         # make sure we have the generated css file
         self._generate_css_extras(generated_folder)

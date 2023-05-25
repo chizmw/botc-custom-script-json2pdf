@@ -28,14 +28,16 @@ class Role:
 
         # we expect these to always exist, so we don't need .get()
         self.id_slug = role_data["id"]
-        self.name = role_data["name"]
-        self.team = role_data["team"]
+        self.first_night_position = role_data.get("firstNight", None)
         self.first_night_reminder = role_data["firstNightReminder"]
+        self.name = role_data["name"]
+        self.other_night_position = role_data.get("otherNight", None)
         self.other_night_reminder = role_data.get("otherNightReminder", "")
         self.reminders = role_data.get("reminders", [])
         self.setup = role_data.get("setup", False)
+        self.team = role_data["team"]
 
-        # we need to knoiw if we're stylizing or not before we can store the
+        # we need to know if we're stylizing or not before we can store the
         # ability
         self.stylized = stylize
         self.ability = self.stylize(role_data["ability"])
@@ -88,9 +90,9 @@ class Role:
     def __str__(self):
         # build up night order info, if we have it
         night_order = ""
-        if self.first_night_position > 0:
+        if self.first_night_position is not None and self.first_night_position > 0:
             night_order += f"first_night_position={self.first_night_position}"
-        if self.other_night_position > 0:
+        if self.other_night_position is not None and self.other_night_position > 0:
             # if we already have a first night position, we'll add a comma
             if night_order:
                 night_order += ", "
