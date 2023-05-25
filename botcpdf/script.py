@@ -12,7 +12,8 @@ from weasyprint import HTML  # type: ignore
 from aws_xray_sdk.core import xray_recorder  # type: ignore
 from botcpdf.benchmark import timeit  # type: ignore
 from botcpdf.jinx import Jinxes  # type: ignore
-from botcpdf.role import Role, RoleData
+from botcpdf.role import Role
+from botcpdf.roledata import RoleData
 from botcpdf.script_options import ScriptOptions
 from botcpdf.util import cleanup_role_id, ensure_logger, is_aws_env, pdf2images  # type: ignore
 from botcpdf.version import __version__
@@ -128,10 +129,10 @@ class Script:
             xray_recorder.begin_subsegment("Script._add_meta_roles")
 
         for role in self.role_data.get_first_night_meta_roles():
-            self.first_night[role.first_night] = role
+            self.first_night[role.first_night_position] = role
 
         for role in self.role_data.get_other_night_meta_roles():
-            self.other_nights[role.other_night] = role
+            self.other_nights[role.other_night_position] = role
 
         if is_aws_env():
             xray_recorder.end_subsegment()
@@ -243,27 +244,29 @@ class Script:
         self.char_types[role.team].append(role)
 
         # if it's a first night character, add it to the first night list
-        if role.first_night != 0:
+        if role.first_night_position != 0:
             # if there's already a character in the slot, raise an error
-            if role.first_night in self.first_night:
+            if role.first_night_position in self.first_night:
                 if is_aws_env():
                     xray_recorder.end_subsegment()
                 raise ValueError(
-                    f"Duplicate first night character in {role.first_night} position. "
-                    f"{role} trying to replace {self.first_night[role.first_night]}"
+                    f"Duplicate first night character in {role.first_night_position} position. "
+                    f"{role} trying to replace {self.first_night[role.first_night_position]}"
                 )
 
-            self.first_night[role.first_night] = role
+            self.first_night[role.first_night_position] = role
 
         # if it's an other night character, add it to the other night list
-        if role.other_night != 0:
+        if role.other_night_position != 0:
             # if there's already a character in the slot, raise an error
-            if role.other_night in self.other_nights:
+            if role.other_night_position in self.other_nights:
                 if is_aws_env():
                     xray_recorder.end_subsegment()
-                raise ValueError(f"Duplicate other night character: {role.other_night}")
+                raise ValueError(
+                    f"Duplicate other night character: {role.other_night_position}"
+                )
 
-            self.other_nights[role.other_night] = role
+            self.other_nights[role.other_night_position] = role
 
         if is_aws_env():
             xray_recorder.end_subsegment()

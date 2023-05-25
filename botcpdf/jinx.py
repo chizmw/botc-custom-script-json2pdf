@@ -4,7 +4,7 @@
 # as we're experimenting with this we'll keep it simple and just
 # use {slug-jinxer}-{slug-jinxee} as the key
 
-from botcpdf.util import cleanup_role_id, load_jinxdata
+from botcpdf.util import cleanup_role_id, get_role_data
 
 
 class Jinx:
@@ -31,13 +31,15 @@ class Jinx:
 class Jinxes:
     """A representation of jinxes in a game"""
 
-    hatred: dict[str, dict] = {}
-
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize jinx data"""
-        json = load_jinxdata()
 
-        for jinx_block in json:
+        self.hatred: dict[str, dict] = {}
+
+        full_data = get_role_data()
+        jinx_data = full_data["jinxes"]
+
+        for jinx_block in jinx_data:
             for jinxed_char in jinx_block["jinx"]:
                 jinxer_id = cleanup_role_id(jinx_block["id"])
                 jinxed_id = cleanup_role_id(jinxed_char["id"])
@@ -45,17 +47,11 @@ class Jinxes:
 
                 jinx_info = Jinx(jinxer_id, jinxed_id, reason)
 
-                # the paired storage is for easy lookup of jinxes
-                # self.jinx_pair[f"{jinxer_id}-{jinxed_id}"] = jinx_info
-
                 # if we don't yet have a hatred entry for the jinxer, create it
                 if jinxer_id not in self.hatred:
                     self.hatred[jinxer_id] = {}
                 # add the jinxer to the bibble
                 self.hatred[jinxer_id][jinxed_id] = jinx_info
-
-    def __repr__(self) -> str:
-        return "⨷"
 
     def player_jinxed(self, jinxer_id: str, jinxed_id: str) -> bool:
         """Check if a player has been jinxed by another player"""

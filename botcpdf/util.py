@@ -31,6 +31,41 @@ def load_data(filename: str):
     return data
 
 
+def external_data_filename() -> str:
+    """Get the filename of the external data file."""
+    return "data/imported/roles-combined.json"
+
+
+def ensure_data_exists():
+    """Ensure the data exists."""
+    # we should have data/generate/roles-combined.json
+    # if we don't, we should fetch it from the remote source
+    if not os.path.exists(external_data_filename()):
+        # fetch the data
+        file_data = fetch_remote_data(
+            "https://raw.githubusercontent.com/chizmw/json-on-the-clocktower/"
+            "main/data/generated/roles-combined.json"
+        )
+
+        # write it to the file
+        with open(external_data_filename(), "w", encoding="utf-8") as json_file:
+            json.dump(file_data, json_file, indent=4, sort_keys=True)
+            # add a newline to the end of the file
+            json_file.write("\n")
+
+
+def get_role_data():
+    """Get the role data."""
+    # ensure the data exists
+    ensure_data_exists()
+
+    # load the data
+    with open(external_data_filename(), "r", encoding="utf-8") as json_file:
+        full_data = json.load(json_file)
+
+    return full_data
+
+
 def load_role_data():
     """Load role data from a JSON file."""
     return load_data("gameinfo/roles-bra1n.json")
