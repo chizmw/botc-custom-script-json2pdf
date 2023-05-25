@@ -1,8 +1,0 @@
-{
-  "id": "vizier",
-  "firstNight": 54,
-  "firstNightReminder": "Announce 'The Vizier is in play' and state which player they are.",
-  "name": "Vizier",
-  "team": "minion",
-  "ability": "All players know who you are. You can not die during the day. If good voted, you may choose to execute immediately."
-}
