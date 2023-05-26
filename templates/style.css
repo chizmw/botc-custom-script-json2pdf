@@ -400,3 +400,16 @@ h1.script-title {
   opacity: 0.8;
   padding-top: 8px;
 }
+
+.blank-page-qr-code {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50mm; /* Adjust the width of the image as needed */
+  height: 50mm; /* Adjust the height of the image as needed */
+}
+
+.blank-page-qr-code > img {
+  max-width: 125px;
+  max-height: 125px;
+}
