@@ -6,7 +6,7 @@ import shutil
 import sys
 import os
 from typing import Optional
-import requests  # type: ignore
+import requests
 from pdf2image import convert_from_path
 from aws_xray_sdk.core import xray_recorder  # type: ignore
 
