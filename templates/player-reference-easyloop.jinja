@@ -6,31 +6,8 @@
 {% endif %}
 
 {% for i in range(copies_needed) %}
+    {% set the_loop = loop %}
+
     {% include "player-reference.jinja" %}
-
-    {% if multipage_activated %}
-      {# only include if we have the  double_sided option #}
-      {% if script_options.double_sided %}
-        {# only add night order summary to page if option enabled, otherwise this is just a blank page #}
-        {% if script_options.player_night_order %}
-          <!-- a simplified night order for player's to see-->
-          {% include "simple-night-order.jinja" %}
-        {% else %}
-          <p style="page-break-before: always" ></p>
-        {%- endif -%}
-
-        <!-- if we aren't the last copy, another page break -->
-        {% if not loop.last %}
-          <p style="page-break-before: always" ></p>
-        {%- endif %}
-      {%- else -%}
-        {# "single-sided" #}
-        {# if we're a 'sample' we need to add a page break here - probably?! #}
-        {%- if not loop.last %}
-          <p style="page-break-before: always" ></p>
-        {%- endif -%}
-      {%- endif -%}
-    {%- else -%}
-      {# "regular" #}
-    {%- endif %}
+    {% include "player-reference-back-or-nothing.jinja" %}
 {% endfor %}
