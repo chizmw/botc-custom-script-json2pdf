@@ -366,18 +366,6 @@ header {
   padding-right: 10px;
 }
 
-h1.script-titleX {
-  color: #000;
-  font-family: 'Alegreya Sans SC', sans-serif;
-  font-size: 18pt;
-  font-weight: 900;
-  text-align: right;
-
-  display: inline-block;
-  margin-bottom: 0;
-  margin-left: 5px;
-}
-
 h1.script-title {
   color: #000;
   font-family: 'Alegreya Sans SC', sans-serif;
