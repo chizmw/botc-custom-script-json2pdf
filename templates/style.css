@@ -52,14 +52,17 @@ div.not-first-night {
 
 .centered-div {
   border-color: #dddddd;
-  border-style: dashed solid;
-  border-width: 1px;
+  border-style: solid dashed;
+  border-width: 3px;
   left: 50%;
   max-width: 40%;
   padding: 1rem;
   position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 30%;
+  transform: translate(-50%, -30%);
+
+  max-height: 1200px; /* Adjust the height value as needed */
+  overflow: auto;
 }
 
 footer .footer-left {
