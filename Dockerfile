@@ -60,7 +60,7 @@ ENTRYPOINT [ "/usr/local/bin/python", "-m", "awslambdaric" ]
 CMD [ "botcpdf.lambda.render" ]
 
 #COPY app.py ./
-COPY gameinfo ./gameinfo/
+COPY data ./data/
 COPY templates ./templates/
 COPY icons ./icons/
 
