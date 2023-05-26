@@ -52,14 +52,17 @@ div.not-first-night {
 
 .centered-div {
   border-color: #dddddd;
-  border-style: dashed solid;
-  border-width: 1px;
+  border-style: solid dashed;
+  border-width: 3px;
   left: 50%;
   max-width: 40%;
   padding: 1rem;
   position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 30%;
+  transform: translate(-50%, -30%);
+
+  max-height: 1200px; /* Adjust the height value as needed */
+  overflow: auto;
 }
 
 footer .footer-left {
@@ -157,7 +160,7 @@ header {
   font-size: 10pt;
   font-weight: 800;
 }
-.character-name- {
+.character-name-_meta {
   color: #000;
 }
 .character-name-night {
@@ -364,18 +367,6 @@ header {
   font-family: 'Alegreya Sans SC', sans-serif;
   font-size: 8px;
   padding-right: 10px;
-}
-
-h1.script-title {
-  color: #000;
-  font-family: 'Alegreya Sans SC', sans-serif;
-  font-size: 18pt;
-  font-weight: 900;
-  text-align: right;
-
-  display: inline-block;
-  margin-bottom: 0;
-  margin-left: 5px;
 }
 
 h1.script-title {

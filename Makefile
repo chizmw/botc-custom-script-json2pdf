@@ -78,16 +78,6 @@ ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/just-baked.pdf"
 endif
 
-# this is just a quick helper for my own use - Chisel
-refresh-json:
-	@curl -so gameinfo/roles-bra1n.json https://raw.githubusercontent.com/bra1n/townsquare/develop/src/roles.json
-	@curl -so gameinfo/roles-bra1n-fabled.json https://raw.githubusercontent.com/bra1n/townsquare/develop/src/fabled.json
-	@curl -so gameinfo/nightsheet.json https://script.bloodontheclocktower.com/data/nightsheet.json
-	@curl -so gameinfo/jinx.json https://script.bloodontheclocktower.com/data/jinx.json
-	@changie new -k "Changed" -b "Update gameinfo/*.json from assets"
-	@git add gameinfo/*.json .changes/unreleased/Changed-*.yaml
-	@git commit --no-verify -m "Update *.json from assets"
-
 next-version:
 	@poetry version patch
 	@git commit --no-verify -m "bump pyproject version to $$(poetry version --short)" pyproject.toml

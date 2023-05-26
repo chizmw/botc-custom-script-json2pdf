@@ -2,14 +2,6 @@
 
 from typing import Optional
 from botcpdf.jinx import Jinx
-from botcpdf.util import (
-    cleanup_role_id,
-    load_extra_roles,
-    load_fabled_data,
-    load_nightdata,
-    load_nightmeta,
-    load_role_data,
-)
 
 
 class Role:
@@ -21,9 +13,9 @@ class Role:
     name: str
     edition: Optional[str] = None
     team: str
-    first_night: int = 0
+    first_night_position: int = 0
     first_night_reminder: str
-    other_night: int = 0
+    other_night_position: int = 0
     other_night_reminder: str
     reminders: list[str]
     setup: bool
@@ -36,14 +28,16 @@ class Role:
 
         # we expect these to always exist, so we don't need .get()
         self.id_slug = role_data["id"]
-        self.name = role_data["name"]
-        self.team = role_data["team"]
+        self.first_night_position = role_data.get("firstNight", None)
         self.first_night_reminder = role_data["firstNightReminder"]
+        self.name = role_data["name"]
+        self.other_night_position = role_data.get("otherNight", None)
         self.other_night_reminder = role_data.get("otherNightReminder", "")
         self.reminders = role_data.get("reminders", [])
         self.setup = role_data.get("setup", False)
+        self.team = role_data["team"]
 
-        # we need to knoiw if we're stylizing or not before we can store the
+        # we need to know if we're stylizing or not before we can store the
         # ability
         self.stylized = stylize
         self.ability = self.stylize(role_data["ability"])
@@ -94,8 +88,25 @@ class Role:
         )
 
     def __str__(self):
+        # build up night order info, if we have it
+        night_order = ""
+        if self.first_night_position is not None and self.first_night_position > 0:
+            night_order += f"first_night_position={self.first_night_position}"
+        if self.other_night_position is not None and self.other_night_position > 0:
+            # if we already have a first night position, we'll add a comma
+            if night_order:
+                night_order += ", "
+            night_order += f"other_night_position={self.other_night_position}"
+        # if we have a night order, prefix it with a comma and a space
+        if night_order:
+            night_order = f", {night_order}"
+
+        # jinxes, if we don't have them (empty list) strigify as 'None'
+        if not self.jinxes:
+            jinxes = "None"
+
         # pylint: disable=line-too-long
-        return f"name: {self.name}, id: {self.id_slug}, team: {self.team}, edition: {self.edition}, jinxes: {self.jinxes}"
+        return f"Role(name='{self.name}', id_slug='{self.id_slug}', team='{self.team}', edition='{self.edition}', jinxes={jinxes}{night_order})"
 
     def get_edition_name(self) -> str:
         """Get the name of the edition."""
@@ -105,103 +116,3 @@ class Role:
             "bmr": "Bad Moon Rising",
         }
         return lookup.get(self.edition, "Unknown Edition")
-
-
-class RoleData:
-    # pylint: disable=too-few-public-methods
-    """Holds information for all the roles in the game"""
-
-    roles: dict[str, Role] = {}
-
-    def __init__(self):
-        """Initialize role data."""
-
-        # 'regular' role info from roles-bra1n.json
-        self.add_character_roles()
-
-        # extra characters not in the main json (yet)
-        self.add_extra_roles()
-
-        # we'll add fabled roles to the same dict
-        self.add_fabled_roles()
-
-        # Demon and Minion info, Dawn
-        self.add_meta_roles()
-
-        # work out values for first_night and other_night
-        self.derive_night_values()
-
-    def add_extra_roles(self) -> None:
-        """Add extra roles to the role data."""
-        role_data = load_extra_roles()
-        for role in role_data:
-            # if it already exists, we'll warn and preserve the existing data
-            if role["id"] in self.roles:
-                print(
-                    f"Warning: role with id '{role['id']}' already exists; "
-                    "preserving existing data"
-                )
-                continue
-
-            self.roles[role["id"]] = Role(role)
-
-    def derive_night_values(self):
-        """Derive values for first_night and other_night"""
-        night_data = load_nightdata()
-
-        # loop through firstNight list in night_data; we need the index as well
-        for index, role_id in enumerate(night_data["firstNight"]):
-            # get the role object for the given id
-            role = self.get_role(cleanup_role_id(role_id))
-            # set the first_night attribute
-            role.first_night = index + 1
-
-        # loop through otherNight list in night_data; we need the index as well
-        for index, role_id in enumerate(night_data["otherNight"]):
-            # get the role object for the given id
-            role = self.get_role(cleanup_role_id(role_id))
-            # set the other_night attribute
-            role.other_night = index + 1
-
-    def get_role(self, id_slug: str) -> Role:
-        """Get a role by ID."""
-
-        # if there's no role with the given id, raise an error
-        if id_slug not in self.roles:
-            # print the sorted list of role ids for debugging
-            raise ValueError(
-                f"Role with ID '{id_slug}' not found; "
-                f"""known role ids: {", ".join(sorted(self.roles.keys()))}"""
-            )
-
-        return self.roles[id_slug]
-
-    def add_character_roles(self) -> None:
-        """Add character roles to the role data."""
-        role_data = load_role_data()
-        for role in role_data:
-            self.roles[role["id"]] = Role(role)
-
-    def add_fabled_roles(self) -> None:
-        """Add character roles to the role data."""
-        role_data = load_fabled_data()
-        for role in role_data:
-            self.roles[role["id"]] = Role(role)
-
-    def add_meta_roles(self) -> None:
-        """Add meta roles to the role data.
-
-        i.e. Minion/Demon info, Dawn, Dusk"""
-
-        nightmeta = load_nightmeta()
-
-        for role in nightmeta:
-            self.roles[role["id"]] = Role(role)
-
-    def get_first_night_meta_roles(self) -> list[Role]:
-        """Get a list of meta roles."""
-        return [self.roles["_minion"], self.roles["_demon"], self.roles["_dawn"]]
-
-    def get_other_night_meta_roles(self) -> list[Role]:
-        """Get a list of meta roles."""
-        return [self.roles["_dawn"], self.roles["_dusk"]]

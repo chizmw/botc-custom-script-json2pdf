@@ -1,0 +1,5 @@
+kind: Fixed
+body: fix Docker build after gameinfo/ -> data/ changes
+time: 2023-05-26T08:59:28.463431+01:00
+custom:
+  GithubIssue: ""

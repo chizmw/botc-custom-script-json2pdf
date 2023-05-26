@@ -1,7 +1,0 @@
-{
-  "id": "knight",
-  "firstNightReminder": "Point to 2 non-Demon players.",
-  "name": "Knight",
-  "team": "townsfolk",
-  "ability": "You start knowing 2 players that are not the Demon."
-}

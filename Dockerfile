@@ -9,7 +9,7 @@
 # - https://github.com/Kozea/WeasyPrint/issues/1384#issuecomment-902620644
 
 ARG FUNCTION_DIR="/function"
-FROM python:3.10-bullseye as build-image
+FROM python:3.10-bullseye AS build-image
 RUN apt-get update && \
     apt-get install -y \
         --no-install-recommends \
@@ -60,7 +60,7 @@ ENTRYPOINT [ "/usr/local/bin/python", "-m", "awslambdaric" ]
 CMD [ "botcpdf.lambda.render" ]
 
 #COPY app.py ./
-COPY gameinfo ./gameinfo/
+COPY data ./data/
 COPY templates ./templates/
 COPY icons ./icons/
 
