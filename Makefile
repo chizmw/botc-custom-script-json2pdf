@@ -54,16 +54,19 @@ script-gmv-variations: TARGET:="Grind My Viz"
 script-gmv-variations: poetry
 # open the most recently generated pdf
 	$(MAKE_PDF) scripts/$(TARGET).json
+	open-pdf-to-page pdfs/just-baked.pdf 2
 # bog standard options ("sample")
 	$(MAKE_PDF) scripts/$(TARGET).json --format regular
+	open-pdf-to-page pdfs/just-baked.pdf 2
 # go for an easyprint layout, no other changes
 # should look pretty much like "sample"
 	$(MAKE_PDF) scripts/$(TARGET).json --format easyprint
+	open-pdf-to-page pdfs/just-baked.pdf 2
 # go for an easyprint layout, but with a non-sample village size
 	$(MAKE_PDF) scripts/$(TARGET).json --format easyprint --village-size ravenswood_regular
+	open-pdf-to-page pdfs/just-baked.pdf 2
 # go for an easyprint layout, but with a non-sample village size, show the night order to players
 	$(MAKE_PDF) scripts/$(TARGET).json --format easyprint --village-size ravenswood_regular --player-night-order
-# go for the regular/traditional layout
 	open-pdf-to-page pdfs/just-baked.pdf 2
 
 # this is slightly different to the above, in that it generates a pdf for each

@@ -1,0 +1,5 @@
+kind: Changed
+body: change 'make *-variations' to open each pdf
+time: 2023-05-26T16:37:33.481386+01:00
+custom:
+  GithubIssue: ""
