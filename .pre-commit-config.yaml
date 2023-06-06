@@ -54,20 +54,20 @@ repos:
       # - id: shfmt
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.79.1
+    rev: v1.80.0
     hooks:
       - id: terraform_fmt
       # - id: terraform_docs
 
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.31.0
+    rev: v1.32.0
     hooks:
       - id: yamllint
         args: [--format, parsable, --strict]
         exclude: ^.changes/unreleased
 
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.9.0.2
+    rev: v0.9.0.5
     hooks:
       - id: shellcheck
 

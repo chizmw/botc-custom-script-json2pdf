@@ -1,0 +1,5 @@
+kind: Changed
+body: auto-update precommit hook versions
+time: 2023-06-06T10:23:53.314446+01:00
+custom:
+  GithubIssue: ""
