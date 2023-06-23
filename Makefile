@@ -97,6 +97,9 @@ release: fmt lint changelog
 	@git tag v$$(poetry version --no-ansi --short)
 	@git push --tags
 
+fetch-combined-json:
+	@curl --silent --create-dirs -o data/imported/roles-combined.json https://raw.githubusercontent.com/chizmw/json-on-the-clocktower/main/data/generated/roles-combined.json
+
 grab-some-scripts:
 # make certain we have a scripts directory
 	@mkdir -p scripts
