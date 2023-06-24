@@ -13,7 +13,7 @@ from aws_xray_sdk.core import xray_recorder  # type: ignore
 import boto3  # type: ignore
 from botocore.exceptions import NoCredentialsError  # type: ignore
 from botocore.config import Config  # type: ignore
-from botcpdf.version import __version__
+from botcpdf.version import package_version
 
 
 def fetch_remote_data(url: str):
@@ -247,7 +247,7 @@ def upload_pdf_to_s3(pdf_file: str, aws_request_id: str) -> str:
     name, ext = os.path.splitext(basename)
 
     # we want the new filename to be: version, name, request id, and extension
-    pdfname = f"{__version__}-{name}-{aws_request_id}{ext}"
+    pdfname = f"{package_version}-{name}-{aws_request_id}{ext}"
 
     url = upload_to_s3(pdf_file, f"pdf/{pdfname}", basename)
 

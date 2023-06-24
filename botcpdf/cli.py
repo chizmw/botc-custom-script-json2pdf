@@ -3,7 +3,7 @@ import logging
 import click
 from botcpdf.script import Script
 from botcpdf.util import load_data
-from botcpdf.version import __version__
+from botcpdf.version import package_version
 
 context_settings = {"help_option_names": ["-h", "--help"], "max_content_width": 200}
 
@@ -145,7 +145,7 @@ def make_pdf(
     logger.info("Options: %s", options)
 
     # log our project version
-    logger.info("botcpdf version: %s", __version__)
+    logger.info("botcpdf version: %s", package_version)
 
     logger.info("Rendering script: %s…", scriptname)
     script = Script(
