@@ -1,0 +1,5 @@
+kind: Added
+body: use blocking concurrency with terraform-serverless-deploy workflow
+time: 2023-06-24T14:34:39.049831+01:00
+custom:
+  GithubIssue: ""
