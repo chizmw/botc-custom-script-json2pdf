@@ -34,7 +34,7 @@ lint: install-dev
 	@$(POETRY) run pylint $(PYSRC)
 
 test: install-dev
-	@$(POETRY) run python -m unittest -v
+	@$(POETRY) run poetry run py.test -v botcpdf/tests/
 
 
 # some quick helpers to (quickly) generate some pdfs
