@@ -458,14 +458,14 @@ class Script:
         )
         embed.add_embed_field(name="Paper Size", value=self.options.paper_size)
         embed.add_embed_field(name="Format", value=self.options.pdf_format)
-        embed.add_embed_field(name="Double Sided", value=self.options.double_sided)
+        embed.add_embed_field(name="Double Sided", value=str(self.options.double_sided))
         embed.add_embed_field(
-            name="Player Night Order", value=self.options.player_night_order
+            name="Player Night Order", value=str(self.options.player_night_order)
         )
         embed.add_embed_field(
-            name="Simple Night Order", value=self.options.simple_night_order
+            name="Simple Night Order", value=str(self.options.simple_night_order)
         )
-        embed.add_embed_field(name="Village Size", value=self.options.player_count)
+        embed.add_embed_field(name="Village Size", value=str(self.options.player_count))
 
         embed.set_footer(text=f"Arcane Scripts {__version__}")
         embed.set_timestamp()
