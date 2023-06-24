@@ -29,6 +29,10 @@ permissions:
   issues: write
   pull-requests: write
 
+concurrency:
+  group: terraform-matrix
+  cancel-in-progress: false
+
 jobs:
   terraform-matrix:
     name: Terraform Matrix
