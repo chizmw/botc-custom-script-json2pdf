@@ -1,4 +1,4 @@
 """ Version information for botcpdf. """
-from pkg_resources import get_distribution  # type: ignore
+import importlib.metadata
 
-__version__ = get_distribution("botc-json2pdf").__dict__.get("_version")
+package_version = importlib.metadata.version("botc-json2pdf")

@@ -16,7 +16,7 @@ from botcpdf.role import Role
 from botcpdf.roledata import RoleData
 from botcpdf.script_options import ScriptOptions
 from botcpdf.util import cleanup_role_id, ensure_logger, is_aws_env, pdf2images  # type: ignore
-from botcpdf.version import __version__
+from botcpdf.version import package_version
 
 
 class ScriptMeta:
@@ -467,7 +467,7 @@ class Script:
         )
         embed.add_embed_field(name="Village Size", value=str(self.options.player_count))
 
-        embed.set_footer(text=f"Arcane Scripts {__version__}")
+        embed.set_footer(text=f"Arcane Scripts {package_version}")
         embed.set_timestamp()
 
         webhook.add_embed(embed)
