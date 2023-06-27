@@ -1,0 +1,5 @@
+kind: Changed
+body: update ScriptOptions to use @property
+time: 2023-06-27T14:57:21.787467+01:00
+custom:
+  GithubIssue: ""

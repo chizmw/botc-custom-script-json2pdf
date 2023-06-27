@@ -15,13 +15,20 @@ class TestScriptOptions:
         assert isinstance(defaults, dict)
         # we should have 7 keys
         assert len(defaults.keys()) == 7
-        # we should have the expected keys, and default values
+        # we should have the expected keys, and default values; because this is
+        # test code, we're not bothered about pylint and the duplicate-code
+        # warning
+        # pylint: disable=duplicate-code
         expected_defaults = {
             "paper_size": "A4",
             "pdf_format": "sample",
             "double_sided": True,
             "player_night_order": True,
             "simple_night_order": False,
+            # we set a weird default paired with sample pdf_format
+            # so we can check that we both have it in the defaults and
+            # (later in other tests)
+            # verify that we override it correctly when 'sample' is set
             "player_count": 3,
             "filename": None,
         }
@@ -31,6 +38,7 @@ class TestScriptOptions:
                 key
                 in defaults.keys()
             )
+            #
             assert defaults[key] == value
 
     def test_multipart_init_no_options(self):
@@ -42,6 +50,9 @@ class TestScriptOptions:
         options.logger.debug("option keys: %s", options.__dict__.keys())
 
         # check we have the expected options set when we change nothing
+        # because this is test code, we're not bothered about pylint and the
+        # duplicate-code warning
+        # pylint: disable=duplicate-code
         expected_values = {
             "paper_size": "A4",
             "pdf_format": "sample",

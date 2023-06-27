@@ -16,21 +16,109 @@ class ScriptOptions:
         self.logger = ensure_logger(logger=logger)
 
         # make sure attributes "exist"
-        self.paper_size: str
-        self.pdf_format: str
-        self.double_sided: bool
-        self.player_night_order: int
-        self.simple_night_order: int
-        self.player_count: int
-        self.filename: Optional[str]
+        self.__paper_size: str
+        self.__pdf_format: str
+        self.__double_sided: bool
+        self.__player_night_order: int
+        self.__simple_night_order: int
+        self.__player_count: int
+        self.__filename: Optional[str]
         # this is where we store the defaults
-        self.option_defaults: dict[str, Any] = {}
+        self.__option_defaults: dict[str, Any] = {}
 
         # set the actual values from the defaults
         self._set_values_from_defaults()
 
         # process the incoming options
         self._process_options(option_overrides)
+
+    # PROPERTIES
+
+    @property
+    def paper_size(self) -> str:
+        """Return the paper size."""
+        return self.__paper_size
+
+    @paper_size.setter
+    def paper_size(self, value: str) -> None:
+        """Set the paper size."""
+        self.__paper_size = value
+
+    @property
+    def pdf_format(self) -> str:
+        """Return the pdf format."""
+        return self.__pdf_format
+
+    @pdf_format.setter
+    def pdf_format(self, value: str) -> None:
+        """Set the pdf format."""
+        self.logger.warning("pdf_format is being set to %s", value)
+        self.__pdf_format = value
+
+        if value == "sample":
+            self._set_pdf_sample_options()
+
+    @property
+    def double_sided(self) -> bool:
+        """Return the double sided setting."""
+        return self.__double_sided
+
+    @double_sided.setter
+    def double_sided(self, value: bool) -> None:
+        """Set the double sided setting."""
+        self.__double_sided = value
+
+    @property
+    def player_night_order(self) -> int:
+        """Return the player night order setting."""
+        return self.__player_night_order
+
+    @player_night_order.setter
+    def player_night_order(self, value: int) -> None:
+        """Set the player night order setting."""
+        self.__player_night_order = value
+
+    @property
+    def simple_night_order(self) -> int:
+        """Return the simple night order setting."""
+        return self.__simple_night_order
+
+    @simple_night_order.setter
+    def simple_night_order(self, value: int) -> None:
+        """Set the simple night order setting."""
+        self.__simple_night_order = value
+
+    @property
+    def player_count(self) -> int:
+        """Return the player count setting."""
+        return self.__player_count
+
+    @player_count.setter
+    def player_count(self, value: int) -> None:
+        """Set the player count setting."""
+        self.__player_count = value
+
+    @property
+    def filename(self) -> Optional[str]:
+        """Return the filename setting."""
+        return self.__filename
+
+    @filename.setter
+    def filename(self, value: Optional[str]) -> None:
+        """Set the filename setting."""
+        self.__filename = value
+
+    @property
+    def option_defaults(self) -> dict[str, Any]:
+        """Return the option defaults."""
+        return self.__option_defaults
+
+    @option_defaults.setter
+    def option_defaults(self, value: dict[str, Any]) -> None:
+        """Set the option defaults."""
+        self.__option_defaults = value
+
+    # METHODS
 
     def _default_options(self) -> dict:
         """Return a dict of default options."""
@@ -88,13 +176,20 @@ class ScriptOptions:
         # store them for easier access later
         self._set_default_options()
 
-        # loop through self.option_defaults
-        # and set the attributes on self
-        for key, value in self._default_options().items():
-            setattr(self, key, value)
+        # get the keys from self.option_defaults
+        # move 'pdf_format' to the end of the list
+        # so that it's set last, dealing with any craziness that we have in the
+        # defaults
+        keys = list(self.option_defaults.keys())
+        keys.remove("pdf_format")
+        keys.append("pdf_format")
 
-        # set anything special for pdf_format == 'sample'
-        self._set_pdf_sample_options()
+        # loop through the keys
+        for key in keys:
+            # get the value from self.option_defaults
+            value = self.option_defaults[key]
+            # set the attribute on self
+            setattr(self, key, value)
 
     def _process_options(self, option_overrides: Optional[dict]) -> None:
         """Process the options."""
@@ -119,7 +214,6 @@ class ScriptOptions:
             # which may get overwritten by the options passed in, but that's ok
             if option_overrides.get("pdf_format") == "sample":
                 self.pdf_format = "sample"
-                self._set_pdf_sample_options()
 
             # now we can set the options from the overrides by looping through
             # and setting the attributes
