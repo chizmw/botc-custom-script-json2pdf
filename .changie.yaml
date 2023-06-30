@@ -19,6 +19,8 @@ kinds:
     auto: patch
   - label: Security
     auto: patch
+  - label: Dependencies
+    auto: patch
 newlines:
   afterChange: 0
   afterChangelogHeader: 0
