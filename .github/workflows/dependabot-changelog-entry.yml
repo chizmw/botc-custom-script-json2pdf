@@ -63,7 +63,8 @@ jobs:
           changie new --body "${commit_summary}" --kind Dependencies --custom GithubIssue=${{github.event.pull_request.number}}
           git add .changes/unreleased/
           git commit -m "Add changelog entry for dependabot update: $commit_summary"
-          git push origin HEAD
+          git show
+          git push origin
         # yamllint enable rule:line-length
 
       # Find the PR associated with this push, if there is one.
