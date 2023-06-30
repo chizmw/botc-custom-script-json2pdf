@@ -1,5 +1,0 @@
-kind: Changed
-body: linkify issue/PR numbers in CHANGELOG
-time: 2023-06-30T21:50:16.166032+01:00
-custom:
-  GithubIssue: "145"
