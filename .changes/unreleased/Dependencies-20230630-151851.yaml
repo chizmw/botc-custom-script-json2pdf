@@ -1,0 +1,5 @@
+kind: Dependencies
+body: Update hashicorp/aws requirement from ~> 4.0 to ~> 5.6 in /terraform
+time: 2023-06-30T15:18:51.471195112Z
+custom:
+  GithubIssue: "138"
