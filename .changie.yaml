@@ -55,8 +55,7 @@ changeFormat: >-
     {{- if .Env.REPO_URL }}
       [#{{.Custom.GithubIssue}}]
       ({{.Env.REPO_URL}}/issues/{{.Custom.GithubIssue}})
-    {{- else}}
-      [#{{.Custom.GithubIssue}}]
+    {{- else }} [#{{.Custom.GithubIssue}}]
     {{- end}}
   {{- end}}
 
