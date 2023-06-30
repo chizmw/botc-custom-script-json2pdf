@@ -7,6 +7,11 @@ on:
     types: [opened, labeled]
     branches: [main]
 
+# only allow one of these to run at a time
+concurrency:
+  group: dependabot-change-entry
+  cancel-in-progress: false
+
 permissions:
   pull-requests: write
   issues: write
