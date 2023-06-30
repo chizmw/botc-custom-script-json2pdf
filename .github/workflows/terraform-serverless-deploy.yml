@@ -7,6 +7,14 @@ name: Terraform and Serverless Deployment
 on:
   pull_request:
     branches: [main]
+    # only if we've changed terraform/ or botcpdf/ directories
+    paths:
+      - botcpdf/**
+      - data/**
+      - icons/**
+      - templates/**
+      - terraform/**
+      - www/**
   push:
     tags:
       - '*'

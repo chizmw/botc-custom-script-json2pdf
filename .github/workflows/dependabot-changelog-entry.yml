@@ -55,6 +55,12 @@ jobs:
           $HOME/go/bin/changie --version
           echo "$HOME/go/bin" >> $GITHUB_PATH
 
+      - name: Set Environment Variables
+        # yamllint disable rule:line-length
+        run: |
+          echo "CHANGIE_REPO_URL=${{ github.event.repository.html_url }}" >> $GITHUB_ENV
+        # yamllint enable rule:line-length
+
       - name: Add changelog entry
         shell: bash
         # yamllint disable rule:line-length

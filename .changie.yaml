@@ -4,7 +4,6 @@ unreleasedDir: unreleased
 headerPath: header.tpl.md
 changelogPath: CHANGELOG.md
 versionExt: md
-versionFormat: '## {{.Version}} - {{.Time.Format "2006-01-02"}}'
 kindFormat: '### {{.Kind}}'
 kinds:
   - label: Added
@@ -44,8 +43,29 @@ custom:
     type: int
     optional: true
 
+# our changeFormat is a bit more complex than the default one
+# we want to add a link to the github issue if it's provided
+# and we want to link to any mentioned issues in the body.
+# Github doesn't treat '#123' as anything special in markdown files
+# so we need to add the link ourselves.
+# We'll use CHANGIE_REPO_URL to get the repo url if we have it, and construct a
+# link; otherwise we'll just use the issue number.
 changeFormat: >-
-  * {{.Body}}
-  {{- if not (eq .Custom.GithubIssue "")}}
-  [#{{.Custom.GithubIssue}}]
+  * {{.Body}} {{- if not (eq .Custom.GithubIssue "")}}
+    {{- if .Env.REPO_URL }}
+      [#{{.Custom.GithubIssue}}]
+      ({{.Env.REPO_URL}}/issues/{{.Custom.GithubIssue}})
+    {{- else }} [#{{.Custom.GithubIssue}}]
+    {{- end}}
   {{- end}}
+
+# similar for linking the release in versionFormat
+# we'll use CHANGIE_REPO_URL to get the repo url if we have it, and construct a
+# link; otherwise we'll just use the version.
+versionFormat: >-
+  ## {{- if .Env.REPO_URL }}
+    [v{{.Version}}]({{.Env.REPO_URL}}/releases/tag/{{.Version}})
+  {{- else }}
+    v{{.Version}}
+  {{- end }}
+  ({{.Time.Format "2006-01-02"}})

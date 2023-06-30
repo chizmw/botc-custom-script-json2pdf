@@ -1,0 +1,5 @@
+kind: Changed
+body: only terraform/sls deploy for PR if certain files are changed
+time: 2023-06-30T21:57:14.82526+01:00
+custom:
+  GithubIssue: ""
