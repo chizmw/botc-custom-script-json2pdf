@@ -1,0 +1,5 @@
+kind: Dependencies
+body: 'WiP: add changelog fragment for dependabot PRs'
+time: 2023-06-30T15:08:46.431473507Z
+custom:
+  GithubIssue: "139"
