@@ -1,0 +1,80 @@
+---
+name: Add Change Entry For Dependabot Update
+
+# yamllint disable rule:truthy
+on:
+  pull_request:
+    types: [opened, labeled]
+    branches: [main]
+
+permissions:
+  pull-requests: write
+  issues: write
+  repository-projects: write
+
+jobs:
+  dependabot-change-entry:
+    runs-on: ubuntu-latest
+    # yamllint disable-line rule:line-length
+    if: ${{ (github.actor == 'dependabot[bot]') || (github.event.label.name == 'dependabot-run-comment') }}
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      # The following properties are now available:
+      #  - steps.metadata.outputs.dependency-names
+      #  - steps.metadata.outputs.dependency-type
+      #  - steps.metadata.outputs.update-type
+
+      - uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: ${{secrets.CHISEL_GITHUB_TOKEN}}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          # yamllint disable-line rule:line-length
+          ref: ${{ github.event.pull_request.head.ref || github.event.repository.default_branch }}
+          fetch-depth: 0
+          token: ${{ secrets.CHISEL_GITHUB_TOKEN }}
+
+      - run: git config user.name "GitHub Actions"
+      - run: git config user.email "actions@users.noreply.github.com"
+
+      - name: Install changie
+        shell: bash
+        run: |
+          go install github.com/miniscruff/changie@v1.12.0
+          $HOME/go/bin/changie --version
+          echo "$HOME/go/bin" >> $GITHUB_PATH
+
+      - name: Add changelog entry
+        shell: bash
+        # yamllint disable rule:line-length
+        run: |
+          commit_summary="$(git log --pretty=format:%s -n1)"
+          changie new --body "${commit_summary}" --kind Dependencies --custom GithubIssue=${{github.event.pull_request.number}}
+          git add .changes/unreleased/
+          git commit -m "Add changelog entry for dependabot update: $commit_summary"
+          git push origin HEAD
+        # yamllint enable rule:line-length
+
+      # Find the PR associated with this push, if there is one.
+      - uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+        with:
+          # Can be "open", "closed", or "all".  Defaults to "open".
+          state: open
+
+      # This will echo "Your PR is 7", or be skipped if there is no current PR.
+      - run: echo "Your PR is ${PR}"
+        if: success() && steps.findPr.outputs.number
+        env:
+          PR: ${{ steps.findPr.outputs.pr }}
+
+      - uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.CHISEL_GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.findPr.outputs.pr }}
