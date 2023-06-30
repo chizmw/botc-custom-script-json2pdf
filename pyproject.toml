@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "botc-json2pdf"
-version = "0.2.35"
+version = "0.2.36"
 description = ""
 authors = ["Chisel <chisel@malik-wright.uk>"]
 readme = "README.md"
