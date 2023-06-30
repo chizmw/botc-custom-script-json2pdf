@@ -59,12 +59,21 @@ jobs:
         shell: bash
         # yamllint disable rule:line-length
         run: |
-          commit_summary="$(git log --pretty=format:%s -n1)"
+          set -x
+          # we want to use the first commit in the branch, as this will be the
+          # one created by dependabot
+          commit_summary="$(git log --pretty=format:%s $(git merge-base HEAD origin/${{github.event.repository.default_branch}})..HEAD | tail -1)"
+          # abort if body is whitespace only
+          if [[ -z "${commit_summary// }" ]]; then
+              echo "Commit summary is empty, aborting"
+              exit 64
+          fi
           changie new --body "${commit_summary}" --kind Dependencies --custom GithubIssue=${{github.event.pull_request.number}}
           git add .changes/unreleased/
+          git diff --staged
           git commit -m "Add changelog entry for dependabot update: $commit_summary"
           git show
-          git push origin
+          git push origin HEAD:${{ github.event.pull_request.base.ref }}
         # yamllint enable rule:line-length
 
       # Find the PR associated with this push, if there is one.
@@ -81,6 +90,8 @@ jobs:
           PR: ${{ steps.findPr.outputs.pr }}
 
       - uses: peter-evans/enable-pull-request-automerge@v3
+        # && false to make sure this doesn't run for now
+        if: success() && steps.findPr.outputs.number && false
         with:
           token: ${{ secrets.CHISEL_GITHUB_TOKEN }}
           pull-request-number: ${{ steps.findPr.outputs.pr }}
