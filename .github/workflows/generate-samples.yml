@@ -54,7 +54,7 @@ jobs:
 
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v5
         with:
           # yamllint disable-line rule:line-length
           title: Generate PNG sample images for ${{env.BOTC_TAG || 'unknown'}} [auto-generated]
