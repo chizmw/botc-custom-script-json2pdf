@@ -7,6 +7,11 @@ on:
     types: [opened, labeled]
     branches: [main]
 
+# only allow one of these to run at a time
+concurrency:
+  group: dependabot-change-entry
+  cancel-in-progress: false
+
 permissions:
   pull-requests: write
   issues: write
@@ -58,7 +63,8 @@ jobs:
           changie new --body "${commit_summary}" --kind Dependencies --custom GithubIssue=${{github.event.pull_request.number}}
           git add .changes/unreleased/
           git commit -m "Add changelog entry for dependabot update: $commit_summary"
-          git push origin HEAD
+          git show
+          git push origin
         # yamllint enable rule:line-length
 
       # Find the PR associated with this push, if there is one.
