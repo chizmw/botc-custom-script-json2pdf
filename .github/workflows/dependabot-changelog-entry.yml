@@ -1,0 +1,75 @@
+---
+name: Add Change Entry For Dependabot Update
+
+# yamllint disable rule:truthy
+on:
+  pull_request_target:
+    types: [opened, labeled]
+    branches: [main]
+
+permissions:
+  pull-requests: write
+  issues: write
+  repository-projects: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    # yamllint disable-line rule:line-length
+    if: ${{ (github.actor == 'dependabot[bot]') || (github.event.label.name == 'dependabot-run-comment') }}
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      # The following properties are now available:
+      #  - steps.metadata.outputs.dependency-names
+      #  - steps.metadata.outputs.dependency-type
+      #  - steps.metadata.outputs.update-type
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: 1.5.1
+
+      - uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: ${{secrets.CHISEL_GITHUB_TOKEN}}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          # yamllint disable-line rule:line-length
+          ref: ${{ github.event.pull_request.head.ref || github.event.repository.default_branch }}
+          fetch-depth: 0
+          token: ${{ secrets.CHISEL_GITHUB_TOKEN }}
+
+      - name: Install changie
+        shell: bash
+        run: |
+          go install github.com/miniscruff/changie@v1.12.0
+          $HOME/go/bin/changie --version
+          echo "$HOME/go/bin" >> $GITHUB_PAT
+
+      - name: Add changelog entry
+        shell: bash
+        # yamllint disable rule:line-length
+        run: |
+          commit_summary="$(git log --pretty=format:%s -n1)"
+          changie new --body "${commit_summary}\n${{steps.metadata.outputs.dependency-names}}" --kind dependabot
+          git add .changes/unreleased/
+          git commit -m "Add changelog entry for dependabot update: $commit_summary"
+          git push origin HEAD
+        # yamllint enable rule:line-length
+
+      - name: Enable auto-merge for Dependabot PRs
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
