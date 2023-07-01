@@ -63,9 +63,9 @@ changeFormat: >-
 # we'll use CHANGIE_REPO_URL to get the repo url if we have it, and construct a
 # link; otherwise we'll just use the version.
 versionFormat: >-
-  ## {{- if .Env.REPO_URL }}
+  ## {{ if .Env.REPO_URL -}}
     [v{{.Version}}]({{.Env.REPO_URL}}/releases/tag/{{.Version}})
-  {{- else }}
+  {{- else -}}
     v{{.Version}}
   {{- end }}
   ({{.Time.Format "2006-01-02"}})
