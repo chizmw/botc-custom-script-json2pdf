@@ -1,0 +1,5 @@
+kind: Fixed
+body: fix versionFormat in .changie.yml (+retro fix 0.2.36)
+time: 2023-07-01T15:42:34.294105+01:00
+custom:
+  GithubIssue: ""

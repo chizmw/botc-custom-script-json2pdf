@@ -54,6 +54,12 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.CHISEL_GITHUB_TOKEN }}
 
+      - name: Set Environment Variables
+        # yamllint disable rule:line-length
+        run: |
+          echo "CHANGIE_REPO_URL=${{ github.event.repository.html_url }}" >> $GITHUB_ENV
+        # yamllint enable rule:line-length
+
       - name: Install changie
         shell: bash
         run: |
