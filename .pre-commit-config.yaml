@@ -32,8 +32,8 @@ repos:
     rev: v0.34.0
     hooks:
       - id: markdownlint
-        args:
-          [--ignore, .changes/*md, --ignore, CHANGELOG.md, --ignore, .changeset]
+        # yamllint disable rule:line-length
+        args: [--ignore, .changes/*md, --ignore, CHANGELOG.md, --ignore, .changeset]
 
   - repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 3.0.0
