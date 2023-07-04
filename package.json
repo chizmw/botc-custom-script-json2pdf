@@ -1,6 +1,6 @@
 {
   "name": "botc-custom-script-json2pdf",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "GPL-3.0",
   "dependencies": {
     "@changesets/changelog-github": "^0.4.8",

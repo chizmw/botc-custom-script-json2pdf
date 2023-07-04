@@ -1,5 +1,11 @@
 # botc-custom-script-json2pdf
 
+## 0.0.2
+
+### Patch Changes
+
+- use changie tool
+
 ## 0.0.1
 
 ### Patch Changes
