@@ -1,5 +1,0 @@
-kind: Dependencies
-body: Bump pypdf from 3.11.1 to 3.12.1
-time: 2023-07-10T15:46:29.259960651Z
-custom:
-  GithubIssue: "155"
