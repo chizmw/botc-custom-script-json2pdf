@@ -35,7 +35,7 @@ jobs:
 
       - uses: de-vri-es/setup-git-credentials@v2
         with:
-          credentials: ${{secrets.GITHUB_TOKEN}}
+          credentials: ${{secrets.CHISEL_GITHUB_TOKEN}}
 
       - name: Checkout
         uses: actions/checkout@v3
@@ -43,7 +43,7 @@ jobs:
           # yamllint disable-line rule:line-length
           ref: ${{ github.event.pull_request.head.ref || github.event.repository.default_branch }}
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CHISEL_GITHUB_TOKEN }}
 
       - run: git config user.name "GitHub Actions"
       - run: git config user.email "actions@users.noreply.github.com"
@@ -99,5 +99,5 @@ jobs:
         # && false to make sure this doesn't run for now
         if: success() && steps.findPr.outputs.number && false
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CHISEL_GITHUB_TOKEN }}
           pull-request-number: ${{ steps.findPr.outputs.pr }}
