@@ -13,14 +13,20 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   MY_GITHUB_TOKEN: ${{ secrets.CHISEL_GITHUB_TOKEN }}
 
+# reset the permissions to the default
+permissions: {}
+
 jobs:
   add-to-project:
     name: Add issue to project
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      repository-projects: write
     steps:
       - uses: actions/add-to-project@v0.5.0
         with:
           # You can target a project in a different organization
           # to the issue
           project-url: https://github.com/users/chizmw/projects/1
-          github-token: ${{ secrets.CHISEL_GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
