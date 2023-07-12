@@ -21,17 +21,14 @@ on:
 
 # only allow one workflow to run at a time
 concurrency:
-  group: terraform-serverless
+  group: terraform-matrix
+  cancel-in-progress: false
 
 permissions:
   id-token: write
   contents: read
   issues: write
   pull-requests: write
-
-concurrency:
-  group: terraform-matrix
-  cancel-in-progress: false
 
 jobs:
   terraform-matrix:
