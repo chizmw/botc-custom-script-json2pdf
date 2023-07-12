@@ -42,7 +42,7 @@ jobs:
         if: always() # run this step even if previous step failed
         with:
           name: JUnit Tests # Name of the check run which will be created
-          path: test-results.xml
+          path: ${{ github.workspace }}/test-results.xml
           reporter: java-junit # Format of test results
 
       - name: Surface failing tests
@@ -53,7 +53,7 @@ jobs:
           # wildcard
           # patterns to process.
           # See @actions/glob for supported patterns.
-          path: test-results.xml
+          path: ${{ github.workspace }}/test-results.xml
 
           # Add a summary of the results at the top of the report
           # Default: true
