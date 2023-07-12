@@ -165,8 +165,3 @@ class TestJsonData:
             assert (
                 role.edition == test["expected_edition"]
             ), f"role: {role} does not have expected edition: {test['expected_edition']}"
-
-    def test_force_failure(self):
-        """Test that a failure is forced."""
-
-        assert False
