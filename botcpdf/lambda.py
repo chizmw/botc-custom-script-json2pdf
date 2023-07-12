@@ -12,7 +12,7 @@ from botcpdf.multipart import MultipartDecoder
 
 from botcpdf.script import Script
 from botcpdf.util import ensure_logger, upload_pdf_to_s3
-from botcpdf.version import __version__
+from botcpdf.version import package_version
 
 
 # pylint: disable=too-many-branches
@@ -128,7 +128,7 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
     # start with the common header information
     # we will ADD to this as required
     headers = {
-        "x-botc-json2pdf-version": __version__,
+        "x-botc-json2pdf-version": package_version,
         # we might want to improve this, but I believe this resolves the CORS console error
         # as APIG doesn"t provide headers here, just passes on what we give it
         # https://dev.to/aws-builders/your-complete-api-gateway-and-cors-guide-11jb
@@ -179,7 +179,7 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
             {
                 "url": url,
                 "script_name": script.title,
-                "version": __version__,
+                "version": package_version,
             }
         ),
     }

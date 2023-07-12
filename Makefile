@@ -34,8 +34,10 @@ lint: install-dev
 	@$(POETRY) run pylint $(PYSRC)
 
 test: install-dev
-	@$(POETRY) run python -m unittest -v
+	@$(POETRY) run poetry run pytest -v --junit-xml=test-results.xml botcpdf/tests/
 
+test-json: install-dev
+	@$(POETRY) run poetry run pytest -v botcpdf/tests/test_external_json.py
 
 # some quick helpers to (quickly) generate some pdfs
 script-tb: TARGET:="Trouble Brewing"

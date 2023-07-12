@@ -1,0 +1,5 @@
+kind: Fixed
+body: use 'pytest' not 'py.test'
+time: 2023-06-27T14:58:10.510115+01:00
+custom:
+  GithubIssue: ""

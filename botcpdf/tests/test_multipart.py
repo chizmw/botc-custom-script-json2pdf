@@ -1,5 +1,4 @@
 """Tests for botcpdf.multipart module."""
-import unittest
 
 from botcpdf.multipart import MultipartDecoder
 
@@ -19,42 +18,45 @@ MULTIPART_DATA = (
 )
 
 
-class TestMultipart(unittest.TestCase):
+class TestMultipart:
     """Tests for botcpdf.multipart module."""
 
     def test_multipart_init(self):
         """Test MultipartDecoder initialization."""
 
         # MULTIPART_DATA is a bytes object; check that we do actually have bytes
-        self.assertIsInstance(MULTIPART_DATA, bytes)
+        assert isinstance(MULTIPART_DATA, bytes)
 
         multipart = MultipartDecoder(MULTIPART_DATA)
-        self.assertEqual(multipart.boundary, "----WebKitFormBoundaryaJzDFsBAWm255fSZ")
+        assert multipart.boundary is not None
+        assert multipart.boundary == "----WebKitFormBoundaryaJzDFsBAWm255fSZ"
 
         # the boundary should be a string, not bytes
-        self.assertIsInstance(multipart.boundary, str)
+        assert isinstance(multipart.boundary, str)
 
-        self.assertEqual(
-            multipart.content_type,
-            "multipart/form-data; boundary=----WebKitFormBoundaryaJzDFsBAWm255fSZ",
+        assert (
+            multipart.content_type
+            == "multipart/form-data; boundary=----WebKitFormBoundaryaJzDFsBAWm255fSZ"
         )
 
         # we should have a field paperSize with a value Letter
-        self.assertEqual(multipart.get_field("paperSize"), "Letter")
+        assert multipart.get_field("paperSize") == "Letter"
 
         # the paperSize field should be a string, not bytes
-        self.assertIsInstance(multipart.get_field("paperSize"), str)
+        assert isinstance(multipart.get_field("paperSize"), str)
 
         # we should have a file file with a name Half of the 108.json
         filename = "Half of the 108.json"
-        self.assertEqual(multipart.get_file(filename).get("name"), filename)
+        assert multipart.get_file(filename).get("name") == filename
 
         # the file name should be a string, not bytes
-        self.assertIsInstance(multipart.get_file(filename).get("name"), str)
+        assert isinstance(multipart.get_file(filename).get("name"), str)
 
         # get_file_names should return a list of strings; with our data we
         # should have one item in the list with a value of Half of the 108.json
-        self.assertEqual(multipart.get_file_names(), [filename])
+        assert isinstance(multipart.get_file_names(), list)
+        assert len(multipart.get_file_names()) == 1
+        assert multipart.get_file_names()[0] == filename
 
     def test_lambda_behaviour(self):
         """Test that the lambda behaviour works as expected"""
@@ -67,21 +69,21 @@ class TestMultipart(unittest.TestCase):
 
         multipart = MultipartDecoder(event["body"])
         # multipart should be a MultipartDecoder object
-        self.assertIsInstance(multipart, MultipartDecoder)
+        assert isinstance(multipart, MultipartDecoder)
 
         uploaded_files = multipart.get_file_names()
         # uploaded_files should be a list
-        self.assertIsInstance(uploaded_files, list)
+        assert isinstance(uploaded_files, list)
 
         file_info = multipart.get_file(uploaded_files[0])
         # file_info should be a dict
-        self.assertIsInstance(file_info, dict)
+        assert isinstance(file_info, dict)
 
         # grab some info about the file
         file_name = file_info["name"]
         file_contents = file_info["json"]
 
         # file_name should be a string
-        self.assertIsInstance(file_name, str)
+        assert isinstance(file_name, str)
         # file_contents should be a json object
-        self.assertIsInstance(file_contents, list)
+        assert isinstance(file_contents, list)
