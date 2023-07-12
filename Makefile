@@ -36,6 +36,8 @@ lint: install-dev
 test: install-dev
 	@$(POETRY) run poetry run pytest -v botcpdf/tests/
 
+test-json: install-dev
+	@$(POETRY) run poetry run pytest -v botcpdf/tests/test_external_json.py
 
 # some quick helpers to (quickly) generate some pdfs
 script-tb: TARGET:="Trouble Brewing"
