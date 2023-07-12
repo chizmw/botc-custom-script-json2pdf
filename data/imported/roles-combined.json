@@ -54,7 +54,7 @@
         },
         "acrobat": {
             "ability": "Each night*, if either good living neighbour is drunk or poisoned, you die.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": null,
             "firstNightReminder": null,
             "id": "acrobat",
@@ -178,7 +178,7 @@
         },
         "balloonist": {
             "ability": "Each night, you learn 1 player of each character type, until there are no more types to learn. [+1 Outsider]",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 46,
             "firstNightReminder": "Choose a character type. Point to a player whose character is of that type. Place the Balloonist's Seen reminder next to that character.",
             "id": "balloonist",
@@ -299,7 +299,7 @@
         },
         "bountyhunter": {
             "ability": "You start knowing 1 evil player. If the player you know dies, you learn another evil player tonight. [1 Townsfolk is evil]",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 47,
             "firstNightReminder": "Point to 1 evil player. Wake the townsfolk who is evil and show them the 'You are' card and the thumbs down evil sign.",
             "id": "bountyhunter",
@@ -458,7 +458,7 @@
         },
         "cultleader": {
             "ability": "Each night, you become the alignment of an alive neighbour. If all good players choose to join your cult, your team wins.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 49,
             "firstNightReminder": "If the cult leader changed alignment, show them the thumbs up good signal of the thumbs down evil signal accordingly.",
             "id": "cultleader",
@@ -645,7 +645,7 @@
         },
         "fisherman": {
             "ability": "Once per game, during the day, visit the Storyteller for some advice to help you win.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": null,
             "firstNightReminder": null,
             "id": "fisherman",
@@ -747,7 +747,7 @@
         },
         "goblin": {
             "ability": "If you publicly claim to be the Goblin when nominated & are executed that day, your team wins.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": null,
             "firstNightReminder": null,
             "id": "goblin",
@@ -879,7 +879,7 @@
         },
         "highpriestess": {
             "ability": "Each night, learn which player the Storyteller believes you should talk to most.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 51,
             "firstNightReminder": "Point to a player.",
             "id": "highpriestess",
@@ -1010,7 +1010,7 @@
         },
         "knight": {
             "ability": "You start knowing 2 players that are not the Demon.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 44,
             "firstNightReminder": "Point to two players who are not the Demon.",
             "id": "knight",
@@ -1078,7 +1078,7 @@
         },
         "lilmonsta": {
             "ability": "Each night, Minions choose who babysits Lil' Monsta's token & \"is the Demon\". A player dies each night*. [+1 Minion]",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 14,
             "firstNightReminder": "Wake all Minions together, allow them to vote by pointing at who they want to babysit Lil' Monsta.",
             "id": "lilmonsta",
@@ -1226,7 +1226,7 @@
         },
         "mephit": {
             "ability": "You start knowing a secret word. The 1st good player to say this word becomes evil that night.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": null,
             "firstNightReminder": "Show the Mephit their secret word.",
             "id": "mephit",
@@ -1316,7 +1316,7 @@
         },
         "nightwatchman": {
             "ability": "Once per game, at night, choose a player: they learn who you are.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 48,
             "firstNightReminder": "The Nightwatchman may point to a player. Wake that player, show the 'This character selected you' card and the Nightwatchman token, then point to the Nightwatchman player.",
             "id": "nightwatchman",
@@ -1375,7 +1375,7 @@
         },
         "organgrinder": {
             "ability": "All players keep their eyes closed when voting & the vote tally is secret. Votes for you only count if you vote.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": null,
             "firstNightReminder": null,
             "id": "organgrinder",
@@ -1479,7 +1479,7 @@
         },
         "politician": {
             "ability": "If you were the player most responsible for your team losing, you change alignment & win, even if dead.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": null,
             "firstNightReminder": null,
             "id": "politician",
@@ -1507,7 +1507,7 @@
         },
         "preacher": {
             "ability": "Each night, choose a player: a Minion, if chosen, learns this. All chosen Minions have no ability.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 13,
             "firstNightReminder": "The Preacher chooses a player. If a Minion is chosen, wake the Minion and show the 'This character selected you' card and then the Preacher token.",
             "id": "preacher",
@@ -1804,7 +1804,7 @@
         },
         "steward": {
             "ability": "You start knowing 1 good player.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 43,
             "firstNightReminder": "Point to a good player.",
             "id": "steward",
@@ -1958,7 +1958,7 @@
         },
         "vizier": {
             "ability": "All players know who you are. You can not die during the day. If good voted, you may choose to execute immediately.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 57,
             "firstNightReminder": "Announce 'The Vizier is in play' and state which player they are.",
             "id": "vizier",
@@ -2013,7 +2013,7 @@
         },
         "widow": {
             "ability": "On your 1st night, look at the Grimoire and choose a player: they are poisoned. 1 good player knows a Widow is in play.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 17,
             "firstNightReminder": "Show the Grimoire to the Widow for as long as they need. The Widow points to a player. That player is poisoned. Wake a good player. Show the 'These characters are in play' card, then the Widow character token.",
             "id": "widow",
@@ -2062,588 +2062,746 @@
         }
     },
     "editions": {
-        "": {
-            "acrobat": {
-                "id": "acrobat",
-                "name": "acrobat"
-            },
-            "balloonist": {
-                "id": "balloonist",
-                "name": "balloonist"
-            },
-            "bountyhunter": {
-                "id": "bountyhunter",
-                "name": "bountyhunter"
-            },
-            "cultleader": {
-                "id": "cultleader",
-                "name": "cultleader"
-            },
-            "fisherman": {
-                "id": "fisherman",
-                "name": "fisherman"
-            },
-            "goblin": {
-                "id": "goblin",
-                "name": "goblin"
-            },
-            "highpriestess": {
-                "id": "highpriestess",
-                "name": "highpriestess"
-            },
-            "id": "",
-            "knight": {
-                "id": "knight",
-                "name": "knight"
-            },
-            "lilmonsta": {
-                "id": "lilmonsta",
-                "name": "lilmonsta"
-            },
-            "mephit": {
-                "id": "mephit",
-                "name": "mephit"
-            },
-            "name": "",
-            "nightwatchman": {
-                "id": "nightwatchman",
-                "name": "nightwatchman"
-            },
-            "organgrinder": {
-                "id": "organgrinder",
-                "name": "organgrinder"
-            },
-            "politician": {
-                "id": "politician",
-                "name": "politician"
-            },
-            "preacher": {
-                "id": "preacher",
-                "name": "preacher"
-            },
-            "steward": {
-                "id": "steward",
-                "name": "steward"
-            },
-            "vizier": {
-                "id": "vizier",
-                "name": "vizier"
-            },
-            "widow": {
-                "id": "widow",
-                "name": "widow"
-            }
-        },
         "_meta": {
             "DAWN": {
                 "id": "DAWN",
-                "name": "DAWN"
+                "name": "DAWN",
+                "physicaltoken": false
             },
             "DEMON": {
                 "id": "DEMON",
-                "name": "DEMON"
+                "name": "DEMON",
+                "physicaltoken": false
             },
             "DUSK": {
                 "id": "DUSK",
-                "name": "DUSK"
+                "name": "DUSK",
+                "physicaltoken": false
             },
             "MINION": {
                 "id": "MINION",
-                "name": "MINION"
+                "name": "MINION",
+                "physicaltoken": false
             },
-            "id": "_meta",
-            "name": "_meta"
+            "_meta": {
+                "base3": false,
+                "name": "Metadata",
+                "physicaltokens": false
+            }
         },
         "bmr": {
+            "_meta": {
+                "base3": true,
+                "name": "Bad Moon Rising",
+                "physicaltokens": true
+            },
             "apprentice": {
                 "id": "apprentice",
-                "name": "apprentice"
+                "name": "apprentice",
+                "physicaltoken": true
             },
             "assassin": {
                 "id": "assassin",
-                "name": "assassin"
+                "name": "assassin",
+                "physicaltoken": true
             },
             "bishop": {
                 "id": "bishop",
-                "name": "bishop"
+                "name": "bishop",
+                "physicaltoken": true
             },
             "chambermaid": {
                 "id": "chambermaid",
-                "name": "chambermaid"
+                "name": "chambermaid",
+                "physicaltoken": true
             },
             "courtier": {
                 "id": "courtier",
-                "name": "courtier"
+                "name": "courtier",
+                "physicaltoken": true
             },
             "devilsadvocate": {
                 "id": "devilsadvocate",
-                "name": "devilsadvocate"
+                "name": "devilsadvocate",
+                "physicaltoken": true
             },
             "exorcist": {
                 "id": "exorcist",
-                "name": "exorcist"
+                "name": "exorcist",
+                "physicaltoken": true
             },
             "fool": {
                 "id": "fool",
-                "name": "fool"
+                "name": "fool",
+                "physicaltoken": true
             },
             "gambler": {
                 "id": "gambler",
-                "name": "gambler"
+                "name": "gambler",
+                "physicaltoken": true
             },
             "godfather": {
                 "id": "godfather",
-                "name": "godfather"
+                "name": "godfather",
+                "physicaltoken": true
             },
             "goon": {
                 "id": "goon",
-                "name": "goon"
+                "name": "goon",
+                "physicaltoken": true
             },
             "gossip": {
                 "id": "gossip",
-                "name": "gossip"
+                "name": "gossip",
+                "physicaltoken": true
             },
             "grandmother": {
                 "id": "grandmother",
-                "name": "grandmother"
+                "name": "grandmother",
+                "physicaltoken": true
             },
-            "id": "bmr",
             "innkeeper": {
                 "id": "innkeeper",
-                "name": "innkeeper"
+                "name": "innkeeper",
+                "physicaltoken": true
             },
             "judge": {
                 "id": "judge",
-                "name": "judge"
+                "name": "judge",
+                "physicaltoken": true
             },
             "lunatic": {
                 "id": "lunatic",
-                "name": "lunatic"
+                "name": "lunatic",
+                "physicaltoken": true
             },
             "mastermind": {
                 "id": "mastermind",
-                "name": "mastermind"
+                "name": "mastermind",
+                "physicaltoken": true
             },
             "matron": {
                 "id": "matron",
-                "name": "matron"
+                "name": "matron",
+                "physicaltoken": true
             },
             "minstrel": {
                 "id": "minstrel",
-                "name": "minstrel"
+                "name": "minstrel",
+                "physicaltoken": true
             },
             "moonchild": {
                 "id": "moonchild",
-                "name": "moonchild"
+                "name": "moonchild",
+                "physicaltoken": true
             },
-            "name": "bmr",
             "pacifist": {
                 "id": "pacifist",
-                "name": "pacifist"
+                "name": "pacifist",
+                "physicaltoken": true
             },
             "po": {
                 "id": "po",
-                "name": "po"
+                "name": "po",
+                "physicaltoken": true
             },
             "professor": {
                 "id": "professor",
-                "name": "professor"
+                "name": "professor",
+                "physicaltoken": true
             },
             "pukka": {
                 "id": "pukka",
-                "name": "pukka"
+                "name": "pukka",
+                "physicaltoken": true
             },
             "sailor": {
                 "id": "sailor",
-                "name": "sailor"
+                "name": "sailor",
+                "physicaltoken": true
             },
             "shabaloth": {
                 "id": "shabaloth",
-                "name": "shabaloth"
+                "name": "shabaloth",
+                "physicaltoken": true
             },
             "tealady": {
                 "id": "tealady",
-                "name": "tealady"
+                "name": "tealady",
+                "physicaltoken": true
             },
             "tinker": {
                 "id": "tinker",
-                "name": "tinker"
+                "name": "tinker",
+                "physicaltoken": true
             },
             "voudon": {
                 "id": "voudon",
-                "name": "voudon"
+                "name": "voudon",
+                "physicaltoken": true
             },
             "zombuul": {
                 "id": "zombuul",
-                "name": "zombuul"
+                "name": "zombuul",
+                "physicaltoken": true
+            }
+        },
+        "experimental": {
+            "_meta": {
+                "base3": false,
+                "name": "Experimental",
+                "physicaltokens": false
+            },
+            "acrobat": {
+                "id": "acrobat",
+                "name": "acrobat",
+                "physicaltoken": false
+            },
+            "balloonist": {
+                "id": "balloonist",
+                "name": "balloonist",
+                "physicaltoken": false
+            },
+            "bountyhunter": {
+                "id": "bountyhunter",
+                "name": "bountyhunter",
+                "physicaltoken": false
+            },
+            "cultleader": {
+                "id": "cultleader",
+                "name": "cultleader",
+                "physicaltoken": false
+            },
+            "fisherman": {
+                "id": "fisherman",
+                "name": "fisherman",
+                "physicaltoken": false
+            },
+            "goblin": {
+                "id": "goblin",
+                "name": "goblin",
+                "physicaltoken": false
+            },
+            "highpriestess": {
+                "id": "highpriestess",
+                "name": "highpriestess",
+                "physicaltoken": false
+            },
+            "knight": {
+                "id": "knight",
+                "name": "knight",
+                "physicaltoken": false
+            },
+            "lilmonsta": {
+                "id": "lilmonsta",
+                "name": "lilmonsta",
+                "physicaltoken": false
+            },
+            "mephit": {
+                "id": "mephit",
+                "name": "mephit",
+                "physicaltoken": false
+            },
+            "nightwatchman": {
+                "id": "nightwatchman",
+                "name": "nightwatchman",
+                "physicaltoken": false
+            },
+            "organgrinder": {
+                "id": "organgrinder",
+                "name": "organgrinder",
+                "physicaltoken": false
+            },
+            "politician": {
+                "id": "politician",
+                "name": "politician",
+                "physicaltoken": false
+            },
+            "preacher": {
+                "id": "preacher",
+                "name": "preacher",
+                "physicaltoken": false
+            },
+            "steward": {
+                "id": "steward",
+                "name": "steward",
+                "physicaltoken": false
+            },
+            "vizier": {
+                "id": "vizier",
+                "name": "vizier",
+                "physicaltoken": false
+            },
+            "widow": {
+                "id": "widow",
+                "name": "widow",
+                "physicaltoken": false
             }
         },
         "ks": {
+            "_meta": {
+                "base3": false,
+                "name": "Kickstarter",
+                "physicaltokens": true
+            },
             "alchemist": {
                 "id": "alchemist",
-                "name": "alchemist"
+                "name": "alchemist",
+                "physicaltoken": true
             },
             "alhadikhia": {
                 "id": "alhadikhia",
-                "name": "alhadikhia"
+                "name": "alhadikhia",
+                "physicaltoken": true
             },
             "amnesiac": {
                 "id": "amnesiac",
-                "name": "amnesiac"
+                "name": "amnesiac",
+                "physicaltoken": true
             },
             "atheist": {
                 "id": "atheist",
-                "name": "atheist"
+                "name": "atheist",
+                "physicaltoken": true
             },
             "boomdandy": {
                 "id": "boomdandy",
-                "name": "boomdandy"
+                "name": "boomdandy",
+                "physicaltoken": true
             },
             "cannibal": {
                 "id": "cannibal",
-                "name": "cannibal"
+                "name": "cannibal",
+                "physicaltoken": true
             },
             "choirboy": {
                 "id": "choirboy",
-                "name": "choirboy"
+                "name": "choirboy",
+                "physicaltoken": true
             },
             "damsel": {
                 "id": "damsel",
-                "name": "damsel"
+                "name": "damsel",
+                "physicaltoken": true
             },
             "engineer": {
                 "id": "engineer",
-                "name": "engineer"
+                "name": "engineer",
+                "physicaltoken": true
             },
             "farmer": {
                 "id": "farmer",
-                "name": "farmer"
+                "name": "farmer",
+                "physicaltoken": true
             },
             "fearmonger": {
                 "id": "fearmonger",
-                "name": "fearmonger"
+                "name": "fearmonger",
+                "physicaltoken": true
             },
             "gangster": {
                 "id": "gangster",
-                "name": "gangster"
+                "name": "gangster",
+                "physicaltoken": true
             },
             "general": {
                 "id": "general",
-                "name": "general"
+                "name": "general",
+                "physicaltoken": true
             },
             "golem": {
                 "id": "golem",
-                "name": "golem"
+                "name": "golem",
+                "physicaltoken": true
             },
             "heretic": {
                 "id": "heretic",
-                "name": "heretic"
+                "name": "heretic",
+                "physicaltoken": true
             },
             "huntsman": {
                 "id": "huntsman",
-                "name": "huntsman"
+                "name": "huntsman",
+                "physicaltoken": true
             },
-            "id": "ks",
             "king": {
                 "id": "king",
-                "name": "king"
+                "name": "king",
+                "physicaltoken": true
             },
             "legion": {
                 "id": "legion",
-                "name": "legion"
+                "name": "legion",
+                "physicaltoken": true
             },
             "leviathan": {
                 "id": "leviathan",
-                "name": "leviathan"
+                "name": "leviathan",
+                "physicaltoken": true
             },
             "lleech": {
                 "id": "lleech",
-                "name": "lleech"
+                "name": "lleech",
+                "physicaltoken": true
             },
             "lycanthrope": {
                 "id": "lycanthrope",
-                "name": "lycanthrope"
+                "name": "lycanthrope",
+                "physicaltoken": true
             },
             "magician": {
                 "id": "magician",
-                "name": "magician"
+                "name": "magician",
+                "physicaltoken": true
             },
             "marionette": {
                 "id": "marionette",
-                "name": "marionette"
+                "name": "marionette",
+                "physicaltoken": true
             },
             "mezepheles": {
                 "id": "mezepheles",
-                "name": "mezepheles"
+                "name": "mezepheles",
+                "physicaltoken": true
             },
-            "name": "ks",
             "noble": {
                 "id": "noble",
-                "name": "noble"
+                "name": "noble",
+                "physicaltoken": true
             },
             "pixie": {
                 "id": "pixie",
-                "name": "pixie"
+                "name": "pixie",
+                "physicaltoken": true
             },
             "poppygrower": {
                 "id": "poppygrower",
-                "name": "poppygrower"
+                "name": "poppygrower",
+                "physicaltoken": true
             },
             "psychopath": {
                 "id": "psychopath",
-                "name": "psychopath"
+                "name": "psychopath",
+                "physicaltoken": true
             },
             "puzzlemaster": {
                 "id": "puzzlemaster",
-                "name": "puzzlemaster"
+                "name": "puzzlemaster",
+                "physicaltoken": true
             },
             "riot": {
                 "id": "riot",
-                "name": "riot"
+                "name": "riot",
+                "physicaltoken": true
             },
             "snitch": {
                 "id": "snitch",
-                "name": "snitch"
+                "name": "snitch",
+                "physicaltoken": true
             },
             "stormcatcher": {
                 "id": "stormcatcher",
-                "name": "stormcatcher"
+                "name": "stormcatcher",
+                "physicaltoken": true
             }
         },
         "snv": {
+            "_meta": {
+                "base3": true,
+                "name": "Sects and Violets",
+                "physicaltokens": true
+            },
             "artist": {
                 "id": "artist",
-                "name": "artist"
+                "name": "artist",
+                "physicaltoken": true
             },
             "barber": {
                 "id": "barber",
-                "name": "barber"
+                "name": "barber",
+                "physicaltoken": true
             },
             "barista": {
                 "id": "barista",
-                "name": "barista"
+                "name": "barista",
+                "physicaltoken": true
             },
             "bonecollector": {
                 "id": "bonecollector",
-                "name": "bonecollector"
+                "name": "bonecollector",
+                "physicaltoken": true
             },
             "butcher": {
                 "id": "butcher",
-                "name": "butcher"
+                "name": "butcher",
+                "physicaltoken": true
             },
             "cerenovus": {
                 "id": "cerenovus",
-                "name": "cerenovus"
+                "name": "cerenovus",
+                "physicaltoken": true
             },
             "clockmaker": {
                 "id": "clockmaker",
-                "name": "clockmaker"
+                "name": "clockmaker",
+                "physicaltoken": true
             },
             "deviant": {
                 "id": "deviant",
-                "name": "deviant"
+                "name": "deviant",
+                "physicaltoken": true
             },
             "dreamer": {
                 "id": "dreamer",
-                "name": "dreamer"
+                "name": "dreamer",
+                "physicaltoken": true
             },
             "eviltwin": {
                 "id": "eviltwin",
-                "name": "eviltwin"
+                "name": "eviltwin",
+                "physicaltoken": true
             },
             "fanggu": {
                 "id": "fanggu",
-                "name": "fanggu"
+                "name": "fanggu",
+                "physicaltoken": true
             },
             "flowergirl": {
                 "id": "flowergirl",
-                "name": "flowergirl"
+                "name": "flowergirl",
+                "physicaltoken": true
             },
             "harlot": {
                 "id": "harlot",
-                "name": "harlot"
+                "name": "harlot",
+                "physicaltoken": true
             },
-            "id": "snv",
             "juggler": {
                 "id": "juggler",
-                "name": "juggler"
+                "name": "juggler",
+                "physicaltoken": true
             },
             "klutz": {
                 "id": "klutz",
-                "name": "klutz"
+                "name": "klutz",
+                "physicaltoken": true
             },
             "mathematician": {
                 "id": "mathematician",
-                "name": "mathematician"
+                "name": "mathematician",
+                "physicaltoken": true
             },
             "mutant": {
                 "id": "mutant",
-                "name": "mutant"
+                "name": "mutant",
+                "physicaltoken": true
             },
-            "name": "snv",
             "nodashii": {
                 "id": "nodashii",
-                "name": "nodashii"
+                "name": "nodashii",
+                "physicaltoken": true
             },
             "oracle": {
                 "id": "oracle",
-                "name": "oracle"
+                "name": "oracle",
+                "physicaltoken": true
             },
             "philosopher": {
                 "id": "philosopher",
-                "name": "philosopher"
+                "name": "philosopher",
+                "physicaltoken": true
             },
             "pithag": {
                 "id": "pithag",
-                "name": "pithag"
+                "name": "pithag",
+                "physicaltoken": true
             },
             "sage": {
                 "id": "sage",
-                "name": "sage"
+                "name": "sage",
+                "physicaltoken": true
             },
             "savant": {
                 "id": "savant",
-                "name": "savant"
+                "name": "savant",
+                "physicaltoken": true
             },
             "seamstress": {
                 "id": "seamstress",
-                "name": "seamstress"
+                "name": "seamstress",
+                "physicaltoken": true
             },
             "snakecharmer": {
                 "id": "snakecharmer",
-                "name": "snakecharmer"
+                "name": "snakecharmer",
+                "physicaltoken": true
             },
             "sweetheart": {
                 "id": "sweetheart",
-                "name": "sweetheart"
+                "name": "sweetheart",
+                "physicaltoken": true
             },
             "towncrier": {
                 "id": "towncrier",
-                "name": "towncrier"
+                "name": "towncrier",
+                "physicaltoken": true
             },
             "vigormortis": {
                 "id": "vigormortis",
-                "name": "vigormortis"
+                "name": "vigormortis",
+                "physicaltoken": true
             },
             "vortox": {
                 "id": "vortox",
-                "name": "vortox"
+                "name": "vortox",
+                "physicaltoken": true
             },
             "witch": {
                 "id": "witch",
-                "name": "witch"
+                "name": "witch",
+                "physicaltoken": true
             }
         },
         "tb": {
+            "_meta": {
+                "base3": true,
+                "name": "Trouble Brewing",
+                "physicaltokens": true
+            },
             "baron": {
                 "id": "baron",
-                "name": "baron"
+                "name": "baron",
+                "physicaltoken": true
             },
             "beggar": {
                 "id": "beggar",
-                "name": "beggar"
+                "name": "beggar",
+                "physicaltoken": true
             },
             "bureaucrat": {
                 "id": "bureaucrat",
-                "name": "bureaucrat"
+                "name": "bureaucrat",
+                "physicaltoken": true
             },
             "butler": {
                 "id": "butler",
-                "name": "butler"
+                "name": "butler",
+                "physicaltoken": true
             },
             "chef": {
                 "id": "chef",
-                "name": "chef"
+                "name": "chef",
+                "physicaltoken": true
             },
             "drunk": {
                 "id": "drunk",
-                "name": "drunk"
+                "name": "drunk",
+                "physicaltoken": true
             },
             "empath": {
                 "id": "empath",
-                "name": "empath"
+                "name": "empath",
+                "physicaltoken": true
             },
             "fortuneteller": {
                 "id": "fortuneteller",
-                "name": "fortuneteller"
+                "name": "fortuneteller",
+                "physicaltoken": true
             },
             "gunslinger": {
                 "id": "gunslinger",
-                "name": "gunslinger"
+                "name": "gunslinger",
+                "physicaltoken": true
             },
-            "id": "tb",
             "imp": {
                 "id": "imp",
-                "name": "imp"
+                "name": "imp",
+                "physicaltoken": true
             },
             "investigator": {
                 "id": "investigator",
-                "name": "investigator"
+                "name": "investigator",
+                "physicaltoken": true
             },
             "librarian": {
                 "id": "librarian",
-                "name": "librarian"
+                "name": "librarian",
+                "physicaltoken": true
             },
             "mayor": {
                 "id": "mayor",
-                "name": "mayor"
+                "name": "mayor",
+                "physicaltoken": true
             },
             "monk": {
                 "id": "monk",
-                "name": "monk"
+                "name": "monk",
+                "physicaltoken": true
             },
-            "name": "tb",
             "poisoner": {
                 "id": "poisoner",
-                "name": "poisoner"
+                "name": "poisoner",
+                "physicaltoken": true
             },
             "ravenkeeper": {
                 "id": "ravenkeeper",
-                "name": "ravenkeeper"
+                "name": "ravenkeeper",
+                "physicaltoken": true
             },
             "recluse": {
                 "id": "recluse",
-                "name": "recluse"
+                "name": "recluse",
+                "physicaltoken": true
             },
             "saint": {
                 "id": "saint",
-                "name": "saint"
+                "name": "saint",
+                "physicaltoken": true
             },
             "scapegoat": {
                 "id": "scapegoat",
-                "name": "scapegoat"
+                "name": "scapegoat",
+                "physicaltoken": true
             },
             "scarletwoman": {
                 "id": "scarletwoman",
-                "name": "scarletwoman"
+                "name": "scarletwoman",
+                "physicaltoken": true
             },
             "slayer": {
                 "id": "slayer",
-                "name": "slayer"
+                "name": "slayer",
+                "physicaltoken": true
             },
             "soldier": {
                 "id": "soldier",
-                "name": "soldier"
+                "name": "soldier",
+                "physicaltoken": true
             },
             "spy": {
                 "id": "spy",
-                "name": "spy"
+                "name": "spy",
+                "physicaltoken": true
             },
             "thief": {
                 "id": "thief",
-                "name": "thief"
+                "name": "thief",
+                "physicaltoken": true
             },
             "undertaker": {
                 "id": "undertaker",
-                "name": "undertaker"
+                "name": "undertaker",
+                "physicaltoken": true
             },
             "virgin": {
                 "id": "virgin",
-                "name": "virgin"
+                "name": "virgin",
+                "physicaltoken": true
             },
             "washerwoman": {
                 "id": "washerwoman",
-                "name": "washerwoman"
+                "name": "washerwoman",
+                "physicaltoken": true
             }
         }
     },
@@ -4377,7 +4535,7 @@
         },
         {
             "ability": "You start knowing 1 evil player. If the player you know dies, you learn another evil player tonight. [1 Townsfolk is evil]",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 47,
             "firstNightReminder": "Point to 1 evil player. Wake the townsfolk who is evil and show them the 'You are' card and the thumbs down evil sign.",
             "id": "bountyhunter",
@@ -4421,7 +4579,7 @@
         },
         {
             "ability": "Each night, choose a player: a Minion, if chosen, learns this. All chosen Minions have no ability.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 13,
             "firstNightReminder": "The Preacher chooses a player. If a Minion is chosen, wake the Minion and show the 'This character selected you' card and then the Preacher token.",
             "id": "preacher",
@@ -4449,7 +4607,7 @@
         },
         {
             "ability": "Each night, you learn 1 player of each character type, until there are no more types to learn. [+1 Outsider]",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 46,
             "firstNightReminder": "Choose a character type. Point to a player whose character is of that type. Place the Balloonist's Seen reminder next to that character.",
             "id": "balloonist",
@@ -4468,7 +4626,7 @@
         },
         {
             "ability": "Each night, you become the alignment of an alive neighbour. If all good players choose to join your cult, your team wins.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 49,
             "firstNightReminder": "If the cult leader changed alignment, show them the thumbs up good signal of the thumbs down evil signal accordingly.",
             "id": "cultleader",
@@ -4511,7 +4669,7 @@
         },
         {
             "ability": "Once per game, at night, choose a player: they learn who you are.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 48,
             "firstNightReminder": "The Nightwatchman may point to a player. Wake that player, show the 'This character selected you' card and the Nightwatchman token, then point to the Nightwatchman player.",
             "id": "nightwatchman",
@@ -4541,7 +4699,7 @@
         },
         {
             "ability": "Once per game, during the day, visit the Storyteller for some advice to help you win.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": null,
             "firstNightReminder": null,
             "id": "fisherman",
@@ -4683,7 +4841,7 @@
         },
         {
             "ability": "Each night*, if either good living neighbour is drunk or poisoned, you die.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": null,
             "firstNightReminder": null,
             "id": "acrobat",
@@ -4757,7 +4915,7 @@
         },
         {
             "ability": "If you were the player most responsible for your team losing, you change alignment & win, even if dead.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": null,
             "firstNightReminder": null,
             "id": "politician",
@@ -4770,7 +4928,7 @@
         },
         {
             "ability": "On your 1st night, look at the Grimoire and choose a player: they are poisoned. 1 good player knows a Widow is in play.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 17,
             "firstNightReminder": "Show the Grimoire to the Widow for as long as they need. The Widow points to a player. That player is poisoned. Wake a good player. Show the 'These characters are in play' card, then the Widow character token.",
             "id": "widow",
@@ -4816,7 +4974,7 @@
         },
         {
             "ability": "If you publicly claim to be the Goblin when nominated & are executed that day, your team wins.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": null,
             "firstNightReminder": null,
             "id": "goblin",
@@ -4831,7 +4989,7 @@
         },
         {
             "ability": "You start knowing a secret word. The 1st good player to say this word becomes evil that night.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": null,
             "firstNightReminder": "Show the Mephit their secret word.",
             "id": "mephit",
@@ -4892,7 +5050,7 @@
         },
         {
             "ability": "Each night, Minions choose who babysits Lil' Monsta's token & \"is the Demon\". A player dies each night*. [+1 Minion]",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 14,
             "firstNightReminder": "Wake all Minions together, allow them to vote by pointing at who they want to babysit Lil' Monsta.",
             "id": "lilmonsta",
@@ -5212,7 +5370,7 @@
         },
         {
             "ability": "All players know who you are. You can not die during the day. If good voted, you may choose to execute immediately.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 57,
             "firstNightReminder": "Announce 'The Vizier is in play' and state which player they are.",
             "id": "vizier",
@@ -5223,7 +5381,7 @@
         },
         {
             "ability": "All players keep their eyes closed when voting & the vote tally is secret. Votes for you only count if you vote.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": null,
             "firstNightReminder": null,
             "id": "organgrinder",
@@ -5238,7 +5396,7 @@
         },
         {
             "ability": "Each night, learn which player the Storyteller believes you should talk to most.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 51,
             "firstNightReminder": "Point to a player.",
             "id": "highpriestess",
@@ -5251,7 +5409,7 @@
         },
         {
             "ability": "You start knowing 2 players that are not the Demon.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 44,
             "firstNightReminder": "Point to two players who are not the Demon.",
             "id": "knight",
@@ -5267,7 +5425,7 @@
         },
         {
             "ability": "You start knowing 1 good player.",
-            "edition": "",
+            "edition": "experimental",
             "firstNight": 43,
             "firstNightReminder": "Point to a good player.",
             "id": "steward",
