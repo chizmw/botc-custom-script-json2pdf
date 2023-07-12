@@ -54,7 +54,8 @@ jobs:
         if: success() || failure() # always run even if the previous step fails
         with:
           report_paths: '**/test-results.xml'
-          check_name: pytest results
+          # yamllint disable rule:line-length
+          check_name: pytest results ${{ matrix.python-version }} ${{ matrix.poetry-version }}
           summary: true
           detailed_summary: true
 
