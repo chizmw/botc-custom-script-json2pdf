@@ -1,0 +1,34 @@
+---
+name: Github Release
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    tags:
+      - v*
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # we use ourself to get the information for the release
+      - name: Get Change Info
+        uses: ./
+        id: get-changelog-info
+
+      - name: Create GH Release
+        uses: softprops/action-gh-release@v1
+        # only run if we have a changelog entry
+        if: steps.get-changelog-info.outputs.last-change-entry != ''
+        with:
+          body: ${{ steps.get-changelog-info.outputs.last-change-entry }}
+          tag_name: ${{ steps.get-changelog-info.outputs.last-change-version }}
+          name: ${{ steps.get-changelog-info.outputs.last-change-version }}
+          draft: false
+          prerelease: false
