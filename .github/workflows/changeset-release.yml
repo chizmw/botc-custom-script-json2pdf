@@ -1,0 +1,59 @@
+---
+name: Changeset Release
+
+# yamllint disable rule:truthy
+on:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions: read-all
+
+jobs:
+  release:
+    # IMPORTANT: prevent this action from running on forks
+    if: github.repository == 'chizmw/botc-custom-script-json2pdf'
+    permissions:
+      contents: write # to create release (changesets/action)
+      pull-requests: write # to create pull request (changesets/action)
+    name: Changeset Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.CHANGESETS_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Create Release Pull Request
+        id: changesets
+        uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
+        with:
+          title: Release Changeset (bake CHANGELOG.md)
+
+      # we use ourself to get the information for the release
+      - name: Get Change Info
+        uses: chizmw/changesets-changelog-info@v0.1.1
+        id: get-changelog-info
+
+      - name: Push Tags
+        # https://github.com/changesets/action#custom-publishing
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        shell: bash
+        run: |
+          git tag ${{ steps.get-changelog-info.outputs.last-change-version }}
+          # this could fail in a merge without changesets
+          # (e.g. update README.md, merge)
+          # but that's a bit naughty anyway, so we'll let it fail
+          git push --tags
