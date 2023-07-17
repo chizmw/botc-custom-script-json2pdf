@@ -1,0 +1,55 @@
+---
+name: Sanity Check
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+
+jobs:
+  check_changeset_token:
+    name: Check CHANGESETS_TOKEN
+    runs-on: ubuntu-latest
+    steps:
+      - name: Non-empty
+        shell: bash
+        run: |
+          if [[ -z "${{secrets.CHANGESETS_TOKEN}}" ]]; then
+            echo "Missing CHANGESETS_TOKEN"
+            exit 1
+          else
+            echo "::info::CHANGESETS_TOKEN is not empty"
+          fi
+
+      - name: Correct User
+        shell: bash
+        run: |
+          curl -L -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{secrets.CHANGESETS_TOKEN}}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/user \
+            | tee user.json
+
+          if [[ "$(jq -r '.login' user.json)" != "chizmw" ]]; then
+            echo "CHANGESETS_TOKEN is not for chizmw"
+            exit 1
+          else
+            echo "::info::CHANGESETS_TOKEN is for chizmw"
+          fi
+
+      - name: Repo Access
+        shell: bash
+
+        # yamllint disable rule:line-length
+        run: |
+          curl -L -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{secrets.CHANGESETS_TOKEN}}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/chizmw/botc-custom-script-json2pdf/actions/permissions \
+            | tee repo.json
+
+            if [[ "$(jq -r '.allowed_actions' repo.json)" != "all" ]]; then
+              echo "CHANGESETS_TOKEN does not have access to this repo"
+              exit 1
+            else
+                echo "::info::CHANGESETS_TOKEN has access to this repo"
+            fi
+        # yamllint enable rule:line-length
