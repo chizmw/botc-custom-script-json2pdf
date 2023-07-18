@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-poetry run python -m botcpdf.cli make-pdf "$@"
