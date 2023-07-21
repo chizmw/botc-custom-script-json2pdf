@@ -53,6 +53,7 @@ class TestJsonData:
                     "DEMON",
                     "DUSK",
                     "acrobat",
+                    "harpy",
                     "highpriestess",
                     "knight",
                     "recluse",
