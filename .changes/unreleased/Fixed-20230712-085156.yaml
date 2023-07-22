@@ -1,5 +1,0 @@
-kind: Fixed
-body: remove duplicates 'concurrency' in terraform-serverless-deploy.yml
-time: 2023-07-12T08:51:56.531139+01:00
-custom:
-  GithubIssue: ""
