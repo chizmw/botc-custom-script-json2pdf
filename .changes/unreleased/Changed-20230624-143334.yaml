@@ -1,0 +1,5 @@
+kind: Changed
+body: replace (deprecated) pkg_resources with importlib.meta
+time: 2023-06-24T14:33:34.578195+01:00
+custom:
+  GithubIssue: ""
