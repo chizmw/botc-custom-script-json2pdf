@@ -117,6 +117,22 @@
             "setup": false,
             "team": "townsfolk"
         },
+        "angel": {
+            "ability": "Something bad might happen to whoever is most responsible for the death of a new player.",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "angel",
+            "name": "Angel",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "reminders": [
+                "Protect",
+                "Something Bad"
+            ],
+            "setup": false,
+            "team": "fabled"
+        },
         "apprentice": {
             "ability": "On your 1st night, you gain a Townsfolk ability (if good), or a Minion ability (if evil).",
             "edition": "bmr",
@@ -311,6 +327,19 @@
             ],
             "setup": true,
             "team": "townsfolk"
+        },
+        "buddhist": {
+            "ability": "For the first 2 minutes of each day, veteran players may not talk.",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "buddhist",
+            "name": "Buddhist",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "reminders": [],
+            "setup": false,
+            "team": "fabled"
         },
         "bureaucrat": {
             "ability": "Each night, choose a player (not yourself): their vote counts as 3 votes tomorrow.",
@@ -512,6 +541,32 @@
             "setup": false,
             "team": "minion"
         },
+        "djinn": {
+            "ability": "Use the Djinn's special rule. All players know what it is.",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "djinn",
+            "name": "Djinn",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "reminders": [],
+            "setup": false,
+            "team": "fabled"
+        },
+        "doomsayer": {
+            "ability": "If 4 or more players live, each living player may publicly choose (once per game) that a player of their own alignment dies.",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "doomsayer",
+            "name": "Doomsayer",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "reminders": [],
+            "setup": false,
+            "team": "fabled"
+        },
         "dreamer": {
             "ability": "Each night, choose a player (not yourself or Travellers): you learn 1 good and 1 evil character, 1 of which is correct.",
             "edition": "snv",
@@ -540,6 +595,22 @@
             ],
             "setup": true,
             "team": "outsider"
+        },
+        "duchess": {
+            "ability": "Each day, 3 players may choose to visit you. At night*, each visitor learns how many visitors are evil, but 1 gets false info.",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "duchess",
+            "name": "Duchess",
+            "otherNight": null,
+            "otherNightReminder": "Wake each player marked \u201cVisitor\u201d or \u201cFalse Info\u201d one at a time. Show them the Duchess token, then fingers (1, 2, 3) equaling the number of evil players marked \u201cVisitor\u201d or, if you are waking the player marked \u201cFalse Info,\u201d show them any number of fingers except the number of evil players marked \u201cVisitor.\u201d",
+            "reminders": [
+                "Visitor",
+                "False Info"
+            ],
+            "setup": false,
+            "team": "fabled"
         },
         "empath": {
             "ability": "Each night, you learn how many of your 2 alive neighbours are evil.",
@@ -642,6 +713,34 @@
             ],
             "setup": false,
             "team": "minion"
+        },
+        "fibbin": {
+            "ability": "Once per game, 1 good player might get false information.",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "fibbin",
+            "name": "Fibbin",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "reminders": [
+                "Used"
+            ],
+            "setup": false,
+            "team": "fabled"
+        },
+        "fiddler": {
+            "ability": "Once per game, the Demon secretly chooses an opposing player: all players choose which of these 2 players win.",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "fiddler",
+            "name": "Fiddler",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "reminders": [],
+            "setup": false,
+            "team": "fabled"
         },
         "fisherman": {
             "ability": "Once per game, during the day, visit the Storyteller for some advice to help you win.",
@@ -863,6 +962,38 @@
             ],
             "setup": false,
             "team": "traveler"
+        },
+        "harpy": {
+            "ability": "Each night, choose 2 players: tomorrow, the 1st player is mad that the 2nd is evil, or both might die.",
+            "edition": "experimental",
+            "firstNight": 26,
+            "firstNightReminder": "Wake the Harpy; they point at one player, then another. Wake the 1st player the Harpy pointed to, show them the 'This character has selected you' card, show them the Harpy token, then point at the 2nd player the Harpy pointed to.",
+            "id": "harpy",
+            "image": "your direct url here",
+            "name": "Harpy",
+            "otherNight": 18,
+            "otherNightReminder": "Wake the Harpy; they point at one player, then another. Wake the 1st player the Harpy pointed to, show them the 'This character has selected you' card, show them the Harpy token, then point at the 2nd player the Harpy pointed to.",
+            "reminders": [
+                "Mad",
+                "2nd"
+            ],
+            "setup": false,
+            "team": "minion"
+        },
+        "hellslibrarian": {
+            "ability": "Something bad might happen to whoever talks when the Storyteller has asked for silence.",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "hellslibrarian",
+            "name": "Hell's Librarian",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "reminders": [
+                "Something Bad"
+            ],
+            "setup": false,
+            "team": "fabled"
         },
         "heretic": {
             "ability": "Whoever wins, loses & whoever loses, wins, even if you are dead.",
@@ -1607,6 +1738,21 @@
             "setup": false,
             "team": "outsider"
         },
+        "revolutionary": {
+            "ability": "2 neighboring players are known to be the same alignment. Once per game, one of them registers falsely.",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "revolutionary",
+            "name": "Revolutionary",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "reminders": [
+                "Used"
+            ],
+            "setup": false,
+            "team": "fabled"
+        },
         "riot": {
             "ability": "Nominees die, but may nominate again immediately (on day 3, they must). After day 3, evil wins. [All Minions are Riot]",
             "edition": "ks",
@@ -1717,6 +1863,19 @@
             "setup": false,
             "team": "townsfolk"
         },
+        "sentinel": {
+            "ability": "There might be 1 extra or 1 fewer Outsider in play.",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "sentinel",
+            "name": "Sentinel",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "reminders": [],
+            "setup": true,
+            "team": "fabled"
+        },
         "shabaloth": {
             "ability": "Each night*, choose 2 players: they die. A dead player you chose last night might be regurgitated.",
             "edition": "bmr",
@@ -1788,6 +1947,21 @@
             "reminders": [],
             "setup": false,
             "team": "townsfolk"
+        },
+        "spiritofivory": {
+            "ability": "There can't be more than 1 extra evil player.",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "spiritofivory",
+            "name": "Spirit of Ivory",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "reminders": [
+                "No extra evil"
+            ],
+            "setup": false,
+            "team": "fabled"
         },
         "spy": {
             "ability": "Each night, you see the Grimoire. You might register as good & as a Townsfolk or Outsider, even if dead.",
@@ -1908,6 +2082,21 @@
             ],
             "setup": false,
             "team": "townsfolk"
+        },
+        "toymaker": {
+            "ability": "The Demon may choose not to attack & must do this at least once per game. Evil players get normal starting info.",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "toymaker",
+            "name": "Toymaker",
+            "otherNight": null,
+            "otherNightReminder": "If it is a night when a Demon attack could end the game, and the Demon is marked \u201cFinal night: No Attack,\u201d then the Demon does not act tonight. (Do not wake them.)",
+            "reminders": [
+                "Final Night: No Attack"
+            ],
+            "setup": false,
+            "team": "fabled"
         },
         "undertaker": {
             "ability": "Each night*, you learn which character died by execution today.",
@@ -2087,6 +2276,83 @@
                 "base3": false,
                 "name": "Metadata",
                 "physicaltokens": false
+            }
+        },
+        "base3": {
+            "_meta": {
+                "base3": true,
+                "name": "Base 3",
+                "physicaltokens": true
+            },
+            "angel": {
+                "id": "angel",
+                "name": "angel",
+                "physicaltoken": true
+            },
+            "bootlegger": {
+                "id": "bootlegger",
+                "name": "bootlegger",
+                "physicaltoken": true
+            },
+            "buddhist": {
+                "id": "buddhist",
+                "name": "buddhist",
+                "physicaltoken": true
+            },
+            "djinn": {
+                "id": "djinn",
+                "name": "djinn",
+                "physicaltoken": true
+            },
+            "doomsayer": {
+                "id": "doomsayer",
+                "name": "doomsayer",
+                "physicaltoken": true
+            },
+            "duchess": {
+                "id": "duchess",
+                "name": "duchess",
+                "physicaltoken": true
+            },
+            "fibbin": {
+                "id": "fibbin",
+                "name": "fibbin",
+                "physicaltoken": true
+            },
+            "fiddler": {
+                "id": "fiddler",
+                "name": "fiddler",
+                "physicaltoken": true
+            },
+            "gardener": {
+                "id": "gardener",
+                "name": "gardener",
+                "physicaltoken": true
+            },
+            "hellslibrarian": {
+                "id": "hellslibrarian",
+                "name": "hellslibrarian",
+                "physicaltoken": true
+            },
+            "revolutionary": {
+                "id": "revolutionary",
+                "name": "revolutionary",
+                "physicaltoken": true
+            },
+            "sentinel": {
+                "id": "sentinel",
+                "name": "sentinel",
+                "physicaltoken": true
+            },
+            "spiritofivory": {
+                "id": "spiritofivory",
+                "name": "spiritofivory",
+                "physicaltoken": true
+            },
+            "toymaker": {
+                "id": "toymaker",
+                "name": "toymaker",
+                "physicaltoken": true
             }
         },
         "bmr": {
@@ -2280,6 +2546,11 @@
             "goblin": {
                 "id": "goblin",
                 "name": "goblin",
+                "physicaltoken": false
+            },
+            "harpy": {
+                "id": "harpy",
+                "name": "harpy",
                 "physicaltoken": false
             },
             "highpriestess": {
@@ -5164,20 +5435,26 @@
         },
         {
             "ability": "If 4 or more players live, each living player may publicly choose (once per game) that a player of their own alignment dies.",
-            "firstNightReminder": "",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
             "id": "doomsayer",
             "name": "Doomsayer",
-            "otherNightReminder": "",
+            "otherNight": null,
+            "otherNightReminder": null,
             "reminders": [],
             "setup": false,
             "team": "fabled"
         },
         {
             "ability": "Something bad might happen to whoever is most responsible for the death of a new player.",
-            "firstNightReminder": "",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
             "id": "angel",
             "name": "Angel",
-            "otherNightReminder": "",
+            "otherNight": null,
+            "otherNightReminder": null,
             "reminders": [
                 "Protect",
                 "Something Bad"
@@ -5187,20 +5464,26 @@
         },
         {
             "ability": "For the first 2 minutes of each day, veteran players may not talk.",
-            "firstNightReminder": "",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
             "id": "buddhist",
             "name": "Buddhist",
-            "otherNightReminder": "",
+            "otherNight": null,
+            "otherNightReminder": null,
             "reminders": [],
             "setup": false,
             "team": "fabled"
         },
         {
             "ability": "Something bad might happen to whoever talks when the Storyteller has asked for silence.",
-            "firstNightReminder": "",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
             "id": "hellslibrarian",
             "name": "Hell's Librarian",
-            "otherNightReminder": "",
+            "otherNight": null,
+            "otherNightReminder": null,
             "reminders": [
                 "Something Bad"
             ],
@@ -5209,10 +5492,13 @@
         },
         {
             "ability": "2 neighboring players are known to be the same alignment. Once per game, one of them registers falsely.",
-            "firstNightReminder": "",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
             "id": "revolutionary",
             "name": "Revolutionary",
-            "otherNightReminder": "",
+            "otherNight": null,
+            "otherNightReminder": null,
             "reminders": [
                 "Used"
             ],
@@ -5221,17 +5507,22 @@
         },
         {
             "ability": "Once per game, the Demon secretly chooses an opposing player: all players choose which of these 2 players win.",
-            "firstNightReminder": "",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
             "id": "fiddler",
             "name": "Fiddler",
-            "otherNightReminder": "",
+            "otherNight": null,
+            "otherNightReminder": null,
             "reminders": [],
             "setup": false,
             "team": "fabled"
         },
         {
             "ability": "The Demon may choose not to attack & must do this at least once per game. Evil players get normal starting info.",
-            "firstNightReminder": "",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
             "id": "toymaker",
             "name": "Toymaker",
             "otherNight": null,
@@ -5244,10 +5535,13 @@
         },
         {
             "ability": "Once per game, 1 good player might get false information.",
-            "firstNightReminder": "",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
             "id": "fibbin",
             "name": "Fibbin",
-            "otherNightReminder": "",
+            "otherNight": null,
+            "otherNightReminder": null,
             "reminders": [
                 "Used"
             ],
@@ -5256,7 +5550,9 @@
         },
         {
             "ability": "Each day, 3 players may choose to visit you. At night*, each visitor learns how many visitors are evil, but 1 gets false info.",
-            "firstNightReminder": "",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
             "id": "duchess",
             "name": "Duchess",
             "otherNight": null,
@@ -5270,20 +5566,26 @@
         },
         {
             "ability": "There might be 1 extra or 1 fewer Outsider in play.",
-            "firstNightReminder": "",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
             "id": "sentinel",
             "name": "Sentinel",
-            "otherNightReminder": "",
+            "otherNight": null,
+            "otherNightReminder": null,
             "reminders": [],
             "setup": true,
             "team": "fabled"
         },
         {
             "ability": "There can't be more than 1 extra evil player.",
-            "firstNightReminder": "",
+            "edition": "base3",
+            "firstNight": null,
+            "firstNightReminder": null,
             "id": "spiritofivory",
             "name": "Spirit of Ivory",
-            "otherNightReminder": "",
+            "otherNight": null,
+            "otherNightReminder": null,
             "reminders": [
                 "No extra evil"
             ],
@@ -5292,11 +5594,13 @@
         },
         {
             "ability": "Use the Djinn's special rule. All players know what it is.",
+            "edition": "base3",
             "firstNight": null,
-            "firstNightReminder": "",
+            "firstNightReminder": null,
             "id": "djinn",
             "name": "Djinn",
-            "otherNightReminder": "",
+            "otherNight": null,
+            "otherNightReminder": null,
             "reminders": [],
             "setup": false,
             "team": "fabled"
@@ -5396,12 +5700,13 @@
         },
         {
             "ability": "Each night, choose 2 players: tomorrow, the 1st player is mad that the 2nd is evil, or both might die.",
-            "firstNight": null,
+            "edition": "experimental",
+            "firstNight": 26,
             "firstNightReminder": "Wake the Harpy; they point at one player, then another. Wake the 1st player the Harpy pointed to, show them the 'This character has selected you' card, show them the Harpy token, then point at the 2nd player the Harpy pointed to.",
             "id": "harpy",
             "image": "your direct url here",
             "name": "Harpy",
-            "otherNight": null,
+            "otherNight": 18,
             "otherNightReminder": "Wake the Harpy; they point at one player, then another. Wake the 1st player the Harpy pointed to, show them the 'This character has selected you' card, show them the Harpy token, then point at the 2nd player the Harpy pointed to.",
             "reminders": [
                 "Mad",
