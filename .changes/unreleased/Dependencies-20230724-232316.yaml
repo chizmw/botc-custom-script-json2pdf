@@ -1,5 +1,0 @@
-kind: Dependencies
-body: 'run: poetry update'
-time: 2023-07-24T23:23:16.221317+01:00
-custom:
-  GithubIssue: ""

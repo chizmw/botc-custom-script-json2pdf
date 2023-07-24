@@ -1,5 +1,0 @@
-kind: Dependencies
-body: 'run: pre-commit autoupdate'
-time: 2023-07-24T23:23:45.19878+01:00
-custom:
-  GithubIssue: ""
