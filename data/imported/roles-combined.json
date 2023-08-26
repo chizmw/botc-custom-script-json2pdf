@@ -313,6 +313,19 @@
             "setup": false,
             "team": "minion"
         },
+        "bootlegger": {
+            "ability": "This script has homebrew characters or rules.",
+            "edition": "experimental",
+            "firstNight": null,
+            "firstNightReminder": "Announce the Bootlegger is in play and inform the group of all homebrew characters and/or rules you are using in this game. ",
+            "id": "bootlegger",
+            "image": "your direct url here",
+            "name": "Bootlegger",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "setup": false,
+            "team": "fabled"
+        },
         "bountyhunter": {
             "ability": "You start knowing 1 evil player. If the player you know dies, you learn another evil player tonight. [1 Townsfolk is evil]",
             "edition": "experimental",
@@ -1577,6 +1590,22 @@
             "setup": false,
             "team": "townsfolk"
         },
+        "plaguedoctor": {
+            "ability": "If you die, the Storyteller gains a not-in-play Minion ability.",
+            "edition": "experimental",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "plaguedoctor",
+            "image": "your direct url here",
+            "name": "Plague Doctor",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "reminders": [
+                "Storyteller Ability"
+            ],
+            "setup": false,
+            "team": "outsider"
+        },
         "po": {
             "ability": "Each night*, you may choose a player: they die. If your last choice was no-one, choose 3 players tonight.",
             "edition": "bmr",
@@ -2289,11 +2318,6 @@
                 "name": "angel",
                 "physicaltoken": true
             },
-            "bootlegger": {
-                "id": "bootlegger",
-                "name": "bootlegger",
-                "physicaltoken": true
-            },
             "buddhist": {
                 "id": "buddhist",
                 "name": "buddhist",
@@ -2528,6 +2552,11 @@
                 "name": "balloonist",
                 "physicaltoken": false
             },
+            "bootlegger": {
+                "id": "bootlegger",
+                "name": "bootlegger",
+                "physicaltoken": false
+            },
             "bountyhunter": {
                 "id": "bountyhunter",
                 "name": "bountyhunter",
@@ -2581,6 +2610,11 @@
             "organgrinder": {
                 "id": "organgrinder",
                 "name": "organgrinder",
+                "physicaltoken": false
+            },
+            "plaguedoctor": {
+                "id": "plaguedoctor",
+                "name": "plaguedoctor",
                 "physicaltoken": false
             },
             "politician": {
@@ -3087,6 +3121,15 @@
             ]
         },
         {
+            "id": "Evil Twin",
+            "jinx": [
+                {
+                    "id": "Plague Doctor",
+                    "reason": "The Storyteller cannot gain the Evil Twin ability if the Plague Doctor dies."
+                }
+            ]
+        },
+        {
             "id": "Butler",
             "jinx": [
                 {
@@ -3127,6 +3170,15 @@
                 {
                     "id": "Goblin",
                     "reason": "The Cerenovus may choose to make a player mad that they are the Goblin."
+                }
+            ]
+        },
+        {
+            "id": "Goblin",
+            "jinx": [
+                {
+                    "id": "Plague Doctor",
+                    "reason": "If the Plague Doctor dies, a living Minion gains the Goblin ability in addition to their own ability, and learns this."
                 }
             ]
         },
@@ -3235,6 +3287,10 @@
                     "reason": "If the Poppy Grower is in play, the Spy does not see the Grimoire until the Poppy Grower dies."
                 },
                 {
+                    "id": "Plague Doctor",
+                    "reason": "If the Plague Doctor dies, a living Minion gains the Spy ability in addition to their own ability, and learns this."
+                },
+                {
                     "id": "Damsel",
                     "reason": "Only 1 jinxed character can be in play. "
                 },
@@ -3279,11 +3335,42 @@
             ]
         },
         {
+            "id": "Scarlet Woman",
+            "jinx": [
+                {
+                    "id": "Plague Doctor",
+                    "reason": "If the Plague Doctor dies, a living Minion gains the Scarlet Woman ability in addition to their own ability, and learns this."
+                }
+            ]
+        },
+        {
+            "id": "Boomdandy",
+            "jinx": [
+                {
+                    "id": "Plague Doctor",
+                    "reason": "If the Plague Doctor is executed and the Storyteller would gain the Boomdandy ability, the Boomdandy ability triggers immediately."
+                }
+            ]
+        },
+        {
+            "id": "Fearmonger",
+            "jinx": [
+                {
+                    "id": "Plague Doctor",
+                    "reason": "If the Plague Doctor dies, a living Minion gains the Fearmonger ability in addition to their own ability, and learns this."
+                }
+            ]
+        },
+        {
             "id": "Baron",
             "jinx": [
                 {
                     "id": "Heretic",
                     "reason": "The Baron might only add 1 Outsider, not 2."
+                },
+                {
+                    "id": "Plague Doctor",
+                    "reason": "If the Storyteller gains the Baron ability, up to two players become out-of-play Outsiders."
                 }
             ]
         },
@@ -3309,6 +3396,10 @@
                 {
                     "id": "Damsel",
                     "reason": "The Marionette does not learn that a Damsel is in play."
+                },
+                {
+                    "id": "Plague Doctor",
+                    "reason": "If the Demon has a neighbour who is alive and a Townsfolk or Outsider when the Plague Doctor dies, that player becomes an evil Marionette. If there is already an extra evil player, this does not happen."
                 },
                 {
                     "id": "Huntsman",
@@ -5729,6 +5820,19 @@
             "team": "townsfolk"
         },
         {
+            "ability": "This script has homebrew characters or rules.",
+            "edition": "experimental",
+            "firstNight": null,
+            "firstNightReminder": "Announce the Bootlegger is in play and inform the group of all homebrew characters and/or rules you are using in this game. ",
+            "id": "bootlegger",
+            "image": "your direct url here",
+            "name": "Bootlegger",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "setup": false,
+            "team": "fabled"
+        },
+        {
             "ability": "You start knowing 2 players that are not the Demon.",
             "edition": "experimental",
             "firstNight": 45,
@@ -5743,6 +5847,22 @@
             ],
             "setup": false,
             "team": "townsfolk"
+        },
+        {
+            "ability": "If you die, the Storyteller gains a not-in-play Minion ability.",
+            "edition": "experimental",
+            "firstNight": null,
+            "firstNightReminder": null,
+            "id": "plaguedoctor",
+            "image": "your direct url here",
+            "name": "Plague Doctor",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "reminders": [
+                "Storyteller Ability"
+            ],
+            "setup": false,
+            "team": "outsider"
         },
         {
             "ability": "You start knowing 1 good player.",
@@ -5894,6 +6014,10 @@
             {
                 "id": "stormcatcher",
                 "name": "Storm Catcher"
+            },
+            {
+                "id": "bootlegger",
+                "name": "Bootlegger"
             }
         ],
         "minion": [
@@ -6066,6 +6190,10 @@
             {
                 "id": "politician",
                 "name": "Politician"
+            },
+            {
+                "id": "plaguedoctor",
+                "name": "Plague Doctor"
             }
         ],
         "townsfolk": [
