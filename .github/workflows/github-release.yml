@@ -1,0 +1,45 @@
+---
+name: Github Release
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    tags:
+      - v*
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get Changelog Entry
+        id: get-changelog-entry
+        uses: chizovation/changesets-changelog-info@v0.1.5
+
+      - name: Show Change Info
+        shell: bash
+        # yamllint disable rule:line-length
+        run: |
+          cat <<'EOInfo' >> $GITHUB_STEP_SUMMARY
+          ## Last Change Entry
+
+          ```markdown
+          ${{ steps.get-changelog-entry.outputs.last-change-entry }}
+          ```
+          EOInfo
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        # only run if we have a changelog entry
+        if: steps.get-changelog-entry.outputs.last-change-entry != ''
+        with:
+          body: ${{ steps.get-changelog-entry.outputs.last-change-entry }}
+          tag_name: ${{ steps.get-changelog-entry.outputs.last-change-version }}
+          name: ${{ steps.get-changelog-entry.outputs.last-change-version }}
+          draft: false
+          prerelease: false
