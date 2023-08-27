@@ -53,7 +53,7 @@ jobs:
         shell: bash
         run: |
           set -x
-          TAG_NAME=${{ steps.get-changelog-info.outputs.last-change-version }}
+          TAG_NAME=${{ steps.get-changelog-info.outputs.last-change-version-v }}
           if git tag -l | grep -q "^${TAG_NAME}$"; then
             echo "Tag ${TAG_NAME} already exists"
           else
@@ -65,7 +65,7 @@ jobs:
         if: steps.changesets.outputs.hasChangesets == 'false'
         shell: bash
         run: |
-          TAG_NAME=${{ steps.get-changelog-info.outputs.last-change-version }}
+          TAG_NAME=${{ steps.get-changelog-info.outputs.last-change-version-v }}
           # try not to recreate the tag
           if git tag -l | grep -q "^${TAG_NAME}$"; then
             echo "Tag ${TAG_NAME} already exists"
