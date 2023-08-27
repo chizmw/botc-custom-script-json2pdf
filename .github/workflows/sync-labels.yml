@@ -1,0 +1,30 @@
+---
+name: ♻️ Sync Labels
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches:
+      - main
+  # useful for testing without needing to merge
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  issues: write
+
+jobs:
+  labels:
+    name: ♻️ Sync labels
+    runs-on: ubuntu-20.04
+    steps:
+      - name: ⤵️ Check out code from GitHub
+        uses: actions/checkout@v3
+
+      - name: 🚀 Run Label Sync
+        uses: srealmoreno/label-sync-action@v1
+        with:
+          config-file: .github/labels.json
+          clean-labels: true
+          token: ${{ secrets.CHANGESETS_TOKEN }}

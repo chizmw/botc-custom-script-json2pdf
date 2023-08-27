@@ -1,0 +1,72 @@
+[
+  {
+    "color": "D93F0B",
+    "description": "Combined with multi-labeler prevents PR from being merged",
+    "name": "DO NOT MERGE"
+  },
+  {
+    "aliases": ["breaking"],
+    "color": "#D93F0B",
+    "description": "A change that changes the API or breaks backward compatibility for users.",
+    "name": "breaking-change 💥"
+  },
+  {
+    "color": "d73a4a",
+    "description": "Inconsistencies or issues which will cause a problem for users or implementors.",
+    "name": "bug-report"
+  },
+  {
+    "color": "ededed",
+    "description": "Pull request includes changesets information",
+    "name": "changeset"
+  },
+  {
+    "color": "f9d0c4",
+    "description": "One or more commits introduces changes to the build process or auxiliary tools and libraries",
+    "name": "chore"
+  },
+  {
+    "color": "000000",
+    "description": "Pull requests created by dependabot",
+    "name": "dependabot"
+  },
+  {
+    "aliases": ["dependencies"],
+    "color": "000000",
+    "description": "Pull requests that update a dependency",
+    "name": "deps"
+  },
+  {
+    "color": "000000",
+    "description": "Pull requests that update a dev dependency",
+    "name": "deps-dev"
+  },
+  {
+    "aliases": ["Documentation"],
+    "color": "0075ca",
+    "description": "Solely about the documentation of the project.",
+    "name": "documentation"
+  },
+  {
+    "aliases": ["feature", "enhancement"],
+    "color": "a2eeef",
+    "description": "One or more commits introduces a new feature to the codebase",
+    "name": "feat"
+  },
+  {
+    "aliases": ["Fix"],
+    "color": "d73a4a",
+    "description": "One or more commits patches a bug in the codebase",
+    "name": "fix"
+  },
+  {
+    "color": "000000",
+    "description": "Pull requests that update GitHub Actions code",
+    "name": "github-actions"
+  },
+  {
+    "color": "000000",
+    "description": "Pull requests that update Python code",
+    "name": "python"
+  }
+]
