@@ -302,8 +302,6 @@ generated
 .terraform.lock.hcl
 .infracost/
 terraform/.pluralith/
-package-lock.json
-package.json
 tmp/
 terraform/lambda_function_payload.zip
 terraform/poetry-version.json
