@@ -1,5 +1,39 @@
 # Changelog
 
+## 0.3.2
+
+### Patch Changes
+
+- <!-- markdownlint-disable MD041 --> ([#229](https://github.com/chizmw/botc-custom-script-json2pdf/pull/229))
+
+  chore(deps): bump pypdf from 3.13.0 to 3.15.4
+
+- <!-- markdownlint-disable MD041 --> ([#228](https://github.com/chizmw/botc-custom-script-json2pdf/pull/228))
+
+  chore(deps): bump boto3 from 1.28.10 to 1.28.35
+
+- chore: remote janky deopenabot action ([#225](https://github.com/chizmw/botc-custom-script-json2pdf/pull/225))
+
+- fix: add missing changeset action template ([#226](https://github.com/chizmw/botc-custom-script-json2pdf/pull/226))
+
+- <!-- markdownlint-disable MD041 --> ([#202](https://github.com/chizmw/botc-custom-script-json2pdf/pull/202))
+
+  Bump discord-webhook from 1.2.0 to 1.3.0
+
+- <!-- markdownlint-disable MD041 --> ([#213](https://github.com/chizmw/botc-custom-script-json2pdf/pull/213))
+
+  Bump aws-actions/configure-aws-credentials from 2 to 3
+
+- <!-- markdownlint-disable MD041 --> ([#214](https://github.com/chizmw/botc-custom-script-json2pdf/pull/214))
+
+  Bump aws-lambda-powertools from 2.21.0 to 2.23.1
+
+- <!-- markdownlint-disable MD041 --> ([#183](https://github.com/chizmw/botc-custom-script-json2pdf/pull/183))
+
+  Bump pylint from 2.17.4 to 2.17.5
+
+- fix: incorrect repo name in changeset template, and fragments ([#230](https://github.com/chizmw/botc-custom-script-json2pdf/pull/230))
+
 ## 0.3.1
 
 ### Patch Changes
