@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.1
+
+### Patch Changes
+
+- fix: errant space in repo check preventing changeset release ([#222](https://github.com/chizmw/botc-custom-script-json2pdf/pull/222))
+
+- chore: add dependabot changeset action workflow ([#223](https://github.com/chizmw/botc-custom-script-json2pdf/pull/223))
+
+- chore: trigger changesets (ref: changesets/bot#78) ([#221](https://github.com/chizmw/botc-custom-script-json2pdf/pull/221))
+
 ## 0.3.0
 
 ### Minor Changes
