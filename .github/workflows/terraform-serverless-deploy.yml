@@ -127,7 +127,7 @@ jobs:
 
       # do this early so it can fail fast
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v3
         with:
           # yamllint disable rule:line-length
           aws-access-key-id: ${{ secrets.CHIZOGRAPHY_GITHUB_AWS_ACCESS_KEY_ID }}
