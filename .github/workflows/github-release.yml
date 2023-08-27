@@ -29,7 +29,7 @@ jobs:
           ## Last Change Entry
 
           ```markdown
-          ${{ steps.get-changelog-entry.outputs.last-change-entry }}
+          ${{ steps.get-changelog-entry.outputs.last-change-entry-v }}
           ```
           EOInfo
 
@@ -39,7 +39,7 @@ jobs:
         if: steps.get-changelog-entry.outputs.last-change-entry != ''
         with:
           body: ${{ steps.get-changelog-entry.outputs.last-change-entry }}
-          tag_name: ${{ steps.get-changelog-entry.outputs.last-change-version }}
-          name: ${{ steps.get-changelog-entry.outputs.last-change-version }}
+          tag_name: ${{ steps.get-changelog-entry.outputs.last-change-version-v }}
+          name: ${{ steps.get-changelog-entry.outputs.last-change-version-v }}
           draft: false
           prerelease: false
