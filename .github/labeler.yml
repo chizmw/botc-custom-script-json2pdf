@@ -1,0 +1,60 @@
+---
+# semantic pull request:
+# https://github.com/marketplace/actions/multi-labeler#githubworkflowpr-triageyml
+version: v1
+
+labels:
+  - label: feat
+    matcher:
+      title: '^feat: .*'
+      commits: '^feat: .*'
+
+  - label: fix
+    matcher:
+      title: '^fix: .*'
+      commits: '^fix: .*'
+
+  - label: chore
+    matcher:
+      title: '^chore: .*'
+      commits: '^chore: .*'
+
+  - label: docs
+    matcher:
+      title: '^docs: .*'
+      commits: '^docs: .*'
+
+  - label: changeset
+    matcher:
+      title: '^docs\(changeset\): .*'
+      commits: '^docs\(changeset\): .*'
+
+  - label: deps
+    matcher:
+      title: '^chore\(deps\): .*'
+      commits: '^chore\(deps\): .*'
+
+  - label: deps-dev
+    matcher:
+      title: '^chore\(deps-dev\): .*'
+      commits: '^chore\(deps-dev\): .*'
+
+checks:
+  - context: Semantic Pull Request
+    description:
+      success: Ready for review & merge.
+      failure: Missing semantic label for merge.
+    labels:
+      any:
+        - changeset
+        - chore
+        - deps
+        - deps-dev
+        - docs
+        - feat
+        - fix
+
+  - context: Merge check
+    description: Disable merging when 'DO NOT MERGE' label is set
+    labels:
+      none: [DO NOT MERGE]

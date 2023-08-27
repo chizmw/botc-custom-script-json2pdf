@@ -1,0 +1,19 @@
+---
+# semantic pull request:
+# https://github.com/marketplace/actions/multi-labeler#githubworkflowpr-triageyml
+name: Labeler
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+    types: [opened, edited, synchronize, ready_for_review]
+    branches: [master, main]
+
+jobs:
+  labeler:
+    name: Add Labels to PRs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: fuxingloh/multi-labeler@v2
+        with:
+          github-token: ${{ secrets.CHANGESETS_TOKEN }}

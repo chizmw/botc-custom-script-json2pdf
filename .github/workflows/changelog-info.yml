@@ -1,0 +1,35 @@
+---
+# .github/workflows/auto-author-assign.yml
+name: Peek At Changelog Info
+
+# yamllint disable-line rule:truthy
+on:
+  - pull_request
+
+jobs:
+  changelog-peek:
+    name: Changeset Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Get Change Info
+        uses: chizovation/changesets-changelog-info@v0.1.5
+        id: get-changelog-entry
+
+      - name: Show Change Info
+        shell: bash
+        # yamllint disable rule:line-length
+        run: |
+          cat <<'EOInfo' >> $GITHUB_STEP_SUMMARY
+          ## Last Change Entry
+
+          ```markdown
+          ${{ steps.get-changelog-entry.outputs.last-change-entry }}
+          ```
+          EOInfo
+
+      - name: Fail If Empty
+        if: steps.get-changelog-entry.outputs.last-change-entry == ''
+        run: exit
