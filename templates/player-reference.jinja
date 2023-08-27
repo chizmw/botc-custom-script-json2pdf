@@ -19,14 +19,14 @@
   <div class="cols-2">
     {%- for character in characters[type] %}
       <div class="character-block character-block-player">
-        <img src="file://{{icon_folder}}/{{character.id_slug}}.png" alt="{{ character.name }}" class="character-icon"/>
+        <img src="https://raw.githubusercontent.com/chizmw/json-on-the-clocktower/host-character-icons/data/icons/{{character.id_slug}}.png" alt="{{ character.name }}" class="character-icon"/>
         <div class="character-name character-name-{{type}}">
           {{ character.name }}
         {%- if hatred[character.id_slug] %}
           <div class="jinxes">
             <span class="jinxes-label-text">JINXES</span>
             {%- for hater in hatred[character.id_slug] %}
-              <img src="file://{{icon_folder}}/{{hater}}.png" alt="{{ hater }}" class="hatred-icon"/>
+              <img src="https://raw.githubusercontent.com/chizmw/json-on-the-clocktower/host-character-icons/data/icons/{{hater}}.png" alt="{{ hater }}" class="hatred-icon"/>
             {%- endfor %}
           </div>
         {%- endif %}
