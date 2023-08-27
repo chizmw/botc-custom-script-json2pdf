@@ -244,5 +244,5 @@ jobs:
           # yamllint disable rule:line-length
           DISCORD_WEBHOOK_URL: https://discord.com/api/webhooks/1099136707108020305/r86TwsFW_T3BDX0VOvdcCNVFaGTLTSeVkwS8NikvynVrU-4jZLqq--FlyPVGAmQWJWu9
           GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_JOB_NAME: Deploy Serverless
+          GITHUB_JOB_NAME: Deploy Serverless (${{ env.DEPLOY_ENV }})
           GITHUB_JOB_STATUS: ${{ job.status }}
