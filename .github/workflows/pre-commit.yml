@@ -10,10 +10,6 @@ on:
 
 name: Run pre-commit checks
 
-env:
-  # https://laszlo.cloud/setting-gopath-in-github-actions
-  GOPATH: /home/runner/work/woodpecker/go
-
 jobs:
   linting:
     name: run pre-commit checks
@@ -21,45 +17,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      # https://github.com/actions/setup-python#usage
-      - name: Set up Python 3.x
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
-          python-version: 3.x
-
-      - name: Setup Poetry
-        uses: abatilo/actions-poetry@v2
+          python-version: '3.10'
+      - uses: abatilo/actions-poetry@v2
         with:
-          poetry-version: 1.4.2
-
+          poetry-version: 1.5.1
       - name: Install dependencies
         run: |
           pip install --upgrade pip
           poetry install
-
-      # yamllint disable-line rule:line-length
-      # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#adding-a-system-path
-      - name: Update PATH
-        run: |
-          echo $PATH
-          echo "$GOPATH/bin" >> $GITHUB_PATH
-
-      - name: Install external deps for precommit
-        # yamllint disable rule:line-length
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh
-          go install github.com/sqs/goreturns@latest
-          go install github.com/securego/gosec/v2/cmd/gosec@latest
-          go install github.com/mgechev/revive@latest
-          go install golang.org/x/tools/cmd/goimports@latest
-          # goreturns doesn't share its version
-          # goimports doesn't share its version
-          gosec --version
-          revive --version
-        # yamllint enable rule:line-length
-
-      - name: Run precommit checks
-        run: |
-          pip install pre-commit
-          pre-commit run --all-files
+      - uses: pre-commit/action@v3.0.0
