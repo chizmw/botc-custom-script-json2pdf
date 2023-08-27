@@ -1,5 +1,5 @@
 ---
-'cookiecutter-chizovation': patch
+'arcane-scripts': patch
 ---
 
 <!-- markdownlint-disable MD041 -->
