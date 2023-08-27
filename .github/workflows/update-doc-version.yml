@@ -82,7 +82,7 @@ jobs:
         with:
           # yamllint disable rule:line-length
           title: 'chore: update version in files (${{ steps.get-changelog-info.outputs.last-change-version}})'
-          commit-message: 'chore: update version in files (${{ steps.get-changelog-info.outputs.last-change-version}})\n\n[skip ci]'
+          commit-message: "chore: update version in files (${{ steps.get-changelog-info.outputs.last-change-version}})\n\n[skip ci]"
           base: ${{ github.event.repository.default_branch }}
           delete-branch: true
           token: ${{ secrets.CHANGESETS_TOKEN }}
