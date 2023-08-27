@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.3
+
+### Patch Changes
+
+- update pre-commit workflow to use pre-commit/action@v3.0.0 ([#180](https://github.com/chizmw/botc-custom-script-json2pdf/pull/180))
+
+- fix: update versions for bumpversion to find and update ([#231](https://github.com/chizmw/botc-custom-script-json2pdf/pull/231))
+
+- fix: use outputs.last-change-version-v instead of outputs.last-change-version ([#233](https://github.com/chizmw/botc-custom-script-json2pdf/pull/233))
+
 ## 0.3.2
 
 ### Patch Changes
