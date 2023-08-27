@@ -1,0 +1,70 @@
+---
+name: Dependabot
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request_target:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  add-changeset-fragment:
+    name: Add changeset fragment
+    runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
+
+    steps:
+      # Find the PR associated with this push, if there is one.
+      - uses: jwalton/gh-find-current-pr@v1
+        id: find-pr
+        with:
+          # Can be "open", "closed", or "all".  Defaults to "open".
+          state: open
+      # This will echo "Your PR is 7", or be skipped if there is no current PR.
+      - run: echo "Your PR is ${PR}"
+        if: success() && steps.find-pr.outputs.number
+        env:
+          PR: ${{ steps.find-pr.outputs.pr }}
+
+      - uses: boonya/gh-action-name-generator@v1
+        if: success() && steps.find-pr.outputs.number
+        id: generator
+        with:
+          style: lowerCase
+          separator: '-'
+          length: 3
+      - run: |
+          echo "Generated name is: ${{ steps.generator.outputs.name }}"
+
+      - uses: actions/checkout@v3
+        if: success() && steps.find-pr.outputs.number
+        with:
+          # https://github.com/marketplace/actions/add-commit#working-with-prs
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup Git User
+        if: success() && steps.find-pr.outputs.number
+        uses: fregante/setup-git-user@v2
+
+      - name: Render template
+        id: render
+        uses: chuhlomin/render-template@v1.7
+        if: success() && steps.find-pr.outputs.number
+        with:
+          template: .github/dependabot-changeset.template.md
+          vars: |
+            prTitle: '${{ steps.find-pr.outputs.title }}'
+
+      - name: Create Changeset Fragment
+        if: success() && steps.find-pr.outputs.number
+        shell: bash
+        # yamllint disable rule:line-length
+        run: |
+          echo "${{ steps.render.outputs.result }}" > .changeset/${{ steps.generator.outputs.name }}.md
+          cat .changeset/${{ steps.generator.outputs.name }}.md
+          git add .changeset/${{ steps.generator.outputs.name }}.md
+          git commit -m "docs(changeset): add changeset fragment for ${{ steps.find-pr.outputs.title }}"
+          git push origin HEAD
+        # yamllint enable rule:line-length
