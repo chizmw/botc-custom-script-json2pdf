@@ -14,7 +14,7 @@ permissions: read-all
 jobs:
   release:
     # IMPORTANT: prevent this action from running on forks
-    if: github.repository == 'chizmw/botc-custom-script-json2pdf '
+    if: github.repository == 'chizmw/botc-custom-script-json2pdf'
     permissions:
       contents: write # to create release (changesets/action)
       pull-requests: write # to create pull request (changesets/action)
