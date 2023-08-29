@@ -9,7 +9,7 @@ class Role:
 
     # pylint: disable=too-many-instance-attributes
     # Eight is reasonable in this case
-    id_slug: str
+    _id_slug: str
     name: str
     edition: Optional[str] = None
     team: str
@@ -118,3 +118,15 @@ class Role:
             "bmr": "Bad Moon Rising",
         }
         return lookup.get(self.edition, "Unknown Edition")
+
+    # USE @property FOR THIS CLASS TO ENSURE SOME SANE BEHAVIOUR
+
+    @property
+    def id_slug(self) -> str:
+        """Get the role's id slug."""
+        return self._id_slug
+
+    @id_slug.setter
+    def id_slug(self, value: str):
+        """Set the role's id slug."""
+        self._id_slug = value
