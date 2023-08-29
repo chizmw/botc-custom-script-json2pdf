@@ -5,7 +5,7 @@
   <div class="cols-3">
   {%- for role in travelers %}
       <div class="traveler-reminder-block">
-        <img src="https://raw.githubusercontent.com/chizmw/json-on-the-clocktower/host-character-icons/data/icons/{{role.id_slug}}.png" alt="{{ role.slug_id }}" class="night-icon traveler-night-icon"/>
+        <img src="{{role.remote_image}}" alt="{{ role.slug_id }}" class="night-icon traveler-night-icon"/>
         <span class="character-name character-name-night character-name-{{ role.team }}">{{ role.name }}</span>
         <span class="traveler-night-ability">{{ role.ability }}</span>
       </div>

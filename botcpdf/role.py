@@ -22,6 +22,7 @@ class Role:
     ability: str
     stylized: bool
     jinxes: list[Jinx] = []
+    remote_image: Optional[str] = None
 
     def __init__(self, role_data: dict, stylize: bool = True):
         """Initialize a role."""
@@ -36,6 +37,7 @@ class Role:
         self.reminders = role_data.get("reminders", [])
         self.setup = role_data.get("setup", False)
         self.team = role_data["team"]
+        self.remote_image = role_data.get("remote_image", None)
 
         # we need to know if we're stylizing or not before we can store the
         # ability

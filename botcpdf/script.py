@@ -367,6 +367,9 @@ class Script:
             "hate_pair": self.hate_pair,
             # options that can affect how the PDF is rendered
             "script_options": self.options,
+            # so we can lookup roles by id; primarily for the image to use in
+            # jinxes where we currently use the id only
+            "role_data": self.role_data,
         }
 
         self.logger.debug("sending options to template: %s", self.options)
