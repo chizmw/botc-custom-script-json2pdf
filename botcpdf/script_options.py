@@ -194,7 +194,7 @@ class ScriptOptions:
     def _process_options(self, option_overrides: Optional[dict]) -> None:
         """Process the options."""
 
-        self.logger.error("default option overrides: %s", option_overrides)
+        self.logger.debug("default option overrides: %s", option_overrides)
 
         # if we DO have option overrides, straying from the defaults
         if option_overrides is not None:
