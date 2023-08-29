@@ -40,7 +40,9 @@ class ScriptMeta:
 
         # make sure we only use known fields; not all required
         if not set(data.keys()).issubset({"id", "name", "author", "logo"}):
-            raise ValueError("Unexpected fields in script metadata")
+            # get the keys that are not in the list of known keys
+            unexpected_keys = set(data.keys()) - {"id", "name", "author", "logo"}
+            raise ValueError("Unexpected fields in script metadata: " + unexpected_keys)
 
         self.name = data.get("name", None)
         self.author = data.get("author", None)
