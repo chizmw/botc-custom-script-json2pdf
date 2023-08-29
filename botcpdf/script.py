@@ -52,7 +52,11 @@ class ScriptMeta:
             xray_recorder.end_subsegment()
 
     def __repr__(self):
-        return f"ScriptMeta(name='{self.name}', author='{self.author}', logo='{self.logo}')"  # pylint: disable=line-too-long
+        return (
+            f"ScriptMeta(name='{self.name}', "
+            f"author='{self.author}', "
+            f"logo='{self.logo}')"
+        )
 
 
 class Script:
