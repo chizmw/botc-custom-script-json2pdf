@@ -62,6 +62,5 @@ CMD [ "botcpdf.lambda.render" ]
 #COPY app.py ./
 COPY data ./data/
 COPY templates ./templates/
-COPY icons ./icons/
 
 RUN touch /opt/disable-extensions-jwigqn8j
