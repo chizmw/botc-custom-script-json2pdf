@@ -1,3 +1,7 @@
 {
-  "recommendations": ["samuelcolvin.jinjahtml", "mrmlnc.vscode-postcss-sorting"]
+  "recommendations": [
+    "samuelcolvin.jinjahtml",
+    "mrmlnc.vscode-postcss-sorting",
+    "hashicorp.terraform"
+  ]
 }
