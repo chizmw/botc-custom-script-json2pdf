@@ -39,6 +39,11 @@ labels:
       title: '^chore\(deps-dev\): .*'
       commits: '^chore\(deps-dev\): .*'
 
+  - label: style
+    matcher:
+      title: '^style: .*'
+      commits: '^style: .*'
+
 checks:
   - context: Semantic Pull Request
     description:
@@ -53,6 +58,7 @@ checks:
         - docs
         - feat
         - fix
+        - style
 
   - context: Merge check
     description: Disable merging when 'DO NOT MERGE' label is set
