@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.4
+
+### Patch Changes
+
+- chore: be explicit about unexpected keys in script metadata on init ([#240](https://github.com/chizmw/botc-custom-script-json2pdf/pull/240))
+
+- fix: use double quotes for commit message containing newlines ([#235](https://github.com/chizmw/botc-custom-script-json2pdf/pull/235))
+
+- chore: downgrade logger error message to debug ([#240](https://github.com/chizmw/botc-custom-script-json2pdf/pull/240))
+
 ## 0.3.3
 
 ### Patch Changes

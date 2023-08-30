@@ -39,8 +39,11 @@ class ScriptMeta:
             xray_recorder.begin_subsegment("ScriptMeta.__init__")
 
         # make sure we only use known fields; not all required
-        if not set(data.keys()).issubset({"id", "name", "author", "logo"}):
-            raise ValueError("Unexpected fields in script metadata")
+        expected_keys = {"id", "name", "author", "logo", "isOfficial"}
+        if not set(data.keys()).issubset(expected_keys):
+            # get the keys that are not in the list of known keys
+            unexpected_keys = set(data.keys()) - expected_keys
+            raise ValueError(f"Unexpected fields in script metadata: {unexpected_keys}")
 
         self.name = data.get("name", None)
         self.author = data.get("author", None)
@@ -50,7 +53,11 @@ class ScriptMeta:
             xray_recorder.end_subsegment()
 
     def __repr__(self):
-        return f"ScriptMeta(name='{self.name}', author='{self.author}', logo='{self.logo}')"  # pylint: disable=line-too-long
+        return (
+            f"ScriptMeta(name='{self.name}', "
+            f"author='{self.author}', "
+            f"logo='{self.logo}')"
+        )
 
 
 class Script:
@@ -367,6 +374,9 @@ class Script:
             "hate_pair": self.hate_pair,
             # options that can affect how the PDF is rendered
             "script_options": self.options,
+            # so we can lookup roles by id; primarily for the image to use in
+            # jinxes where we currently use the id only
+            "role_data": self.role_data,
         }
 
         self.logger.debug("sending options to template: %s", self.options)
