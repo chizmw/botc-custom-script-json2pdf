@@ -9,7 +9,7 @@ class Role:
 
     # pylint: disable=too-many-instance-attributes
     # Eight is reasonable in this case
-    id_slug: str
+    _id_slug: str
     name: str
     edition: Optional[str] = None
     team: str
@@ -22,6 +22,7 @@ class Role:
     ability: str
     stylized: bool
     jinxes: list[Jinx] = []
+    remote_image: Optional[str] = None
 
     def __init__(self, role_data: dict, stylize: bool = True):
         """Initialize a role."""
@@ -36,6 +37,7 @@ class Role:
         self.reminders = role_data.get("reminders", [])
         self.setup = role_data.get("setup", False)
         self.team = role_data["team"]
+        self.remote_image = role_data.get("remote_image", None)
 
         # we need to know if we're stylizing or not before we can store the
         # ability
@@ -116,3 +118,15 @@ class Role:
             "bmr": "Bad Moon Rising",
         }
         return lookup.get(self.edition, "Unknown Edition")
+
+    # USE @property FOR THIS CLASS TO ENSURE SOME SANE BEHAVIOUR
+
+    @property
+    def id_slug(self) -> str:
+        """Get the role's id slug."""
+        return self._id_slug
+
+    @id_slug.setter
+    def id_slug(self, value: str):
+        """Set the role's id slug."""
+        self._id_slug = value

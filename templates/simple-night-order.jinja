@@ -3,7 +3,7 @@
     <h2 class="simple-first-night">First Night</h2>
     {%- for character in first_night %}
       <div class="character-block character-block-nightinfo">
-        <img src="file://{{icon_folder}}/{{character.id_slug}}.png" alt="{{ character.name }}" class="character-icon-nightinfo"/>
+        <img src="{{character.remote_image}}" alt="{{ character.name }}" class="character-icon-nightinfo"/>
         <span class="character-name character-name-{{ character.team }}">{{ character.name }}</span>
       </div>
     {%- endfor %}
@@ -13,7 +13,7 @@
     <h2 class="simple-first-night">Other Nights</h2>
       {%- for character in other_nights %}
         <div class="character-block character-block-nightinfo">
-          <img src="file://{{icon_folder}}/{{character.id_slug}}.png" alt="{{ character.name }}" class="character-icon-nightinfo"/>
+          <img src="{{character.remote_image}}" alt="{{ character.name }}" class="character-icon-nightinfo"/>
           <span class="character-name character-name-{{ character.team }}">{{ character.name }}</span>
         </div>
       {%- endfor %}
@@ -26,7 +26,7 @@
             <div class="jinx-simple-night-icon">
               {%- set slugs = tag.split("-") %}
               {%- for slug in slugs %}
-                <img src="file://{{icon_folder}}/{{slug}}.png" alt="{{ reason }}" class="night-icon"/>
+                <img src="{{role_data.get_role(slug).remote_image}}" alt="{{ reason }}" class="night-icon"/>
               {%- endfor %}
             </div><!-- end of jinx-simple-night-icon -->
               <div class="jinx-simple-night-reason">{{ reason }}</div>
@@ -37,7 +37,7 @@
         <div class="line-pretraveler-nightinfo"></div>
         {%- for role in travelers %}
             <div class="traveler-reminder-block">
-              <img src="file://{{icon_folder}}/{{role.id_slug}}.png" alt="{{ role.slug_id }}" class="night-icon traveler-night-icon"/>
+              <img src="{{role.remote_image}}" alt="{{ role.slug_id }}" class="night-icon traveler-night-icon"/>
               <span class="character-name character-name-night character-name-{{ role.team }}">{{ role.name }}</span>
               <span class="traveler-night-ability">{{ role.ability }}</span>
             </div><!-- end of traveler-reminder-block -->
@@ -48,7 +48,7 @@
         <div class="line-pretraveler-nightinfo"></div>
         {%- for role in fabled %}
             <div class="traveler-reminder-block">
-              <img src="file://{{icon_folder}}/{{role.id_slug}}.png" alt="{{ role.slug_id }}" class="night-icon traveler-night-icon"/>
+              <img src="{{role.remote_image}}" alt="{{ role.slug_id }}" class="night-icon traveler-night-icon"/>
               <span class="character-name character-name-night character-name-{{ role.team }}">{{ role.name }}</span>
               <span class="traveler-night-ability">{{ role.ability }}</span>
             </div><!-- end of traveler-reminder-block -->

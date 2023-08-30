@@ -44,8 +44,9 @@ script-tb: TARGET:="Trouble Brewing"
 script-nrb: TARGET:="No Roles Barred"
 script-gmv: TARGET:="Grind My Viz"
 script-cs: TARGET:="Clean Sweep"
+script-jinx: TARGET="Let's Test Some Jinxes"
 
-script-tb script-nrb script-gmv script-cs: poetry
+script-tb script-nrb script-gmv script-cs script-jinx: poetry
 	$(MAKE_PDF) scripts/$(TARGET).json
 ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/just-baked.pdf"
