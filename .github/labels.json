@@ -68,5 +68,10 @@
     "color": "000000",
     "description": "Pull requests that update Python code",
     "name": "python"
+  },
+  {
+    "color": "f9d0c4",
+    "description": "One or more commits introduces changes to formatting, missing semi colons, etc; no code change",
+    "name": "style"
   }
 ]
