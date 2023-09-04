@@ -54,7 +54,7 @@ jobs:
             terraform-dir: terraform
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
@@ -123,7 +123,7 @@ jobs:
             aws-deployment-role: botc/deploy_json2pdf
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # do this early so it can fail fast
       - name: Configure AWS Credentials

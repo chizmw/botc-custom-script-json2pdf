@@ -23,7 +23,7 @@ jobs:
           poetry-version: 1.4.2
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # specify the tag as the ref to checkout
           ref: ${{ github.ref }}
