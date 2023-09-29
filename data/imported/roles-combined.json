@@ -3,7 +3,7 @@
         "DAWN": {
             "ability": "",
             "edition": "_meta",
-            "firstNight": 56,
+            "firstNight": 57,
             "firstNightReminder": "Wait approximately 10 seconds. Call for eyes open, then immediately announce which players (if any) died.",
             "id": "DAWN",
             "name": "DAWN",
@@ -351,7 +351,7 @@
         "bountyhunter": {
             "ability": "You start knowing 1 evil player. If the player you know dies, you learn another evil player tonight. [1 Townsfolk is evil]",
             "edition": "experimental",
-            "firstNight": 48,
+            "firstNight": 49,
             "firstNightReminder": "Point to 1 evil player. Wake the townsfolk who is evil and show them the 'You are' card and the thumbs down evil sign.",
             "id": "bountyhunter",
             "name": "Bounty Hunter",
@@ -460,7 +460,7 @@
         "chambermaid": {
             "ability": "Each night, choose 2 alive players (not yourself): you learn how many woke tonight due to their ability.",
             "edition": "bmr",
-            "firstNight": 54,
+            "firstNight": 55,
             "firstNightReminder": "The Chambermaid points to two players. Show the number signal (0, 1, 2, \u2026) for how many of those players wake tonight for their ability.",
             "id": "chambermaid",
             "name": "Chambermaid",
@@ -535,7 +535,7 @@
         "cultleader": {
             "ability": "Each night, you become the alignment of an alive neighbour. If all good players choose to join your cult, your team wins.",
             "edition": "experimental",
-            "firstNight": 50,
+            "firstNight": 51,
             "firstNightReminder": "If the cult leader changed alignment, show them the thumbs up good signal of the thumbs down evil signal accordingly.",
             "id": "cultleader",
             "name": "Cult Leader",
@@ -905,7 +905,7 @@
         "general": {
             "ability": "Each night, you learn which alignment the Storyteller believes is winning: good, evil, or neither.",
             "edition": "ks",
-            "firstNight": 53,
+            "firstNight": 54,
             "firstNightReminder": "Show the General thumbs up for good winning, thumbs down for evil winning or thumb to the side for neither.",
             "id": "general",
             "name": "General",
@@ -1094,7 +1094,7 @@
         "highpriestess": {
             "ability": "Each night, learn which player the Storyteller believes you should talk to most.",
             "edition": "experimental",
-            "firstNight": 52,
+            "firstNight": 53,
             "firstNightReminder": "Point to a player.",
             "id": "highpriestess",
             "image": "your direct url here",
@@ -1268,7 +1268,7 @@
         "leviathan": {
             "ability": "If more than 1 good player is executed, you win. All players know you are in play. After day 5, evil wins.",
             "edition": "ks",
-            "firstNight": 57,
+            "firstNight": 58,
             "firstNightReminder": "Place the Leviathan 'Day 1' marker. Announce 'The Leviathan is in play; this is Day 1.'",
             "id": "leviathan",
             "name": "Leviathan",
@@ -1420,7 +1420,7 @@
         "mathematician": {
             "ability": "Each night, you learn how many players\u2019 abilities worked abnormally (since dawn) due to another character's ability.",
             "edition": "snv",
-            "firstNight": 55,
+            "firstNight": 56,
             "firstNightReminder": "Show the hand signal for the number (0, 1, 2, etc.) of players whose ability malfunctioned due to other abilities.",
             "id": "mathematician",
             "name": "Mathematician",
@@ -1560,7 +1560,7 @@
         "nightwatchman": {
             "ability": "Once per game, at night, choose a player: they learn who you are.",
             "edition": "experimental",
-            "firstNight": 49,
+            "firstNight": 50,
             "firstNightReminder": "The Nightwatchman may point to a player. Wake that player, show the 'This character selected you' card and the Nightwatchman token, then point to the Nightwatchman player.",
             "id": "nightwatchman",
             "name": "Nightwatchman",
@@ -2052,6 +2052,20 @@
             "setup": false,
             "team": "demon"
         },
+        "shugenja": {
+            "ability": "You start knowing if your closest evil player is clockwise or anti-clockwise. If equidistant, this info is arbitrary.",
+            "edition": "experimental",
+            "firstNight": 48,
+            "firstNightReminder": "Wake the Shugenja; point horizontally in the direction of the closest evil player. If the two closest evil players are equidistant, point your finger horizontally in either direction.",
+            "id": "shugenja",
+            "image": "[Your direct url here]",
+            "name": "Shugenja",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "remote_image": "https://raw.githubusercontent.com/chizmw/json-on-the-clocktower/main/data/images/shugenja.png",
+            "setup": false,
+            "team": "townsfolk"
+        },
         "slayer": {
             "ability": "Once per game, during the day, publicly choose a player: if they are the Demon, they die.",
             "edition": "tb",
@@ -2131,7 +2145,7 @@
         "spy": {
             "ability": "Each night, you see the Grimoire. You might register as good & as a Townsfolk or Outsider, even if dead.",
             "edition": "tb",
-            "firstNight": 51,
+            "firstNight": 52,
             "firstNightReminder": "Show the Grimoire to the Spy for as long as they need.",
             "id": "spy",
             "name": "Spy",
@@ -2325,7 +2339,7 @@
         "vizier": {
             "ability": "All players know who you are. You can not die during the day. If good voted, you may choose to execute immediately.",
             "edition": "experimental",
-            "firstNight": 58,
+            "firstNight": 59,
             "firstNightReminder": "Announce 'The Vizier is in play' and state which player they are.",
             "id": "vizier",
             "name": "Vizier",
@@ -2780,6 +2794,11 @@
             "preacher": {
                 "id": "preacher",
                 "name": "preacher",
+                "physicaltoken": false
+            },
+            "shugenja": {
+                "id": "shugenja",
+                "name": "shugenja",
                 "physicaltoken": false
             },
             "steward": {
@@ -3315,7 +3334,7 @@
                 },
                 {
                     "id": "Politician",
-                    "reason": "A Pit-hag can not create an evil Politician."
+                    "reason": "A Pit-Hag can not create an evil Politician."
                 }
             ]
         },
@@ -3525,7 +3544,7 @@
                 },
                 {
                     "id": "Plague Doctor",
-                    "reason": "If the Storyteller gains the Baron ability, up to two players become out-of-play Outsiders."
+                    "reason": "If the Storyteller gains the Baron ability, up to two players become not-in-play Outsiders."
                 }
             ]
         },
@@ -4038,7 +4057,7 @@
         {
             "ability": "Each night, you see the Grimoire. You might register as good & as a Townsfolk or Outsider, even if dead.",
             "edition": "tb",
-            "firstNight": 51,
+            "firstNight": 52,
             "firstNightReminder": "Show the Grimoire to the Spy for as long as they need.",
             "id": "spy",
             "name": "Spy",
@@ -4204,7 +4223,7 @@
         {
             "ability": "Each night, choose 2 alive players (not yourself): you learn how many woke tonight due to their ability.",
             "edition": "bmr",
-            "firstNight": 54,
+            "firstNight": 55,
             "firstNightReminder": "The Chambermaid points to two players. Show the number signal (0, 1, 2, \u2026) for how many of those players wake tonight for their ability.",
             "id": "chambermaid",
             "name": "Chambermaid",
@@ -4700,7 +4719,7 @@
         {
             "ability": "Each night, you learn how many players\u2019 abilities worked abnormally (since dawn) due to another character's ability.",
             "edition": "snv",
-            "firstNight": 55,
+            "firstNight": 56,
             "firstNightReminder": "Show the hand signal for the number (0, 1, 2, etc.) of players whose ability malfunctioned due to other abilities.",
             "id": "mathematician",
             "name": "Mathematician",
@@ -5141,7 +5160,7 @@
         {
             "ability": "You start knowing 1 evil player. If the player you know dies, you learn another evil player tonight. [1 Townsfolk is evil]",
             "edition": "experimental",
-            "firstNight": 48,
+            "firstNight": 49,
             "firstNightReminder": "Point to 1 evil player. Wake the townsfolk who is evil and show them the 'You are' card and the thumbs down evil sign.",
             "id": "bountyhunter",
             "name": "Bounty Hunter",
@@ -5174,7 +5193,7 @@
         {
             "ability": "Each night, you learn which alignment the Storyteller believes is winning: good, evil, or neither.",
             "edition": "ks",
-            "firstNight": 53,
+            "firstNight": 54,
             "firstNightReminder": "Show the General thumbs up for good winning, thumbs down for evil winning or thumb to the side for neither.",
             "id": "general",
             "name": "General",
@@ -5238,7 +5257,7 @@
         {
             "ability": "Each night, you become the alignment of an alive neighbour. If all good players choose to join your cult, your team wins.",
             "edition": "experimental",
-            "firstNight": 50,
+            "firstNight": 51,
             "firstNightReminder": "If the cult leader changed alignment, show them the thumbs up good signal of the thumbs down evil signal accordingly.",
             "id": "cultleader",
             "name": "Cult Leader",
@@ -5284,7 +5303,7 @@
         {
             "ability": "Once per game, at night, choose a player: they learn who you are.",
             "edition": "experimental",
-            "firstNight": 49,
+            "firstNight": 50,
             "firstNightReminder": "The Nightwatchman may point to a player. Wake that player, show the 'This character selected you' card and the Nightwatchman token, then point to the Nightwatchman player.",
             "id": "nightwatchman",
             "name": "Nightwatchman",
@@ -5763,7 +5782,7 @@
         {
             "ability": "If more than 1 good player is executed, you win. All players know you are in play. After day 5, evil wins.",
             "edition": "ks",
-            "firstNight": 57,
+            "firstNight": 58,
             "firstNightReminder": "Place the Leviathan 'Day 1' marker. Announce 'The Leviathan is in play; this is Day 1.'",
             "id": "leviathan",
             "name": "Leviathan",
@@ -6054,7 +6073,7 @@
         {
             "ability": "",
             "edition": "_meta",
-            "firstNight": 56,
+            "firstNight": 57,
             "firstNightReminder": "Wait approximately 10 seconds. Call for eyes open, then immediately announce which players (if any) died.",
             "id": "DAWN",
             "name": "DAWN",
@@ -6066,9 +6085,23 @@
             "team": "_meta"
         },
         {
+            "ability": "You start knowing if your closest evil player is clockwise or anti-clockwise. If equidistant, this info is arbitrary.",
+            "edition": "experimental",
+            "firstNight": 48,
+            "firstNightReminder": "Wake the Shugenja; point horizontally in the direction of the closest evil player. If the two closest evil players are equidistant, point your finger horizontally in either direction.",
+            "id": "shugenja",
+            "image": "[Your direct url here]",
+            "name": "Shugenja",
+            "otherNight": null,
+            "otherNightReminder": null,
+            "remote_image": "https://raw.githubusercontent.com/chizmw/json-on-the-clocktower/main/data/images/shugenja.png",
+            "setup": false,
+            "team": "townsfolk"
+        },
+        {
             "ability": "All players know who you are. You can not die during the day. If good voted, you may choose to execute immediately.",
             "edition": "experimental",
-            "firstNight": 58,
+            "firstNight": 59,
             "firstNightReminder": "Announce 'The Vizier is in play' and state which player they are.",
             "id": "vizier",
             "name": "Vizier",
@@ -6114,7 +6147,7 @@
         {
             "ability": "Each night, learn which player the Storyteller believes you should talk to most.",
             "edition": "experimental",
-            "firstNight": 52,
+            "firstNight": 53,
             "firstNightReminder": "Point to a player.",
             "id": "highpriestess",
             "image": "your direct url here",
@@ -6746,6 +6779,10 @@
             {
                 "id": "cannibal",
                 "name": "Cannibal"
+            },
+            {
+                "id": "shugenja",
+                "name": "Shugenja"
             },
             {
                 "id": "highpriestess",
