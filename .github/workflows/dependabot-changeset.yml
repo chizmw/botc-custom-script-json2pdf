@@ -38,7 +38,7 @@ jobs:
       - run: |
           echo "Generated name is: ${{ steps.generator.outputs.name }}"
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         if: success() && steps.find-pr.outputs.number
         with:
           # https://github.com/marketplace/actions/add-commit#working-with-prs
