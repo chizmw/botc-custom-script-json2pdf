@@ -1055,13 +1055,13 @@ testutils = ["gitpython (>3)"]
 
 [[package]]
 name = "pypdf"
-version = "3.15.4"
+version = "3.16.2"
 description = "A pure-python PDF library capable of splitting, merging, cropping, and transforming PDF files"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "pypdf-3.15.4-py3-none-any.whl", hash = "sha256:791f0a52ddf390709f1f1b0c05c4d8cde13829b4f7cb91b4003b9bdd352bc944"},
-    {file = "pypdf-3.15.4.tar.gz", hash = "sha256:a2780ed01dc4da23ac1542209f58fd3d951d8dd37c3c0309d123cd2f2679fb03"},
+    {file = "pypdf-3.16.2-py3-none-any.whl", hash = "sha256:d132953be1e2af7b115fbfd445459fdfc601a845ca12379160e1b6afaa1fef2c"},
+    {file = "pypdf-3.16.2.tar.gz", hash = "sha256:6e000281fd0f4cd32e6f1e75b05af0b6c0fbbd9777fa9a8e9d86e34cda65419d"},
 ]
 
 [package.extras]
@@ -1485,4 +1485,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "65c6c8236515e5f90bc45b70e8935ffd54e283ea844a3468f62b01657a9a9e67"
+content-hash = "21ce73529eb24d33dfa5adf3473f0552b1bf2a7d34169636bf896f6ea39b3dcd"
