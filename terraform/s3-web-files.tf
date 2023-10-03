@@ -1,5 +1,10 @@
 locals {
-  files = {
+  # a local to determine if our workspace is "prod"
+  is_prod = terraform.workspace == "prod"
+
+  # set the_files to and empty map in the non-prod workspace
+  # and to a map of files in the prod workspace
+  files = local.is_prod ? {
     "index.html"             = "text/html"
     "script.js"              = "application/javascript"
     "custom.js"              = "application/javascript"
@@ -18,8 +23,7 @@ locals {
     "favicon/favicon-32x32.png"          = "image/png"
     "favicon/favicon.ico"                = "image/x-icon"
     "favicon/site.webmanifest"           = "application/manifest+json"
-
-  }
+  } : {}
 }
 
 resource "aws_s3_object" "wkspc_botc_www_files" {
@@ -43,6 +47,10 @@ resource "aws_s3_object" "wkspc_botc_www_files" {
 # we need to create an s3 file/object (const.js) that contains the API Gateway
 # URL so that the web page can call the API Gateway
 resource "aws_s3_object" "botc_www_const_js" {
+
+  # only  create objects if we are in the prod workspace
+  count = local.is_prod ? length(local.files) : 0
+
   depends_on = [
     aws_s3_bucket_policy.wkspc_www_bucket_policy,
     aws_api_gateway_stage.api_stage,

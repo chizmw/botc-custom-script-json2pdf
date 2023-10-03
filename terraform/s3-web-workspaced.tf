@@ -1,11 +1,19 @@
 # a bucket for the $workspace files to be stored in
 
 resource "aws_s3_bucket" "wkspc_www_bucket" {
+
+  # only  create objects if we are in the prod workspace
+  count = local.is_prod ? length(local.files) : 0
+
   bucket = "${local.site_name}.${var.www_bucket_name}"
 }
 
 resource "aws_s3_bucket_ownership_controls" "wkspc_www_bucket_ownership_controls" {
-  bucket = aws_s3_bucket.wkspc_www_bucket.id
+
+  # only  create objects if we are in the prod workspace
+  count = local.is_prod ? length(local.files) : 0
+
+  bucket = aws_s3_bucket.wkspc_www_bucket[count.index].id
 
   rule {
     object_ownership = "BucketOwnerPreferred"
@@ -13,14 +21,22 @@ resource "aws_s3_bucket_ownership_controls" "wkspc_www_bucket_ownership_controls
 }
 
 resource "aws_s3_bucket_acl" "wkspc_www_bucket_acl" {
+
+  # only  create objects if we are in the prod workspace
+  count = local.is_prod ? 1 : 0
+
   depends_on = [
     aws_s3_bucket_ownership_controls.wkspc_www_bucket_ownership_controls,
   ]
-  bucket = aws_s3_bucket.wkspc_www_bucket.id
+  bucket = aws_s3_bucket.wkspc_www_bucket[count.index].id
   acl    = "public-read"
 }
 
 resource "aws_s3_bucket_policy" "wkspc_www_bucket_policy" {
+
+  # only  create objects if we are in the prod workspace
+  count = local.is_prod ? 1 : 0
+
   depends_on = [
     aws_s3_bucket_acl.wkspc_www_bucket_acl,
   ]
@@ -29,7 +45,11 @@ resource "aws_s3_bucket_policy" "wkspc_www_bucket_policy" {
 }
 
 resource "aws_s3_bucket_cors_configuration" "wkspc_www_bucket_cors" {
-  bucket = aws_s3_bucket.wkspc_www_bucket.id
+
+  # only  create objects if we are in the prod workspace
+  count = local.is_prod ? 1 : 0
+
+  bucket = aws_s3_bucket.wkspc_www_bucket[count.index].id
 
   cors_rule {
     allowed_headers = ["Authorization", "Content-Length"]
@@ -40,7 +60,11 @@ resource "aws_s3_bucket_cors_configuration" "wkspc_www_bucket_cors" {
 }
 
 resource "aws_s3_bucket_website_configuration" "wkspc_www_bucket_website" {
-  bucket = aws_s3_bucket.wkspc_www_bucket.id
+
+  # only  create objects if we are in the prod workspace
+  count = local.is_prod ? 1 : 0
+
+  bucket = aws_s3_bucket.wkspc_www_bucket[count.index].id
 
   index_document {
     suffix = "index.html"
@@ -53,6 +77,10 @@ resource "aws_s3_bucket_website_configuration" "wkspc_www_bucket_website" {
 
 
 resource "aws_cloudfront_distribution" "wkspc_www_s3_distribution" {
+
+  # only  create objects if we are in the prod workspace
+  count = local.is_prod ? 1 : 0
+
   origin {
     domain_name = aws_s3_bucket.wkspc_www_bucket.bucket_regional_domain_name
     origin_id   = "S3-${local.site_name}.${var.www_bucket_name}"
@@ -114,6 +142,10 @@ resource "aws_cloudfront_distribution" "wkspc_www_s3_distribution" {
 
 # we don't want to have to manually invalidate the cache every time we update the site
 resource "aws_s3_bucket_notification" "bucket_notification" {
+
+  # only  create objects if we are in the prod workspace
+  count = local.is_prod ? length(local.files) : 0
+
   bucket = aws_s3_bucket.wkspc_www_bucket.id
 
   lambda_function {
@@ -126,6 +158,10 @@ resource "aws_s3_bucket_notification" "bucket_notification" {
 
 # Add permission for S3 bucket to trigger Lambda function
 resource "aws_lambda_permission" "allow_bucket" {
+
+  # only  create objects if we are in the prod workspace
+  count = local.is_prod ? length(local.files) : 0
+
   statement_id  = "AllowS3BucketToTriggerLambda-${local.site_name}-${terraform.workspace}"
   action        = "lambda:InvokeFunction"
   function_name = data.aws_lambda_function.invalidate_cache.function_name
@@ -135,6 +171,10 @@ resource "aws_lambda_permission" "allow_bucket" {
 
 # Add permission for S3 bucket to trigger Lambda function
 resource "aws_lambda_permission" "apigw_invoke_function" {
+
+  # only  create objects if we are in the prod workspace
+  count = local.is_prod ? 1 : 0
+
   statement_id  = "AllowApiGatewayToInvokeFunction-${local.site_name}-${terraform.workspace}"
   action        = "lambda:InvokeFunction"
   function_name = data.aws_lambda_function.api_render_pdf.function_name
