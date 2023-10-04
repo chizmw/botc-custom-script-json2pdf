@@ -18,8 +18,3 @@ output "stage_function_name" {
 output "stage_url" {
   value = aws_api_gateway_deployment.deployment.invoke_url
 }
-
-
-output "www-a" {
-  value = aws_route53_record.wkspc_www-a.fqdn
-}
