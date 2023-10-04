@@ -15,7 +15,7 @@ locals {
   }
 
   # get the lookup value from the wkspc_site_name map based on the workspace name
-  site_name = lookup(local.wkspc_site_name, terraform.workspace)
+  #site_name = lookup(local.wkspc_site_name, terraform.workspace)
 }
 
 # used in "a new hope" apigateway
