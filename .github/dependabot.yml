@@ -11,7 +11,7 @@ updates:
     schedule:
       interval: daily
     groups:
-      dependencies:
+      python:
         patterns:
           - '*'
 
@@ -20,7 +20,7 @@ updates:
     schedule:
       interval: daily
     groups:
-      dependencies:
+      github-actions:
         patterns:
           - '*'
 
@@ -29,6 +29,6 @@ updates:
     schedule:
       interval: daily
     groups:
-      dependencies:
+      terraform:
         patterns:
           - '*'
