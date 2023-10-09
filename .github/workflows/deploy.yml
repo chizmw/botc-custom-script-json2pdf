@@ -70,16 +70,17 @@ jobs:
 
       # because we know some of our terraform has an external poetry data
       # source, we need to install poetry
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version-file: lambda-src/api-render-pdf/pyproject.toml
-          cache: poetry
 
       - name: Setup Poetry
         uses: abatilo/actions-poetry@v2
         with:
           poetry-version: 1.6.1
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version-file: lambda-src/api-render-pdf/pyproject.toml
+          cache: poetry
 
       - name: Prerelease Version
         shell: bash
