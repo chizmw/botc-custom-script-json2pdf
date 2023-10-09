@@ -1,0 +1,77 @@
+---
+openapi: 3.0.0
+info:
+  title: Arcane Scripts API
+  description: API for requesting and retrieving rendered scripts
+  version: v0.3.4
+
+paths:
+  /render:
+    post:
+      description: Render a PDF from a script JSON object
+      parameters: []
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScriptResponse'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScriptTopLevelResponse'
+      x-amazon-apigateway-integration:
+        uri: ${post_lambda_arn}
+        passthroughBehavior: when_no_match
+        httpMethod: POST
+        type: aws_proxy
+
+components:
+  schemas:
+    # types
+    RequestId:
+      type: string
+      nullable: false
+      example: 057a3874-625a-41f0-a89a-50799e535f44
+
+    Status:
+      type: string
+      nullable: false
+      enum: [received, processing, complete, failed]
+      example: processing
+
+    DownloadURL:
+      type: string
+      nullable: true
+      example: https://somewhere.in.aws/b4f7-4d4acce98986.pdf
+
+    # responses
+
+    ScriptResponse:
+      type: object
+      properties:
+        request_id:
+          $ref: '#/components/schemas/RequestId'
+        status:
+          $ref: '#/components/schemas/Status'
+        download_url:
+          $ref: '#/components/schemas/DownloadURL'
+
+    ScriptTopLevelResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          nullable: false
+          example: we didn't write this yet
+        request_id:
+          $ref: '#/components/schemas/RequestId'
+        status:
+          $ref: '#/components/schemas/Status'
