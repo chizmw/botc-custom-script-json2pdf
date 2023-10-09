@@ -8,8 +8,8 @@ data "template_file" "arcanescripts_api_oas3" {
   template = file("../openapi/arcanescripts-oas3.yaml")
 
   vars = {
-    get_lambda_arn  = module.lambda_function_api-status.lambda_function_invoke_arn
-    post_lambda_arn = module.lambda_function_api-status.lambda_function_invoke_arn
+    get_lambda_arn  = module.lambda_function_api-render_pdf.lambda_function_invoke_arn
+    post_lambda_arn = module.lambda_function_api-render_pdf.lambda_function_invoke_arn
   }
 }
 

@@ -3,7 +3,7 @@ set -e
 
 commit_version="$(git describe --tags --always)"
 project_dir="$(basename "$(git rev-parse --show-toplevel)")"
-poetry_version="$(poetry version --short)"
+poetry_version="$(cd "../lambda-src/api-render-pdf/" && poetry version --short)"
 
 jq -n \
     --arg commit_version "$commit_version" \
