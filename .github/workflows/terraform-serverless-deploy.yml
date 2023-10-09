@@ -73,7 +73,8 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version-file: lambda-src/api-render-pdf/pyproject.toml
+          cache: poetry
 
       - name: Setup Poetry
         uses: abatilo/actions-poetry@v2
