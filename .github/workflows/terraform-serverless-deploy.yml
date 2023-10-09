@@ -87,7 +87,7 @@ jobs:
           # for convenience we bump the version number (prerelease) if we're a
           # PR; we don't care about keeping this, we just _never_ want to have
           # a PR with a normal release version number
-          poetry version prerelease
+          poetry --directory=lambda-src/api-render-pdf/ version prerelease
 
       - name: Run Tests
         shell: bash
