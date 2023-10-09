@@ -79,7 +79,7 @@ jobs:
       - name: Setup Poetry
         uses: abatilo/actions-poetry@v2
         with:
-          poetry-version: 1.4.2
+          poetry-version: 1.6.1
 
       - name: Prerelease Version
         shell: bash
