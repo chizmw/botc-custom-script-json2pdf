@@ -1,5 +1,6 @@
 module "lambda_function_api-render_pdf" {
-  source = "terraform-aws-modules/lambda/aws"
+  source  = "terraform-aws-modules/lambda/aws"
+  version = "6.0.1"
 
   function_name = "${local.project_name}__render_handler"
   description   = "Manage the ${local.project_name} lambda function for /render endpoint"
