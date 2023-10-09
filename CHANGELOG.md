@@ -1,5 +1,57 @@
 # Changelog
 
+## 0.3.5
+
+### Patch Changes
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump actions/checkout from 3 to 4 ([#251](https://github.com/chizmw/botc-custom-script-json2pdf/pull/251))
+
+- chore: allow 'style' label, and add it to labeler config ([#245](https://github.com/chizmw/botc-custom-script-json2pdf/pull/245))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump pillow from 10.0.0 to 10.0.1 ([#262](https://github.com/chizmw/botc-custom-script-json2pdf/pull/262))
+
+- <!-- markdownlint-disable MD041 -->chore(deps-dev): bump types-requests from 2.31.0.2 to 2.31.0.8 ([#263](https://github.com/chizmw/botc-custom-script-json2pdf/pull/263))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump urllib3 from 1.26.16 to 1.26.17 ([#256](https://github.com/chizmw/botc-custom-script-json2pdf/pull/256))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump mikepenz/action-junit-report from 3 to 4 ([#252](https://github.com/chizmw/botc-custom-script-json2pdf/pull/252))
+
+- style: update the changeset template ([#245](https://github.com/chizmw/botc-custom-script-json2pdf/pull/245))
+
+- <!-- markdownlint-disable MD041 --> ([#237](https://github.com/chizmw/botc-custom-script-json2pdf/pull/237))
+
+  chore(deps): bump actions/setup-python from 2 to 4
+
+- chore: don't run labeler action if dependabot pr ([#244](https://github.com/chizmw/botc-custom-script-json2pdf/pull/244))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump chuhlomin/render-template from 1.7 to 1.8 ([#260](https://github.com/chizmw/botc-custom-script-json2pdf/pull/260))
+
+- <!-- markdownlint-disable MD041 -->chore(deps-dev): bump the dependencies group with 1 update ([#268](https://github.com/chizmw/botc-custom-script-json2pdf/pull/268))
+
+- chore(deps): update dependabot configuration to group by ecosystem ([#265](https://github.com/chizmw/botc-custom-script-json2pdf/pull/265))
+
+- chore: use better group names in dependabot config ([#269](https://github.com/chizmw/botc-custom-script-json2pdf/pull/269))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump toshimaru/auto-author-assign from 2.0.0 to 2.0.1 ([#259](https://github.com/chizmw/botc-custom-script-json2pdf/pull/259))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump click from 8.1.6 to 8.1.7 ([#267](https://github.com/chizmw/botc-custom-script-json2pdf/pull/267))
+
+- <!-- markdownlint-disable MD041 -->chore(deps-dev): bump pytest from 7.4.0 to 7.4.1 ([#250](https://github.com/chizmw/botc-custom-script-json2pdf/pull/250))
+
+- <!-- markdownlint-disable MD041 --> ([#243](https://github.com/chizmw/botc-custom-script-json2pdf/pull/243))
+
+  chore(deps): bump boto3 from 1.28.35 to 1.28.37
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump pypdf from 3.15.4 to 3.16.2 ([#257](https://github.com/chizmw/botc-custom-script-json2pdf/pull/257))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump toshimaru/auto-author-assign from 1.6.2 to 2.0.0 ([#254](https://github.com/chizmw/botc-custom-script-json2pdf/pull/254))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump boto3 from 1.28.37 to 1.28.62 ([#264](https://github.com/chizmw/botc-custom-script-json2pdf/pull/264))
+
+- <!-- markdownlint-disable MD041 -->chore(deps-dev): bump mypy from 1.4.1 to 1.5.1 ([#267](https://github.com/chizmw/botc-custom-script-json2pdf/pull/267))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump aws-actions/configure-aws-credentials from 3 to 4 ([#253](https://github.com/chizmw/botc-custom-script-json2pdf/pull/253))
+
 ## 0.3.4
 
 ### Patch Changes
