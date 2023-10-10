@@ -1,4 +1,24 @@
 locals {
+  project_name = "arcane-scripts-api"
+
+  aws_default_region = "eu-west-2"
+
+  # we want a lookup of region to secrets lambda ARN
+  # https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieving-secrets_lambda.html#retrieving-secrets_lambda_ARNs
+  secrets_layer_arns = {
+    "eu-west-1" = "arn:aws:lambda:eu-west-1:015030872274:layer:AWS-Parameters-and-Secrets-Lambda-Extension:10"
+    "eu-west-2" = "arn:aws:lambda:eu-west-2:133256977650:layer:AWS-Parameters-and-Secrets-Lambda-Extension:10"
+  }
+
+  # secret_layer_arn is the lookup for the current region, or a default message of "ARN Missing For Region"
+  secrets_layer_arn = lookup(local.secrets_layer_arns, data.aws_region.current.name, "ARN Missing For Region")
+}
+
+
+
+
+## ORIGINAL LOCALS - CLEANUP REQUIRED
+locals {
 
   tag_defaults = {
     Owner      = "chisel"
@@ -10,8 +30,9 @@ locals {
 
   # wkspc_site_name is based on the workspace name; if it's 'prod' we use 'make', if it's 'dev' we use 'preview'
   wkspc_site_name = {
-    prod = "make"
-    dev  = "beta"
+    prod    = "make"
+    dev     = "beta"
+    default = "alpha"
   }
 
   # get the lookup value from the wkspc_site_name map based on the workspace name

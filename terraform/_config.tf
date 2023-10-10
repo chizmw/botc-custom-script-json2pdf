@@ -8,7 +8,7 @@ terraform {
     #workspace_key_prefix = "tf-state"
   }
 
-  required_version = "~> 1.4"
+  required_version = "~> 1.6"
 
   required_providers {
     aws = {

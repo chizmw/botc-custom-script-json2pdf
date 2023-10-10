@@ -1,3 +1,5 @@
+.ONESHELL: # Applies to every targets in the file!
+
 INPUT_FILE=
 
 .PHONY: all
@@ -13,7 +15,9 @@ variations: install-dev
 clean:
 	@find . -type f \( -iname "*.pdf" -o -iname "*.html" \) -exec rm -vf {} \;
 
+APP_DIR=lambda-src/api-render-pdf
 POETRY=poetry
+POETRY_QUIET=--verbose
 POETRY_OK:=$(shell command -v $(POETRY) 2> /dev/null)
 PYSRC=botcpdf
 MAKE_PDF=bin/make-pdf --format sample
@@ -25,7 +29,7 @@ endif
 
 install-dev: poetry
 	@$(POETRY) config virtualenvs.in-project true
-	@$(POETRY) install --quiet
+	@$(POETRY) --directory=$(APP_DIR) $(POETRY_QUIET) install
 
 fmt: install-dev
 	@$(POETRY) run black -t py311 $(PYSRC)
@@ -34,10 +38,16 @@ lint: install-dev
 	@$(POETRY) run pylint $(PYSRC)
 
 test: install-dev
-	@$(POETRY) run poetry run pytest -v --junit-xml=test-results.xml botcpdf/tests/
+	# for some reason -C doesn't work here
+	cd $(APP_DIR) && \
+	pwd && \
+	$(POETRY) run pytest -v --junit-xml=test-results.xml botcpdf/tests/
 
 test-json: install-dev
-	@$(POETRY) run poetry run pytest -v botcpdf/tests/test_external_json.py
+	# for some reason -C doesn't work here
+	cd $(APP_DIR) && \
+	pwd && \
+	$(POETRY) run pytest -v botcpdf/tests/test_external_json.py
 
 # some quick helpers to (quickly) generate some pdfs
 script-tb: TARGET:="Trouble Brewing"
@@ -47,7 +57,7 @@ script-cs: TARGET:="Clean Sweep"
 script-jinx: TARGET="Let's Test Some Jinxes"
 
 script-tb script-nrb script-gmv script-cs script-jinx: poetry
-	$(MAKE_PDF) scripts/$(TARGET).json
+	$(MAKE_PDF) ../../scripts/$(TARGET).json
 ifeq ($(shell uname),Darwin)
 	@open -a Preview "pdfs/just-baked.pdf"
 endif
@@ -101,7 +111,7 @@ release: fmt lint changelog
 	@git push --tags
 
 fetch-combined-json:
-	@curl --silent --create-dirs -o data/imported/roles-combined.json https://raw.githubusercontent.com/chizmw/json-on-the-clocktower/main/data/generated/roles-combined.json
+	@curl --silent --create-dirs -o lambda-src/api-render-pdf/data/imported/roles-combined.json https://raw.githubusercontent.com/chizmw/json-on-the-clocktower/main/data/generated/roles-combined.json
 
 grab-some-scripts:
 # make certain we have a scripts directory

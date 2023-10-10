@@ -308,3 +308,5 @@ terraform/poetry-version.json
 templates/generated.css
 .envrc
 test-results.xml
+generated.css
+builds/
