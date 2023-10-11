@@ -2,8 +2,8 @@ module "lambda_function_api-render_pdf" {
   source  = "terraform-aws-modules/lambda/aws"
   version = "6.0.1"
 
-  function_name = "${local.project_name}__render_handler"
-  description   = "Manage the ${local.project_name} lambda function for /render endpoint"
+  function_name = "${local.project_name}__${terraform.workspace}__render_handler"
+  description   = "Manage the ${local.project_name} lambda function for /render endpoint (${terraform.workspace})"
   handler       = "botcpdf.lambda.render"
   runtime       = "python3.11"
   publish       = true
@@ -26,7 +26,7 @@ module "lambda_function_api-render_pdf" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "AllowLambdaToUseSecretsLayer",
+      "Sid": "${terraform.workspace}AllowLambdaToUseSecretsLayer",
       "Effect": "Allow",
       "Action": "lambda:GetLayerVersion",
       "Resource": "*"
