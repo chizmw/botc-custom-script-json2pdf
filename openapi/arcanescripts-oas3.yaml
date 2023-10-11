@@ -6,6 +6,32 @@ info:
   version: v0.3.4
 
 paths:
+  # top-level OPTIONS to placate CORS
+  /:
+    # https://dev.to/rolfstreefkerk/openapi-with-terraform-on-aws-api-gateway-17je
+    options:
+      responses:
+        200:
+          $ref: '#/components/responses/cors'
+        500:
+          $ref: '#/components/responses/cors'
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: '200'
+            responseParameters:
+              method.response.header.Access-Control-Max-Age: "'7200'"
+              # yamllint disable-line rule:line-length
+              method.response.header.Access-Control-Allow-Methods: "'OPTIONS,HEAD,GET,POST,PUT,PATCH,DELETE'"
+              # yamllint disable-line rule:line-length
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: when_no_match
+        timeoutInMillis: 29000
+        requestTemplates:
+          application/json: '{ "statusCode": 200 }'
+        type: mock
+
   /render:
     post:
       description: Render a PDF from a script JSON object
