@@ -4,7 +4,7 @@ module "lambda_function_api-render_pdf" {
 
   function_name = "${local.project_name}__render_handler"
   description   = "Manage the ${local.project_name} lambda function for /render endpoint"
-  handler       = "lambda.handler"
+  handler       = "botcpdf.lambda.render"
   runtime       = "python3.11"
   publish       = true
   timeout       = 30
