@@ -71,12 +71,12 @@ jobs:
       # because we know some of our terraform has an external poetry data
       # source, we need to install poetry
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Setup Poetry
-        uses: abatilo/actions-poetry@v2
+        uses: abatilo/actions-poetry@v3
         with:
           poetry-version: 1.4.2
 
@@ -145,7 +145,7 @@ jobs:
           env |sort |grep AWS
           aws sts get-caller-identity
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 16
 
@@ -193,12 +193,12 @@ jobs:
 
       # install python and poetry so we can run the tests
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Setup Poetry
-        uses: abatilo/actions-poetry@v2
+        uses: abatilo/actions-poetry@v3
         with:
           poetry-version: 1.4.2
 
