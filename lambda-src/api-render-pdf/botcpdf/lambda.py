@@ -28,6 +28,7 @@ def render(event: Dict[str, Any], context: Optional[LambdaContext]) -> dict[str,
     Returns:
         dict[str, Any]: Lambda response for API Gateway
     """
+    return {"statusCode": 501, "body": "Not Implemented by Chisel ... banana"}
 
     logger = ensure_logger(None)
 

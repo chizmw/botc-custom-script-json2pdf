@@ -1,0 +1,49 @@
+---
+service: botc-custom-script-json2pdf
+
+provider:
+  name: aws
+  region: eu-west-2
+  iam:
+    role: arn:aws:iam::436158765452:role/botc/deploy_json2pdf
+  ecr:
+    scanOnPush: true
+    images:
+      json2pdf:
+        path: ./
+        file: Dockerfile
+  stackTags:
+    Name: botc-custom-script-json2pdf
+    Owner: chisel
+    Product: botc-custom-script-json2pdf
+    InfoURL: https://github.com/chizmw/botc-custom-script-json2pdf
+  environment:
+    BUCKET_NAME: 436158765452-botc-pdf-bucket-${self:custom.stage}
+    BOTC_DEBUG: 1
+    BOTC2JSON_WEBHOOK_URL: ${self:custom.discord_webhook}
+  # Note: API Gateway has a maximum timeout of 30 seconds
+  timeout: 90
+  logRetentionInDays: 7
+  stage: ${self:custom.stage}
+  apiGateway:
+    shouldStartNameWithService: true
+    minimumCompressionSize: 1024
+    binaryMediaTypes:
+      - application/pdf
+  memorySize: 3008
+  tracing:
+    lambda: true
+
+plugins:
+  - serverless-docker
+
+functions:
+  render-pdf:
+    timeout: 90
+    image:
+      name: json2pdf
+
+custom:
+  stage: ${opt:stage, 'dev'}
+  # yamllint disable-line rule:line-length
+  discord_webhook: ${ssm:/aws/reference/secretsmanager/pdf-api/discord-webhook-url/dev}

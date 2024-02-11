@@ -1,0 +1,19 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "${workspace}${project_name}AllowLambdaToUseSecretsLayer",
+      "Effect": "Allow",
+      "Action": "lambda:GetLayerVersion",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": [
+        "arn:aws:ssm:*:*:parameter/core_infrastructure/BLAMELESS_API_KEY",
+        "arn:aws:ssm:*:*:parameter/core_infrastructure/OPSLEVEL_API_KEY"
+      ]
+    }
+  ]
+}

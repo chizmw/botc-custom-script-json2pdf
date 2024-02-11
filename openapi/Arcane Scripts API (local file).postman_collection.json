@@ -1,0 +1,417 @@
+{
+	"info": {
+		"_postman_id": "3ef7f040-52fd-434f-80fe-919165faf78e",
+		"name": "Arcane Scripts API (local file)",
+		"description": "API for requesting and retrieving rendered scripts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13635"
+	},
+	"item": [
+		{
+			"name": "/",
+			"item": [
+				{
+					"name": "/",
+					"request": {
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 response",
+							"originalRequest": {
+								"method": "OPTIONS",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								},
+								{
+									"key": "Access-Control-Max-Age",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						},
+						{
+							"name": "200 response",
+							"originalRequest": {
+								"method": "OPTIONS",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										""
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								},
+								{
+									"key": "Access-Control-Max-Age",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "render",
+			"item": [
+				{
+					"name": "Render a PDF from a script JSON object",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/render",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"render"
+							]
+						},
+						"description": "Render a PDF from a script JSON object"
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/render",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"render"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"request_id\": \"<string>\",\n    \"status\": \"complete\",\n    \"download_url\": \"<string>\"\n  },\n  {\n    \"request_id\": \"<string>\",\n    \"status\": \"complete\",\n    \"download_url\": \"<string>\"\n  }\n]"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/render",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"render"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"message\": \"<string>\",\n    \"request_id\": \"<string>\",\n    \"status\": \"failed\"\n  },\n  {\n    \"message\": \"<string>\",\n    \"request_id\": \"<string>\",\n    \"status\": \"processing\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "/render",
+					"request": {
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/render",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"render"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200 response",
+							"originalRequest": {
+								"method": "OPTIONS",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/render",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"render"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								},
+								{
+									"key": "Access-Control-Max-Age",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						},
+						{
+							"name": "200 response",
+							"originalRequest": {
+								"method": "OPTIONS",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/render",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"render"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								},
+								{
+									"key": "Access-Control-Max-Age",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "<string>",
+									"description": {
+										"content": "",
+										"type": "text/plain"
+									}
+								}
+							],
+							"cookie": [],
+							"body": "{}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "/"
+		}
+	]
+}

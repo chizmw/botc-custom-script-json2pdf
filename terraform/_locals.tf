@@ -3,6 +3,8 @@ locals {
 
   aws_default_region = "eu-west-2"
 
+  python_runtime = "python3.11"
+
   # we want a lookup of region to secrets lambda ARN
   # https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieving-secrets_lambda.html#retrieving-secrets_lambda_ARNs
   secrets_layer_arns = {
@@ -45,7 +47,6 @@ locals {
   pdf_api_description        = "JSON-to-PDF API for custom BotC scripts"
   pdf_render_path            = "render"
   api_stage                  = (terraform.workspace == "prod") ? "prod" : "dev"
-  python_runtime             = "python3.10"
   lambda_stage_function_name = "${var.sls_service_name}-${terraform.workspace}-${var.sls_function_name}"
   xray_tracingenabled        = (terraform.workspace == "prod") ? true : false
 }

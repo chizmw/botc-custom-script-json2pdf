@@ -15,6 +15,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.6"
     }
+
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "3.0.2"
+    }
   }
 }
 
@@ -24,6 +29,12 @@ provider "aws" {
   default_tags {
     tags = local.tag_defaults
   }
+
+  # Make it faster by skipping something
+  skip_metadata_api_check     = true
+  skip_region_validation      = true
+  skip_credentials_validation = true
+  skip_requesting_account_id  = true
 }
 
 provider "aws" {
