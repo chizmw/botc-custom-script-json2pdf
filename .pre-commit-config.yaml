@@ -18,7 +18,7 @@ exclude: |
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -29,7 +29,7 @@ repos:
   # use this and NOT the one in jumanjihouse; it supports the enable/disable
   # markup
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.35.0
+    rev: v0.39.0
     hooks:
       - id: markdownlint
         args: [--ignore, .changes/*md, --ignore, CHANGELOG.md]
@@ -54,20 +54,20 @@ repos:
       # - id: shfmt
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.81.0
+    rev: v1.86.0
     hooks:
       - id: terraform_fmt
       # - id: terraform_docs
 
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.32.0
+    rev: v1.34.0
     hooks:
       - id: yamllint
         args: [--format, parsable, --strict]
         exclude: ^.changes/unreleased
 
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.9.0.5
+    rev: v0.9.0.6
     hooks:
       - id: shellcheck
 
@@ -94,18 +94,18 @@ repos:
       # - id: golangci-lint-mod
 
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-    rev: v9.5.0
+    rev: v9.11.0
     hooks:
       - id: commitlint
         stages: [commit-msg]
 
   - repo: https://github.com/AleksaC/hadolint-py
-    rev: v2.12.0.2
+    rev: v2.12.0.3
     hooks:
       - id: hadolint
 
   - repo: https://github.com/psf/black
-    rev: 23.7.0
+    rev: 24.1.1
     hooks:
       - id: black
         language_version: python3.10
