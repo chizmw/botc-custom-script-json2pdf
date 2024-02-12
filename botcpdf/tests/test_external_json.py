@@ -1,7 +1,6 @@
 """Tests to make sure that the external JSON data we use is processed
 correctly."""
 
-
 import json
 
 from botcpdf.roledata import RoleData
@@ -31,7 +30,7 @@ class TestJsonData:
                 "character_by_id",
                 "editions",
                 "jinxes",
-                "role_list",
+                "roles",
                 "teams",
             ]
         )
