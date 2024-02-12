@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.3.6
+
+### Patch Changes
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump the python group with 4 updates ([#355](https://github.com/chizmw/botc-custom-script-json2pdf/pull/355))
+
+- chore: prevent terraform/sls deploy running ([#353](https://github.com/chizmw/botc-custom-script-json2pdf/pull/353))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump the python group with 7 updates ([#282](https://github.com/chizmw/botc-custom-script-json2pdf/pull/282))
+
+- chore: update combined JSON data source file ([#353](https://github.com/chizmw/botc-custom-script-json2pdf/pull/353))
+
+- chore(deps): poetry update ([#353](https://github.com/chizmw/botc-custom-script-json2pdf/pull/353))
+
+- some styling changes in PDF (esp. very long Other Nights) ([#353](https://github.com/chizmw/botc-custom-script-json2pdf/pull/353))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump the github-actions group with 8 updates ([#354](https://github.com/chizmw/botc-custom-script-json2pdf/pull/354))
+
 ## 0.3.5
 
 ### Patch Changes
