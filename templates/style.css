@@ -2,7 +2,7 @@
   background-color: white;
   margin-bottom: 5mm;
   margin-left: 12mm;
-  margin-right: 12mm;
+  margin-right: 9mm;
   margin-top: 5mm;
   size: A5 landscape;
 }
@@ -123,17 +123,18 @@ header {
 .character-ability-reminder {
   color: #708090;
   font-family: 'Fira Sans', sans-serif;
-  font-size: 8pt;
+  font-size: 7pt;
   font-weight: 200;
 }
 .character-block {
-  border: none;
   break-inside: avoid-column;
   margin-bottom: 2px;
   margin-top: 2px;
+  /* this seems odd, but seems to help the player reference flow/line up better */
+  border: 2px solid #fff;
 }
 .character-block-nightinfo {
-  min-height: 40px;
+  min-height: 36px;
 }
 .character-block-player {
   min-height: 55px;
@@ -184,8 +185,8 @@ header {
 .character-reminder {
   color: #000;
   font-family: 'Fira Sans', sans-serif;
-  font-size: 8pt;
-  margin-top: 5px;
+  font-size: 7pt;
+  margin-top: 3px;
 }
 .character-type-demon,
 .character-type-minion {

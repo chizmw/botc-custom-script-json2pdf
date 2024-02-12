@@ -6,7 +6,7 @@ name: Terraform and Serverless Deployment
 # yamllint disable-line rule:truthy
 on:
   pull_request:
-    branches: [main]
+    branches: [mainXXdonotrunthis]
     # only if we've changed terraform/ or botcpdf/ directories
     paths:
       - botcpdf/**
