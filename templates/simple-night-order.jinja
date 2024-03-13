@@ -1,20 +1,20 @@
 <div class="full-page">
   <div class="first-night">
     <h2 class="simple-first-night">First Night</h2>
-    {%- for character in first_night %}
-      <div class="character-block character-block-nightinfo">
-        <img src="{{character.remote_image}}" alt="{{ character.name }}" class="character-icon-nightinfo"/>
-        <span class="character-name character-name-{{ character.team }}">{{ character.name }}</span>
+    {%- for role in first_night %}
+      <div class="role-block role-block-nightinfo">
+        <img src="{{role.remote_image}}" alt="{{ role.name }}" class="role-icon-nightinfo"/>
+        <span class="role-name role-name-{{ role.team }}">{{ role.name }}</span>
       </div>
     {%- endfor %}
   </div>
 
   <div class="other-nights">
     <h2 class="simple-first-night">Other Nights</h2>
-      {%- for character in other_nights %}
-        <div class="character-block character-block-nightinfo">
-          <img src="{{character.remote_image}}" alt="{{ character.name }}" class="character-icon-nightinfo"/>
-          <span class="character-name character-name-{{ character.team }}">{{ character.name }}</span>
+      {%- for role in other_nights %}
+        <div class="role-block role-block-nightinfo">
+          <img src="{{role.remote_image}}" alt="{{ role.name }}" class="role-icon-nightinfo"/>
+          <span class="role-name role-name-{{ role.team }}">{{ role.name }}</span>
         </div>
       {%- endfor %}
   </div>

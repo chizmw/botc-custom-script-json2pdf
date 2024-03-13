@@ -13,18 +13,23 @@
     </header>
 
     <!-- First Night Info -->
-    {%- for character in first_night %}
-      <div class="character-block character-block-nightinfo">
-        <img src="{{character.remote_image}}" alt="{{ character.name }}" class="character-icon-nightinfo"/>
-        <span class="character-name character-name-{{ character.team }}">{{ character.name }}</span>
-        <span class="character-ability-reminder">{{ character.ability }}</span>
-        <div class="character-reminder">{{ character.first_night_reminder }}</div>
-      </div>
-
-      {%- if not loop.last %}
-        <div class="line-nightinfo"></div>
-      {%- endif %}
-    {%- endfor %}
+      <div class="role-container">
+        {%- for role in first_night %}
+        <div class="night-role-block">
+          <img src="{{role.remote_image}}" alt="{{ role.name }}" class="role-icon-nightinfo"/>
+          <div class="night-role-info">
+            <div class="night-role-title-line">
+              <div class="role-name role-name-{{role.team}}">{{ role.name }}</div>
+              <div class="role-ability-reminder">{{ role.ability }}</div>
+            </div>
+            <div class="night-role-reminder">{{ role.first_night_reminder }}</div>
+          </div>
+        </div>
+        {%- if not loop.last %}
+          <div class="line-nightinfo"></div>
+        {%- endif %}
+        {%- endfor %}
+    </div>
 
     {# if we have at most 15 items in first_night #}
     {% if first_night|length <= 15 %}
@@ -46,18 +51,23 @@
     </header>
 
     <!-- Other Night Info -->
-    {%- for character in other_nights %}
-      <div class="character-block character-block-nightinfo">
-        <img src="{{character.remote_image}}" alt="{{ character.name }}" class="character-icon-nightinfo"/>
-        <span class="character-name character-name-{{ character.team }}">{{ character.name }}</span>
-        <span class="character-ability-reminder">{{ character.ability }}</span>
-        <div class="character-reminder">{{ character.other_night_reminder }}</div>
-      </div>
-
-      {%- if not loop.last %}
-        <div class="line-nightinfo"></div>
-      {%- endif %}
-    {%- endfor %}
+      <div class="role-container">
+        {%- for role in other_nights %}
+        <div class="night-role-block">
+          <img src="{{role.remote_image}}" alt="{{ role.name }}" class="role-icon-nightinfo"/>
+          <div class="night-role-info">
+            <div class="night-role-title-line">
+              <div class="role-name role-name-{{role.team}}">{{ role.name }}</div>
+              <div class="role-ability-reminder">{{ role.ability }}</div>
+            </div>
+            <div class="night-role-reminder">{{ role.other_night_reminder }}</div>
+          </div>
+        </div>
+        {%- if not loop.last %}
+          <div class="line-nightinfo"></div>
+        {%- endif %}
+        {%- endfor %}
+</div>
 
     {# if we have at most 15 items in other_nights #}
     {% if other_nights|length <= 15 %}

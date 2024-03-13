@@ -12,5 +12,5 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
-  "conventionalCommits.scopes": ["changelog"]
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python"
 }
