@@ -1,3 +1,5 @@
+/* page "magic" for the PDF hints */
+/* we usually override size in generated.css */
 @page {
   background-color: white;
   margin-bottom: 5mm;
@@ -6,13 +8,124 @@
   margin-top: 5mm;
   size: A5 landscape;
 }
+
+/* the page body - with a weird font colour to make it really obvious if we missed it in a style */
 body {
-  color: #ff0;
+  color: purple;
   font-family: 'Fira Sans', sans-serif;
   font-size: 8pt;
 
   margin-left: 20px;
+  border: 1px dashed white;
 }
+
+/* the page header */
+
+.heading-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+header {
+  align-items: flex-start;
+  background-color: #2f4f4f;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.author-presents {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+  color: darkslategray;
+  font-family: 'Dancing Script', cursive;
+  transform: rotate(-8deg);
+  opacity: 0.8;
+  padding-top: 8px;
+}
+
+.top-left-header {
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 8px;
+  padding-left: 10px;
+}
+.top-right-header {
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 8px;
+  padding-right: 10px;
+}
+
+h1.script-title {
+  color: #000;
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 18pt;
+  font-weight: 900;
+  text-align: right;
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+
+/* the (page) footer */
+footer {
+  align-items: flex-start;
+  bottom: 10px;
+  color: #000;
+  display: flex;
+  font-family: 'Fira Sans', sans-serif;
+  justify-content: space-between;
+  left: 0;
+  padding: 0 10px;
+  position: fixed;
+  right: 0;
+}
+footer .footer-left {
+  font-size: 8px;
+  left: 0;
+  margin-left: 10px;
+}
+footer .footer-right {
+  font-size: 8px;
+  right: 0;
+}
+
+/* roles container(s) */
+
+.role-container {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: white;
+}
+
+.role-block {
+  min-width: 340px;
+  max-width: 340px;
+  margin: 5px;
+  display: flex;
+  align-items: flex-start;
+  background-color: white;
+}
+
+.role-block > img,
+.night-role-block > img {
+  max-height: 50px;
+  max-width: 50px;
+  margin-right: 10px;
+  margin-left: -10px;
+  border: 1px solid white;
+  break-inside: avoid-column;
+}
+
+.role-info {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  flex: 1; /* Take up equal space within the flex container */
+  border: 1px dashed white;
+}
+
+/* plyaer reference extras */
 div.not-first-night {
   bottom: 2%;
   color: #000;
@@ -23,17 +136,85 @@ div.not-first-night {
   transform: translateX(-50%);
 }
 
-.full-page {
-  align-items: center;
-  bottom: 5mm;
-
-  justify-content: center;
-  left: 12mm;
+/* role type header */
+h2.role-type {
+  font-family: 'Alegreya Sans SC', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  left: 0;
+  padding: 1px;
+  padding-left: 8px;
+  padding-right: 8px;
   position: absolute;
-  right: 12mm;
-  top: 5mm;
+  transform: rotate(90deg) translateX(-20%);
+  transform-origin: left;
+  white-space: nowrap;
 }
 
+/* colour changes for role names and types */
+
+/* role info styling */
+.role-name {
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 10pt;
+  font-weight: 800;
+}
+
+.role-ability {
+  color: #000;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 9pt;
+  font-weight: 400;
+}
+
+.role-name {
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 10pt;
+  font-weight: 800;
+}
+.role-name-_meta {
+  color: #000;
+}
+.role-name-night {
+  font-size: 8pt;
+  padding-right: 3px;
+}
+.role-name-demon,
+.role-name-minion {
+  color: red;
+}
+.role-name-outsider,
+.role-name-townsfolk {
+  color: #00f;
+}
+.role-name-fabled {
+  color: #ff844a;
+}
+.role-name-traveler {
+  color: #804141;
+}
+
+.role-type-demon,
+.role-type-minion {
+  border-top: 2px solid red;
+  color: red;
+}
+.role-type-outsider,
+.role-type-townsfolk {
+  border-top: 2px solid #00f;
+  color: #00f;
+}
+.role-type-jinx {
+  color: #af6e4c;
+}
+.role-type-fabled {
+  color: #ff844a;
+}
+.role-type-traveler {
+  color: #804141;
+}
+
+/* player reference - night order */
 .first-night {
   left: 0;
   margin-left: -20px; /* Adjust this value to match the column gap */
@@ -65,352 +246,56 @@ div.not-first-night {
   overflow: auto;
 }
 
-footer .footer-left {
-  font-size: 8px;
-  left: 0;
-  margin-left: 10px;
-}
-footer .footer-right {
-  font-size: 8px;
-  right: 0;
-}
-footer {
-  align-items: flex-start;
-  bottom: 10px;
-  color: #000;
-  display: flex;
-  font-family: 'Fira Sans', sans-serif;
-  justify-content: space-between;
-  left: 0;
-  padding: 0 10px;
-  position: fixed;
-  right: 0;
-}
-h2.character-type {
-  font-family: 'Alegreya Sans SC', sans-serif;
-  font-size: 18px;
-  font-weight: 900;
-  left: 0;
-  padding: 1px;
-  padding-left: 8px;
-  padding-right: 8px;
-  position: absolute;
-  transform: rotate(90deg) translateX(-20%);
-  transform-origin: left;
-  white-space: nowrap;
-}
-h2.simple-first-night {
-  border-bottom: 1.5px solid #000;
-  color: #000;
-  font-family: 'Alegreya Sans SC', sans-serif;
-  font-size: 18pt;
-  font-weight: 900;
-}
+/* storytelly first night order */
 
-header {
-  align-items: flex-start;
-  background-color: #2f4f4f;
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-}
-.character-ability {
-  color: #000;
-  font-family: 'Fira Sans', sans-serif;
-  font-size: 9pt;
-  font-weight: 400;
-}
-.character-ability-reminder {
-  color: #708090;
-  font-family: 'Fira Sans', sans-serif;
-  font-size: 7pt;
-  font-weight: 200;
-}
-.character-block {
-  break-inside: avoid-column;
-  margin-bottom: 2px;
-  margin-top: 2px;
-  /* this seems odd, but seems to help the player reference flow/line up better */
-  border: 2px solid #fff;
-}
-.character-block-nightinfo {
-  min-height: 36px;
-}
-.character-block-player {
-  min-height: 55px;
-}
-.character-icon {
-  border: none;
-  float: left;
-  margin-right: 2px;
-  max-height: 50px;
-  width: 50px;
-}
-.character-icon-nightinfo {
-  border: none;
-  display: inline-flex;
-  float: left;
-  margin-bottom: auto;
-  margin-top: auto;
-  max-height: 40px;
-  padding-right: 5px;
-  width: 40px;
-}
-.character-name {
-  font-family: 'Fira Sans', sans-serif;
-  font-size: 10pt;
-  font-weight: 800;
-}
-.character-name-_meta {
-  color: #000;
-}
-.character-name-night {
-  font-size: 8pt;
-  padding-right: 3px;
-}
-.character-name-demon,
-.character-name-minion {
-  color: red;
-}
-.character-name-outsider,
-.character-name-townsfolk {
-  color: #00f;
-}
-.character-name-fabled {
-  color: #ff844a;
-}
-.character-name-traveler {
-  color: #804141;
-}
-.character-reminder {
-  color: #000;
-  font-family: 'Fira Sans', sans-serif;
-  font-size: 7pt;
-  margin-top: 3px;
-}
-.character-type-demon,
-.character-type-minion {
-  border-top: 2px solid red;
-  color: red;
-}
-.character-type-outsider,
-.character-type-townsfolk {
-  border-top: 2px solid #00f;
-  color: #00f;
-}
-.character-type-jinx {
-  color: #af6e4c;
-}
-.character-type-fabled {
-  color: #ff844a;
-}
-.character-type-traveler {
-  color: #804141;
-}
-.cols-2 {
-  -moz-column-count: 2;
-  -webkit-column-count: 2;
-  column-count: 2;
-  -moz-column-gap: 20px;
-  -webkit-column-gap: 20px;
-  column-gap: 20px;
-}
-.cols-3 {
-  -moz-column-count: 3;
-  -webkit-column-count: 3;
-  column-count: 3;
-  -moz-column-gap: 20px;
-  -webkit-column-gap: 20px;
-  column-gap: 20px;
-}
-
-.cols-auto {
-  break-inside: avoid-column;
-  column-count: auto;
-  column-width: 8rem;
-}
-
-.hatred-icon {
-  border: none;
-  height: 30px;
-  margin-left: 0;
-  margin-right: -8px;
-  max-width: 30px;
-  vertical-align: bottom;
-}
-
-.night-icon {
-  border: none;
-  max-height: 40px;
-  width: 40px;
-}
-.traveler-night-icon,
-.fabled-night-icon {
-  border: none;
-  display: inline-flex;
-  float: left;
-  height: 30px;
-  margin-bottom: auto;
-  margin-top: auto;
-  max-width: 30px;
-  padding-right: 5px;
-}
-
-.jinx-night-icon {
-  align-items: center;
-  display: flex;
-  justify-content: center;
+.night-role-block {
+  margin: 0px;
   margin-bottom: -10px;
+  display: flex;
+  align-items: flex-start;
+  background-color: white;
+  width: 100%;
+  border: 1px dashed white;
 }
 
-.jinx-night-reason {
-  color: #af6e4c;
+.night-role-title-line {
   display: flex;
-  font-family: 'Fira Sans', sans-serif;
-  max-width: 45%;
+  flex-direction: row;
+  background-color: white;
 }
 
-.jinx-simple-night-icon {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-.jinx-simple-night-reason {
-  color: #af6e4c;
-  font-family: 'Fira Sans', sans-serif;
-  text-align: center;
-  white-space: normal;
-}
-.traveler-night-ability {
-  color: #af6e4c;
-}
-.fabled-night-ability {
-  color: #ff844a;
-}
-.jinx-reminder-block {
-  align-items: center;
-  break-inside: avoid-column;
-  display: flex;
-  margin-bottom: -2px;
-}
-.jinx-reminder-block-night {
-  align-items: center;
-  border: 1px solid #af6e4c;
-  break-inside: avoid-column;
+.night-role-info {
   display: flex;
   flex-direction: column;
-}
-.traveler-reminder-block,
-.fabled-reminder-block {
-  border: none;
-  break-inside: avoid-column;
-  margin-bottom: 2px;
-  margin-top: 2px;
-  min-height: 30px;
-  vertical-align: top;
-}
-.jinx-reminder-wrapper {
-  align-items: center;
-  border: none;
-  display: flex;
-  justify-content: center;
-  margin-top: 15px;
-  width: 100%;
-}
-.jinxes {
-  border-top: 1.5px solid #af6e4c;
-  flex-direction: row;
-  float: right;
-  font-family: 'Alegreya Sans SC', sans-serif;
-  justify-content: flex-end;
-  padding: 2px;
-  vertical-align: middle;
-}
-.jinxes-label-text {
-  color: #af6e4c;
-  font-family: 'Alegreya Sans SC', sans-serif;
-  font-size: 8pt;
-  margin-right: -3px;
-}
-.line {
-  border-bottom: 0.5px solid #a9a9a9;
-  flex: 1;
-  margin-bottom: 2px;
-}
-.line-nightinfo {
-  border-bottom: 0.5px solid #d3d3d3;
-  flex: 1;
-  margin-bottom: 2px;
-}
-.line-prejinx-nightinfo {
-  border-bottom: 3px double #a9a9a9;
-  flex: 1;
-  margin-bottom: 2px;
-}
-.line-pretraveler-nightinfo {
-  border-bottom: 3px double #a9a9a9;
-  flex: 1;
-  margin-bottom: 2px;
-  padding-top: 5px;
-}
-.line-prefabled-nightinfo {
-  border-bottom: 3px double #a9a9a9;
-  flex: 1;
-  margin-bottom: 2px;
-  padding-top: 5px;
-}
-.top-left-header {
-  font-family: 'Alegreya Sans SC', sans-serif;
-  font-size: 8px;
-  padding-left: 10px;
-}
-.top-right-header {
-  font-family: 'Alegreya Sans SC', sans-serif;
-  font-size: 8px;
-  padding-right: 10px;
+  flex: 1; /* Take up equal space within the flex container */
+  border: 1px dashed white;
+  margin-left: -6px;
 }
 
-h1.script-title {
-  color: #000;
-  font-family: 'Alegreya Sans SC', sans-serif;
-  font-size: 18pt;
-  font-weight: 900;
-  text-align: right;
-  margin-bottom: 0;
+.role-ability-reminder {
+  color: darkred;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 7pt;
+  font-weight: 400;
   margin-left: 5px;
 }
 
-.heading-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
+.night-role-reminder {
+  color: black;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 7pt;
+  margin-top: 3px;
+  font-weight: 500;
 }
 
-.spacer {
-  flex-grow: 1;
+.line-nightinfo {
+  border-bottom: 0.5px solid #d3d3d3;
+  flex: 1;
+  margin-bottom: 1px;
 }
 
-.author-presents {
-  display: inline-block;
-  font-size: 14px;
-  font-weight: 700;
-  color: darkslategray;
-  font-family: 'Dancing Script', cursive;
-  transform: rotate(-8deg);
-  opacity: 0.8;
-  padding-top: 8px;
-}
-
-.blank-page-qr-code {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 50mm; /* Adjust the width of the image as needed */
-  height: 50mm; /* Adjust the height of the image as needed */
-}
-
-.blank-page-qr-code > img {
-  max-width: 125px;
-  max-height: 125px;
+/* extra ability styling */
+div.role-ability > strong,
+div.role-ability-reminder > strong {
+  color: black;
 }

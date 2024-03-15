@@ -15,24 +15,20 @@
 {%- for type in characters %}
   {%- set type_plural = type + 's' if type != 'townsfolk' else type %}
 
-  <h2 class="character-type character-type-{{type}}">{{ type_plural | upper }}</h2>
-  <div class="cols-2">
-    {%- for character in characters[type] %}
-      <div class="character-block character-block-player">
-        <img src="{{character.remote_image}}" alt="{{ character.name }}" class="character-icon"/>
-        <div class="character-name character-name-{{type}}">
-          {{ character.name }}
-        {%- if hatred[character.id_slug] %}
-          <div class="jinxes">
-            <span class="jinxes-label-text">JINXES</span>
-            {%- for hater in hatred[character.id_slug] %}
-              <img src="{{hater.remote_image}}" alt="{{ hater }}" class="hatred-icon"/>
-            {%- endfor %}
-          </div>
-        {%- endif %}
+  <h2 class="role-type role-type-{{type}}">{{ type_plural | upper }}</h2>
+  <div class="role-container">
+    {%- for role in characters[type] %}
+    <div class="role-block">
+      <img src="{{role.remote_image}}" alt="{{ role.name }}" class="role-icon" />
+      <div class="role-info">
+        <div class="role-name role-name-{{type}}">
+          {{ role.name }}
         </div>
-        <div class="character-ability">{{ character.ability }}</div>
+        <div class="role-ability">
+          {{ role.ability }}
+        </div>
       </div>
+    </div>
     {%- endfor %}
   </div>
 

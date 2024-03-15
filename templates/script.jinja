@@ -27,11 +27,11 @@
       <div class="footer-right">
         <a href="https://make.arcane-scripts.net">make.arcane-scripts.net</a>
         (v{{ _project._version }})
-        {% include "options.jinja" %}
+        {%- include "options.jinja" %}
       </div>
     </footer>
 
-    {% include 'player-reference-easyloop.jinja' %}
+    {%- include 'player-reference-easyloop.jinja' %}
 
     {%- if script_options.simple_night_order == True %}
     {%- set night_include = "simple-night-order.jinja" -%}
@@ -39,7 +39,7 @@
     {%- set night_include = "full-fat-night-order.jinja" -%}
     {%- endif %}
 
-    {% include night_include %}
+    {%- include night_include %}
 
 
 

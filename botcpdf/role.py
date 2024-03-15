@@ -1,5 +1,6 @@
 """ Holds information about a BOTC role """
 
+import re
 from typing import Optional
 from botcpdf.jinx import Jinx
 
@@ -53,34 +54,25 @@ class Role:
         if not self.stylized:
             return text
 
-        # this looks weird to me, and as we fetch this data from the json
-        # we modify it here to suit our desired
-        text = text.replace(
+        # we need to match parts of strings that look like:
+        # - "[+1 Outsider]"
+        # - "[-2 Outsiders]"
+        # and wrap the matches in <strong>
+        match_re = r"(\[[+-\u2212]\d+ .+\])"
+        # replace ALL matches
+        text = re.sub(match_re, r"&nbsp;<strong>\1</strong>&nbsp;", text)
+
+        easy_replacements = [
             "[Most players are Legion]",
-            "&nbsp;<strong>[Most players are Legion]</strong>",
-        )
-        text = text.replace(
             "(Travellers don’t count)",
-            "&nbsp;<strong>[Travellers don’t count]</strong>",
-        )
-        text = text.replace(
             "(not yourself)",
-            "&nbsp;<strong>[not yourself]</strong>",
-        )
-        text = text.replace(
             "[1 Townsfolk is evil]",
-            "&nbsp;<strong>[1 Townsfolk is evil]</strong>",
-        )
-
-        # replace '[+N Outsider]' with '<strong>[+N Outsider]</strong>'
-        text = text.replace("[+", "&nbsp; <strong>[+")
-        # the next two likes look visually similar, but are different
-        # the json appears to have a unicode minus sign
-        text = text.replace("[-", "&nbsp; <strong>[-")
-        text = text.replace("[\u2212", "&nbsp; <strong>[-")
-
-        # and close
-        text = text.replace("]", "]</strong>")
+            "[You neighbour the Demon]",
+        ]
+        for match_string in easy_replacements:
+            text = text.replace(
+                match_string, f"&nbsp;<strong>{match_string}</strong>&nbsp;"
+            )
 
         return text
 
