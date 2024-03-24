@@ -34,7 +34,7 @@ jobs:
           EOInfo
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         # only run if we have a changelog entry
         if: steps.get-changelog-entry.outputs.last-change-entry != ''
         with:
