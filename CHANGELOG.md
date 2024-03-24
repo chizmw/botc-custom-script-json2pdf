@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.7
+
+### Patch Changes
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump the python group with 1 update ([#396](https://github.com/chizmw/botc-custom-script-json2pdf/pull/396))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump the python group with 9 updates ([#393](https://github.com/chizmw/botc-custom-script-json2pdf/pull/393))
+
+- feat: new character: summoner ([#394](https://github.com/chizmw/botc-custom-script-json2pdf/pull/394))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump the github-actions group with 3 updates ([#389](https://github.com/chizmw/botc-custom-script-json2pdf/pull/389))
+
 ## 0.3.6
 
 ### Patch Changes

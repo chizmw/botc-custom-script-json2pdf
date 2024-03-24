@@ -1,6 +1,6 @@
 {
   "name": "arcane-scripts",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "main": "index.js",
   "repository": "git@github.com:chizmw/botc-custom-script-json2pdf.git",
   "author": "Chisel <chisel@malik-wright.uk>",
