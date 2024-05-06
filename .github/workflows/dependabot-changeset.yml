@@ -50,7 +50,7 @@ jobs:
 
       - name: Render template
         id: render
-        uses: chuhlomin/render-template@v1.9
+        uses: chuhlomin/render-template@v1.10
         if: success() && steps.find-pr.outputs.number
         with:
           template: .github/dependabot-changeset.template.md
