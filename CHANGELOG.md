@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.3.7
+
+### Patch Changes
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump the python group with 1 update ([#396](https://github.com/chizmw/botc-custom-script-json2pdf/pull/396))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump the python group with 9 updates ([#393](https://github.com/chizmw/botc-custom-script-json2pdf/pull/393))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump idna from 3.6 to 3.7 ([#412](https://github.com/chizmw/botc-custom-script-json2pdf/pull/412))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump pillow from 10.2.0 to 10.3.0 ([#405](https://github.com/chizmw/botc-custom-script-json2pdf/pull/405))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump the python group across 1 directory with 2 updates ([#430](https://github.com/chizmw/botc-custom-script-json2pdf/pull/430))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump the python group across 1 directory with 7 updates ([#429](https://github.com/chizmw/botc-custom-script-json2pdf/pull/429))
+
+- feat: new character: summoner ([#394](https://github.com/chizmw/botc-custom-script-json2pdf/pull/394))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump the github-actions group with 2 updates ([#419](https://github.com/chizmw/botc-custom-script-json2pdf/pull/419))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump the python group with 3 updates ([#404](https://github.com/chizmw/botc-custom-script-json2pdf/pull/404))
+
+- <!-- markdownlint-disable MD041 -->chore(deps): bump the github-actions group with 3 updates ([#389](https://github.com/chizmw/botc-custom-script-json2pdf/pull/389))
+
 ## 0.3.6
 
 ### Patch Changes
